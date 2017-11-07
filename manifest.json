@@ -1,0 +1,17 @@
+{
+	"short_name": "Radiolise",
+  "name": "Radiolise",
+	"display": "standalone",
+	"theme_color": "#222",
+	"background_color": "#222",
+	"icons": [
+    {
+      "src": "img/icon.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "img/logo.png",
+      "sizes": "512x512"
+    }    
+	]
+}

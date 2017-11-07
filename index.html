@@ -1,0 +1,272 @@
+<!--
+  Interested in the source code of Radiolise? 
+  Visit 'https://gitlab.com/radiolise/radiolise.gitlab.io' for more details.
+  
+  Radiolise is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Affero General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Radiolise</title>
+    <meta name="description" content="Listen to your favorite radio stations!">
+    <link rel="icon" href="img/icon.png">
+    <meta content="#222" name="theme-color">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, user-scalable=0" name="viewport">
+    <link href="manifest.json" rel="manifest">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Encode+Sans">
+    <link rel="stylesheet" href="css/core.css">
+    <link id="themestyle" rel="stylesheet">
+  </head>
+  <body>
+    <noscript>
+      <div style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: #222; z-index: 4; color: #fff">
+        <h1>Please enable JavaScript!</h1>
+      </div>
+    </noscript>
+    <div id="loading">
+      <div><img src="img/spin.svg" style="width: 5em"><br><h3>Please wait...</h3><a href="."><i class="fa fa-close"></i> Abort</a></div>
+    </div>
+    <div id="splash" style="background-color: #222; background-image: url('img/spin.svg'); background-repeat: no-repeat; background-position: center; background-size: 70px; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 3; transition: opacity 2s">
+      <div style="background-image: url('img/logo.svg'); background-repeat: no-repeat; background-position: center; width: 100%; height: 100%"></div>
+    </div>
+    <div id="page">
+      <div id="navbar">
+        <div>
+          <span><img id="logo" src="img/basic.svg"><span>Radiolise</span></span>
+          <div>
+            <button id="settingsbutton"><i class="fa fa-gear"></i> <span>Settings</span></button>
+            <button id="learnmorebutton"><i class="fa fa-info-circle"></i> <span>Learn more</span></button>
+          </div>
+        </div>
+      </div>
+      <div id="main">
+        <div>
+          <div id="station">Radio off</div>
+          <div id="maincontrols">
+            <p id="controls">
+              <a class="button-primary" id="minus"><i class="fa fa-fw fa-minus"></i></a>
+              <a class="button-primary" id="stop"><i class="fa fa-fw fa-toggle-off"></i></a>
+              <a class="button-primary" id="plus"><i class="fa fa-fw fa-plus"></i></a>
+            </p>
+            <div style="text-align: left">
+              <select style="margin-bottom: 20px; text-align: left" id="lists">
+                <optgroup label="Station lists"></optgroup>
+                <option>Manage...</option>
+              </select>
+              <a id="wrench"><i class="fa fa-fw fa-wrench"></i></a>
+              <div id="zero">This station list is empty.<br>Press the lower right button to add some stations.</div>
+              <table id="stations"></table>
+            </div>              
+            <p class="text-right">
+              <a class="button" id="addbutton"><i class="fa fa-fw fa-plus"></i>New station</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modals">
+      <div id="addstation">
+        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
+        <h3><i class="fa fa-fw fa-plus"></i>New station</h3>
+          <p>Please enter the name of the radio station you’d like to add.<br>This feature uses a web service of the <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free<i class="fa fa-fw fa-external-link"></i></a> <a class="btn-link white" href="http://www.radio-browser.info" target="_blank" rel="noopener">Community Radio Browser<i class="fa fa-fw fa-external-link"></i></a>.</p>
+        <div>
+          <div><input placeholder="Station by name" type="text" id="query"><button id="findstation"><i class="fa fa-search"></i></button></div>
+          <div style="text-align: left; display: table; width: 100%">
+            <div style="padding: 5px 0; display: table-row; overflow: hidden">
+              <div style="display: table-cell; white-space: nowrap">
+                Filters: &nbsp;
+              </div>
+              <div>
+                <div id="failmsg" style="display: none"><div style="display: table"><i class="fa fa-fw fa-exclamation-triangle" style="display: table-cell"></i><div>Oh no! Some options are currently unavailable due to connection problems. <a href="#dialog" id="tryfetch"><i class="fa fa-fw fa-refresh"></i>Try again</a></div></div><br></div>
+                <select id="country" disabled style="width: 100%">
+                  <optgroup data-type="countries" label="Country">
+                    <option value="">Loading...</option>
+                  </optgroup>
+                </select>
+                <select id="state" disabled style="width: 100%">
+                  <optgroup data-type="states" label="State">
+                    <option value="">Loading...</option>
+                  </optgroup>  
+                </select>
+                <select id="language" disabled style="width: 100%">
+                  <optgroup data-type="languages" label="Language">
+                    <option value="">Loading...</option>
+                  </optgroup>   
+                </select>
+              </div>
+            </div>        
+            <div style="padding: 5px 0; display: table-row">
+              <div style="display: table-cell; white-space: nowrap">
+                Sort by: &nbsp;
+              </div>
+              <div style="display: table-cell">
+                <select id="order" style="width: 100%">
+                  <optgroup label="Sort by">
+                    <option value="name">Names</option>
+                    <option value="country">Countries</option>
+                    <option value="state">States</option>
+                    <option value="language">Languages</option>
+                    <option value="codec">Codecs</option>
+                    <option value="clickcount">Clicks</option>
+                    <option value="votes">Votes</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+            <div style="padding: 5px 0; display: table-row">
+              <div style="display: table-cell">
+                Reverse: &nbsp;
+              </div>
+              <div style="display: table-cell">
+                <select id="reverse" style="width: 100%">
+                  <optgroup label="Reverse?">
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>            
+          </div>
+          <div>
+            <div id="results" style="width: 100%"></div>
+            <p id="loadmore" style="font-size: 18px"><i class='fa fa-fw fa-spin fa-spinner'></i>Just a moment...</p>
+          </div>
+        </div>
+      </div>
+      <div id="stationmanager">
+        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
+        <h3><i class="fa fa-fw fa-pencil"></i>Station editor</h3>
+<!--         <p>Use this tool to manage your custom stations.</p> -->
+        <div id="customstations" style="">
+          <span style="display: table-cell">Name: </span><input style="display: table-cell; width: 100%" placeholder="Name" type="text">
+          <span style="display: table-cell">URL: </span><input style="display: table-cell; width: 100%" placeholder="URL" type="url">
+          <span style="display: table-cell">Homepage: </span><input style="display: table-cell; width: 100%" placeholder="Homepage" type="url">
+          <span style="display: table-cell">Favicon: </span><input style="display: table-cell; width: 100%" placeholder="Favicon" type="url">
+          <span style="display: table-cell">Country: </span><input style="display: table-cell; width: 100%" placeholder="Country" type="text">
+          <span style="display: table-cell">State: </span><input style="display: table-cell; width: 100%" placeholder="State" type="text">
+          <span style="display: table-cell">Language: </span><input style="display: table-cell; width: 100%" placeholder="Language" type="text">
+          <span style="display: table-cell">Tags (separate with commas): </span><div style="padding: 10px 0; text-align: left; display: table"><div style="display: table-cell">Preview:&nbsp;</div><div id="preview" style="display: table-cell"></div></div><input style="display: table-cell; width: 100%" placeholder="Tags" type="text">
+        </div>
+        <div style="text-align: right">
+          <a class="button" id="newstation"><i class="fa fa-fw fa-plus"></i>New station</a>
+          <a class="button" id="deletestation" style="display: none"><i class="fa fa-fw fa-trash"></i>Delete station</a>
+          <a class="button" id="done"><i class="fa fa-fw fa-check"></i>Done</a>
+        </div>   
+      </div>
+      <div id="learnmore">
+        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
+        <br><div><div><img src="img/logo.svg"><span>Radiolise</span></div></div><br>
+        <p>Copyright © 2017 Marco Bauer</p>
+        <p class="text-left"><span class="name"></span> is <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free software<i class="fa fa-fw fa-external-link"></i></a>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+        <p class="text-left"><span class="name"></span> is distributed in the hope that it will be useful, but <b>without any warranty</b>; without even the implied warranty of <b>merchantability</b> or <b>fitness for a particular purpose</b>. See the GNU Affero General Public License for more details.</p>
+        <p class="text-left">You should have received a copy of the GNU Affero General Public License along with <span class="name"></span>. If not, see &lt;<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link"></i></a>&gt; for more details.</p>
+        <p class="text-center"><a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/tree/master" target="_blank" rel="noopener"><i class="fa fa-fw fa-code"></i>Code <i class="fa fa-fw fa-external-link"></i></a> <a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/issues" target="_blank" rel="noopener"><i class="fa fa-fw fa-comments-o"></i>Issues <i class="fa fa-fw fa-external-link"></i></a></p>
+        <a href="js/LICENSES.html" rel="jslicense"></a>
+      </div>
+      <div id="settings">
+        <div style="float: right"><a id="closesettings"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
+        <h3><i class="fa fa-fw fa-cog"></i>Settings</h3>
+        <p>Here you may customize <span class="name"></span> to your needs.</p>
+        <div id="controlpanel">
+          <div>
+            <b>Theme</b>:
+            <select id="theme">
+              <optgroup label="Themes">
+                <option value="simple">Simple</option>
+                <option value="vivid">Vivid</option>
+              </optgroup>
+            </select>   
+          </div>
+          <div id="simple">
+            A simple yet elegant theme.
+          </div>
+          <div class="checkable" id="nightmode">
+            <div><i class="fa fa-square-o"></i><i class="fa fa-check-square"></i></div>
+            <div><b>Night mode</b><br>Transforms ‘Simple’ into a dark theme.</div>
+          </div>
+          <div id="vivid">
+            A vivid and colorful theme.
+          </div>
+          <div style="display: none">
+            <b>Color mode</b>: <select><option>Random</option><option>Custom</option></select><br>Set whether a random or a custom theme color should be used.
+          </div>
+          <div style="display: none">
+            <b>Theme hue</b>: COMING SOON
+          </div>
+          <div class="checkable" id="pseudovsl">
+            <div><i class="fa fa-square-o"></i><i class="fa fa-check-square"></i></div>
+            <div><b>Pseudo-visualization</b><br>Displays an audio visualization based on random values during a running audio stream. A wide desktop viewport is required.</div>
+          </div>
+          <div class="checkable" id="relaxmode">
+            <div><i class="fa fa-square-o"></i><i class="fa fa-check-square"></i></div>
+            <div><b>Relax mode</b><br>When the specified time has passed, hides the entire content except the name of the current station, increases its font size and temporarily enables ‘pseudo-visualization’. <!-- To allow this feature to be triggered, popup dialogs need to be closed and an audio stream has to be running.-->
+            </div>
+          </div>      
+          <div id="relaxtimeoutdiv"><b>Relax timeout</b> (sec): <input type="number" min="1" id="relaxtimeout"><br>Set the period of time until ‘relax mode’ is triggered.</div>
+          <div class="checkable" id="transitions">
+            <div><i class="fa fa-square-o"></i><i class="fa fa-check-square"></i></div>
+            <div><b>Transition effects</b><br>Enables simple and elegant transition effects. You should disable this option if your device does not have enough resources.</div>
+          </div>    
+          <div>
+            <b>Default volume</b> (%): <input type="number" min="0" max="100" id="defaultvolume">
+          </div>
+        </div>
+        <input type="file" accept=".json" style="display: none">
+        <a id="blob" style="display: none"></a>
+        <div style="text-align: right">
+          <a class="button" id="discardsettings"><i class="fa fa-close"></i> Discard</a>
+          <a class="button" id="applysettings"><i class="fa fa-check"></i> Apply</a>
+        </div>
+        <div style="display: table; margin: 10px auto">
+          <div style="float: left; margin: 5px 10px">
+            <a href="#dialog" id="reset"><i class="fa fa-fw fa-undo"></i>Reset to defaults</a><br>
+          </div>
+          <div style="float: right; margin: 5px 10px">            
+            <a href="#dialog" id="import"><i class="fa fa-fw fa-arrow-right"></i>Import from file</a><br>
+            <a href="#dialog" id="export"><i class="fa fa-fw fa-arrow-left"></i>Export to file</a>
+          </div>            
+        </div>
+      </div>
+      <div id="listmanager">
+        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
+        <h3><i class="fa fa-fw fa-list-alt"></i>Station lists</h3>
+        <p>Use this tool to manage your station lists.</p>
+        <div>
+          <!--<i class="fa fa-lg fa-trash-o" style="width: 0"></i>
+          <select style="opacity: 0; width: 20px">
+            <optgroup label="Options">
+              <option>Just clear</option>
+              <option>Remove entirely</option>
+            </optgroup>
+            <option>Cancel</option>
+          </select>-->
+          <div style="display: table; margin: 0 auto; padding-bottom: 10px; font-size: 20px" id="listdiv"></div>
+          <div style="text-align: right">
+            <a class="button" id="addlist"><i class="fa fa-plus"></i> New list</a>
+          </div>          
+        </div>
+      </div>
+    </div>
+    <div id="hint"><div></div></div>
+    <div id="footer">
+      <div id="progressbar"></div>
+      <div style="display: table; padding: 10px; margin: 0 auto; max-width: 800px">
+        <span style="padding: 14px 20px; float:left;"><i class="fa fa-fw fa-info-circle"></i><span id="restoretext"></span></span>
+        <span style="white-space: nowrap;float:right;"><a class="button" id="restore"><i class="fa fa-fw fa-undo"></i>Undo</a><a class="button" id="hidefooter"><i class="fa fa-fw fa-check"></i>OK</a></span>
+      </div>
+    </div>
+    <div id="addfooter"><div style="display: table"><span style="padding: 14px 20px; float:left;"><i class="fa fa-fw fa-info-circle"></i><span id="stationcount"></span> selected.</span><span style="white-space: nowrap;float:right;"><a class="button" id="deselectall"><i class="fa fa-fw fa-close"></i>Deselect</a><a class="button" id="addchecked"><i class="fa fa-fw fa-plus"></i>Add</a></span></div></div>
+    <div id="visualization"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/core.js"></script>
+  </body>
+</html>
+<!--
+Offline storage is used to ensure that application data (e.g. stations and settings) won’t get lost. Radiolise does not collect any personal information. Third parties might act differently. Radiolise is provided ‘as is’, without any warranty, under the terms of the GNU Affero General Public License. See ‘Learn more’ for more details.
+-->
