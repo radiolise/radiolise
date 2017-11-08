@@ -618,7 +618,8 @@ function saveSettings() {
     log += "\n" + settingsarray.replace(/-/g, " ") + " = " + settings[settingsarray];
   }
   console.info(log);
-  localStorage.setItem("settings", JSON.stringify(settings));
+//   localStorage.setItem("settings", JSON.stringify(settings));
+  localStorage.settings = JSON.stringify(settings);
   init();
 }
 $("title").text(appname);
@@ -878,7 +879,8 @@ function sync(save) {
     if (save) {
       //SAVE
       lists[listname] = currentlist;
-      localStorage.setItem("lists", JSON.stringify(lists));
+//       localStorage.setItem("lists", JSON.stringify(lists));
+      localStorage.lists = JSON.stringify(lists);
     }
     else {
       //LOAD
@@ -932,6 +934,9 @@ function applyLists() {
     appendList(list)
   }
   $("#lists").val(listname);
+}
+function refreshStorage() {
+  //TODO
 }
 function appendList(name) {
   $("#listdiv").append("<div data-item='" + name + "' style='display: table-row'><input class='itemname' placeholder='New name' value='" + name + "'><div style='display: table-cell; white-space: nowrap'><a class='renamelist' onclick='renameList(\"" + name + "\")'><i class='fa fa-fw fa-pencil'></i></a><a class='okay' style='display: none'><i class='fa fa-fw fa-check'></i></a>" + ((name != "" && Object.keys(lists).length > 1) ? "<a onclick='removeList(\"" + name + "\")'><i class='fa fa-fw fa-trash-o'></i></a>" : "") + "</div></div>");  
