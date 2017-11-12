@@ -35,16 +35,26 @@ var prevdata, prevvolume, prevstation, gearclicked, hinttimer, volumetimer, volu
 audio = new Audio(),
 appname = "Radiolise",
 visible = false,
+fetch,
 nostream = "Radio off",
+defaultsettings = '{"theme":1,"visualization":false,"relax":false,"relax-timeout":10,"theme-hue":0,"random-color":true,"volume":100,"transitions":true}',
+defaultdata = '{"lists":{"Favorites":[]},"settings":' + defaultsettings + '}',
 listsbackup = {},
-lists = {},
-initial = JSON.parse(localStorage.lists || '{"Favorites":[]}'),
-listname = Object.keys(initial)[0],
+lists = JSON.parse(localStorage.data || defaultdata).lists,
+listname = Object.keys(lists)[0],
 ismousedown = false,
-defaultsettings = "{\"theme\":1,\"visualization\":false,\"relax\":false,\"relax-timeout\":10,\"theme-hue\":0,\"random-color\":true,\"volume\":100,\"transitions\":true}",
-settings = JSON.parse(localStorage.settings || defaultsettings);
+settings = JSON.parse(localStorage.data || defaultdata).settings;
 console.log("\n\n%c Welcome to " + appname + "! \n%c > and Happy Hacking!_%c\n\nhttps://gitlab.com/radiolise/radiolise.gitlab.io\n\n", "font-size: 30px; background-color: #ccc; color: #000; font-family: sans-serif", "font-size: 20px", "font-family: sans-serif; font-size: 14px");
 console.info("%cRadiolise is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\nType%c modal('learnmore') %cfor more details.", "font-size: 14px; font-family: sans-serif", "font-size: 14px", "font-size: 14px; font-family: sans-serif");
+function refreshData() {
+  var data = JSON.stringify({"lists":lists,"settings":settings});
+  if (data != localStorage.data) {
+    localStorage.data = data;
+    hint("<i class='fa fa-fw fa-refresh fa-spin'></i>New data synchronized to disk.");
+    return true;
+  }
+  return false;
+}
 function init() {
   $(".name").text(appname);
   $("#query").val(null);
@@ -97,7 +107,6 @@ $(function() {
   updateFinish(nostream);
   init();
   $("select:has([data-type])").prop("disabled", true);
-  lists = initial;
   applyLists();
   audio.volume = settings.volume / 100;
   sync(false);
@@ -290,7 +299,7 @@ $(function() {
             $("#query").blur();
         }
     }).on("input", function() {
-      if ("abort" in fetch) {
+      if (fetch != undefined && "abort" in fetch) {
         fetch.abort();
       }
       findStation($('input').val());
@@ -336,7 +345,7 @@ $(function() {
     }
   });
   $("#discardsettings").on("click", function() {
-    settings = JSON.parse(localStorage.settings || defaultsettings);
+    settings = JSON.parse(localStorage.data || defaultdata).settings;
     loadSettings();
     closeModal();
   });
@@ -618,8 +627,7 @@ function saveSettings() {
     log += "\n" + settingsarray.replace(/-/g, " ") + " = " + settings[settingsarray];
   }
   console.info(log);
-//   localStorage.setItem("settings", JSON.stringify(settings));
-  localStorage.settings = JSON.stringify(settings);
+  refreshData();
   init();
 }
 $("title").text(appname);
@@ -874,13 +882,12 @@ function stationUpdate(save) {
     }
 }
 function sync(save) {
-  var stations = JSON.parse(localStorage.lists || "{}");
+  var stations = JSON.parse(localStorage.data || defaultdata).lists;
   if (currentlist != stations) {
     if (save) {
       //SAVE
       lists[listname] = currentlist;
-//       localStorage.setItem("lists", JSON.stringify(lists));
-      localStorage.lists = JSON.stringify(lists);
+      refreshData();
     }
     else {
       //LOAD
@@ -926,7 +933,7 @@ function renameList(oldname) {
   $("div[data-item=\"" + oldname + "\"] > .itemname").focus();
 }
 function applyLists() {
-  localStorage.lists = JSON.stringify(lists);
+  refreshData();
   $("#listdiv").empty();
   $("#lists > optgroup").empty();
   for (var list in lists) {
