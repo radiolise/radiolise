@@ -47,10 +47,12 @@ settings = JSON.parse(localStorage.data || defaultdata).settings;
 console.log("\n\n%c Welcome to " + appname + "! \n%c > and Happy Hacking!_%c\n\nhttps://gitlab.com/radiolise/radiolise.gitlab.io\n\n", "font-size: 30px; background-color: #ccc; color: #000; font-family: sans-serif", "font-size: 20px", "font-family: sans-serif; font-size: 14px");
 console.info("%cRadiolise is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\nType%c modal('learnmore') %cfor more details.", "font-size: 14px; font-family: sans-serif", "font-size: 14px", "font-size: 14px; font-family: sans-serif");
 function refreshData() {
-  var data = JSON.stringify({"lists":lists,"settings":settings});
+  var dataobject = {"lists":lists,"settings":settings};
+  var data = JSON.stringify(dataobject);
   if (data != localStorage.data) {
     localStorage.data = data;
-    hint("<i class='fa fa-fw fa-refresh fa-spin'></i>New data synchronized to disk.");
+    console.info("Storage data updated:");
+    console.log(JSON.stringify(dataobject, null, 2));
     return true;
   }
   return false;
@@ -124,14 +126,14 @@ $(function() {
 //     undelete("Station named ‘" + victim + "’ has been removed.", stationbackup, "currentlist", restoreStation);
     modal("stationmanager");
     $("#customstations").show();
-    $("[placeholder='Name']").val(currentlist[gearclicked][0]);
-    $("[placeholder='URL']").val(currentlist[gearclicked][1]);
-    $("[placeholder='Homepage']").val(currentlist[gearclicked][2]);
-    $("[placeholder='Favicon']").val(currentlist[gearclicked][3]);
-    $("[placeholder='Country']").val(currentlist[gearclicked][4]);
-    $("[placeholder='State']").val(currentlist[gearclicked][5]);
-    $("[placeholder='Language']").val(currentlist[gearclicked][6]);
-    $("[placeholder='Tags']").val(currentlist[gearclicked][7]);
+    $("[placeholder='Name']").val(currentlist[gearclicked].name);
+    $("[placeholder='URL']").val(currentlist[gearclicked].url);
+    $("[placeholder='Homepage']").val(currentlist[gearclicked].homepage);
+    $("[placeholder='Icon']").val(currentlist[gearclicked].icon);
+    $("[placeholder='Country']").val(currentlist[gearclicked].country);
+    $("[placeholder='State']").val(currentlist[gearclicked].state);
+    $("[placeholder='Language']").val(currentlist[gearclicked].language);
+    $("[placeholder='Tags']").val(currentlist[gearclicked].tags);
     $("#newstation").hide();
     $("#deletestation").show();
   });
@@ -174,7 +176,7 @@ $(function() {
             }
             if (digit < currentlist.length) {
               startStream(currentlist[digit]);
-              hint("<i class='fa fa-fw fa-play'></i> " + currentlist[digit][0]);
+              hint("<i class='fa fa-fw fa-play'></i> " + currentlist[digit].name);
             }
             else {
               hint("<i class='fa fa-fw fa-exclamation-triangle'></i> Station " + (digit + 1) + " doesn’t exist.");
@@ -194,14 +196,14 @@ $(function() {
     }
   });
   $("#customstations input").on("blur", function() {
-    currentlist[gearclicked][0] = $("[placeholder='Name']").val();
-    currentlist[gearclicked][1] = $("[placeholder='URL']").val();
-    currentlist[gearclicked][2] = $("[placeholder='Homepage']").val();
-    currentlist[gearclicked][3] = $("[placeholder='Favicon']").val();
-    currentlist[gearclicked][4] = $("[placeholder='Country']").val();
-    currentlist[gearclicked][5] = $("[placeholder='State']").val();
-    currentlist[gearclicked][6] = $("[placeholder='Language']").val();
-    currentlist[gearclicked][7] = $("[placeholder='Tags']").val();
+    currentlist[gearclicked].name = $("[placeholder='Name']").val();
+    currentlist[gearclicked].url = $("[placeholder='URL']").val();
+    currentlist[gearclicked].homepage = $("[placeholder='Homepage']").val();
+    currentlist[gearclicked].icon = $("[placeholder='Icon']").val();
+    currentlist[gearclicked].country = $("[placeholder='Country']").val();
+    currentlist[gearclicked].state = $("[placeholder='State']").val();
+    currentlist[gearclicked].language = $("[placeholder='Language']").val();
+    currentlist[gearclicked].tags = $("[placeholder='Tags']").val();
     sync(true);
   });
   $("#done").on("click", function() {
@@ -213,7 +215,7 @@ $(function() {
   $("#deletestation").on("click", function() {
     closeModal();
     var stationbackup = currentlist.slice();
-    var victim = currentlist[gearclicked][0];
+    var victim = currentlist[gearclicked].name;
     currentlist.splice(gearclicked, 1);
     stationUpdate(true);    
     undelete("Station named ‘" + victim + "’ has been removed.", stationbackup, "currentlist", restoreStation);
@@ -444,7 +446,7 @@ $(function() {
   $("#addchecked").on("click", function() {
     $(".selected").each(function(index) {
       var meta = $(this).data("meta");
-      currentlist.push([meta.name, meta.url, meta.homepage, meta.favicon, meta.country, meta.state, meta.language, meta.tags, meta.id]);
+      currentlist.push({"name":meta.name,"url":meta.url,"homepage":meta.homepage,"icon":meta.favicon,"country":meta.country,"state":meta.state,"language":meta.language,"tags":meta.tags,"id":meta.id});
     });
     stationUpdate(true);
     closeModal();
@@ -805,10 +807,10 @@ function startStream(index) {
   });
   setPlaying(index);
   audio.onloadeddata = function() {
-    updateFinish(index[0]);
+    updateFinish(index.name);
     toggle(true);
     prevstation = index;
-    console.info("Radio turned on: Playing '" + index[0] + "'");
+    console.info("Radio turned on: Playing '" + index.name + "'");
   };
   audio.onerror = function(e) {
     alert("Sorry, an error has occurred. Please try again later.");
@@ -824,7 +826,7 @@ function startStream(index) {
     $("#loading").hide();
   }
   audio.load();
-  $.post("https://www.radio-browser.info/webservice/v2/json/url/" + index[8], function(data) {
+  $.post("https://www.radio-browser.info/webservice/v2/json/url/" + index.id, function(data) {
     audio.setAttribute("src", data.url);
     audio.play();
   }).fail(function() {
@@ -850,7 +852,7 @@ function stopStream() {
 function stationExists(id) {
   var existing = false;
   for (i = 0; i < currentlist.length; i++) {
-    if (currentlist[i][8] == id) {
+    if (currentlist[i].id == id) {
       existing = true;
       break;
     } 
@@ -863,9 +865,9 @@ function stationUpdate(save) {
     }
     $("#stations").empty();
     for (i = 0; i < currentlist.length; i++) {
-      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { updateFinish(nostream); stopStream(); }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<img style='box-shadow: 1px 1px 4px rgba(0, 0, 0, .5); margin: 0 20px; border-radius: 50%; object-fit: cover; height: 35px; width: 35px; display: block; font-size: 26px; text-align: center; color: #fff' alt='" + currentlist[i][0][0].toUpperCase() + "' src='" + currentlist[i][3] + "' onerror='$(this).css({ background: \"hsl(" + currentlist[i][0].toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\" })'>" + "</div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: bold; display: inline'>" + currentlist[i][0] + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i][4] + "</span> <span class='label'>" + currentlist[i][5] + "</span> ";
-      for (z = 0; z < currentlist[i][7].split(",").length; z++) {
-          content += "<span class='label'>" + currentlist[i][7].split(",")[z] + "</span> ";
+      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { updateFinish(nostream); stopStream(); }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<img style='box-shadow: 1px 1px 4px rgba(0, 0, 0, .5); margin: 0 20px; border-radius: 50%; object-fit: cover; height: 35px; width: 35px; display: block; font-size: 26px; text-align: center; color: #fff' alt='" + currentlist[i].name[0].toUpperCase() + "' src='" + currentlist[i].icon + "' onerror='$(this).css({ background: \"hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\" })'>" + "</div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: bold; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
+      for (z = 0; z < currentlist[i].tags.split(",").length; z++) {
+          content += "<span class='label'>" + currentlist[i].tags.split(",")[z] + "</span> ";
       }
       content += "</div></div></div></div></td><td style='padding-right: 15px'><a class='trashcan' style='font-size: 18px' onclick='gearclicked = " + i + "'><i class='fa fa-fw fa-ellipsis-v'></i></a></td></tr>";
       $("#stations").append(content);
