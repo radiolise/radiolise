@@ -23,11 +23,12 @@ window.onerror = function(message) {
 var online = true;
 window.ononline = function() {
   online = true;
-  hint("Congratulations! You’re online again.");
 }
 window.onoffline = function() {
   online = false;
-  alert("Oh no! You seem to be offline. Radiolise will no longer be able to play any streams. Please check your network connection.");
+  if (!audio.paused) {
+    alert("Oh no! The stream was interrupted due to a sudden disconnect.");
+  }
   stopStream();
   updateFinish(nostream);
 }
@@ -826,21 +827,19 @@ function startStream(index) {
     $("#loading").hide();
   }
   audio.load();
+  var play = function(url) {
+    audio.setAttribute("src", url);
+    audio.play();
+  };
   if (index.id) {
     $.post("https://www.radio-browser.info/webservice/v2/json/url/" + index.id, function(data) {
-      audio.setAttribute("src", data.url);
-      audio.play();
+      play(data.url);
     }).fail(function() {
-      $("#loading").hide();
-      updateFinish(nostream);
-      toggle(false);
-      stopStream();    
-      alert("Request failed. Please try again later!");
+      play(index.url);
     });
   }
   else {
-    audio.setAttribute("src", index.url);
-    audio.play();
+    play(index.url);
   }
   $("#loading").stop().fadeIn();
 }
