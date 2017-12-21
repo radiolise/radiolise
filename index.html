@@ -144,18 +144,19 @@
         <h3><i class="fa fa-fw fa-pencil"></i>Station editor</h3>
 <!--         <p>Use this tool to manage your custom stations.</p> -->
         <div id="customstations" style="">
-          <span style="display: table-cell">Name: </span><input style="display: table-cell; width: 100%" placeholder="Name" type="text">
-          <span style="display: table-cell">URL: </span><input style="display: table-cell; width: 100%" placeholder="URL" type="url">
+          <span style="display: table-cell"><span style="color: #f00" title="This field is required.">*</span> Name: </span><input style="display: table-cell; width: 100%" placeholder="Name" type="text">
+          <span style="display: table-cell"><span style="color: #f00" title="This field is required.">*</span> URL: </span><input style="display: table-cell; width: 100%" placeholder="URL" type="url">
           <span style="display: table-cell">Homepage: </span><input style="display: table-cell; width: 100%" placeholder="Homepage" type="url">
           <span style="display: table-cell">Icon: </span><input style="display: table-cell; width: 100%" placeholder="Icon" type="url">
           <span style="display: table-cell">Country: </span><input style="display: table-cell; width: 100%" placeholder="Country" type="text">
           <span style="display: table-cell">State: </span><input style="display: table-cell; width: 100%" placeholder="State" type="text">
           <span style="display: table-cell">Language: </span><input style="display: table-cell; width: 100%" placeholder="Language" type="text">
           <span style="display: table-cell">Tags (separate with commas): </span><input style="display: table-cell; width: 100%" placeholder="Tags" type="text">
-          <div style="text-align: left; display: table"><div style="display: table-cell">Preview:&nbsp;</div><div id="preview" style="display: table-cell"></div></div>
+          <div style="text-align: left; display: table" id="tagview"><div style="display: table-cell">Preview:&nbsp;</div><div id="preview" style="display: table-cell"></div></div><br>
+          <div style="color: #f00; text-align: left">* required field</div>
         </div>
+        
         <div style="text-align: right">
-          <a class="button" id="newstation"><i class="fa fa-fw fa-plus"></i>New station</a>
           <a class="button" id="deletestation" style="display: none"><i class="fa fa-fw fa-trash"></i>Delete station</a>
           <a class="button" id="done"><i class="fa fa-fw fa-check"></i>Done</a>
         </div>   
@@ -163,10 +164,12 @@
       <div id="learnmore">
         <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
         <br><div><div><img src="img/logo.svg"><span>Radiolise</span></div></div><br>
-        <p>Copyright © 2017 Marco Bauer</p>
-        <p class="text-left"><span class="name"></span> is <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free software<i class="fa fa-fw fa-external-link"></i></a>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
-        <p class="text-left"><span class="name"></span> is distributed in the hope that it will be useful, but <b>without any warranty</b>; without even the implied warranty of <b>merchantability</b> or <b>fitness for a particular purpose</b>. See the GNU Affero General Public License for more details.</p>
-        <p class="text-left">You should have received a copy of the GNU Affero General Public License along with <span class="name"></span>. If not, see &lt;<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link"></i></a>&gt; for more details.</p>
+        <div id="infotext">
+          <p>Copyright © 2017 Marco Bauer</p>
+          <p class="text-left"><span class="name"></span> is <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free software<i class="fa fa-fw fa-external-link"></i></a>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+          <p class="text-left"><span class="name"></span> is distributed in the hope that it will be useful, but <b>without any warranty</b>; without even the implied warranty of <b>merchantability</b> or <b>fitness for a particular purpose</b>. See the GNU Affero General Public License for more details.</p>
+          <p class="text-left">You should have received a copy of the GNU Affero General Public License along with <span class="name"></span>. If not, see &lt;<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link"></i></a>&gt; for more details.</p>
+        </div>
         <p class="text-center"><a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/tree/master" target="_blank" rel="noopener"><i class="fa fa-fw fa-code"></i>Code <i class="fa fa-fw fa-external-link"></i></a> <a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/issues" target="_blank" rel="noopener"><i class="fa fa-fw fa-comments-o"></i>Issues <i class="fa fa-fw fa-external-link"></i></a></p>
         <a href="js/LICENSES.html" rel="jslicense"></a>
       </div>

@@ -46,7 +46,7 @@ listname = Object.keys(lists)[0],
 ismousedown = false,
 settings = JSON.parse(localStorage.data || defaultdata).settings;
 console.log("\n\n%c Welcome to " + appname + "! \n%c > and Happy Hacking!_%c\n\nhttps://gitlab.com/radiolise/radiolise.gitlab.io\n\n", "font-size: 30px; background-color: #ccc; color: #000; font-family: sans-serif", "font-size: 20px", "font-family: sans-serif; font-size: 14px");
-console.info("%cRadiolise is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\nType%c modal('learnmore') %cfor more details.", "font-size: 14px; font-family: sans-serif", "font-size: 14px", "font-size: 14px; font-family: sans-serif");
+console.info("%cRadiolise is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\nType%c learnMore() %cfor more details.", "font-size: 14px; font-family: sans-serif", "font-size: 14px", "font-size: 14px; font-family: sans-serif");
 function refreshData() {
   var dataobject = {"lists":lists,"settings":settings};
   var data = JSON.stringify(dataobject);
@@ -135,7 +135,6 @@ $(function() {
     $("[placeholder='State']").val(currentlist[gearclicked].state);
     $("[placeholder='Language']").val(currentlist[gearclicked].language);
     $("[placeholder='Tags']").val(currentlist[gearclicked].tags);
-    $("#newstation").hide();
     $("#deletestation").show();
   });
   $("#chremove").on("click", function() {
@@ -190,11 +189,7 @@ $(function() {
     }
   });
   $("[placeholder='Tags']").on("input", function() {
-    $("#preview").empty();
-    var tags = $(this).val().split(",");
-    for (i in tags) {
-      $("#preview").append("<span class='label'>" + tags[i] + "</span> ");
-    }
+    refreshTags($(this).val());
   });
   $("#customstations input").on("blur", function() {
     currentlist[gearclicked].name = $("[placeholder='Name']").val();
@@ -209,9 +204,6 @@ $(function() {
   });
   $("#done").on("click", function() {
     closeModal();
-  });
-  $("#newstation").on("click", function() {
-    $("#customstations").slideToggle();
   });
   $("#deletestation").on("click", function() {
     closeModal();
@@ -700,6 +692,10 @@ function undelete(message, backup, mod, func, listname) {
     });    
   });
 }
+function learnMore() {
+  modal("learnmore");
+  console.info($("#infotext").text());
+}
 function hint(text, square, confirm) {
     clearTimeout(hinttimer);
     $("#hint").css({
@@ -872,7 +868,7 @@ function stationUpdate(save) {
     for (i = 0; i < currentlist.length; i++) {
       var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { updateFinish(nostream); stopStream(); }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<img style='box-shadow: 1px 1px 4px rgba(0, 0, 0, .5); margin: 0 20px; border-radius: 50%; object-fit: cover; height: 35px; width: 35px; display: block; font-size: 26px; text-align: center; color: #fff' alt='" + currentlist[i].name[0].toUpperCase() + "' src='" + currentlist[i].icon + "' onerror='$(this).css({ background: \"hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\" })'>" + "</div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: bold; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
       for (z = 0; z < currentlist[i].tags.split(",").length; z++) {
-          content += "<span class='label'>" + currentlist[i].tags.split(",")[z] + "</span> ";
+          content += "<span class='label'>" + currentlist[i].tags.split(",")[z].trim() + "</span> ";
       }
       content += "</div></div></div></div></td><td style='padding-right: 15px'><a class='trashcan' style='font-size: 18px' onclick='gearclicked = " + i + "'><i class='fa fa-fw fa-ellipsis-v'></i></a></td></tr>";
       $("#stations").append(content);
@@ -908,6 +904,7 @@ function addCustomStation() {
   currentlist.push({});
   $("#customstations input").val("");
   gearclicked = currentlist.length - 1;
+  $("#deletestation").hide();
   modal("stationmanager");
 }
 function setList(name) {
@@ -952,6 +949,19 @@ function applyLists() {
 function refreshStorage() {
   //TODO
 }
+function refreshTags(tagstring) {
+  $("#preview").empty();
+  if (tagstring.trim()) {
+    var tags = tagstring.split(",");
+    for (i in tags) {
+      $("#preview").append("<span class='label'>" + tags[i].trim() + "</span> ");
+    }
+    $("#tagview").show();
+  }
+  else {
+    $("#tagview").hide();
+  }
+}
 function appendList(name) {
   $("#listdiv").append("<div data-item='" + name + "' style='display: table-row'><input class='itemname' placeholder='New name' value='" + name + "'><div style='display: table-cell; white-space: nowrap'><a class='renamelist' onclick='renameList(\"" + name + "\")'><i class='fa fa-fw fa-pencil'></i></a><a class='okay' style='display: none'><i class='fa fa-fw fa-check'></i></a>" + ((name != "" && Object.keys(lists).length > 1) ? "<a onclick='removeList(\"" + name + "\")'><i class='fa fa-fw fa-trash-o'></i></a>" : "") + "</div></div>");  
 }
@@ -977,7 +987,7 @@ function loadEntries() {
         results += "<div style='cursor: pointer; display: table; table-layout: fixed; width: 100%' data-meta='" + JSON.stringify(data[i]).replace(/'/g, "&apos;") + "' class='result'><div class='checkmark' style='display: table-cell; opacity: 0; width: 0; color: #008000'><i class='fa fa-check' style='margin-left: 10px'></i></div><div style='padding: 10px; margin-bottom: 10px; display: table-cell'><h4 style='margin: 0'>" + data[i].name + "</h4><br>" + (($("#order").prop("selectedIndex") > 0) ? "<span class='label' style='background: #008000; font-weight: bold; color: #fff'><i class='fa fa-" + icons[$("#order").prop("selectedIndex")] + "'></i> " + (data[i][$("#order").val()] || "<i class='fa fa-question'></i>") + "</span> " : "") + (($("#order").prop("selectedIndex") != 1) ? "<span class='label'>" + data[i].country + "</span> " : "") + (($("#order").prop("selectedIndex") != 2) ? "<span class='label'>" + data[i].state + "</span> " : "");
         if (data[i].tags != "") { 
           for (z = 0; z < data[i].tags.split(",").length; z++) {
-            results += "<span class='label'>" + data[i].tags.split(",")[z] + "</span> ";
+            results += "<span class='label'>" + data[i].tags.split(",")[z].trim() + "</span> ";
           }
         }
         else {
@@ -1086,6 +1096,9 @@ function modal(id) {
     setTimeout(function() {
       $("#query").select();
     }, 100);
+  }
+  else if (id == "stationmanager") {
+    refreshTags(currentlist[gearclicked].tags || "");
   }
   $("#modals").scrollTop(0);
   $("#" + id).show().addClass("shown");
