@@ -7,6 +7,9 @@ body {
   overflow-x: hidden !important;
   transition: background 2s;
 }
+.red {
+  color: #f00;
+}
 button {
   font-family: Encode Sans;
 }

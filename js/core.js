@@ -192,15 +192,17 @@ $(function() {
     refreshTags($(this).val());
   });
   $("#customstations input").on("blur", function() {
-    currentlist[gearclicked].name = $("[placeholder='Name']").val();
-    currentlist[gearclicked].url = $("[placeholder='URL']").val();
-    currentlist[gearclicked].homepage = $("[placeholder='Homepage']").val();
-    currentlist[gearclicked].icon = $("[placeholder='Icon']").val();
-    currentlist[gearclicked].country = $("[placeholder='Country']").val();
-    currentlist[gearclicked].state = $("[placeholder='State']").val();
-    currentlist[gearclicked].language = $("[placeholder='Language']").val();
-    currentlist[gearclicked].tags = $("[placeholder='Tags']").val();
-    sync(true);
+    if (validStation()) {
+      currentlist[gearclicked].name = $("[placeholder='Name']").val();
+      currentlist[gearclicked].url = $("[placeholder='URL']").val();
+      currentlist[gearclicked].homepage = $("[placeholder='Homepage']").val();
+      currentlist[gearclicked].icon = $("[placeholder='Icon']").val();
+      currentlist[gearclicked].country = $("[placeholder='Country']").val();
+      currentlist[gearclicked].state = $("[placeholder='State']").val();
+      currentlist[gearclicked].language = $("[placeholder='Language']").val();
+      currentlist[gearclicked].tags = $("[placeholder='Tags']").val();
+      sync(true);
+    }
   });
   $("#done").on("click", function() {
     closeModal();
@@ -483,6 +485,11 @@ $(function() {
   }).on("keydown", "div[data-item] > .itemname", function(event) {
     if (event.which == 13) {
       event.preventDefault();
+      $(this).blur();
+    }
+  });
+  $("#customstations input").on("keydown", function(event) {
+    if (event.which == 13) {
       $(this).blur();
     }
   });
@@ -900,6 +907,9 @@ function sync(save) {
     }
   }
 }
+function validStation() {
+  return !!($("[placeholder='Name']").val() && $("[placeholder='URL']").val());
+}
 function addCustomStation() {
   currentlist.push({});
   $("#customstations input").val("");
@@ -1107,14 +1117,20 @@ function modal(id) {
     history.pushState(null, null, "#dialog");
   }
   wakeUp();
-  console.info("Dialog with tag ID '" + id + "' shown");
+  console.info(`Dialog with tag ID '${id}' shown`);
 }
 function closeModal() {
   if ($(".shown").attr("id") == "listmanager") {
     applyLists();
   }
   else if ($(".shown").attr("id") == "stationmanager") {
-    stationUpdate(true);
+    $("#customstations input").trigger("blur");
+    if (validStation()) {
+      stationUpdate(true);
+    }
+    else {
+      hint("<i class='fa fa-exclamation-triangle'></i> Saving failed: Bad station data");
+    }
   }
   $("#modals").css({
     transform: "scale(1.1)",
