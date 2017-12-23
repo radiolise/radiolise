@@ -4,29 +4,22 @@ body, #volumebar > div:nth-child(1) {
 .red {
   color: #0ff;
 }
-#main > div {
-  box-shadow: 10px 10px 40px #111;
-}
 .label {
   background: #555;
 }
 #navbar {
-  background: #444;
-  box-shadow: 0 0 20px #111;
-  border-bottom: 3px solid #2378c7;
+  background: rgba(255, 255, 255, .9);
+/*   border-bottom: 3px solid #2378c7; */
 }
-a, #navbar > div > span > span, #learnmore > div:nth-child(3) > div > span, #findstation, #query, #navbar > div > div > button, input[type="number"] {
+#navbar > div > span > span, #navbar > div > div > button {
+  color: #000;
+}
+a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type="number"] {
   color: #fff;
-}
-#logo {
-  filter: invert(100%);
 }
 #main > div, #modals > div {
   background: #444;
   color: #fff;
-  border-top: 3px solid #2378c7;
-  border-bottom: 3px solid #2378c7;
-  border-radius: 20px 0 20px 0;
 }
 #hint > div {
   background: rgba(255, 255, 255, .9);
@@ -51,7 +44,7 @@ select, input {
   border-bottom: 2px solid rgba(255, 255, 255, .5) !important;
 }
 #modals {
-  background: rgba(255, 255, 255, .5);
+  background: rgba(0, 0, 0, .5);
 }
 #volumeline, #volumecircle {
   background: #eee;

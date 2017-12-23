@@ -32,7 +32,7 @@ window.onoffline = function() {
   stopStream();
   updateFinish(nostream);
 }
-var prevdata, prevvolume, prevstation, gearclicked, hinttimer, volumetimer, volumerequest, slow, timedout, relaxtimer, currentlist,
+var currentstation, prevdata, prevvolume, prevstation, gearclicked, hinttimer, volumetimer, volumerequest, slow, timedout, relaxtimer, currentlist,
 audio = new Audio(),
 appname = "Radiolise",
 visible = false,
@@ -159,10 +159,7 @@ $(function() {
           break;
         case " ":
           if ($("#stop").hasClass("disabled") == false) {
-            if ($("#stop").children().hasClass("fa-toggle-off")) {
-              hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-play'></i>", true);
-            }
-            else {
+            if (!$("#stop").children().hasClass("fa-toggle-off")) {
               hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-stop'></i>", true);
             }
             $("#stop").trigger("click");
@@ -176,7 +173,6 @@ $(function() {
             }
             if (digit < currentlist.length) {
               startStream(currentlist[digit]);
-              hint("<i class='fa fa-fw fa-play'></i> " + currentlist[digit].name);
             }
             else {
               hint("<i class='fa fa-fw fa-exclamation-triangle'></i> Station " + (digit + 1) + " doesn’t exist.");
@@ -705,14 +701,23 @@ function learnMore() {
 }
 function hint(text, square, confirm) {
     clearTimeout(hinttimer);
+    $("#navbar").css({
+      opacity: .5
+    });    
     $("#hint").css({
-      visibility: "visible",
       opacity: 1,
-      margin: "50px auto",
-      transform: "rotateX(0deg)"
-    }).children().html(text);
+      visibility: "visible"
+    }).children().html((text != "load") ? text : "<i style='font-size: 60px; margin: 16px 0' class='fa fa-spinner fa-spin'></i>");
     var timems = 5000;
-    if (square) {
+    if (confirm) {
+      $("#hint > div").append("<div style='text-align: right'><a onclick='closeHint()' class='button'>OK</a></div>")
+    }
+    else if (text != "load") {
+      hinttimer = setTimeout(function() {
+        closeHint();
+      }, timems);      
+    }
+    if (square || text == "load") {
       $("#hint > div").css({
         "width": "100px"
       });
@@ -723,15 +728,21 @@ function hint(text, square, confirm) {
         "width": "300px"
       });
     }
-    if (confirm) {
-      $("#hint > div").append("<div style='text-align: right'><a onclick='closehint()' class='button'>OK</a></div>")
-    }
-    else {
-      hinttimer = setTimeout(function() {
-        closehint();
-      }, timems);      
-    }
-
+    $("#hint > div").css({
+      transform: "scale(1, 1)"
+    });
+}
+function closeHint() {
+  $("#navbar").css({
+    opacity: 1
+  });    
+  $("#hint").css({
+    opacity: 0,
+    visibility: "hidden"
+  });
+  $("#hint > div").css({
+    transform: "scale(1, .5)"
+  });
 }
 function alert(text) {
   hint(text, false, true);
@@ -754,14 +765,6 @@ function browseCrb() {
     }
   })(items[i]);
 }
-function closehint() {
-  $("#hint").css({
-    visibility: "hidden",
-    opacity: 0,
-    margin: "100px auto",
-    transform: "rotateX(90deg)"
-  });
-}
 function updateFinish(newstation) {
   if (newstation == nostream) {
       $('title').html(appname);
@@ -770,6 +773,7 @@ function updateFinish(newstation) {
       wakeUp();
   } else {
       $('title').html(newstation + " – " + appname);
+      currentstation = newstation;
       changeColor();
       if (vinterval == undefined) {
           visualise();
@@ -818,16 +822,16 @@ function startStream(index) {
   };
   audio.onerror = function(e) {
     alert("Sorry, an error has occurred. Please try again later.");
-    $("#loading").hide();
+    closeHint();
     updateFinish(nostream);
     toggle(false);
     stopStream();
   }
   audio.onwaiting = function() {
-    $("#loading").stop().fadeIn();
+    hint("load");
   }
   audio.oncanplay = function() {
-    $("#loading").hide();
+    closeHint();
   }
   audio.load();
   var play = function(url) {
@@ -844,10 +848,11 @@ function startStream(index) {
   else {
     play(index.url);
   }
-  $("#loading").stop().fadeIn();
+  hint("load");
 }
 function stopStream() {
   if (audio.getAttribute("src") != null) {
+    closeHint();
     audio.onerror = null;
     audio.removeAttribute("src")
     audio.load();
@@ -873,7 +878,7 @@ function stationUpdate(save) {
     }
     $("#stations").empty();
     for (i = 0; i < currentlist.length; i++) {
-      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { updateFinish(nostream); stopStream(); }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<img style='box-shadow: 1px 1px 4px rgba(0, 0, 0, .5); margin: 0 20px; border-radius: 50%; object-fit: cover; height: 35px; width: 35px; display: block; font-size: 26px; text-align: center; color: #fff' alt='" + currentlist[i].name[0].toUpperCase() + "' src='" + currentlist[i].icon + "' onerror='$(this).css({ background: \"hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\" })'>" + "</div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: bold; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
+      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { updateFinish(nostream); stopStream(); }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<img style='margin: 0 20px; border-radius: 50%; object-fit: cover; height: 35px; width: 35px; display: block; font-size: 26px; text-align: center; color: #fff' alt='" + currentlist[i].name[0].toUpperCase() + "' src='" + currentlist[i].icon + "' onerror='$(this).css({ background: \"hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\" })'>" + "</div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: 500; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
       for (z = 0; z < currentlist[i].tags.split(",").length; z++) {
           content += "<span class='label'>" + currentlist[i].tags.split(",")[z].trim() + "</span> ";
       }
@@ -994,7 +999,7 @@ function loadEntries() {
     var icons = [null, "flag", "map-marker", "commenting fa-flip-horizontal", "file-audio-o", "play", "thumbs-up"];
     for (i = 0; i < data.length; i++) {
       if (data[i].lastcheckok == "1") {       
-        results += "<div style='cursor: pointer; display: table; table-layout: fixed; width: 100%' data-meta='" + JSON.stringify(data[i]).replace(/'/g, "&apos;") + "' class='result'><div class='checkmark' style='display: table-cell; opacity: 0; width: 0; color: #008000'><i class='fa fa-check' style='margin-left: 10px'></i></div><div style='padding: 10px; margin-bottom: 10px; display: table-cell'><h4 style='margin: 0'>" + data[i].name + "</h4><br>" + (($("#order").prop("selectedIndex") > 0) ? "<span class='label' style='background: #008000; font-weight: bold; color: #fff'><i class='fa fa-" + icons[$("#order").prop("selectedIndex")] + "'></i> " + (data[i][$("#order").val()] || "<i class='fa fa-question'></i>") + "</span> " : "") + (($("#order").prop("selectedIndex") != 1) ? "<span class='label'>" + data[i].country + "</span> " : "") + (($("#order").prop("selectedIndex") != 2) ? "<span class='label'>" + data[i].state + "</span> " : "");
+        results += "<div style='cursor: pointer; display: table; table-layout: fixed; width: 100%' data-meta='" + JSON.stringify(data[i]).replace(/'/g, "&apos;") + "' class='result'><div class='checkmark' style='display: table-cell; opacity: 0; width: 0; color: #008000'><i class='fa fa-check' style='margin-left: 10px'></i></div><div style='padding: 10px; margin-bottom: 10px; display: table-cell'><h4 style='margin: 0'>" + data[i].name + "</h4><br>" + (($("#order").prop("selectedIndex") > 0) ? "<span class='label' style='background: #008000; font-weight: 500; color: #fff'><i class='fa fa-" + icons[$("#order").prop("selectedIndex")] + "'></i> " + (data[i][$("#order").val()] || "<i class='fa fa-question'></i>") + "</span> " : "") + (($("#order").prop("selectedIndex") != 1) ? "<span class='label'>" + data[i].country + "</span> " : "") + (($("#order").prop("selectedIndex") != 2) ? "<span class='label'>" + data[i].state + "</span> " : "");
         if (data[i].tags != "") { 
           for (z = 0; z < data[i].tags.split(",").length; z++) {
             results += "<span class='label'>" + data[i].tags.split(",")[z].trim() + "</span> ";
@@ -1038,10 +1043,10 @@ function changeColor() {
   var color;
   if (settings.theme == 3) {
     if (audio.paused) {
-      color = '#333';
+      color = "#333";
     }
     else {
-      color = 'hsl(' + Math.floor(Math.random() * 360) + ', 50%, 30%)';
+      color = "hsl(" + currentstation.toUpperCase().charCodeAt(0) * 20 + ", 50%, 30%)";
     }
   }
   else {
@@ -1117,7 +1122,7 @@ function modal(id) {
     history.pushState(null, null, "#dialog");
   }
   wakeUp();
-  console.info(`Dialog with tag ID '${id}' shown`);
+  console.info("Dialog with tag ID " + id + " shown");
 }
 function closeModal() {
   if ($(".shown").attr("id") == "listmanager") {

@@ -2,16 +2,19 @@
   outline: 0;
 }
 body {
-  font-family: Encode Sans;
+  font-family: Roboto;
   margin: 0;
   overflow-x: hidden !important;
   transition: background 2s;
+}
+b, h3, h4 {
+  font-weight: 500;
 }
 .red {
   color: #f00;
 }
 button {
-  font-family: Encode Sans;
+  font-family: Roboto;
 }
 #relaxtimeoutdiv, #nightmode {
   display: none;
@@ -62,8 +65,11 @@ input[type="number"] {
   border: none;
   font-size: 18px;
   width: 70px;
-  font-family: Encode Sans;
+  font-family: Roboto;
   text-align: center;
+}
+#main > div {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, .1);
 }
 #maincontrols {
   transition: all .4s;
@@ -78,9 +84,8 @@ input[type="number"] {
 }
 .relaxed #main > div {
   background: transparent;
-  box-shadow: none;
   border-style: none;
-  padding: 0;
+  box-shadow: none;
 }
 .relaxed #navbar, .relaxed #footer {
   opacity: 0;
@@ -91,7 +96,6 @@ input[type="number"] {
   height: 28px;
   line-height: 28px;
   font-size: 20px;
-  border-radius: 10px;
   margin: 10px 0;
   padding: 5px 15px;
   text-decoration: none;
@@ -151,7 +155,7 @@ select {
   -moz-appearance: none;
   -webkit-appearance: none;
   border: none;
-  font-family: Encode Sans;
+  font-family: Roboto;
   color: #000;
   font-size: 18px;
   background: none;
@@ -167,7 +171,6 @@ select {
 }
 #main > div {
   margin: 50px 0;
-  border-radius: 10px;
   padding: 40px 60px 20px 60px;
   width: 680px;
   transition: all .4s;
@@ -179,7 +182,7 @@ select {
 .itemname, #customstations input {
   border: none;
   font-size: 20px;
-  font-family: Encode Sans;
+  font-family: Roboto;
   background: none;
   width: calc(100% - 20px);
 }
@@ -230,7 +233,7 @@ p {
 }
 #station {
   font-size: 18pt;
-  font-weight: bold;
+  font-weight: 500;
   transition: all .4s;
 }
 table {
@@ -252,19 +255,18 @@ table {
   margin: 50px auto;
   width: 600px;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 0 rgba(0, 0, 0, .2);
 }
 #hint, #volumemodal {
-  margin: 100px auto;
-  transform: rotateX(90deg);
+  margin: 50px auto;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
 }
 .label {
   padding: .2em .6em .3em;
   display: inline-block;
   margin-bottom: 2px;
   font-size: 12px;
-  border-radius: .25em;
 }
 .label:empty {
   display: none;
@@ -364,54 +366,22 @@ td:nth-child(1) {
   font-size: 30px;  
   vertical-align: middle;
 }
-#volumemodal {
-  transform: none;
-}
-#volumebar {
-	margin-bottom: 4px;
-	margin-left: 6px;
-	padding-left: 5px;
-	padding-right: 5px;
-	width: 210px;
-	height: 20px;
-	display: inline-block;
-	position: relative;
-	vertical-align: middle;
-	pointer-events: auto;
-}
-#volumebar > div:nth-child(1) {
-  border-radius: 2px;
-  width: 200px;
-  height: 4px;
-  margin-top: 8px;
-}
-#volumeline {
-  border-radius: 2px;
-  height: 4px;
-  margin-top: -4px;
-}
-#volumecircle {
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  margin-top: -7px;
-}
 #settings > p:nth-child(4) > span, input {
   vertical-align: middle;
 }
 input[type="checkbox"] + span {
-  font-weight: bold;
+  font-weight: 500;
 }
 #query {
   width: calc(100% - 60px);
   border: none;
   font-size: 24px;
-  font-family: Encode Sans;
+  font-family: Roboto;
   padding: 10px;
 }
 #findstation {
   font-size: 20px;
-  font-family: Encode Sans;
+  font-family: Roboto;
   width: 40px;
   border: none;
   background: none;
@@ -478,24 +448,22 @@ input[type="checkbox"] + span {
   left: 90.1%;
 }
 #hint {
-  font-weight: bold;
+  font-weight: 500;
 }
 #hint, #volumemodal {
-  width: calc(100% - 40px);
-  padding: 0 20px;
-  visibility: hidden;
-  opacity: 0;
+  width: 100%;
   position: fixed;
 }
 #footer .button, #addfooter .button {
   color: inherit !important;
 }
 #hint > div {
-  width: 300px;
+  width: 100%;
   padding: 20px;
-  border-radius: 10px;
   margin: 0 auto;
   max-width: calc(100% - 40px);
+  transform: scale(1, .5);
+  transition: transform .4s;
 }
 @media screen and (max-width: 840px) {
   #modals > div {

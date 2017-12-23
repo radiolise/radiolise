@@ -19,7 +19,7 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=0" name="viewport">
     <link href="manifest.json" rel="manifest">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Encode+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700">
     <link rel="stylesheet" href="css/core.css">
     <link id="themestyle" rel="stylesheet">
   </head>
@@ -29,9 +29,6 @@
         <h1>Please enable JavaScript!</h1>
       </div>
     </noscript>
-    <div id="loading">
-      <div><img src="img/spin.svg" style="width: 5em"><br><h3>Please wait...</h3><a href="."><i class="fa fa-close"></i> Abort</a></div>
-    </div>
     <div id="splash" style="background-color: #222; background-image: url('img/spin.svg'); background-repeat: no-repeat; background-position: center; background-size: 70px; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 3; transition: opacity 2s">
       <div style="background-image: url('img/logo.svg'); background-repeat: no-repeat; background-position: center; width: 100%; height: 100%"></div>
     </div>
@@ -67,6 +64,11 @@
               <a class="button" id="addbutton"><i class="fa fa-fw fa-plus"></i>New station</a>
             </p>
           </div>
+          <!--<div style="background: rgba(0,0,0,.1); padding: 10px; position: relative">
+            <span style="position: absolute; top: 10px; right: 12px"><a onclick="$(this).parent().parent().remove();hint('You may go to &nbsp; &lt;i class=&quot;fa fa-cog&quot;&gt;&lt;/i&gt; Settings &nbsp; if you wish to receive these messages again.')"><i class="fa fa-ban fa-fw fa-lg"></i>Disable</a> <a onclick="$(this).parent().parent().slideUp()"><i class="fa fa-close fa-fw fa-lg"></i>Close</a></span>
+            <h3>Did you already know …</h3>
+            <p>… <span></span></p>
+          </div>-->
         </div>
       </div>
     </div>
@@ -167,7 +169,7 @@
         <div id="infotext">
           <p>Copyright © 2017 Marco Bauer</p>
           <p class="text-left"><span class="name"></span> is <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free software<i class="fa fa-fw fa-external-link"></i></a>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
-          <p class="text-left"><span class="name"></span> is distributed in the hope that it will be useful, but <b>without any warranty</b>; without even the implied warranty of <b>merchantability</b> or <b>fitness for a particular purpose</b>. See the GNU Affero General Public License for more details.</p>
+          <p class="text-left"><span class="name"></span> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.</p>
           <p class="text-left">You should have received a copy of the GNU Affero General Public License along with <span class="name"></span>. If not, see &lt;<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link"></i></a>&gt; for more details.</p>
         </div>
         <p class="text-center"><a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/tree/master" target="_blank" rel="noopener"><i class="fa fa-fw fa-code"></i>Code <i class="fa fa-fw fa-external-link"></i></a> <a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/issues" target="_blank" rel="noopener"><i class="fa fa-fw fa-comments-o"></i>Issues <i class="fa fa-fw fa-external-link"></i></a></p>
