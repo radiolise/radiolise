@@ -14,9 +14,6 @@ body, #volumebar > div:nth-child(1) {
 a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type="number"] {
   color: #222;
 }
-#logo {
-  filter: invert(100%);
-}
 #main > div, #modals > div {
   background: #fff;
   color: #222;

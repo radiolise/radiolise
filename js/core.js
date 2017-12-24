@@ -32,21 +32,34 @@ window.onoffline = function() {
   stopStream();
   updateFinish(nostream);
 }
+var defaultsettings = '{"theme":1,"visualization":false,"relax":false,"relax-timeout":10,"theme-hue":0,"random-color":true,"volume":100,"transitions":true}',
+defaultdata = '{"lists":{"Favorites":[]},"settings":' + defaultsettings + '}',
+lists;
+try {
+  lists = JSON.parse(localStorage.data || defaultdata).lists;
+}
+catch (e) {
+  lists = JSON.parse(defaultdata).lists;
+}
+var settings;
+try {
+  settings = JSON.parse(localStorage.data || defaultdata).settings;
+}
+catch (e) {
+  settings = JSON.parse(defaultsettings);
+}
 var currentstation, prevdata, prevvolume, prevstation, gearclicked, hinttimer, volumetimer, volumerequest, slow, timedout, relaxtimer, currentlist,
 audio = new Audio(),
 appname = "Radiolise",
 visible = false,
 fetch,
 nostream = "Radio off",
-defaultsettings = '{"theme":1,"visualization":false,"relax":false,"relax-timeout":10,"theme-hue":0,"random-color":true,"volume":100,"transitions":true}',
-defaultdata = '{"lists":{"Favorites":[]},"settings":' + defaultsettings + '}',
 listsbackup = {},
-lists = JSON.parse(localStorage.data || defaultdata).lists,
 listname = Object.keys(lists)[0],
-ismousedown = false,
-settings = JSON.parse(localStorage.data || defaultdata).settings;
+ismousedown = false;
 console.log("\n\n%c Welcome to " + appname + "! \n%c > and Happy Hacking!_%c\n\nhttps://gitlab.com/radiolise/radiolise.gitlab.io\n\n", "font-size: 30px; background-color: #ccc; color: #000; font-family: sans-serif", "font-size: 20px", "font-family: sans-serif; font-size: 14px");
-console.info("%cRadiolise is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\nType%c learnMore() %cfor more details.", "font-size: 14px; font-family: sans-serif", "font-size: 14px", "font-size: 14px; font-family: sans-serif");
+console.info("%cRadiolise is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.", "font-size: 14px; font-family: sans-serif");
+console.info("%cType%c learnMore() %cfor more details.", "font-size: 14px; font-family: sans-serif", "font-size: 14px", "font-size: 14px; font-family: sans-serif");
 function refreshData() {
   var dataobject = {"lists":lists,"settings":settings};
   var data = JSON.stringify(dataobject);
@@ -74,7 +87,7 @@ function init() {
     }
     history.replaceState({}, document.title, ".");
   }
-  $("#themestyle").attr("href", "css/" + (["dark", "vivid"][settings.theme - 2] || "light") + ".css");
+  $("#themestyle").attr("href", "css/" + (["pure-dark", "vivid", "chic", "chic-dark"][settings.theme - 2] || "pure") + ".css");
   $("#splash").css({
     "background-image": "none",
     "pointer-events": "none",
@@ -159,7 +172,7 @@ $(function() {
           break;
         case " ":
           if (!$("#stop").hasClass("disabled")) {
-            if (!$("#stop").children().hasClass("fa-toggle-off")) {
+            if (!$("#stop").children().hasClass("fa-play")) {
               hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-stop'></i>", true);
             }
             $("#stop").trigger("click");
@@ -218,8 +231,9 @@ $(function() {
     $('#discardsettings').trigger('click');
   });
   $("#stop").on("click", function() {
+    $(window).scrollTop(0);
     var icon = $(this).children();
-    if (icon.hasClass("fa-toggle-on")) {
+    if (icon.hasClass("fa-stop")) {
       stopStream();
       updateFinish(nostream);
     }
@@ -299,8 +313,15 @@ $(function() {
       $("#findstation").removeClass("disabled");
       $(".selected").trigger("click");
       $("#loadmore").hide();
+    }).on("focus", function() {
+      $(this).parent().css({
+        background: "rgba(0, 0, 0, .1)"
+      });
     }).on("blur", function() {
       showLoading();
+      $(this).parent().css({
+        background: ""
+      });
     });
   $("form").on("submit", function(event) {
       event.preventDefault();
@@ -312,7 +333,7 @@ $(function() {
   $("#modals > div").on("click", function(event) {
     event.stopPropagation();
   });
-  $("#addbutton").on("click", function() {
+  $(".addbutton").on("click", function() {
     modal("addstation");
   });
   $("#settingsbutton").on("click", function() {
@@ -377,6 +398,7 @@ $(function() {
     reader.onerror = function() {
       alert("Error reading file.");
     }
+    $(this).val("");
   });
   $("#import").on("click", function() {
     $("input[type=file]").trigger("click");
@@ -387,6 +409,13 @@ $(function() {
     $("#blob").attr("download", "Radiolise_" + (new Date).getTime() + ".json");
     $("#blob")[0].click();
   });
+  $("#minus, #plus").on("DOMMouseScroll", function(event) {
+    event.preventDefault();
+    showVolume(event.originalEvent.detail < 0);
+  }).on("mousewheel", function(event) {
+    event.preventDefault();
+    showVolume(event.originalEvent.wheelDelta > 0);
+  });  
   $("#theme").on("change", themeSet);
   var clicked = false, clickY, scrollleft, tagdiv;
   $(document).on("mousedown", ".tags", function(e) {
@@ -409,10 +438,8 @@ $(function() {
       cursor: "auto"
     });
     $(".tags").css({
-      cursor: "-webkit-grab"
-    }).css({
-      cursor: "grab"
-    });    
+      cursor: "ew-resize"
+    });   
   });
   $("#modals").on("scroll", function() {
     if (searching && $("#addstation").hasClass("shown") && $("#loadmore").offset().top - $(window).height() - $(window).scrollTop() < 0) {
@@ -570,9 +597,9 @@ function showLoading() {
 }
 function loadSettings() {
   $(".checked").removeClass("checked");
-  $("#theme").val(["simple", "vivid"][+(settings.theme == 3)]);
+  $("#theme").val(["pure", "pure", "vivid", "chic", "chic"][settings.theme - 1]);
   themeSet();
-  if (settings.theme == 2) {
+  if (settings.theme == 2 || settings.theme == 5) {
     $("#nightmode").addClass("checked");
   }
   if (settings.theme != 3) {
@@ -600,19 +627,36 @@ function loadSettings() {
 }
 
 function themeSet() {
-  if ($("#theme").val() == "simple") {
-    $("#simple").show();
+  if ($("#theme").val() != "vivid") {
+    if ($("#theme").val() == "pure") {
+      $("#pure").show();
+      $("#chic").hide();
+    }
+    else {
+      $("#chic").show();
+      $("#pure").hide();
+    }
     $("#vivid").hide();
     $("#nightmode").show();
   }
   else {
     $("#vivid").show();
-    $("#simple").hide();
+    $("#pure").hide();
+    $("#chic").hide();
     $("#nightmode").hide();
   }          
 }
 function saveSettings() {      
-  settings.theme = $("#theme").val() == "simple" ? 1 + $("#nightmode").hasClass("checked") : 3;
+  switch ($("#theme").val()) {
+    case "vivid":
+      settings.theme = 3;
+      break;
+    case "chic":
+      settings.theme = 4 + $("#nightmode").hasClass("checked");
+      break;
+    default:
+      settings.theme = 1 + $("#nightmode").hasClass("checked");
+  }
   settings.visualization = $("#pseudovsl").hasClass("checked");
   settings.relax = $("#relaxmode").hasClass("checked");
   settings["relax-timeout"] = +$("#relaxtimeout").val();
@@ -686,7 +730,7 @@ function undelete(message, backup, mod, func, listname) {
       window[mod] = backup.slice();
     }
     else {
-      lists[listname] = backup.slice();
+      lists = JSON.parse(backup);
     }
     func();
     $("#footer").css({
@@ -707,7 +751,7 @@ function hint(text, square, confirm) {
     $("#hint").css({
       opacity: 1,
       visibility: "visible"
-    }).children().html((text != "load") ? text : "<i style='font-size: 60px; margin: 16px 0' class='fa fa-sync fa-spin'></i>");
+    }).children().html((text != "load") ? text : "<i style='font-size: 60px; margin: 16px 0' class='fa fa-spinner fa-spin'></i>");
     var timems = 5000;
     if (confirm) {
       $("#hint > div").append("<div style='text-align: right'><a onclick='closeHint()' class='button'>OK</a></div>")
@@ -822,7 +866,6 @@ function startStream(index) {
   };
   audio.onerror = function(e) {
     alert("Sorry, an error has occurred. Please try again later.");
-    closeHint();
     updateFinish(nostream);
     toggle(false);
     stopStream();
@@ -852,7 +895,7 @@ function startStream(index) {
 }
 function stopStream() {
   if (audio.getAttribute("src") != null) {
-    if ($("#hint").find(".fa-sync").length) {
+    if ($("#hint").find(".fa-spinner").length) {
       closeHint();
     }
     audio.onerror = null;
@@ -880,11 +923,11 @@ function stationUpdate(save) {
     }
     $("#stations").empty();
     for (i = 0; i < currentlist.length; i++) {
-      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { updateFinish(nostream); stopStream(); }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<img style='margin: 0 20px; border-radius: 50%; object-fit: cover; height: 35px; width: 35px; display: block; font-size: 26px; text-align: center; color: #fff' alt='" + currentlist[i].name[0].toUpperCase() + "' src='" + currentlist[i].icon + "' onerror='$(this).css({ background: \"hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\" })'>" + "</div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: 500; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
+      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { $(\"#stop\").trigger(\"click\") }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<div class='icontain'><img class='icon' src='" + currentlist[i].icon + "' onerror='$(this).replaceWith(\"<div class=\\\"icon\\\" style=\\\"background: hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\\\"><span>" + currentlist[i].name[0].toUpperCase() + "</span></div>\")'>" + "</div></div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: 500; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
       for (z = 0; z < currentlist[i].tags.split(",").length; z++) {
           content += "<span class='label'>" + currentlist[i].tags.split(",")[z].trim() + "</span> ";
       }
-      content += "</div></div></div></div></td><td style='padding-right: 15px'><a class='trashcan' style='font-size: 18px' onclick='gearclicked = " + i + "'><i class='fa fa-fw fa-ellipsis-v'></i></a></td></tr>";
+      content += "</div></div></div></div></td><td style='padding-right: 15px'><a class='trashcan' style='font-size: 18px' onclick='gearclicked = " + i + "' title='Options for ‘" + currentlist[i].name + "’'><i class='fa fa-fw fa-ellipsis-v'></i></a></td></tr>";
       $("#stations").append(content);
     }
     if (!audio.paused) {
@@ -942,7 +985,7 @@ function addList() {
   });
 }
 function removeList(name) {
-  var listbackup = lists[name].slice();
+  var listbackup = JSON.stringify(lists);
   delete lists[name];
   applyLists();
   if (name == listname) {
@@ -959,12 +1002,9 @@ function applyLists() {
   $("#lists > optgroup").empty();
   for (var list in lists) {
     $("#lists > optgroup").append("<option>" + list + "</option>");
-    appendList(list)
+    appendList(list);
   }
   $("#lists").val(listname);
-}
-function refreshStorage() {
-  //TODO
 }
 function refreshTags(tagstring) {
   $("#preview").empty();
@@ -998,10 +1038,17 @@ function loadEntries() {
     requesting = false;
     var sum = 0;
     var results = "";
-    var icons = [null, "flag", "map-marker", "commenting fa-flip-horizontal", "file-audio-o", "play", "thumbs-up"];
+    var icons = [null, "flag", "map-marker", "comment-alt fa-flip-horizontal", "file-audio", "play", "thumbs-up"];
     for (i = 0; i < data.length; i++) {
-      if (data[i].lastcheckok == "1") {       
-        results += "<div style='cursor: pointer; display: table; table-layout: fixed; width: 100%' data-meta='" + JSON.stringify(data[i]).replace(/'/g, "&apos;") + "' class='result'><div class='checkmark' style='display: table-cell; opacity: 0; width: 0; color: #008000'><i class='fa fa-check' style='margin-left: 10px'></i></div><div style='padding: 10px; margin-bottom: 10px; display: table-cell'><h4 style='margin: 0'>" + data[i].name + "</h4><br>" + (($("#order").prop("selectedIndex") > 0) ? "<span class='label' style='background: #008000; font-weight: 500; color: #fff'><i class='fa fa-" + icons[$("#order").prop("selectedIndex")] + "'></i> " + (data[i][$("#order").val()] || "<i class='fa fa-question'></i>") + "</span> " : "") + (($("#order").prop("selectedIndex") != 1) ? "<span class='label'>" + data[i].country + "</span> " : "") + (($("#order").prop("selectedIndex") != 2) ? "<span class='label'>" + data[i].state + "</span> " : "");
+      if (data[i].lastcheckok == "1") {
+        var available = true;
+        for (z in currentlist) {
+          if (currentlist[z].id == data[i].id) {
+            available = false;
+            break;
+          }
+        }
+        results += "<div style='cursor: pointer; display: table; table-layout: fixed; width: 100%" + ((available) ? "" : "; opacity: .5; cursor: not-allowed' title='This station has already been added to ‘" + listname + "’.") + "' data-meta='" + JSON.stringify(data[i]).replace(/'/g, "&apos;") + "' class='result'><div class='checkmark green' style='display: table-cell; opacity: 0; width: 0'><i class='fa fa-check' style='margin-left: 10px'></i></div><div style='padding: 10px; margin-bottom: 10px; display: table-cell'><h4 style='margin: 0'>" + ((available) ? "" : "<i class='fa fa-ban red'></i> ") + data[i].name + "</h4><br>" + (($("#order").prop("selectedIndex") > 0) ? "<span class='label green' style='font-weight: 500'><i class='fa fa-" + icons[$("#order").prop("selectedIndex")] + "'></i> " + (data[i][$("#order").val()] || "<i class='fa fa-question'></i>") + "</span> " : "") + (($("#order").prop("selectedIndex") != 1) ? "<span class='label'>" + data[i].country + "</span> " : "") + (($("#order").prop("selectedIndex") != 2) ? "<span class='label'>" + data[i].state + "</span> " : "");
         if (data[i].tags != "") { 
           for (z = 0; z < data[i].tags.split(",").length; z++) {
             results += "<span class='label'>" + data[i].tags.split(",")[z].trim() + "</span> ";
@@ -1022,7 +1069,7 @@ function loadEntries() {
       searching = false;
       $("#loadmore").hide();
       if (sum + offset == 0) {
-        results += "<p style='font-size: 18px; text-align: center'><i class='fa fa-fw fa-meh-o'></i>No matching stations found.</p>";
+        results += "<p style='font-size: 18px; text-align: center'><i class='far fa-fw fa-meh'></i>No matching stations found.</p>";
       }
     }
     else {
@@ -1200,12 +1247,12 @@ function toggle(on) {
   var icon = $("#stop").children();
   if (on) {
     icon
-      .removeClass("fa-toggle-off")
-      .addClass("fa-toggle-on");
+      .removeClass("fa-play")
+      .addClass("fa-stop");
   }
   else {
     icon
-      .removeClass("fa-toggle-on")
-      .addClass("fa-toggle-off");
+      .removeClass("fa-stop")
+      .addClass("fa-play");
   }
 }

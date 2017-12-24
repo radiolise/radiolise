@@ -1,0 +1,61 @@
+body, #volumebar > div:nth-child(1) {
+  background: #ddd;
+}
+#main > div {
+  box-shadow: 10px 10px 40px #aaa;
+}
+.label {
+  background: #eee;
+}
+#navbar {
+  background: #fff;
+  box-shadow: 0 0 20px #aaa;
+  border-bottom: 3px solid #54A3D8;
+}
+a, #navbar > div > span > span, #learnmore > div:nth-child(3) > div > span, #findstation, #query, #navbar > div > div > button, input[type="number"] {
+  color: #222;
+}
+#main > div, #modals > div {
+  background: #fff;
+  color: #222;
+  border-top: 3px solid #54A3D8;
+  border-bottom: 3px solid #54A3D8;
+  border-radius: 20px 0 20px 0;
+}
+#logo {
+  filter: invert(100%);
+}
+#hint > div {
+  background: rgba(34, 34, 34, .9);
+  color: #fff;
+}
+input {
+  background: #fff;
+  color: #222;
+}
+#footer, #addfooter {
+  background: rgba(34, 34, 34, .9);
+  color: #fff;
+}
+.button:hover, #navbar > div > div > button:hover {
+  color: #54a3d8;
+}
+.button:active, #navbar > div > div > button:active {
+  background: #54a3d8;
+  color: #fff;
+}
+#addstation > div > div:nth-child(1), select, input:not(#query) {
+  border-bottom: 2px solid rgba(0, 0, 0, .5) !important;
+}
+#modals {
+  background: rgba(0, 0, 0, .5);
+}
+#volumeline, #volumecircle {
+  background: #222;
+}
+#visualization > div {
+  background: #000;
+}
+#progressbar {
+  background: #54A3D8;
+}

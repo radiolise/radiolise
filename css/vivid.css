@@ -22,9 +22,6 @@
 #navbar > div > div > button, input[type="number"] {
   color: #fff;
 }
-#logo {
-  filter: invert(100%);
-}
 #modals {
   background: rgba(0, 0, 0, .5);
 }

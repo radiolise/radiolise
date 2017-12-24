@@ -1,3 +1,21 @@
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../webfonts/Roboto-Regular.ttf);
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url(../webfonts/Roboto-Medium.ttf);
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: url(../webfonts/Roboto-Bold.ttf);
+}
 * {
   outline: 0;
 }
@@ -12,6 +30,13 @@ b, h3, h4 {
 }
 .red {
   color: #f00;
+}
+.green {
+  color: #008000;
+}
+.label.green {
+  background: #008000;
+  color: #fff;
 }
 button {
   font-family: Roboto;
@@ -88,7 +113,7 @@ input[type="number"] {
   box-shadow: none;
 }
 .relaxed #navbar, .relaxed #footer {
-  opacity: 0;
+  opacity: 0 !important;
   visibility: hidden;
 }
 .button {
@@ -131,8 +156,7 @@ body {
   user-select: none;
 }
 .tags {
-  cursor: -webkit-grab;
-  cursor: grab;
+  cursor: ew-resize;
 }
 .checkable > div > div {
   cursor: auto !important;
@@ -202,13 +226,35 @@ select {
   background: rgba(0, 0, 0, .5);
   display: table;
   opacity: 0;
+  overflow: hidden;
 }
 .playing .playbutton, #stations > tr:hover .playbutton {
   opacity: 1;
 }
-.playing img, #stations > tr:hover img {
+.icon span {
+  display: table-cell;
+  vertical-align: middle;
+}
+.icon {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  display: table;
+  font-size: 22px;
+  text-align: center;
+  color: #fff;
+  background: #fff;
+}
+.playing .icon, tr:hover .icon {
   filter: blur(5px);
-  transform: scale(.8);  
+}
+.icontain {
+  margin: 0 20px;
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  overflow: hidden;
 }
 p {
   padding: 10px 0;
@@ -261,6 +307,7 @@ table {
   overflow: hidden;
   visibility: hidden;
   opacity: 0;
+  pointer-events: none;
 }
 .label {
   padding: .2em .6em .3em;
@@ -378,6 +425,7 @@ input[type="checkbox"] + span {
   font-size: 24px;
   font-family: Roboto;
   padding: 10px;
+  background: none;
 }
 #findstation {
   font-size: 20px;
@@ -464,6 +512,7 @@ input[type="checkbox"] + span {
   max-width: calc(100% - 40px);
   transform: scale(1, .5);
   transition: transform .4s;
+  pointer-events: auto;
 }
 @media screen and (max-width: 840px) {
   #modals > div {

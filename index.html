@@ -19,7 +19,6 @@
     <meta content="width=device-width, initial-scale=1, user-scalable=0" name="viewport">
     <link href="manifest.json" rel="manifest">
     <link rel="stylesheet" href="css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700">
     <link rel="stylesheet" href="css/core.css">
     <link id="themestyle" rel="stylesheet">
   </head>
@@ -37,6 +36,7 @@
         <div>
           <span><img id="logo" src="img/basic.svg"><span>Radiolise</span></span>
           <div>
+            <button class="addbutton"><i class="fa fa-plus"></i> <span>Add stations</span></button>
             <button id="settingsbutton"><i class="fa fa-cog"></i> <span>Settings</span></button>
             <button id="learnmorebutton"><i class="fa fa-info-circle"></i> <span>Learn more</span></button>
           </div>
@@ -47,21 +47,21 @@
           <div id="station">Radio off</div>
           <div id="maincontrols">
             <p id="controls">
-              <a class="button-primary" id="minus"><i class="fa fa-fw fa-minus"></i></a>
-              <a class="button-primary" id="stop"><i class="fa fa-fw fa-toggle-off"></i></a>
-              <a class="button-primary" id="plus"><i class="fa fa-fw fa-plus"></i></a>
+              <a class="button-primary" id="minus" title="Volume down (−10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-minus"></i></a>
+              <a class="button-primary" id="stop" title="Play | Stop"><i class="fa fa-fw fa-play"></i></a>
+              <a class="button-primary" id="plus" title="Volume up (+10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-plus"></i></a>
             </p>
             <div style="text-align: left">
               <select style="margin-bottom: 20px; text-align: left" id="lists">
                 <optgroup label="Station lists"></optgroup>
-                <option>Manage...</option>
+                <option>Manage…</option>
               </select>
               <a id="wrench"><i class="fa fa-fw fa-wrench"></i></a>
               <div id="zero">This station list is empty.<br>Press the lower right button to add some stations.</div>
               <table id="stations"></table>
             </div>              
             <p class="text-right">
-              <a class="button" id="addbutton"><i class="fa fa-fw fa-plus"></i>New station</a>
+              <a class="button addbutton"><i class="fa fa-fw fa-plus"></i>Add stations</a>
             </p>
           </div>
           <!--<div style="background: rgba(0,0,0,.1); padding: 10px; position: relative">
@@ -75,30 +75,30 @@
     <div id="modals">
       <div id="addstation">
         <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
-        <h3><i class="fa fa-fw fa-plus"></i>New station</h3>
-          <p>Please enter the name of the radio station you’d like to add.<br>This feature uses a web service of the <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free<i class="fa fa-fw fa-external-link-alt"></i></a> <a class="btn-link white" href="http://www.radio-browser.info" target="_blank" rel="noopener">Community Radio Browser<i class="fa fa-fw fa-external-link-alt"></i></a>.</p>
+        <h3><i class="fa fa-fw fa-plus"></i>Add stations</h3>
+          <p>This feature uses a web service of the <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free<i class="fa fa-fw fa-external-link-alt"></i></a> <a class="btn-link white" href="http://www.radio-browser.info" target="_blank" rel="noopener">Community Radio Browser<i class="fa fa-fw fa-external-link-alt"></i></a>.</p>
         <div>
-          <div><input placeholder="Station by name" type="text" id="query"><button id="findstation"><i class="fa fa-search"></i></button></div>
+          <div><input placeholder="Stations by name" type="text" id="query"><button id="findstation"><i class="fa fa-search"></i></button></div>
           <div style="text-align: left; display: table; width: 100%">
             <div style="padding: 5px 0; display: table-row; overflow: hidden">
               <div style="display: table-cell; white-space: nowrap">
                 Filters: &nbsp;
               </div>
               <div>
-                <div id="failmsg" style="display: none"><div style="display: table"><i class="fa fa-fw fa-exclamation-triangle" style="display: table-cell"></i><div>Oh no! Some options are currently unavailable due to connection problems. <a href="#dialog" id="tryfetch"><i class="fa fa-fw fa-refresh"></i>Try again</a></div></div><br></div>
+                <div id="failmsg" style="display: none"><div style="display: table"><i class="fa fa-fw fa-exclamation-triangle" style="display: table-cell"></i><div>Oh no! Some options are currently unavailable due to connection problems. <a href="#dialog" id="tryfetch"><i class="fa fa-fw fa-redo"></i>Try again</a></div></div><br></div>
                 <select id="country" disabled style="width: 100%">
                   <optgroup data-type="countries" label="Country">
-                    <option value="">Loading...</option>
+                    <option value="">Loading…</option>
                   </optgroup>
                 </select>
                 <select id="state" disabled style="width: 100%">
                   <optgroup data-type="states" label="State">
-                    <option value="">Loading...</option>
+                    <option value="">Loading…</option>
                   </optgroup>  
                 </select>
                 <select id="language" disabled style="width: 100%">
                   <optgroup data-type="languages" label="Language">
-                    <option value="">Loading...</option>
+                    <option value="">Loading…</option>
                   </optgroup>   
                 </select>
               </div>
@@ -137,7 +137,7 @@
           </div>
           <div>
             <div id="results" style="width: 100%"></div>
-            <p id="loadmore" style="font-size: 18px"><i class='fa fa-fw fa-spin fa-sync'></i>Just a moment...</p>
+            <p id="loadmore" style="font-size: 18px"><i class='fa fa-fw fa-spin fa-spinner'></i>Just a moment…</p>
           </div>
         </div>
       </div>
@@ -172,7 +172,7 @@
           <p class="text-left"><span class="name"></span> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.</p>
           <p class="text-left">You should have received a copy of the GNU Affero General Public License along with <span class="name"></span>. If not, see &lt;<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link-alt"></i></a>&gt; for more details.</p>
         </div>
-        <p class="text-center"><a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/tree/master" target="_blank" rel="noopener"><i class="fa fa-fw fa-code"></i>Code <i class="fa fa-fw fa-external-link-alt"></i></a> <a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/issues" target="_blank" rel="noopener"><i class="fa fa-fw fa-comments-o"></i>Issues <i class="fa fa-fw fa-external-link-alt"></i></a></p>
+        <p class="text-center"><a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/tree/master" target="_blank" rel="noopener"><i class="fa fa-fw fa-code"></i>Code <i class="fa fa-fw fa-external-link-alt"></i></a> <a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/issues" target="_blank" rel="noopener"><i class="fa fa-fw fa-comments"></i>Issues <i class="fa fa-fw fa-external-link-alt"></i></a></p>
         <a href="js/LICENSES.html" rel="jslicense"></a>
       </div>
       <div id="settings">
@@ -184,17 +184,21 @@
             <b>Theme</b>:
             <select id="theme">
               <optgroup label="Themes">
-                <option value="simple">Simple</option>
+                <option value="pure">Pure</option>
                 <option value="vivid">Vivid</option>
+                <option value="chic">Chic</option>
               </optgroup>
             </select>   
           </div>
-          <div id="simple">
+          <div id="pure">
+            A simple and minimalistic theme.
+          </div>
+          <div id="chic">
             A simple yet elegant theme.
           </div>
           <div class="checkable" id="nightmode">
             <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
-            <div><b>Night mode</b><br>Transforms ‘Simple’ into a dark theme.</div>
+            <div><b>Night mode</b><br>Transforms the current theme into a dark one.</div>
           </div>
           <div id="vivid">
             A vivid and colorful theme.
