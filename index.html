@@ -18,7 +18,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, user-scalable=0" name="viewport">
     <link href="manifest.json" rel="manifest">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700">
     <link rel="stylesheet" href="css/core.css">
     <link id="themestyle" rel="stylesheet">
@@ -37,7 +37,7 @@
         <div>
           <span><img id="logo" src="img/basic.svg"><span>Radiolise</span></span>
           <div>
-            <button id="settingsbutton"><i class="fa fa-gear"></i> <span>Settings</span></button>
+            <button id="settingsbutton"><i class="fa fa-cog"></i> <span>Settings</span></button>
             <button id="learnmorebutton"><i class="fa fa-info-circle"></i> <span>Learn more</span></button>
           </div>
         </div>
@@ -74,9 +74,9 @@
     </div>
     <div id="modals">
       <div id="addstation">
-        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
+        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <h3><i class="fa fa-fw fa-plus"></i>New station</h3>
-          <p>Please enter the name of the radio station you’d like to add.<br>This feature uses a web service of the <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free<i class="fa fa-fw fa-external-link"></i></a> <a class="btn-link white" href="http://www.radio-browser.info" target="_blank" rel="noopener">Community Radio Browser<i class="fa fa-fw fa-external-link"></i></a>.</p>
+          <p>Please enter the name of the radio station you’d like to add.<br>This feature uses a web service of the <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free<i class="fa fa-fw fa-external-link-alt"></i></a> <a class="btn-link white" href="http://www.radio-browser.info" target="_blank" rel="noopener">Community Radio Browser<i class="fa fa-fw fa-external-link-alt"></i></a>.</p>
         <div>
           <div><input placeholder="Station by name" type="text" id="query"><button id="findstation"><i class="fa fa-search"></i></button></div>
           <div style="text-align: left; display: table; width: 100%">
@@ -137,13 +137,13 @@
           </div>
           <div>
             <div id="results" style="width: 100%"></div>
-            <p id="loadmore" style="font-size: 18px"><i class='fa fa-fw fa-spin fa-spinner'></i>Just a moment...</p>
+            <p id="loadmore" style="font-size: 18px"><i class='fa fa-fw fa-spin fa-sync'></i>Just a moment...</p>
           </div>
         </div>
       </div>
       <div id="stationmanager">
-        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
-        <h3><i class="fa fa-fw fa-pencil"></i>Station editor</h3>
+        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
+        <h3><i class="fa fa-fw fa-edit"></i>Station editor</h3>
 <!--         <p>Use this tool to manage your custom stations.</p> -->
         <div id="customstations" style="">
           <span style="display: table-cell"><span class="red" title="This field is required."><sup>∗</sup></span> Name: </span><input style="display: table-cell; width: 100%" placeholder="Name" type="text">
@@ -164,19 +164,19 @@
         </div>   
       </div>
       <div id="learnmore">
-        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
+        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <br><div><div><img src="img/logo.svg"><span>Radiolise</span></div></div><br>
         <div id="infotext">
           <p>Copyright © 2017 Marco Bauer</p>
-          <p class="text-left"><span class="name"></span> is <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free software<i class="fa fa-fw fa-external-link"></i></a>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+          <p class="text-left"><span class="name"></span> is <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free software<i class="fa fa-fw fa-external-link-alt"></i></a>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
           <p class="text-left"><span class="name"></span> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.</p>
-          <p class="text-left">You should have received a copy of the GNU Affero General Public License along with <span class="name"></span>. If not, see &lt;<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link"></i></a>&gt; for more details.</p>
+          <p class="text-left">You should have received a copy of the GNU Affero General Public License along with <span class="name"></span>. If not, see &lt;<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link-alt"></i></a>&gt; for more details.</p>
         </div>
-        <p class="text-center"><a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/tree/master" target="_blank" rel="noopener"><i class="fa fa-fw fa-code"></i>Code <i class="fa fa-fw fa-external-link"></i></a> <a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/issues" target="_blank" rel="noopener"><i class="fa fa-fw fa-comments-o"></i>Issues <i class="fa fa-fw fa-external-link"></i></a></p>
+        <p class="text-center"><a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/tree/master" target="_blank" rel="noopener"><i class="fa fa-fw fa-code"></i>Code <i class="fa fa-fw fa-external-link-alt"></i></a> <a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/issues" target="_blank" rel="noopener"><i class="fa fa-fw fa-comments-o"></i>Issues <i class="fa fa-fw fa-external-link-alt"></i></a></p>
         <a href="js/LICENSES.html" rel="jslicense"></a>
       </div>
       <div id="settings">
-        <div style="float: right"><a id="closesettings"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
+        <div style="float: right"><a id="closesettings"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <h3><i class="fa fa-fw fa-cog"></i>Settings</h3>
         <p>Here you may customize <span class="name"></span> to your needs.</p>
         <div id="controlpanel">
@@ -193,7 +193,7 @@
             A simple yet elegant theme.
           </div>
           <div class="checkable" id="nightmode">
-            <div><i class="fa fa-square-o"></i><i class="fa fa-check-square"></i></div>
+            <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
             <div><b>Night mode</b><br>Transforms ‘Simple’ into a dark theme.</div>
           </div>
           <div id="vivid">
@@ -206,17 +206,17 @@
             <b>Theme hue</b>: COMING SOON
           </div>
           <div class="checkable" id="pseudovsl">
-            <div><i class="fa fa-square-o"></i><i class="fa fa-check-square"></i></div>
+            <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
             <div><b>Pseudo-visualization</b><br>Displays an audio visualization based on random values during a running audio stream. A wide desktop viewport is required.</div>
           </div>
           <div class="checkable" id="relaxmode">
-            <div><i class="fa fa-square-o"></i><i class="fa fa-check-square"></i></div>
+            <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
             <div><b>Relax mode</b><br>When the specified time has passed, hides the entire content except the name of the current station, increases its font size and temporarily enables ‘pseudo-visualization’. <!-- To allow this feature to be triggered, popup dialogs need to be closed and an audio stream has to be running.-->
             </div>
           </div>      
           <div id="relaxtimeoutdiv"><b>Relax timeout</b> (sec): <input type="number" min="1" id="relaxtimeout"><br>Set the period of time until ‘relax mode’ is triggered.</div>
           <div class="checkable" id="transitions">
-            <div><i class="fa fa-square-o"></i><i class="fa fa-check-square"></i></div>
+            <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
             <div><b>Transitional effects</b><br>Enables simple and elegant transitional effects. You should disable this option if your device does not have enough resources.</div>
           </div>    
           <div>
@@ -226,7 +226,7 @@
         <input type="file" accept=".json" style="display: none">
         <a id="blob" style="display: none"></a>
         <div style="text-align: right">
-          <a class="button" id="discardsettings"><i class="fa fa-close"></i> Discard</a>
+          <a class="button" id="discardsettings"><i class="fa fa-ban"></i> Discard</a>
           <a class="button" id="applysettings"><i class="fa fa-check"></i> Apply</a>
         </div>
         <div style="display: table; margin: 10px auto">
@@ -234,17 +234,17 @@
             <a href="#dialog" id="reset"><i class="fa fa-fw fa-undo"></i>Reset to defaults</a><br>
           </div>
           <div style="float: right; margin: 5px 10px">            
-            <a href="#dialog" id="import"><i class="fa fa-fw fa-arrow-right"></i>Import from file</a><br>
-            <a href="#dialog" id="export"><i class="fa fa-fw fa-arrow-left"></i>Export to file</a>
+            <a href="#dialog" id="import"><i class="fa fa-fw fa-arrow-up"></i>Import from file</a><br>
+            <a href="#dialog" id="export"><i class="fa fa-fw fa-arrow-down"></i>Export to file</a>
           </div>            
         </div>
       </div>
       <div id="listmanager">
-        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-close"></i></a></div>
+        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <h3><i class="fa fa-fw fa-list-alt"></i>Station lists</h3>
         <p>Use this tool to manage your station lists.</p>
         <div>
-          <!--<i class="fa fa-lg fa-trash-o" style="width: 0"></i>
+          <!--<i class="fa fa-lg fa-trash" style="width: 0"></i>
           <select style="opacity: 0; width: 20px">
             <optgroup label="Options">
               <option>Just clear</option>
@@ -267,7 +267,7 @@
         <span style="white-space: nowrap;float:right;"><a class="button" id="restore"><i class="fa fa-fw fa-undo"></i>Undo</a><a class="button" id="hidefooter"><i class="fa fa-fw fa-check"></i>OK</a></span>
       </div>
     </div>
-    <div id="addfooter"><div style="display: table"><span style="padding: 14px 20px; float:left;"><i class="fa fa-fw fa-info-circle"></i><span id="stationcount"></span> selected.</span><span style="white-space: nowrap;float:right;"><a class="button" id="deselectall"><i class="fa fa-fw fa-close"></i>Deselect</a><a class="button" id="addchecked"><i class="fa fa-fw fa-plus"></i>Add</a></span></div></div>
+    <div id="addfooter"><div style="display: table"><span style="padding: 14px 20px; float:left;"><i class="fa fa-fw fa-info-circle"></i><span id="stationcount"></span> selected.</span><span style="white-space: nowrap;float:right;"><a class="button" id="deselectall"><i class="fa fa-fw fa-ban"></i>Deselect</a><a class="button" id="addchecked"><i class="fa fa-fw fa-plus"></i>Add</a></span></div></div>
     <div id="visualization"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     <script src="js/jquery.min.js"></script>
     <script src="js/core.js"></script>

@@ -158,7 +158,7 @@ $(function() {
           showVolume(true);
           break;
         case " ":
-          if ($("#stop").hasClass("disabled") == false) {
+          if (!$("#stop").hasClass("disabled")) {
             if (!$("#stop").children().hasClass("fa-toggle-off")) {
               hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-stop'></i>", true);
             }
@@ -707,7 +707,7 @@ function hint(text, square, confirm) {
     $("#hint").css({
       opacity: 1,
       visibility: "visible"
-    }).children().html((text != "load") ? text : "<i style='font-size: 60px; margin: 16px 0' class='fa fa-spinner fa-spin'></i>");
+    }).children().html((text != "load") ? text : "<i style='font-size: 60px; margin: 16px 0' class='fa fa-sync fa-spin'></i>");
     var timems = 5000;
     if (confirm) {
       $("#hint > div").append("<div style='text-align: right'><a onclick='closeHint()' class='button'>OK</a></div>")
@@ -852,7 +852,9 @@ function startStream(index) {
 }
 function stopStream() {
   if (audio.getAttribute("src") != null) {
-    closeHint();
+    if ($("#hint").find(".fa-sync").length) {
+      closeHint();
+    }
     audio.onerror = null;
     audio.removeAttribute("src")
     audio.load();
@@ -978,7 +980,7 @@ function refreshTags(tagstring) {
   }
 }
 function appendList(name) {
-  $("#listdiv").append("<div data-item='" + name + "' style='display: table-row'><input class='itemname' placeholder='New name' value='" + name + "'><div style='display: table-cell; white-space: nowrap'><a class='renamelist' onclick='renameList(\"" + name + "\")'><i class='fa fa-fw fa-pencil'></i></a><a class='okay' style='display: none'><i class='fa fa-fw fa-check'></i></a>" + ((name != "" && Object.keys(lists).length > 1) ? "<a onclick='removeList(\"" + name + "\")'><i class='fa fa-fw fa-trash-o'></i></a>" : "") + "</div></div>");  
+  $("#listdiv").append("<div data-item='" + name + "' style='display: table-row'><input class='itemname' placeholder='New name' value='" + name + "'><div style='display: table-cell; white-space: nowrap'><a class='renamelist' onclick='renameList(\"" + name + "\")'><i class='fa fa-fw fa-edit'></i></a><a class='okay' style='display: none'><i class='fa fa-fw fa-check'></i></a>" + ((name != "" && Object.keys(lists).length > 1) ? "<a onclick='removeList(\"" + name + "\")'><i class='fa fa-fw fa-trash'></i></a>" : "") + "</div></div>");  
 }
 var searching = false;
 function loadEntries() {
