@@ -24,8 +24,17 @@
   </head>
   <body>
     <noscript>
-      <div style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: #222; z-index: 4; color: #fff">
-        <h1>Please enable JavaScript!</h1>
+      <style>
+        a {
+          color: #ff0;
+        }
+      </style>
+      <div style="position: fixed; left: 0; top: 0; width: calc(100% - 40px); height: 100%; background: #222; z-index: 4; color: #fff; padding: 0 20px">
+        <div style="max-width: 500px">
+          <h1>Please enable JavaScript!</h1>
+          <p>JavaScript makes this page functional for specific purposes (especially to behave like an app) and if disabled, required functionalities are unavailable.</p>
+          You need the source code? Visit <a href="https://gitlab.com/radiolise/radiolise.gitlab.io">GitLab</a> for more details. All the JavaScript code included on this page is entirely free/libre software. <a href="js/LICENSES.html">See LibreJS licenses file</a>
+        </div>
       </div>
     </noscript>
     <div id="splash" style="background-color: #222; background-image: url('img/spin.svg'); background-repeat: no-repeat; background-position: center; background-size: 70px; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 3; transition: opacity 2s">
@@ -52,6 +61,7 @@
               <a class="button-primary" id="plus" title="Volume up (+10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-plus"></i></a>
             </p>
             <div style="text-align: left">
+              <b>List</b>:
               <select style="margin-bottom: 20px; text-align: left" id="lists">
                 <optgroup label="Station lists"></optgroup>
                 <option>Manage…</option>
@@ -167,7 +177,7 @@
         <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <br><div><div><img src="img/logo.svg"><span>Radiolise</span></div></div><br>
         <div id="infotext">
-          <p>Copyright © 2017 Marco Bauer</p>
+          <p>Copyright © 2017-2018 Marco Bauer</p>
           <p class="text-left"><span class="name"></span> is <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free software<i class="fa fa-fw fa-external-link-alt"></i></a>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
           <p class="text-left"><span class="name"></span> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.</p>
           <p class="text-left">You should have received a copy of the GNU Affero General Public License along with <span class="name"></span>. If not, see &lt;<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link-alt"></i></a>&gt; for more details.</p>
@@ -185,23 +195,19 @@
             <select id="theme">
               <optgroup label="Themes">
                 <option value="pure">Pure</option>
+                <option value="puredark">Pure Dark</option>
                 <option value="vivid">Vivid</option>
                 <option value="chic">Chic</option>
+                <option value="chicdark">Chic Dark</option>
               </optgroup>
             </select>   
           </div>
-          <div id="pure">
-            A simple and minimalistic theme.
-          </div>
-          <div id="chic">
-            A simple yet elegant theme.
-          </div>
-          <div class="checkable" id="nightmode">
-            <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
-            <div><b>Night mode</b><br>Transforms the current theme into a dark one.</div>
-          </div>
-          <div id="vivid">
-            A vivid and colorful theme.
+          <div id="descriptions">
+            <span id="pure">A simple and minimalistic theme.</span>
+            <span id="puredark">A simple and minimalistic dark theme.</span>
+            <span id="vivid">A vivid and colorful theme.</span>
+            <span id="chic">A simple yet elegant theme.</span>
+            <span id="chicdark">A simple yet elegant dark theme.</span>
           </div>
           <div style="display: none">
             <b>Color mode</b>: <select><option>Random</option><option>Custom</option></select><br>Set whether a random or a custom theme color should be used.
@@ -219,6 +225,10 @@
             </div>
           </div>      
           <div id="relaxtimeoutdiv"><b>Relax timeout</b> (sec): <input type="number" min="1" id="relaxtimeout"><br>Set the period of time until ‘relax mode’ is triggered.</div>
+          <div class="checkable" id="loadpolicy">
+            <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
+            <div><b>Load icons</b><br>Defines whether official station icons should be loaded. If disabled, simple CSS-based placeholders are shown instead.</div>
+          </div> 
           <div class="checkable" id="transitions">
             <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
             <div><b>Transitional effects</b><br>Enables simple and elegant transitional effects. You should disable this option if your device does not have enough resources.</div>
@@ -238,8 +248,8 @@
             <a href="#dialog" id="reset"><i class="fa fa-fw fa-undo"></i>Reset to defaults</a><br>
           </div>
           <div style="float: right; margin: 5px 10px">            
-            <a href="#dialog" id="import"><i class="fa fa-fw fa-arrow-up"></i>Import from file</a><br>
-            <a href="#dialog" id="export"><i class="fa fa-fw fa-arrow-down"></i>Export to file</a>
+            <a href="#dialog" id="import"><i class="fa fa-fw fa-upload"></i>Import from file</a><br>
+            <a href="#dialog" id="export"><i class="fa fa-fw fa-download"></i>Export to file</a>
           </div>            
         </div>
       </div>
@@ -257,9 +267,13 @@
             <option>Cancel</option>
           </select>-->
           <div style="display: table; margin: 0 auto; padding-bottom: 10px; font-size: 20px" id="listdiv"></div>
-          <div style="text-align: right">
+          <div style="text-align: right">      
             <a class="button" id="addlist"><i class="fa fa-plus"></i> New list</a>
-          </div>          
+          </div>
+          <!--<div style="margin-bottom: 10px; margin-right: 15px; text-align: right">
+            <a href="#dialog" id="importlists"><i class="fa fa-fw fa-upload"></i>Import lists</a><br>
+            <a href="#dialog" id="exportlists"><i class="fa fa-fw fa-download"></i>Export lists</a>
+          </div>-->
         </div>
       </div>
     </div>
