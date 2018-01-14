@@ -143,11 +143,13 @@ $(function() {
   audio.volume = settings.volume / 100;
   sync(false);
   function param(param) {
-    return new URL(location.href).searchParams.get(param);
+   return new URL(location.href).searchParams.get(param);
   }
   var source = param("src");
   var id = param("id");
   var keepoff = param("keepoff");
+  var query = param("q");
+  history.pushState(null, null, ".");
   function autoStart() {
     if (!keepoff || keepoff == false) {
       for (i in currentlist) {
@@ -158,8 +160,8 @@ $(function() {
     }
   }
   if (source) {
+    setList("Added via " + source);
     if (id) {
-      setList("Added via " + source);
       if (!stationExists(id)) {
         $.post("https://www.radio-browser.info/webservice/json/stations/byid/" + id, function(data) {
           if (!lists["Added via " + source]) {
@@ -177,7 +179,13 @@ $(function() {
         autoStart();
       }
     }
-    history.pushState(null, null, ".");
+    else if (query) {
+      applyLists();
+      setTimeout(function() {
+        $("#query").val(query);
+        modal("addstation");
+      }, 0);
+    }
   }
   $("#hidefooter").on("click", function() {
     $("#footer").css({
@@ -930,9 +938,14 @@ function startStream(index) {
   audio.load();
   var play = function(url) {
     audio.setAttribute("src", url);
-    audio.play().catch(function() {
+    audio.play().catch(function(e) {
       stopStream();
-      hint("User gesture required. Click on ‘" + index.name + "’ to start the stream.");
+      if (e.name == "NotAllowedError") {
+        hint("User gesture seems to be required. Click on ‘" + index.name + "’ to start the stream.");
+      }
+      else {
+        alert("Sorry, an error has occurred. " + (e.message || "Please try again later."));
+      }
     });
   };
   if (index.id) {
