@@ -38,6 +38,11 @@ catch (e) {
   $("h1").text("Please enable offline storage!");
   $("p").text("Offline storage is used to ensure that application data (e.g. stations and settings) won’t get lost. This page does not collect any personal data. Third parties might act differently.");
 }
+if (navigator.userAgent.indexOf("Trident") != -1 && !localStorage.try) {
+  $("body").html($("noscript").text());
+  $("h1").text("Consider using another browser!");
+  $("p").html("Internet Explorer does not support some of the basic functionalities that this web application relies on. <a href=\"#\" onclick=\"localStorage.try = '1'; location = location.href\">Try anyway (may not work)</a>");
+}
 var defaultsettings = '{"theme":1,"visualization":false,"relax":false,"relax-timeout":10,"theme-hue":0,"random-color":true,"volume":100,"transitions":true,"loadpolicy":true}',
 defaultdata = '{"lists":{"Favorites":[]},"settings":' + defaultsettings + '}',
 lists;
@@ -143,7 +148,9 @@ $(function() {
   audio.volume = settings.volume / 100;
   sync(false);
   function param(param) {
-   return new URL(location.href).searchParams.get(param);
+    if (param = (new RegExp("[?&]" + encodeURIComponent(param) + "=([^&]*)")).exec(location.search)) {
+      return decodeURIComponent(param[1]);
+    }
   }
   var source = param("src");
   var id = param("id");
@@ -1141,6 +1148,7 @@ function loadEntries() {
       searching = true;
     }
     $("#results").append(results);
+    clearInterval(closetimer);
     $("#results").show();
   });
 }
@@ -1212,6 +1220,7 @@ function modal(id) {
     $("#modals").css({
       transform: "scale(1)",
       opacity: 1,
+      visibility: "visible",
       "pointer-events": "auto"
     });
     $("body").css({
@@ -1238,6 +1247,7 @@ function modal(id) {
   wakeUp();
   console.info("Dialog with tag ID " + id + " shown");
 }
+var closetimer;
 function closeModal() {
   if ($(".shown").attr("id") == "listmanager") {
     applyLists();
@@ -1254,6 +1264,7 @@ function closeModal() {
   $("#modals").css({
     transform: "scale(1.1)",
     opacity: 0,
+    visibility: "hidden",
     "pointer-events": "none"
   });
   $("body").css({
@@ -1271,7 +1282,7 @@ function closeModal() {
     $("#modals").css({
       height: "100%"
     });  
-    setTimeout(function() {
+    closetimer = setTimeout(function() {
       $("#query").val("");
       $("#results").hide();
     }, 400);

@@ -4,7 +4,7 @@ Radiolise is a free ([as in ‘freedom’](https://www.gnu.org/philosophy/free-s
 
 **[Try Radiolise Alpha](https://radiolise.gitlab.io/)**
 
-Copyright © 2017 Marco Bauer
+Copyright © 2017-2018 Marco Bauer
 
 Radiolise is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
