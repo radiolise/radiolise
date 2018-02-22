@@ -216,6 +216,14 @@ select {
 #customstations input {
   margin-bottom: 10px;
 }
+#tomove {
+  display: none;
+  position: fixed;
+  pointer-events: none;
+  opacity: .5;
+  height: 50px;
+  width: 50px;
+}
 .playbutton {
   cursor: pointer;
   position: absolute;
@@ -275,7 +283,7 @@ p {
   overflow-y: auto;
   transition: all .4s;
 }
-#modals, #hint, #volumemodal {
+#modals, #hint, #volumemodal, #tomove {
   z-index: 2;
 }
 #controls > a {
@@ -358,7 +366,7 @@ table {
 tr, #results > div, .checkmark {
   transition: all .2s;
 }
-tr:hover, #results > div:hover, input:not(#query):focus {
+#tomove, tr:hover, #results > div:hover, input:not(#query):focus {
   background: rgba(0, 0, 0, .1);
 }
 a {

@@ -645,6 +645,60 @@ $(function() {
       });  
     }
   });
+  var dragging = false;
+  var dragindex;
+  var row;
+  var cursor;
+  $("#stations").on("mousedown", "tr", function(e) {
+    dragging = true;
+    dragindex = $(this).index();
+    row = $(this);
+    $("#tomove").html(row[0].outerHTML.replace(/id=/g, ""));
+    $("#tomove").show();
+    cursor = e.pageY;
+    $("#tomove").css({
+      height: row.height(),
+      width: row.width(),
+      left: row.offset().left,
+      top: row.offset().top - $(window).scrollTop()
+    });
+  });
+  var moveinterval;
+  $(document).on("mousemove", function(e) {
+    if (dragging) {
+      $("#tomove").css({
+        top: row.offset().top + e.pageY - cursor - $(window).scrollTop()
+      });
+      clearInterval(moveinterval);
+      moveinterval = undefined;
+      if ($("#tomove").css("display") != "none") {
+        var position = $("#tomove").position().top;
+        if (position <= 50) {
+          moveinterval = setInterval(function() {
+            $(window).scrollTop($(window).scrollTop() - 20);
+          }, 10);
+        }
+        else if ($(window).height() - position - $("#tomove").height() <= 0) {
+          moveinterval = setInterval(function() {
+            $(window).scrollTop($(window).scrollTop() + 20);
+          }, 10);
+        }
+      }
+    }
+  }).on("mouseup", function() {
+    if (dragging) {
+      dragging = false;
+      clearInterval(moveinterval);
+      moveinterval = undefined;
+      $("#tomove").hide();
+      $("#tomove").empty();
+      var newindex = $("#stations tr:hover").index();
+      if (newindex != -1 && newindex != dragindex) {
+        moveArray(currentlist, dragindex, newindex);
+        stationUpdate(true);
+      }
+    }
+  });
 });
 audio.onpause = function() {
   stopStream();
@@ -655,7 +709,16 @@ audio.onplay = function() {
     $("#stop").trigger("click");
   }
 }
-
+function moveArray(arr, oldindex, newindex) {
+  if (newindex >= arr.length) {
+    var k = newindex - arr.length + 1;
+    while (k--) {
+      arr.push(undefined);
+    }
+  }
+  arr.splice(newindex, 0, arr.splice(oldindex, 1)[0]);
+  return arr;
+}
 loadSettings();
 function showLoading() {
   if (requesting) {
@@ -999,10 +1062,10 @@ function stationUpdate(save) {
     }
     if (currentlist.length != 0) {
       $("#zero").hide();
-      $("#stations").hide().stop().fadeIn();
+      $("#stations").show();
     }
     else {
-      $("#zero").stop().fadeIn();
+      $("#zero").show();
     }
 }
 function sync(save) {
