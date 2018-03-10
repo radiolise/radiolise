@@ -23,19 +23,22 @@
     <link id="themestyle" rel="stylesheet">
   </head>
   <body>
+    <div id="initfail" style="display: none; position: fixed; left: 0; top: 0; width: calc(100% - 40px); height: 100%; background: #222; z-index: 4; color: #fff; padding: 0 20px">
+      <div style="max-width: 500px">
+        <h1>Please enable JavaScript!</h1>
+        <p>JavaScript makes this page functional for specific purposes (to behave like an app, to be displayed in your preferred language) and if disabled, required functionalities are unavailable.</p>
+        <span tr>You need the source code? Visit </span><a href="https://gitlab.com/radiolise/radiolise.gitlab.io">GitLab</a><span tr> for more details. All the JavaScript code included on this page is entirely free/libre software. </span><a href="js/LICENSES.html" tr>See LibreJS licenses file</a></span>
+      </div>
+    </div>
     <noscript>
       <style>
         a {
           color: #ff0;
         }
+        #initfail {
+          display: block !important;
+        }
       </style>
-      <div style="position: fixed; left: 0; top: 0; width: calc(100% - 40px); height: 100%; background: #222; z-index: 4; color: #fff; padding: 0 20px">
-        <div style="max-width: 500px">
-          <h1>Please enable JavaScript!</h1>
-          <p>JavaScript makes this page functional for specific purposes (especially to behave like an app) and if disabled, required functionalities are unavailable.</p>
-          You need the source code? Visit <a href="https://gitlab.com/radiolise/radiolise.gitlab.io">GitLab</a> for more details. All the JavaScript code included on this page is entirely free/libre software. <a href="js/LICENSES.html">See LibreJS licenses file</a>
-        </div>
-      </div>
     </noscript>
     <div id="splash" style="background-color: #222; background-image: url('img/spin.svg'); background-repeat: no-repeat; background-position: center; background-size: 70px; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 3; transition: opacity 2s">
       <div style="background-image: url('img/logo.svg'); background-repeat: no-repeat; background-position: center; width: 100%; height: 100%"></div>
@@ -44,17 +47,17 @@
     <div id="page">
       <div id="navbar">
         <div>
-          <span><img id="logo" src="img/basic.svg"><span>Radiolise</span></span>
+          <span><img id="logo" src="img/basic.svg"><span class="name"></span></span>
           <div>
-            <button class="addbutton"><i class="fa fa-plus"></i> <span>Add stations</span></button>
-            <button id="settingsbutton"><i class="fa fa-cog"></i> <span>Settings</span></button>
-            <button id="learnmorebutton"><i class="fa fa-info-circle"></i> <span>Learn more</span></button>
+            <button class="addbutton"><i class="fa fa-search"></i> <span tr>Find stations</span></button>
+            <button id="settingsbutton"><i class="fa fa-paint-brush"></i> <span tr>Customize</span></button>
+            <button id="learnmorebutton"><i class="fa fa-info-circle"></i> <span tr>Learn more</span></button>
           </div>
         </div>
       </div>
       <div id="main">
         <div>
-          <div id="station">Radio off</div>
+          <div id="station"><br></div>
           <div id="maincontrols">
             <p id="controls">
               <a class="button-primary" id="minus" title="Volume down (−10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-minus"></i></a>
@@ -62,17 +65,17 @@
               <a class="button-primary" id="plus" title="Volume up (+10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-plus"></i></a>
             </p>
             <div style="text-align: left">
-              <b>List</b>:
+              <b tr>List</b>:
               <select style="margin-bottom: 20px; text-align: left" id="lists">
                 <optgroup label="Station lists"></optgroup>
-                <option>Manage…</option>
+                <option tr>Manage…</option>
               </select>
               <a id="wrench"><i class="fa fa-fw fa-wrench"></i></a>
-              <div id="zero">This station list is empty.<br>Press the lower right button to add some stations.</div>
+              <div id="zero" tr>This station list is empty.<br>Press the lower right button to add some stations.</div>
               <table id="stations"></table>
             </div>              
             <p class="text-right">
-              <a class="button addbutton"><i class="fa fa-fw fa-plus"></i>Add stations</a>
+              <a class="button addbutton"><i class="fa fa-fw fa-search"></i><span tr>Find stations</span></a>
             </p>
           </div>
           <!--<div style="background: rgba(0,0,0,.1); padding: 10px; position: relative">
@@ -86,61 +89,61 @@
     <div id="modals">
       <div id="addstation">
         <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
-        <h3><i class="fa fa-fw fa-plus"></i>Add stations</h3>
-          <p>This feature uses a web service of the <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free<i class="fa fa-fw fa-external-link-alt"></i></a> <a class="btn-link white" href="http://www.radio-browser.info" target="_blank" rel="noopener">Community Radio Browser<i class="fa fa-fw fa-external-link-alt"></i></a>.</p>
+        <h3><i class="fa fa-fw fa-search"></i><span tr>Find stations</span></h3>
+          <p><span tr>This feature uses a web service of the </span><a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener"><span tr>free</span><i class="fa fa-fw fa-external-link-alt"></i></a> <a class="btn-link white" href="http://www.radio-browser.info" target="_blank" rel="noopener"><span tr>Community Radio Browser</span><i class="fa fa-fw fa-external-link-alt"></i></a>.</p>
         <div>
           <div><input placeholder="Stations by name" type="text" id="query"><button id="findstation"><i class="fa fa-search"></i></button></div>
           <div style="text-align: left; display: table; width: 100%">
             <div style="padding: 5px 0; display: table-row; overflow: hidden">
               <div style="display: table-cell; white-space: nowrap">
-                Filters: &nbsp;
+                <span tr>Filters</span>: &nbsp;
               </div>
               <div>
-                <div id="failmsg" style="display: none"><div style="display: table"><i class="fa fa-fw fa-exclamation-triangle" style="display: table-cell"></i><div>Oh no! Some options are currently unavailable due to connection problems. <a href="#dialog" id="tryfetch"><i class="fa fa-fw fa-redo"></i>Try again</a></div></div><br></div>
+                <div id="failmsg" style="display: none"><div style="display: table"><i class="fa fa-fw fa-exclamation-triangle" style="display: table-cell"></i><div><span tr>Oh no! Some options are currently unavailable due to connection problems. </span><a href="#dialog" id="tryfetch"><i class="fa fa-fw fa-redo"></i><span tr>Try again</span></a></div></div><br></div>
                 <select id="country" disabled style="width: 100%">
                   <optgroup data-type="countries" label="Country">
-                    <option value="">Loading…</option>
+                    <option value="" tr>Loading…</option>
                   </optgroup>
                 </select>
                 <select id="state" disabled style="width: 100%">
                   <optgroup data-type="states" label="State">
-                    <option value="">Loading…</option>
+                    <option value="" tr>Loading…</option>
                   </optgroup>  
                 </select>
                 <select id="language" disabled style="width: 100%">
                   <optgroup data-type="languages" label="Language">
-                    <option value="">Loading…</option>
+                    <option value="" tr>Loading…</option>
                   </optgroup>   
                 </select>
               </div>
             </div>        
             <div style="padding: 5px 0; display: table-row">
               <div style="display: table-cell; white-space: nowrap">
-                Sort by: &nbsp;
+                <span tr>Sort by</span>: &nbsp;
               </div>
               <div style="display: table-cell">
                 <select id="order" style="width: 100%">
                   <optgroup label="Sort by">
-                    <option value="name">Names</option>
-                    <option value="country">Countries</option>
-                    <option value="state">States</option>
-                    <option value="language">Languages</option>
+                    <option value="name" tr>Names</option>
+                    <option value="country" tr>Countries</option>
+                    <option value="state" tr>States</option>
+                    <option value="language" tr>Languages</option>
                     <option value="codec">Codecs</option>
-                    <option value="clickcount">Clicks</option>
-                    <option value="votes">Votes</option>
+                    <option value="clickcount" tr>Clicks</option>
+                    <option value="votes" tr>Votes</option>
                   </optgroup>
                 </select>
               </div>
             </div>
             <div style="padding: 5px 0; display: table-row">
               <div style="display: table-cell">
-                Reverse: &nbsp;
+                <span tr>Reverse</span>: &nbsp;
               </div>
               <div style="display: table-cell">
                 <select id="reverse" style="width: 100%">
                   <optgroup label="Reverse?">
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
+                    <option value="false" tr>No</option>
+                    <option value="true" tr>Yes</option>
                   </optgroup>
                 </select>
               </div>
@@ -148,67 +151,66 @@
           </div>
           <div>
             <div id="results" style="width: 100%"></div>
-            <p id="loadmore" style="font-size: 18px"><i class='fa fa-fw fa-spin fa-spinner'></i>Loading results…</p>
+            <p id="loadmore" style="font-size: 18px"><i class='fa fa-fw fa-spin fa-spinner'></i><span tr>Loading results…</span></p>
           </div>
         </div>
       </div>
       <div id="stationmanager">
         <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
-        <h3><i class="fa fa-fw fa-edit"></i>Station editor</h3>
+        <h3><i class="fa fa-fw fa-edit"></i><span tr>Station editor</span></h3>
 <!--         <p>Use this tool to manage your custom stations.</p> -->
         <div id="customstations" style="">
           <span style="display: table-cell"><span class="red" title="This field is required."><sup>∗</sup></span> Name: </span><input style="display: table-cell; width: 100%" placeholder="Name" type="text">
-          <span style="display: table-cell"><span class="red" title="This field is required."><sup>∗</sup></span> Stream URL: </span><input style="display: table-cell; width: 100%" placeholder="URL" type="url">
-          <span style="display: table-cell">Homepage URL: </span><input style="display: table-cell; width: 100%" placeholder="Homepage" type="url">
-          <span style="display: table-cell">Icon URL: </span><input style="display: table-cell; width: 100%" placeholder="Icon" type="url">
-          <span style="display: table-cell">Country: </span><input style="display: table-cell; width: 100%" placeholder="Country" type="text">
-          <span style="display: table-cell">State: </span><input style="display: table-cell; width: 100%" placeholder="State" type="text">
-          <span style="display: table-cell">Language: </span><input style="display: table-cell; width: 100%" placeholder="Language" type="text">
-          <span style="display: table-cell">Tags (separate with commas): </span><input style="display: table-cell; width: 100%" placeholder="Tags" type="text">
-          <div style="text-align: left; display: table" id="tagview"><div style="display: table-cell">Preview:&nbsp;</div><div id="preview" style="display: table-cell"></div></div><br>
-          <div class="red" style="text-align: left">∗ Required field</div>
+          <span style="display: table-cell"><span class="red" title="This field is required."><sup>∗</sup></span> <span tr>Stream URL</span>: </span><input style="display: table-cell; width: 100%" placeholder="URL" type="url">
+          <span style="display: table-cell"><span tr>Homepage URL</span>: </span><input style="display: table-cell; width: 100%" placeholder="Homepage" type="url">
+          <span style="display: table-cell"><span tr>Icon URL</span>: </span><input style="display: table-cell; width: 100%" placeholder="Icon" type="url">
+          <span style="display: table-cell"><span tr>Country</span>: </span><input style="display: table-cell; width: 100%" placeholder="Country" type="text">
+          <span style="display: table-cell"><span tr>State</span>: </span><input style="display: table-cell; width: 100%" placeholder="State" type="text">
+          <span style="display: table-cell"><span tr>Language</span>: </span><input style="display: table-cell; width: 100%" placeholder="Language" type="text">
+          <span style="display: table-cell"><span tr>Tags</span><span tr> (separate with commas)</span>: </span><input style="display: table-cell; width: 100%" placeholder="Tags" type="text">
+          <div style="text-align: left; display: table" id="tagview"><div style="display: table-cell"><span tr>Preview</span>:&nbsp;</div><div id="preview" style="display: table-cell"></div></div><br>
+          <div class="red" style="text-align: left" tr>∗ Required field</div>
         </div>
-        
         <div style="text-align: right">
-          <a class="button" id="deletestation" style="display: none"><i class="fa fa-fw fa-trash"></i>Delete station</a>
-          <a class="button" id="done"><i class="fa fa-fw fa-check"></i>Done</a>
+          <a class="button" id="deletestation" style="display: none"><i class="fa fa-fw fa-trash"></i><span tr>Delete station</span></a>
+          <a class="button" id="done"><i class="fa fa-fw fa-check"></i><span tr>Done</span></a>
         </div>   
       </div>
       <div id="learnmore">
         <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
-        <br><div><div><img src="img/logo.svg"><span>Radiolise</span></div></div><br>
+        <br><div><div><img src="img/logo.svg"><span class="name"></span></div></div><br>
         <div id="infotext">
           <p>Copyright © 2017-2018 Marco Bauer</p>
-          <p class="text-left"><span class="name"></span> is <a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener">free software<i class="fa fa-fw fa-external-link-alt"></i></a>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
-          <p class="text-left"><span class="name"></span> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.</p>
-          <p class="text-left">You should have received a copy of the GNU Affero General Public License along with <span class="name"></span>. If not, see &lt;<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link-alt"></i></a>&gt; for more details.</p>
+          <p class="text-left"><span class="name"></span><span tr> is </span><a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener"><span tr>free software</span><i class="fa fa-fw fa-external-link-alt"></i></a><span tr>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</span></p>
+          <p class="text-left"><span class="name"></span><span tr> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.</span></p>
+          <p class="text-left"><span tr>You should have received a copy of the GNU Affero General Public License along with </span><span class="name"></span><span tr>. If not, see &lt;</span><a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link-alt"></i></a><span tr>&gt; for more details.</span></p>
         </div>
         <p class="text-center"><a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/tree/master" target="_blank" rel="noopener"><i class="fa fa-fw fa-code"></i>Code <i class="fa fa-fw fa-external-link-alt"></i></a> <a class="button" href="https://gitlab.com/radiolise/radiolise.gitlab.io/issues" target="_blank" rel="noopener"><i class="fa fa-fw fa-comments"></i>Issues <i class="fa fa-fw fa-external-link-alt"></i></a></p>
         <a href="js/LICENSES.html" rel="jslicense"></a>
       </div>
       <div id="settings">
         <div style="float: right"><a id="closesettings"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
-        <h3><i class="fa fa-fw fa-cog"></i>Settings</h3>
-        <p>Here you may customize <span class="name"></span> to your needs.</p>
+        <h3><i class="fa fa-fw fa-paint-brush"></i><span tr>Customize</span></h3>
+        <p><span tr>Here you may customize </span><span class="name"></span><span tr> to your needs.</span></p>
         <div id="controlpanel">
           <div>
-            <b>Theme</b>:
+            <b tr>Theme</b>:
             <select id="theme">
               <optgroup label="Themes">
                 <option value="pure">Pure</option>
                 <option value="puredark">Pure Dark</option>
-                <option value="vivid">Vivid</option>
+                <option value="vivid">Vivid (beta)</option>
                 <option value="chic">Chic</option>
                 <option value="chicdark">Chic Dark</option>
               </optgroup>
             </select>   
           </div>
           <div id="descriptions">
-            <span id="pure">A simple and minimalistic theme.</span>
-            <span id="puredark">A simple and minimalistic dark theme.</span>
-            <span id="vivid">A vivid and colorful theme.</span>
-            <span id="chic">A simple yet elegant theme.</span>
-            <span id="chicdark">A simple yet elegant dark theme.</span>
+            <span id="pure" tr>A simple and minimalistic theme.</span>
+            <span id="puredark" tr>A simple and minimalistic dark theme.</span>
+            <span id="vivid" tr>A vivid and colorful theme.</span>
+            <span id="chic" tr>A simple yet elegant theme.</span>
+            <span id="chicdark" tr>A simple yet elegant dark theme.</span>
           </div>
           <div style="display: none">
             <b>Color mode</b>: <select><option>Random</option><option>Custom</option></select><br>Set whether a random or a custom theme color should be used.
@@ -218,46 +220,56 @@
           </div>
           <div class="checkable" id="pseudovsl">
             <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
-            <div><b>Pseudo-visualization</b><br>Displays an audio visualization based on random values during a running audio stream. A wide desktop viewport is required.</div>
+            <div><b tr>Pseudo-visualization</b><br><span tr>Displays an audio visualization based on random values during a running audio stream. A wide desktop viewport is required.</span></div>
           </div>
           <div class="checkable" id="relaxmode">
             <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
-            <div><b>Relax mode</b><br>When the specified time has passed, hides the entire content except the name of the current station, increases its font size and temporarily enables ‘pseudo-visualization’. <!-- To allow this feature to be triggered, popup dialogs need to be closed and an audio stream has to be running.-->
+            <div><b tr>Relax mode</b> (beta)<br><span tr>When the specified time has passed, hides the entire content except the name of the current station, increases its font size and temporarily enables ‘pseudo-visualization’.</span> <!-- To allow this feature to be triggered, popup dialogs need to be closed and an audio stream has to be running.-->
             </div>
           </div>      
-          <div id="relaxtimeoutdiv"><b>Relax timeout</b> (sec): <input type="number" min="1" id="relaxtimeout"><br>Set the period of time until ‘relax mode’ is triggered.</div>
+          <div id="relaxtimeoutdiv"><b tr>Trigger ‘relax mode’ after</b> (sec): <input type="number" min="1" id="relaxtimeout"><br><span tr>Set the period of time until ‘relax mode’ is triggered.</span></div>
           <div class="checkable" id="loadpolicy">
             <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
-            <div><b>Load icons</b><br>Defines whether official station icons should be loaded. If disabled, simple CSS-based placeholders are shown instead.</div>
+            <div><b tr>Load icons</b><br><span tr>Defines whether official station icons should be loaded. If disabled, simple CSS-based placeholders are shown instead.</span></div>
           </div> 
           <div class="checkable" id="transitions">
             <div><i class="far fa-square"></i><i class="fa fa-check-square"></i></div>
-            <div><b>Transitional effects</b><br>Enables simple and elegant transitional effects. You should disable this option if your device does not have enough resources.</div>
+            <div><b tr>Transitional effects</b><br><span tr>Enables simple and elegant transitional effects. You should disable this option if your device does not have enough resources.</span></div>
           </div>    
           <div>
-            <b>Default volume</b> (%): <input type="number" min="0" max="100" id="defaultvolume">
+            <b tr>Default volume</b> (%): <input type="number" min="0" max="100" id="defaultvolume">
+          </div>
+          <div>
+            <i class="fa fa-comment-alt fa-flip-horizontal"></i> <b tr>Language</b>:
+            <select id="locales">
+              <optgroup label="Languages">
+                <option value="auto" tr>Select automatically</option>
+                <option value="de">Deutsch</option>
+                <option value="en">English</option>
+              </optgroup>
+            </select>
           </div>
         </div>
         <input type="file" accept=".json" style="display: none">
         <a id="blob" style="display: none"></a>
         <div style="text-align: right">
-          <a class="button" id="discardsettings"><i class="fa fa-ban"></i> Discard</a>
-          <a class="button" id="applysettings"><i class="fa fa-check"></i> Apply</a>
+          <a class="button" id="discardsettings"><i class="fa fa-ban"></i> <span tr>Discard</span></a>
+          <a class="button" id="applysettings"><i class="fa fa-check"></i> <span tr>Apply</span></a>
         </div>
         <div style="display: table; margin: 10px auto">
           <div style="float: left; margin: 5px 10px">
-            <a href="#dialog" id="reset"><i class="fa fa-fw fa-undo"></i>Reset to defaults</a><br>
+            <a href="#dialog" id="reset"><i class="fa fa-fw fa-undo"></i><span tr>Reset to defaults</span></a><br>
           </div>
           <div style="float: right; margin: 5px 10px">            
-            <a href="#dialog" id="import"><i class="fa fa-fw fa-upload"></i>Import from file</a><br>
-            <a href="#dialog" id="export"><i class="fa fa-fw fa-download"></i>Export to file</a>
+            <a href="#dialog" id="import"><i class="fa fa-fw fa-upload"></i><span tr>Import from file</span></a><br>
+            <a href="#dialog" id="export"><i class="fa fa-fw fa-download"></i><span tr>Export to file</span></a>
           </div>            
         </div>
       </div>
       <div id="listmanager">
         <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
-        <h3><i class="fa fa-fw fa-list-alt"></i>Station lists</h3>
-        <p>Use this tool to manage your station lists.</p>
+        <h3><i class="fa fa-fw fa-list-alt"></i><span tr>Station lists</span></h3>
+        <p tr>Use this tool to manage your station lists.</p>
         <div>
           <!--<i class="fa fa-lg fa-trash" style="width: 0"></i>
           <select style="opacity: 0; width: 20px">
@@ -268,8 +280,8 @@
             <option>Cancel</option>
           </select>-->
           <div style="display: table; margin: 0 auto; padding-bottom: 10px; font-size: 20px" id="listdiv"></div>
-          <div style="text-align: right">      
-            <a class="button" id="addlist"><i class="fa fa-plus"></i> New list</a>
+          <div style="text-align: right">
+            <a class="button" id="addlist"><i class="fa fa-plus"></i> <span tr>New list</span></a>
           </div>
           <!--<div style="margin-bottom: 10px; margin-right: 15px; text-align: right">
             <a href="#dialog" id="importlists"><i class="fa fa-fw fa-upload"></i>Import lists</a><br>
@@ -283,12 +295,14 @@
       <div id="progressbar"></div>
       <div style="display: table; padding: 10px; margin: 0 auto; max-width: 800px">
         <span style="padding: 14px 20px; float:left;"><i class="fa fa-fw fa-info-circle"></i><span id="restoretext"></span></span>
-        <span style="white-space: nowrap;float:right;"><a class="button" id="restore"><i class="fa fa-fw fa-undo"></i>Undo</a><a class="button" id="hidefooter"><i class="fa fa-fw fa-check"></i>OK</a></span>
+        <span style="white-space: nowrap;float:right;"><a class="button" id="restore"><i class="fa fa-fw fa-undo"></i><span tr>Undo</span></a><a class="button" id="hidefooter"><i class="fa fa-fw fa-check"></i>OK</a></span>
       </div>
     </div>
-    <div id="addfooter"><div style="display: table"><span style="padding: 14px 20px; float:left;"><i class="fa fa-fw fa-info-circle"></i><span id="stationcount"></span> selected.</span><span style="white-space: nowrap;float:right;"><a class="button" id="deselectall"><i class="fa fa-fw fa-ban"></i>Deselect</a><a class="button" id="addchecked"><i class="fa fa-fw fa-plus"></i>Add</a></span></div></div>
+    <div id="addfooter"><div style="display: table"><span style="padding: 14px 20px; float:left;"><i class="fa fa-fw fa-info-circle"></i><span id="stationcount"></span><span tr> selected.</span></span><span style="white-space: nowrap;float:right;"><a class="button" id="deselectall"><i class="fa fa-fw fa-ban"></i><span tr>Deselect</span></a><a class="button" id="addchecked"><i class="fa fa-fw fa-plus"></i><span tr>Add</span></a></span></div></div>
     <div id="visualization"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     <script src="js/jquery.min.js"></script>
+    <script src="js/i18next.min.js"></script>
+    <script src="js/i18nextXHRBackend.min.js"></script>
     <script src="js/core.js"></script>
   </body>
 </html>

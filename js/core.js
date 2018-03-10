@@ -17,60 +17,44 @@
  * for the JavaScript code in this page.
  * 
  */
-window.onerror = function(message) {
-  alert(message);
-}
-var online = true;
-window.ononline = function() {
-  online = true;
+function tr(string) {
+  return i18next.t(string);
 }
 window.onoffline = function() {
-  online = false;
   if (!audio.paused) {
-    alert("Oh no! The stream was interrupted due to a sudden disconnect.");
+    alert(tr("Oh no! The stream was interrupted due to a sudden disconnect."));
   }
   stopStream();
   updateFinish(nostream);
 }
-try {localStorage}
-catch (e) {
-  $("body").html($("noscript").text());
-  $("h1").text("Please enable offline storage!");
-  $("p").text("Offline storage is used to ensure that application data (e.g. stations and settings) won’t get lost. This page does not collect any personal data. Third parties might act differently.");
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
 }
-if (navigator.userAgent.indexOf("Trident") != -1 && !localStorage.try) {
-  $("body").html($("noscript").text());
-  $("h1").text("Consider using another browser!");
-  $("p").html("Internet Explorer does not support some of the basic functionalities that this web application relies on. <a href=\"#\" onclick=\"localStorage.try = '1'; location = location.href\">Try anyway (may not work)</a>");
-}
-var defaultsettings = '{"theme":1,"visualization":false,"relax":false,"relax-timeout":10,"theme-hue":0,"random-color":true,"volume":100,"transitions":true,"loadpolicy":true}',
-defaultdata = '{"lists":{"Favorites":[]},"settings":' + defaultsettings + '}',
-lists;
-try {
-  lists = JSON.parse(localStorage.data || defaultdata).lists;
-}
-catch (e) {
-  lists = JSON.parse(defaultdata).lists;
-}
-var settings;
-try {
-  settings = JSON.parse(localStorage.data || defaultdata).settings;
-}
-catch (e) {
-  settings = JSON.parse(defaultsettings);
-}
-var currentstation, prevdata, prevvolume, prevstation, gearclicked, hinttimer, volumetimer, volumerequest, slow, timedout, relaxtimer, currentlist,
+var defaultsettings = '{"theme":1,"visualization":false,"relax":false,"relax-timeout":10,"theme-hue":0,"random-color":true,"volume":100,"transitions":true,"loadpolicy":true,"language":"auto"}',
+lists,
+settings,
+currentstation,
+prevdata,
+prevvolume,
+prevstation,
+gearclicked,
+hinttimer,
+volumetimer,
+volumerequest,
+slow,
+timedout,
+relaxtimer,
+currentlist,
 audio = new Audio(),
-appname = "Radiolise",
+appname = $("title").text(),
 visible = false,
 fetch,
-nostream = "Radio off",
+nostream,
 listsbackup = {},
-listname = Object.keys(lists)[0],
+listname,
 ismousedown = false;
-console.log("\n\n%c Welcome to " + appname + "! \n%c > and Happy Hacking!_%c\n\nhttps://gitlab.com/radiolise/radiolise.gitlab.io\n\n", "font-size: 30px; background-color: #ccc; color: #000; font-family: sans-serif", "font-size: 20px", "font-family: sans-serif; font-size: 14px");
-console.info("%cRadiolise is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.", "font-size: 14px; font-family: sans-serif");
-console.info("%cType%c learnMore() %cfor more details.", "font-size: 14px; font-family: sans-serif", "font-size: 14px", "font-size: 14px; font-family: sans-serif");
+console.log("%c Welcome to " + appname + "! %c\n > and Happy Hacking!_%c\n\nhttps://gitlab.com/radiolise/radiolise.gitlab.io\n\n", "font-size: 30px; background-color: #ccc; color: #000; font-family: sans-serif", "font-size: 20px", "font-family: sans-serif; font-size: 14px");
+console.info("%c" + appname + " is free software, and you are welcome to redistribute it under certain conditions; type%c learnMore() %cfor details.", "font-size: 14px; font-family: sans-serif", "font-size: 14px", "font-size: 14px; font-family: sans-serif");
 function refreshData() {
   var dataobject = {"lists":lists,"settings":settings};
   var data = JSON.stringify(dataobject);
@@ -98,13 +82,10 @@ function init() {
   var hash = location.hash;
   if (hash !== "") {
     switch (hash.substring(1)) {
-        case "dialog":
-        break;
-      case "noscript":
-        hint("JavaScript has been enabled successfully.");
+      case "dialog":
         break;
       default:
-        hint("<b>Invalid hashtag</b><br><br> ‘" + hash + "’ is unknown.");
+        hint("<b>" + tr("Invalid hashtag") + "</b><br><br> " + tr("‘") + hash + tr("’ is unknown."));
     }
     history.replaceState({}, document.title, ".");
   }
@@ -139,567 +120,6 @@ function init() {
   }
   console.info("Initialization completed");
 }
-$(function() {
-  console.info("Document ready");
-  updateFinish(nostream);
-  init();
-  $("select:has([data-type])").prop("disabled", true);
-  applyLists();
-  audio.volume = settings.volume / 100;
-  sync(false);
-  function param(param) {
-    if (param = (new RegExp("[?&]" + encodeURIComponent(param) + "=([^&]*)")).exec(location.search)) {
-      return decodeURIComponent(param[1]);
-    }
-  }
-  var source = param("src");
-  var id = param("id");
-  var keepoff = param("keepoff");
-  var query = param("q");
-  history.pushState(null, null, ".");
-  function autoStart() {
-    if (!keepoff || keepoff == false) {
-      for (i in currentlist) {
-        if (currentlist[i].id == id) {
-          startStream(currentlist[i]);
-        }
-      }
-    }
-  }
-  if (source) {
-    setList("Added via " + source);
-    if (id) {
-      if (!stationExists(id)) {
-        $.post("https://www.radio-browser.info/webservice/json/stations/byid/" + id, function(data) {
-          if (!lists["Added via " + source]) {
-            lists["Added via " + source] = [];
-          }
-          applyLists();
-          currentlist.push({"name":data[0].name,"url":data[0].url,"homepage":data[0].homepage,"icon":data[0].favicon,"country":data[0].country,"state":data[0].state,"language":data[0].language,"tags":data[0].tags,"id":data[0].id});
-          stationUpdate(true);
-          autoStart();
-        }).fail(function() {
-          alert("Sorry, the station could not be added via " + source + " because a request failed.");
-        });
-      }
-      else {
-        autoStart();
-      }
-    }
-    else if (query) {
-      applyLists();
-      setTimeout(function() {
-        $("#query").val(query);
-        modal("addstation");
-      }, 0);
-    }
-  }
-  $("#hidefooter").on("click", function() {
-    $("#footer").css({
-      top: "100%",
-      visibility: "hidden"
-    });
-  });
-  $(document).on("click", ".trashcan", function() {
-//     var stationbackup = currentlist.slice();
-//     var victim = currentlist[gearclicked][0];
-//     currentlist.splice(gearclicked, 1);
-//     stationUpdate(true);    
-//     undelete("Station named ‘" + victim + "’ has been removed.", stationbackup, "currentlist", restoreStation);
-    modal("stationmanager");
-    $("#customstations").show();
-    $("[placeholder='Name']").val(currentlist[gearclicked].name);
-    $("[placeholder='URL']").val(currentlist[gearclicked].url);
-    $("[placeholder='Homepage']").val(currentlist[gearclicked].homepage);
-    $("[placeholder='Icon']").val(currentlist[gearclicked].icon);
-    $("[placeholder='Country']").val(currentlist[gearclicked].country);
-    $("[placeholder='State']").val(currentlist[gearclicked].state);
-    $("[placeholder='Language']").val(currentlist[gearclicked].language);
-    $("[placeholder='Tags']").val(currentlist[gearclicked].tags);
-    $("#deletestation").show();
-  });
-  $("#chremove").on("click", function() {
-    currentlist.splice(gearclicked, 1);
-    stationUpdate(true);
-    closeModal();
-  });
-  $("body").on("keydown", function(event) {
-    if (event.which == 32 && location.hash != "#dialog") {
-      event.preventDefault();
-    }
-  });
-  $("body").on("keyup", function(event) {
-    var key = event.key;
-    if (!(location.hash == "#dialog" || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
-      switch (key) {
-        case "-":
-          showVolume(false);
-          break;
-        case "+":
-          showVolume(true);
-          break;
-        case " ":
-          if (!$("#stop").hasClass("disabled")) {
-            if (!$("#stop").children().hasClass("fa-play")) {
-              hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-stop'></i>", true);
-            }
-            $("#stop").trigger("click");
-          }
-          break;
-        default:
-          if (!isNaN(key)) {
-            var digit = key - 1;
-            if (key == 0) {
-              digit = 9;
-            }
-            if (digit < currentlist.length) {
-              startStream(currentlist[digit]);
-            }
-            else {
-              hint("<i class='fa fa-fw fa-exclamation-triangle'></i> Station " + (digit + 1) + " doesn’t exist.");
-            }
-          }
-      }
-    }
-    if (location.hash == "#dialog" && key == "Escape") {
-      history.back();
-    }
-  });
-  $("[placeholder='Tags']").on("input", function() {
-    refreshTags($(this).val());
-  });
-  $("#customstations input").on("blur", function() {
-    if (validStation()) {
-      currentlist[gearclicked].name = $("[placeholder='Name']").val();
-      currentlist[gearclicked].url = $("[placeholder='URL']").val();
-      currentlist[gearclicked].homepage = $("[placeholder='Homepage']").val();
-      currentlist[gearclicked].icon = $("[placeholder='Icon']").val();
-      currentlist[gearclicked].country = $("[placeholder='Country']").val();
-      currentlist[gearclicked].state = $("[placeholder='State']").val();
-      currentlist[gearclicked].language = $("[placeholder='Language']").val();
-      currentlist[gearclicked].tags = $("[placeholder='Tags']").val();
-      sync(true);
-    }
-  });
-  $("#done").on("click", function() {
-    closeModal();
-  });
-  $("#deletestation").on("click", function() {
-    closeModal();
-    var stationbackup = currentlist.slice();
-    var victim = currentlist[gearclicked].name;
-    currentlist.splice(gearclicked, 1);
-    stationUpdate(true);    
-    undelete("Station named ‘" + victim + "’ has been removed.", stationbackup, "currentlist", restoreStation);
-  });
-  $("#wrench").on("click", function() {
-    modal("listmanager");
-  });
-  $("#closesettings").on("click", function() {
-    $('#discardsettings').trigger('click');
-  });
-  $("#stop").on("click", function() {
-    $(window).scrollTop(0);
-    var icon = $(this).children();
-    if (icon.hasClass("fa-stop")) {
-      stopStream();
-      updateFinish(nostream);
-    }
-    else {
-      if (prevstation != undefined) {
-        startStream(prevstation);
-      }
-      else if (currentlist.length > 0) {
-        startStream(currentlist[0]);
-      }
-      else {
-        hint("<i class='fa fa-fw fa-exclamation-triangle'></i>Please add a station to the list first.");
-        console.warn("Radio not turned on: Station list is empty");
-      }
-    }
-  });
-  $("#tryfetch").on("click", function() {
-    $("#failmsg").slideUp();
-    browseCrb();
-  });
-  $("#minus").on("click", function() {
-      showVolume(false);
-  });
-  $("#plus").on("click", function() {
-      showVolume(true);
-  });
-  $(window).on("hashchange", function() {
-      if (location.hash === "" && $(".shown").length == 1) {
-        closeModal();
-      }
-  }).on("dragstart", function() {
-      return false;
-  }).on("mousemove mousedown keydown touchstart", function() {
-    if (settings.relax) {
-      clearTimeout(relaxtimer);
-      wakeUp();
-      relaxtimer = setTimeout(function() {
-          relax(); 
-      }, settings["relax-timeout"] * 1000);
-    }
-  }).on("resize", function() {
-      if (relaxed) {
-          relax();
-      }
-      if ($("#footer").css("visibility") == "visible") {
-        $("#footer").css({
-          top: "calc(100% - " + $("#footer").height() + "px)"
-        });
-      }
-      if ($("#addfooter").css("visibility") == "visible") {
-        $("#addfooter").css({
-          top: "calc(100% - " + $("#addfooter").height() + "px)"
-        });
-      }        
-  });
-  $("#findstation").on("click", function() {
-    showLoading();
-    $("#modals").finish().animate({
-      scrollTop: $("#query").offset().top - $(window).scrollTop()
-    });
-  });
-  $("#addstation select").on("change", function() {
-    $("#query").trigger("input");
-    showLoading();
-  });
-  $("#query")
-    .on("keyup", function(event) {
-        if (event.which == 13) {
-            $("#findstation").trigger("click");
-            $("#query").blur();
-        }
-    }).on("input", function() {
-      if (fetch != undefined && "abort" in fetch) {
-        fetch.abort();
-      }
-      findStation($('input').val());
-      $("#findstation").removeClass("disabled");
-      $(".selected").trigger("click");
-      $("#loadmore").hide();
-    }).on("focus", function() {
-      $(this).parent().css({
-        background: "rgba(0, 0, 0, .1)"
-      });
-    }).on("blur", function() {
-      showLoading();
-      $(this).parent().css({
-        background: ""
-      });
-    });
-  $("form").on("submit", function(event) {
-      event.preventDefault();
-  });
-  $("#addlist").on("click", addList);
-  $("#modals, .closer").on("click", function() {
-    closeModal();
-  });
-  $("#modals > div").on("click", function(event) {
-    event.stopPropagation();
-  });
-  $(".addbutton").on("click", function() {
-    modal("addstation");
-  });
-  $("#settingsbutton").on("click", function() {
-    modal("settings");
-  });
-  $("#learnmorebutton").on("click", function() {
-    modal("learnmore");
-  });
-  $("#applysettings").on("click", function() {
-    var valid = true;
-    $("input[type=number]").each(function() {
-      var value = Number($(this).val())
-      if (valid && ($(this).attr("min") > value || $(this).attr("max") < value || Math.floor(value) != value || $(this).val() == "")) {
-        valid = false;
-      }
-    });
-    if (valid) {
-      saveSettings();
-      closeModal();
-    }
-    else {
-      alert("At least one invalid number input has been detected.");
-    }
-  });
-  $("#discardsettings").on("click", function() {
-    settings = JSON.parse(localStorage.data || defaultdata).settings;
-    loadSettings();
-    closeModal();
-  });
-  $("#reset").on("click", function() {
-    settings = JSON.parse(defaultsettings);
-    loadSettings();
-    saveSettings();
-    init();
-  });
-  $(".checkable").on("click", function() {
-    if ($(this).hasClass("checked")) {
-      $(this).removeClass("checked");
-      if ($(this).attr("id") == "relaxmode") {
-        $("#relaxtimeoutdiv").hide();
-      }            
-    }
-    else {
-      $(this).addClass("checked");
-      if ($(this).attr("id") == "relaxmode") {
-        $("#relaxtimeoutdiv").show();
-      }
-    }
-  }).on("select", function() {
-    return false;
-  });
-  $("input[type=file]").on("change", function(event) {
-    var file = event.target.files[0];
-    var reader = new FileReader;
-    reader.readAsText(file);
-    reader.onload = function(event) {
-      settings = JSON.parse(event.target.result);
-      loadSettings();
-      saveSettings();
-      hint("Import successful.");
-    }
-    reader.onerror = function() {
-      alert("Error reading file.");
-    }
-    $(this).val("");
-  });
-  $("#import").on("click", function() {
-    $("input[type=file]").trigger("click");
-  });
-  $("#export").on("click", function() {
-    saveSettings();
-    $("#blob").attr("href", URL.createObjectURL(new Blob([JSON.stringify(settings)], {type: "application/json"})));
-    $("#blob").attr("download", "Radiolise_settings_" + (new Date).getTime() + ".json");
-    $("#blob")[0].click();
-  });
-  $("#minus, #plus").on("DOMMouseScroll", function(event) {
-    event.preventDefault();
-    showVolume(event.originalEvent.detail < 0);
-  }).on("mousewheel", function(event) {
-    event.preventDefault();
-    showVolume(event.originalEvent.wheelDelta > 0);
-  });  
-  $("#theme").on("change", themeSet);
-  var clicked = false, clickY, scrollleft, tagdiv;
-  $(document).on("mousedown", ".tags", function(e) {
-    clicked = true;
-    clickY = e.pageX;
-    scrollleft = $(this).scrollLeft();
-    tagdiv = $(this);
-    $("body, .tags").css({
-      cursor: "-webkit-grabbing"
-    }).css({
-      cursor: "grabbing"
-    });
-  }).on("mousemove", function(e) {
-      if (clicked) {
-        tagdiv.scrollLeft(scrollleft + clickY - e.pageX);
-      }
-  }).on("mouseup", function() {
-    clicked = false;
-    $("body").css({
-      cursor: "auto"
-    });
-    $(".tags").css({
-      cursor: "ew-resize"
-    });   
-  });
-  $("#modals").on("scroll", function() {
-    if (searching && $("#addstation").hasClass("shown") && $("#loadmore").offset().top - $(window).height() - $(window).scrollTop() < 0) {
-      searching = false;
-      offset += 20;
-      loadEntries();
-    }
-  });
-  $("#lists").on("change", function() {
-    if ($(this).prop("selectedIndex") == $("#lists > optgroup > option").length) {
-      setList(listname);
-      modal("listmanager");
-      $("#listul").empty();
-      for (var key in lists) {
-        $("#listul").append("<li>" + key + "</li>");
-      }
-    }
-    else {
-      setList($(this).val());      
-    }
-  });
-  $("#addchecked").on("click", function() {
-    $(".selected").each(function(index) {
-      var meta = $(this).data("meta");
-      currentlist.push({"name":meta.name,"url":meta.url,"homepage":meta.homepage,"icon":meta.favicon,"country":meta.country,"state":meta.state,"language":meta.language,"tags":meta.tags,"id":meta.id});
-    });
-    stationUpdate(true);
-    closeModal();
-  });
-  $(document).on("blur", ".itemname", function() {
-    $(this).next().find(".okay").hide();
-    $(this).next().find(".renamelist").show();
-    var item = $(this);
-    var oldname = $(this).closest("[data-item]").data("item");
-    var name = item.val().trim().replace(/\s+/g, " ") || null;
-    if (oldname != name) {
-      if (lists[name] == undefined) {
-        if (name) {
-          if (lists[oldname]) {
-            lists[name] = lists[oldname].slice();
-            delete lists[oldname];
-          }
-          else {
-            lists[name] = [];
-            hint("New list named ‘" + name + "’ created");
-          }
-          if ($("#lists").val() == oldname) {
-            listname = name;
-          }
-          applyLists();      
-        }
-        else {
-          hint("Invalid name");   
-          applyLists();
-        }
-      }
-      else {
-        hint("Already existing");
-        applyLists();
-      }
-    }
-  }).on("focus", ".itemname", function() {
-    $(this).next().find(".okay").show();
-    $(this).next().find(".renamelist").hide();
-    $(this).select();      
-  }).on("keydown", "div[data-item] > .itemname", function(event) {
-    if (event.which == 13) {
-      event.preventDefault();
-      $(this).blur();
-    }
-  });
-  $("#customstations input").on("keydown", function(event) {
-    if (event.which == 13) {
-      $(this).blur();
-    }
-  });
-  $("#listtools").on("mouseenter", function() {
-    $(this).css({
-      opacity: 1
-    });
-  }).on("mouseleave", function() {
-    $(this).css({
-      opacity: .5
-    });
-  });
-  $("#deselectall").on("click", function() {
-    $(".selected").trigger("click");
-  });
-  $("#results").on("click", ".result", function() {
-    if ($(this).hasClass("selected")) {
-      $(this).removeClass("selected");
-      if ($(".selected").length == 0) {
-        $("#addfooter").css({
-          top: "100%",
-          visibility: "hidden"
-        });    
-      }
-      $(this).children().first().css({
-        width: 0,
-        opacity: 0
-      });
-    }
-    else if (!stationExists($(this).data("meta").id)) {
-      $(this).addClass("selected");
-      $("#addfooter").css({
-        top: "calc(100% - " + $("#addfooter").height() + "px)",
-        visibility: "visible"
-      });  
-      $(this).children().first().css({
-        width: "25px",
-        opacity: 1
-      });
-    }
-    else {
-      alert("‘" + $(this).data("meta").name + "’ has already been added to ‘" + listname + "’.");
-    }
-    if ($(".selected").length != 1) {
-      $("#stationcount").html($(".selected").length + " stations");      
-    }
-    else {
-      $("#stationcount").html("‘" + $(".selected").data("meta").name + "’");      
-    }
-    if ($(".selected").length > 0) {
-      var topheight = "calc(100% - " + $("#addfooter").height() + "px)";
-      $("#addfooter").css({
-        top: topheight
-      });
-      $("#modals").css({
-        height: topheight
-      });      
-    }
-    else {
-      $("#modals").css({
-        height: "100%"
-      });  
-    }
-  });
-  var dragging = false;
-  var dragindex;
-  var row;
-  var cursor;
-  $("#stations").on("mousedown", "tr", function(e) {
-    dragging = true;
-    dragindex = $(this).index();
-    row = $(this);
-    $("#tomove").html(row[0].outerHTML.replace(/id=/g, ""));
-    $("#tomove").show();
-    cursor = e.pageY;
-    $("#tomove").css({
-      height: row.height(),
-      width: row.width(),
-      left: row.offset().left,
-      top: row.offset().top - $(window).scrollTop()
-    });
-  });
-  var moveinterval;
-  $(document).on("mousemove", function(e) {
-    if (dragging) {
-      $("#tomove").css({
-        top: row.offset().top + e.pageY - cursor - $(window).scrollTop()
-      });
-      clearInterval(moveinterval);
-      moveinterval = undefined;
-      if ($("#tomove").css("display") != "none") {
-        var position = $("#tomove").position().top;
-        if (position <= 50) {
-          moveinterval = setInterval(function() {
-            $(window).scrollTop($(window).scrollTop() - 20);
-          }, 10);
-        }
-        else if ($(window).height() - position - $("#tomove").height() <= 0) {
-          moveinterval = setInterval(function() {
-            $(window).scrollTop($(window).scrollTop() + 20);
-          }, 10);
-        }
-      }
-    }
-  }).on("mouseup", function() {
-    if (dragging) {
-      dragging = false;
-      clearInterval(moveinterval);
-      moveinterval = undefined;
-      $("#tomove").hide();
-      $("#tomove").empty();
-      var newindex = $("#stations tr:hover").index();
-      if (newindex != -1 && newindex != dragindex) {
-        moveArray(currentlist, dragindex, newindex);
-        stationUpdate(true);
-      }
-    }
-  });
-});
 audio.onpause = function() {
   stopStream();
   updateFinish(nostream);
@@ -719,7 +139,6 @@ function moveArray(arr, oldindex, newindex) {
   arr.splice(newindex, 0, arr.splice(oldindex, 1)[0]);
   return arr;
 }
-loadSettings();
 function showLoading() {
   if (requesting) {
     $("#results").empty();
@@ -728,17 +147,8 @@ function showLoading() {
 }
 function loadSettings() {
   $(".checked").removeClass("checked");
-  $("#theme").val(["pure", "pure", "vivid", "chic", "chic"][settings.theme - 1]);
+  $("#theme").val(["pure", "puredark", "vivid", "chic", "chicdark"][settings.theme - 1]);
   themeSet();
-  if (settings.theme == 2 || settings.theme == 5) {
-    $("#nightmode").addClass("checked");
-  }
-  if (settings.theme != 3) {
-    $("#nightmode").show();
-  }
-  else {
-    $("#nightmode").hide();
-  }
   if (settings.visualization) {
     $("#pseudovsl").addClass("checked");
   }
@@ -757,9 +167,9 @@ function loadSettings() {
   if (settings.loadpolicy) {
     $("#loadpolicy").addClass("checked");
   }
+  $("#locales").val(settings.language || "auto");
   console.info("Initial values written into settings dialog");
 }
-
 function themeSet() {
   $("#descriptions > span").hide();
   $("#" + $("#theme").val()).show();
@@ -787,6 +197,14 @@ function saveSettings() {
   settings.volume = +$("#defaultvolume").val();
   settings.transitions = $("#transitions").hasClass("checked");
   settings.loadpolicy = $("#loadpolicy").hasClass("checked");
+  settings.language = $("#locales").val();
+  if (settings.language != prevlanguage) {
+    if (confirm(appname + tr(" will be reloaded now for the changes to take effect."))) {
+      $("html").html("<h1 style=\"text-align: center\">" + tr("Reloading…") + "</h1>");
+      stopStream();
+      location.reload();
+    }
+  }
   stationUpdate(false);
 //   switch ($("#loadpolicy").val()) {
 //     case "all":
@@ -819,7 +237,7 @@ function showVolume(plus) {
     }
     audio.volume = newvol.toFixed(1);
     var rvolume = audio.volume * 100;
-    hint("<i style='font-size: 60px' class='fa fa-volume-" + ((rvolume > 0) ? "up" : "off") + "'></i><div style='font-size: 25px'>" + ((rvolume > 0) ? rvolume + "%" : "Off") + "</div>", true);
+    hint("<i style='font-size: 60px' class='fa fa-volume-" + ((rvolume > 0) ? "up" : "off") + "'></i><div style='font-size: 25px'>" + ((rvolume > 0) ? rvolume + "%" : tr("Off")) + "</div>", true);
 }
 function restoreStation() {
   stationUpdate(true);
@@ -870,7 +288,7 @@ function undelete(message, backup, mod, func, listname) {
 }
 function learnMore() {
   modal("learnmore");
-  console.info($("#infotext").text());
+  return $("#infotext").text().replace(/          /g, "\n").trim();
 }
 function hint(text, square, confirm) {
     clearTimeout(hinttimer);
@@ -926,13 +344,13 @@ function browseCrb() {
     var current = $("[data-type=" + item + "]");
     if (current.parent().prop("disabled")) {
       $.post("https://www.radio-browser.info/webservice/json/" + item, function(data) {
-        var options = "<option value=''>All " + item + "</option>";
+        var options = "<option value=''>" + tr("All ") + tr(item) + "</option>";
         for (i in data) {
           options += "<option value='" + data[i].name + "'>" + data[i].name + "</option>";
         }
         current.html(options).parent().prop("disabled", false);
       }).fail(function() {
-        current.html("<option>Request failed</option>");
+        current.html("<option>" + tr("Request failed") + "</option>");
         $("#failmsg").slideDown();
       });
     }
@@ -994,7 +412,7 @@ function startStream(index) {
     console.info("Radio turned on: Playing '" + index.name + "'");
   };
   audio.onerror = function(e) {
-    alert("Sorry, an error has occurred. Please try again later.");
+    alert(tr("Sorry, an error has occurred. Please try again later."));
     updateFinish(nostream);
     toggle(false);
     stopStream();
@@ -1011,10 +429,13 @@ function startStream(index) {
     audio.play().catch(function(e) {
       stopStream();
       if (e.name == "NotAllowedError") {
-        hint("User gesture seems to be required. Click on ‘" + index.name + "’ to start the stream.");
+        alert(tr("User gesture seems to be required. Click on ‘") + index.name + tr("’ to start the stream."));
+      }
+      else if (!navigator.onLine) {
+        alert(tr("Please make sure that you are online."));
       }
       else {
-        alert("Sorry, an error has occurred. " + (e.message || "Please try again later."));
+        alert(tr("Sorry, an error has occurred. ") + (e.message || tr("Please try again later.")));
       }
     });
   };
@@ -1054,7 +475,7 @@ function stationUpdate(save) {
       for (z = 0; z < currentlist[i].tags.split(",").length; z++) {
         content += "<span class='label'>" + currentlist[i].tags.split(",")[z].trim() + "</span> ";
       }
-      content += "</div></div></div></div></td><td style='padding-right: 15px'><a class='trashcan' style='font-size: 18px' onclick='gearclicked = " + i + "' title='Options for ‘" + currentlist[i].name + "’'><i class='fa fa-fw fa-ellipsis-v'></i></a></td></tr>";
+      content += "</div></div></div></div></td><td style='padding-right: 15px'><a class='trashcan' style='font-size: 18px' onclick='gearclicked = " + i + "' title='" + tr("Options for ‘") + currentlist[i].name + tr("’") + "'><i class='fa fa-fw fa-ellipsis-v'></i></a></td></tr>";
       $("#stations").append(content);
     }
     if (!audio.paused) {
@@ -1105,7 +526,7 @@ function addList() {
   if ($("[data-item=\"\"]").length == 0) {
     appendList("");
   }
-  $("div[data-item=\"\"] > input").attr("placeholder", "Please specify a name").select();
+  $("div[data-item=\"\"] > input").attr("placeholder", tr("Please specify a name")).select();
   var yposition = $("div[data-item=\"\"]").offset().top + $("#modals").scrollTop() - $("body").scrollTop();
   $("#modals").animate({
     scrollTop: yposition
@@ -1118,7 +539,7 @@ function removeList(name) {
   if (name == listname) {
     setList($("#lists > optgroup > option").html());
   }
-  undelete("List named ‘" + name + "’ has been removed.", listbackup, "list", applyLists, name);
+  undelete(tr("List named ‘") + name + tr("’ has been removed."), listbackup, "list", applyLists, name);
 }
 function renameList(oldname) {
   $("div[data-item=\"" + oldname + "\"] > .itemname").focus();
@@ -1149,13 +570,13 @@ function refreshTags(tagstring) {
 function appendList(name) {
   var input = document.createElement("input");
   input.setAttribute("class", "itemname");
-  input.setAttribute("placeholder", "New name");
+  input.setAttribute("placeholder", tr("New name"));
   input.setAttribute("value", name);
   var div = document.createElement("div");
   div.setAttribute("data-item", name);
   div.setAttribute("style", "display: table-row");
   div.innerHTML = input.outerHTML + "<div style='display: table-cell; white-space: nowrap'><a class='renamelist' onclick='renameList($(this).closest(\"[data-item]\").data(\"item\"))'><i class='fa fa-fw fa-edit'></i></a><a class='okay' style='display: none'><i class='fa fa-fw fa-check'></i></a>" + ((name != "" && Object.keys(lists).length > 1) ? "<a onclick='removeList($(this).closest(\"[data-item]\").data(\"item\"))'><i class='fa fa-fw fa-trash'></i></a>" : "") + "</div>";
-  $("#listdiv").append(div);  
+  $("#listdiv").append(div);
 }
 var searching = false;
 function loadEntries() {
@@ -1183,7 +604,7 @@ function loadEntries() {
             break;
           }
         }
-        results += "<div style='cursor: pointer; display: table; table-layout: fixed; width: 100%" + ((available) ? "" : "; opacity: .5; cursor: not-allowed' title='This station has already been added to ‘" + listname + "’.") + "' data-meta='" + JSON.stringify(data[i]).replace(/'/g, "&apos;") + "' class='result'><div class='checkmark green' style='display: table-cell; opacity: 0; width: 0'><i class='fa fa-check' style='margin-left: 10px'></i></div><div style='padding: 10px; margin-bottom: 10px; display: table-cell'><h4 style='margin: 0'>" + ((available) ? "" : "<i class='fa fa-ban red'></i> ") + data[i].name + "</h4><br>" + (($("#order").prop("selectedIndex") > 0) ? "<span class='label green' style='font-weight: 500'><i class='fa fa-" + icons[$("#order").prop("selectedIndex")] + "'></i> " + (data[i][$("#order").val()] || "<i class='fa fa-question'></i>") + "</span> " : "") + (($("#order").prop("selectedIndex") != 1) ? "<span class='label'>" + data[i].country + "</span> " : "") + (($("#order").prop("selectedIndex") != 2) ? "<span class='label'>" + data[i].state + "</span> " : "");
+        results += "<div style='cursor: pointer; display: table; table-layout: fixed; width: 100%" + ((available) ? "" : "; opacity: .5; cursor: not-allowed' title='" + tr("This station has already been added to ‘") + listname + tr("’.")) + "' data-meta='" + JSON.stringify(data[i]).replace(/'/g, "&apos;") + "' class='result'><div class='checkmark green' style='display: table-cell; opacity: 0; width: 0'><i class='fa fa-check' style='margin-left: 10px'></i></div><div style='padding: 10px; margin-bottom: 10px; display: table-cell'><h4 style='margin: 0'>" + ((available) ? "" : "<i class='fa fa-ban red'></i> ") + data[i].name + "</h4><br>" + (($("#order").prop("selectedIndex") > 0) ? "<span class='label green' style='font-weight: 500'><i class='fa fa-" + icons[$("#order").prop("selectedIndex")] + "'></i> " + (data[i][$("#order").val()] || "<i class='fa fa-question'></i>") + "</span> " : "") + (($("#order").prop("selectedIndex") != 1) ? "<span class='label'>" + data[i].country + "</span> " : "") + (($("#order").prop("selectedIndex") != 2) ? "<span class='label'>" + data[i].state + "</span> " : "");
         if (data[i].tags != "") { 
           for (z = 0; z < data[i].tags.split(",").length; z++) {
             results += "<span class='label'>" + data[i].tags.split(",")[z].trim() + "</span> ";
@@ -1204,7 +625,7 @@ function loadEntries() {
       searching = false;
       $("#loadmore").hide();
       if (sum + offset == 0) {
-        results += "<p style='font-size: 18px; text-align: center'><i class='far fa-fw fa-meh'></i>No matching stations found.</p>";
+        results += "<p style='font-size: 18px; text-align: center'><i class='far fa-fw fa-meh'></i>" + tr("No matching stations found.") + "</p>";
       }
     }
     else {
@@ -1321,7 +742,7 @@ function closeModal() {
       stationUpdate(true);
     }
     else {
-      hint("<i class='fa fa-exclamation-triangle'></i> Saving failed: Bad station data");
+      hint("<i class='fa fa-exclamation-triangle'></i> " + tr("Saving failed: Bad station data"));
     }
   }
   $("#modals").css({
@@ -1395,3 +816,626 @@ function toggle(on) {
       .addClass("fa-play");
   }
 }
+var languages = [];
+try {
+  settings = JSON.parse(localStorage.data || "{\"settings\":" + defaultsettings + "}").settings;
+}
+catch (e) {
+  settings = JSON.parse(defaultsettings);
+}
+var prevlanguage = settings.language || "auto";
+var language = prevlanguage;
+if (language == "auto") {
+  language = navigator.language.substring(0, 2);
+  if (navigator.languages != undefined) {
+    languages = navigator.languages.slice();
+    $.each(languages, function(i, item) {
+      languages[i] = item.substring(0, 2);
+    });
+    languages = Array.from(new Set(languages.slice(0, (languages.includes("en")) ? languages.indexOf("en") : Infinity)));
+  }  
+}
+i18next
+  .use(i18nextXHRBackend)
+  .init({
+    lng: language,
+    fallbackLng: languages,
+    nsSeparator: null,
+    keySeparator: null,
+    backend: {
+      loadPath: "locales/{{lng}}.json"
+    }
+  }, function() {
+    $("[tr]").each(function() {
+      $(this).html(tr($(this).html()));
+    });
+    $("[title]").each(function() {
+      $(this).attr("title", tr($(this).attr("title")));
+    });
+    $("[label]").each(function() {
+      $(this).attr("label", tr($(this).attr("label")));
+    });
+    $("[placeholder]").each(function() {
+      $(this).attr("placeholder", tr($(this).attr("placeholder")));
+    });
+    defaultdata = "{\"lists\":{\"" + tr("Favorites") + "\":[]},\"settings\":" + defaultsettings + "}";
+    try {
+      lists = JSON.parse(localStorage.data || defaultdata).lists;
+    }
+    catch (e) {
+      lists = JSON.parse(defaultdata).lists;
+    }
+    try {localStorage}
+    catch (e) {
+      $("noscript")[0].outerHTML = $("noscript").text();
+      $("#initfail h1").text(tr("Please enable offline storage!"));
+      $("#initfail p").text(tr("Offline storage is used to ensure that application data (e.g. stations and settings) won’t get lost. This page does not collect any personal data. Third parties (broadcasters) might act differently."));
+    }
+    if (navigator.userAgent.indexOf("Trident") != -1 && !localStorage.try) {
+      $("noscript")[0].outerHTML = $("noscript").text();
+      $("#initfail h1").text(tr("Consider using another browser!"));
+      $("#initfail p").html(tr("Internet Explorer does not support some of the basic functionalities that this web application relies on.") + " <a href=\"#\" onclick=\"localStorage.try = '1'; location = location.href\">" + tr("Try anyway (may not work)") + "</a>");
+    }
+    listname = Object.keys(lists)[0];
+    loadSettings();
+    nostream = tr("Radio off");
+    console.info("Locale strings loaded");
+    updateFinish(nostream);
+    init();
+    $("select:has([data-type])").prop("disabled", true);
+    applyLists();
+    audio.volume = settings.volume / 100;
+    sync(false);
+    function param(param) {
+      if (param = (new RegExp("[?&]" + encodeURIComponent(param) + "=([^&]*)")).exec(location.search)) {
+        return decodeURIComponent(param[1]);
+      }
+    }
+    var source = param("src");
+    var id = param("id");
+    var keepoff = param("keepoff");
+    var query = param("q");
+    history.pushState(null, null, ".");
+    function autoStart() {
+      if (!keepoff || keepoff == false) {
+        for (i in currentlist) {
+          if (currentlist[i].id == id) {
+            startStream(currentlist[i]);
+          }
+        }
+      }
+    }
+    if (source) {
+      setList(tr("Added via ") + source);
+      if (id) {
+        if (!stationExists(id)) {
+          $.post("https://www.radio-browser.info/webservice/json/stations/byid/" + id, function(data) {
+            if (!lists[tr("Added via ") + source]) {
+              lists[tr("Added via ") + source] = [];
+            }
+            applyLists();
+            currentlist.push({"name":data[0].name,"url":data[0].url,"homepage":data[0].homepage,"icon":data[0].favicon,"country":data[0].country,"state":data[0].state,"language":data[0].language,"tags":data[0].tags,"id":data[0].id});
+            stationUpdate(true);
+            autoStart();
+          }).fail(function() {
+            alert(tr("Sorry, the station could not be added via ") + source + tr(" because a request failed."));
+          });
+        }
+        else {
+          autoStart();
+        }
+      }
+      else if (query) {
+        applyLists();
+        setTimeout(function() {
+          $("#query").val(query);
+          modal("addstation");
+        }, 0);
+      }
+    }
+    $("#hidefooter").on("click", function() {
+      $("#footer").css({
+        top: "100%",
+        visibility: "hidden"
+      });
+    });
+    $(document).on("click", ".trashcan", function() {
+  //     var stationbackup = currentlist.slice();
+  //     var victim = currentlist[gearclicked][0];
+  //     currentlist.splice(gearclicked, 1);
+  //     stationUpdate(true);    
+  //     undelete("Station named ‘" + victim + "’ has been removed.", stationbackup, "currentlist", restoreStation);
+      modal("stationmanager");
+      $("#customstations").show();
+      $("[placeholder='" + tr("Name") + "']").val(currentlist[gearclicked].name);
+      $("[placeholder='" + tr("URL") + "']").val(currentlist[gearclicked].url);
+      $("[placeholder='" + tr("Homepage") + "']").val(currentlist[gearclicked].homepage);
+      $("[placeholder='" + tr("Icon") + "']").val(currentlist[gearclicked].icon);
+      $("[placeholder='" + tr("Country") + "']").val(currentlist[gearclicked].country);
+      $("[placeholder='" + tr("State") + "']").val(currentlist[gearclicked].state);
+      $("[placeholder='" + tr("Language") + "']").val(currentlist[gearclicked].language);
+      $("[placeholder='" + tr("Tags") + "']").val(currentlist[gearclicked].tags);
+      $("#deletestation").show();
+    });
+    $("#chremove").on("click", function() {
+      currentlist.splice(gearclicked, 1);
+      stationUpdate(true);
+      closeModal();
+    });
+    $("body").on("keydown", function(event) {
+      if (event.which == 32 && location.hash != "#dialog") {
+        event.preventDefault();
+      }
+    });
+    $("body").on("keyup", function(event) {
+      var key = event.key;
+      if (!(location.hash == "#dialog" || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
+        switch (key) {
+          case "-":
+            showVolume(false);
+            break;
+          case "+":
+            showVolume(true);
+            break;
+          case " ":
+            if (!$("#stop").hasClass("disabled")) {
+              if (!$("#stop").children().hasClass("fa-play")) {
+                hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-stop'></i>", true);
+              }
+              $("#stop").trigger("click");
+            }
+            break;
+          default:
+            if (!isNaN(key)) {
+              var digit = key - 1;
+              if (key == 0) {
+                digit = 9;
+              }
+              if (digit < currentlist.length) {
+                startStream(currentlist[digit]);
+              }
+              else {
+                hint("<i class='fa fa-fw fa-exclamation-triangle'></i> " + tr("Station ") + (digit + 1) + tr(" doesn’t exist."));
+              }
+            }
+        }
+      }
+      if (location.hash == "#dialog" && key == "Escape") {
+        history.back();
+      }
+    });
+    $("[placeholder='" + tr("Tags") + "']").on("input", function() {
+      refreshTags($(this).val());
+    });
+    $("#customstations input").on("blur", function() {
+      if (validStation()) {
+        currentlist[gearclicked].name = $("[placeholder='" + tr("Name") + "']").val();
+        currentlist[gearclicked].url = $("[placeholder='" + tr("URL") + "']").val();
+        currentlist[gearclicked].homepage = $("[placeholder='" + tr("Homepage") + "']").val();
+        currentlist[gearclicked].icon = $("[placeholder='" + tr("Icon") + "']").val();
+        currentlist[gearclicked].country = $("[placeholder='" + tr("Country") + "']").val();
+        currentlist[gearclicked].state = $("[placeholder='" + tr("State") + "']").val();
+        currentlist[gearclicked].language = $("[placeholder='" + tr("Sprache") + "']").val();
+        currentlist[gearclicked].tags = $("[placeholder='" + tr("Tags") + "']").val();
+        sync(true);
+      }
+    });
+    $("#done").on("click", function() {
+      closeModal();
+    });
+    $("#deletestation").on("click", function() {
+      closeModal();
+      var stationbackup = currentlist.slice();
+      var victim = currentlist[gearclicked].name;
+      currentlist.splice(gearclicked, 1);
+      stationUpdate(true);    
+      undelete(tr("Station named ‘") + victim + tr("’ has been removed."), stationbackup, "currentlist", restoreStation);
+    });
+    $("#wrench").on("click", function() {
+      modal("listmanager");
+    });
+    $("#closesettings").on("click", function() {
+      $('#discardsettings').trigger('click');
+    });
+    $("#stop").on("click", function() {
+      $(window).scrollTop(0);
+      var icon = $(this).children();
+      if (icon.hasClass("fa-stop")) {
+        stopStream();
+        updateFinish(nostream);
+      }
+      else {
+        if (prevstation != undefined) {
+          startStream(prevstation);
+        }
+        else if (currentlist.length > 0) {
+          startStream(currentlist[0]);
+        }
+        else {
+          hint("<i class='fa fa-fw fa-exclamation-triangle'></i>" + tr("Please add a station to the list first."));
+          console.warn("Radio not turned on: Station list is empty");
+        }
+      }
+    });
+    $("#tryfetch").on("click", function() {
+      $("#failmsg").slideUp();
+      browseCrb();
+    });
+    $("#minus").on("click", function() {
+        showVolume(false);
+    });
+    $("#plus").on("click", function() {
+        showVolume(true);
+    });
+    $(window).on("hashchange", function() {
+        if (location.hash === "" && $(".shown").length == 1) {
+          closeModal();
+        }
+    }).on("dragstart", function() {
+        return false;
+    }).on("mousemove mousedown keydown touchstart", function() {
+      if (settings.relax) {
+        clearTimeout(relaxtimer);
+        wakeUp();
+        relaxtimer = setTimeout(function() {
+            relax(); 
+        }, settings["relax-timeout"] * 1000);
+      }
+    }).on("resize", function() {
+        if (relaxed) {
+            relax();
+        }
+        if ($("#footer").css("visibility") == "visible") {
+          $("#footer").css({
+            top: "calc(100% - " + $("#footer").height() + "px)"
+          });
+        }
+        if ($("#addfooter").css("visibility") == "visible") {
+          $("#addfooter").css({
+            top: "calc(100% - " + $("#addfooter").height() + "px)"
+          });
+        }        
+    });
+    $("#findstation").on("click", function() {
+      showLoading();
+      $("#modals").finish().animate({
+        scrollTop: $("#query").offset().top - $(window).scrollTop()
+      });
+    });
+    $("#addstation select").on("change", function() {
+      $("#query").trigger("input");
+      showLoading();
+    });
+    $("#query")
+      .on("keyup", function(event) {
+          if (event.which == 13) {
+              $("#findstation").trigger("click");
+              $("#query").blur();
+          }
+      }).on("input", function() {
+        if (fetch != undefined && "abort" in fetch) {
+          fetch.abort();
+        }
+        findStation($('input').val());
+        $("#findstation").removeClass("disabled");
+        $(".selected").trigger("click");
+        $("#loadmore").hide();
+      }).on("focus", function() {
+        $(this).parent().css({
+          background: "rgba(0, 0, 0, .1)"
+        });
+      }).on("blur", function() {
+        showLoading();
+        $(this).parent().css({
+          background: ""
+        });
+      });
+    $("form").on("submit", function(event) {
+        event.preventDefault();
+    });
+    $("#addlist").on("click", addList);
+    $("#modals, .closer").on("click", function() {
+      closeModal();
+    });
+    $("#modals > div").on("click", function(event) {
+      event.stopPropagation();
+    });
+    $(".addbutton").on("click", function() {
+      modal("addstation");
+    });
+    $("#settingsbutton").on("click", function() {
+      modal("settings");
+    });
+    $("#learnmorebutton").on("click", function() {
+      modal("learnmore");
+    });
+    $("#applysettings").on("click", function() {
+      var valid = true;
+      $("input[type=number]").each(function() {
+        var value = Number($(this).val())
+        if (valid && ($(this).attr("min") > value || $(this).attr("max") < value || Math.floor(value) != value || $(this).val() == "")) {
+          valid = false;
+        }
+      });
+      if (valid) {
+        saveSettings();
+        closeModal();
+      }
+      else {
+        alert(tr("At least one invalid number input has been detected."));
+      }
+    });
+    $("#discardsettings").on("click", function() {
+      settings = JSON.parse(localStorage.data || defaultdata).settings;
+      loadSettings();
+      closeModal();
+    });
+    $("#reset").on("click", function() {
+      settings = JSON.parse(defaultsettings);
+      loadSettings();
+      saveSettings();
+      init();
+    });
+    $(".checkable").on("click", function() {
+      if ($(this).hasClass("checked")) {
+        $(this).removeClass("checked");
+        if ($(this).attr("id") == "relaxmode") {
+          $("#relaxtimeoutdiv").hide();
+        }            
+      }
+      else {
+        $(this).addClass("checked");
+        if ($(this).attr("id") == "relaxmode") {
+          $("#relaxtimeoutdiv").show();
+        }
+      }
+    }).on("select", function() {
+      return false;
+    });
+    $("input[type=file]").on("change", function(event) {
+      var file = event.target.files[0];
+      var reader = new FileReader;
+      reader.readAsText(file);
+      reader.onload = function(event) {
+        settings = JSON.parse(event.target.result);
+        loadSettings();
+        saveSettings();
+        hint(tr("Import successful."));
+      }
+      reader.onerror = function() {
+        alert(tr("Error reading file."));
+      }
+      $(this).val("");
+    });
+    $("#import").on("click", function() {
+      $("input[type=file]").trigger("click");
+    });
+    $("#export").on("click", function() {
+      saveSettings();
+      $("#blob").attr("href", URL.createObjectURL(new Blob([JSON.stringify(settings)], {type: "application/json"})));
+      $("#blob").attr("download", "Radiolise_settings_" + (new Date).getTime() + ".json");
+      $("#blob")[0].click();
+    });
+    $("#minus, #plus").on("DOMMouseScroll", function(event) {
+      event.preventDefault();
+      showVolume(event.originalEvent.detail < 0);
+    }).on("mousewheel", function(event) {
+      event.preventDefault();
+      showVolume(event.originalEvent.wheelDelta > 0);
+    });  
+    $("#theme").on("change", themeSet);
+    var clicked = false, clickY, scrollleft, tagdiv;
+    $(document).on("mousedown", ".tags", function(e) {
+      clicked = true;
+      clickY = e.pageX;
+      scrollleft = $(this).scrollLeft();
+      tagdiv = $(this);
+      $("body, .tags").css({
+        cursor: "-webkit-grabbing"
+      }).css({
+        cursor: "grabbing"
+      });
+    }).on("mousemove", function(e) {
+        if (clicked) {
+          tagdiv.scrollLeft(scrollleft + clickY - e.pageX);
+        }
+    }).on("mouseup", function() {
+      clicked = false;
+      $("body").css({
+        cursor: "auto"
+      });
+      $(".tags").css({
+        cursor: "ew-resize"
+      });   
+    });
+    $("#modals").on("scroll", function() {
+      if (searching && $("#addstation").hasClass("shown") && $("#loadmore").offset().top - $(window).height() - $(window).scrollTop() < 0) {
+        searching = false;
+        offset += 20;
+        loadEntries();
+      }
+    });
+    $("#lists").on("change", function() {
+      if ($(this).prop("selectedIndex") == $("#lists > optgroup > option").length) {
+        setList(listname);
+        modal("listmanager");
+        $("#listul").empty();
+        for (var key in lists) {
+          $("#listul").append("<li>" + key + "</li>");
+        }
+      }
+      else {
+        setList($(this).val());      
+      }
+    });
+    $("#addchecked").on("click", function() {
+      $(".selected").each(function(index) {
+        var meta = $(this).data("meta");
+        currentlist.push({"name":meta.name,"url":meta.url,"homepage":meta.homepage,"icon":meta.favicon,"country":meta.country,"state":meta.state,"language":meta.language,"tags":meta.tags,"id":meta.id});
+      });
+      stationUpdate(true);
+      closeModal();
+    });
+    $(document).on("blur", ".itemname", function() {
+      $(this).next().find(".okay").hide();
+      $(this).next().find(".renamelist").show();
+      var item = $(this);
+      var oldname = $(this).closest("[data-item]").data("item");
+      var name = item.val().trim().replace(/\s+/g, " ") || null;
+      if (oldname != name) {
+        if (lists[name] == undefined) {
+          if (name) {
+            if (lists[oldname]) {
+              lists[name] = lists[oldname].slice();
+              delete lists[oldname];
+            }
+            else {
+              lists[name] = [];
+              hint(tr("New list named ‘") + name + tr("’ created"));
+            }
+            if ($("#lists").val() == oldname) {
+              listname = name;
+            }
+            applyLists();      
+          }
+          else {
+            hint(tr("Invalid name"));   
+            applyLists();
+          }
+        }
+        else {
+          hint(tr("Already existing"));
+          applyLists();
+        }
+      }
+    }).on("focus", ".itemname", function() {
+      $(this).next().find(".okay").show();
+      $(this).next().find(".renamelist").hide();
+      $(this).select();      
+    }).on("keydown", "div[data-item] > .itemname", function(event) {
+      if (event.which == 13) {
+        event.preventDefault();
+        $(this).blur();
+      }
+    });
+    $("#customstations input").on("keydown", function(event) {
+      if (event.which == 13) {
+        $(this).blur();
+      }
+    });
+    $("#listtools").on("mouseenter", function() {
+      $(this).css({
+        opacity: 1
+      });
+    }).on("mouseleave", function() {
+      $(this).css({
+        opacity: .5
+      });
+    });
+    $("#deselectall").on("click", function() {
+      $(".selected").trigger("click");
+    });
+    $("#results").on("click", ".result", function() {
+      if ($(this).hasClass("selected")) {
+        $(this).removeClass("selected");
+        if ($(".selected").length == 0) {
+          $("#addfooter").css({
+            top: "100%",
+            visibility: "hidden"
+          });    
+        }
+        $(this).children().first().css({
+          width: 0,
+          opacity: 0
+        });
+      }
+      else if (!stationExists($(this).data("meta").id)) {
+        $(this).addClass("selected");
+        $("#addfooter").css({
+          top: "calc(100% - " + $("#addfooter").height() + "px)",
+          visibility: "visible"
+        });  
+        $(this).children().first().css({
+          width: "25px",
+          opacity: 1
+        });
+      }
+      else {
+        alert(tr("‘") + $(this).data("meta").name + tr("’ has already been added to ‘") + listname + tr("’."));
+      }
+      if ($(".selected").length != 1) {
+        $("#stationcount").html($(".selected").length + tr(" stations"));      
+      }
+      else {
+        $("#stationcount").html(tr("‘") + $(".selected").data("meta").name + tr("’"));      
+      }
+      if ($(".selected").length > 0) {
+        var topheight = "calc(100% - " + $("#addfooter").height() + "px)";
+        $("#addfooter").css({
+          top: topheight
+        });
+        $("#modals").css({
+          height: topheight
+        });      
+      }
+      else {
+        $("#modals").css({
+          height: "100%"
+        });  
+      }
+    });
+    var dragging = false;
+    var dragindex;
+    var row;
+    var cursor;
+    $("#stations").on("mousedown", "tr", function(e) {
+      dragging = true;
+      dragindex = $(this).index();
+      row = $(this);
+      $("#tomove").html(row[0].outerHTML.replace(/id=/g, ""));
+      $("#tomove").show();
+      cursor = e.pageY;
+      $("#tomove").css({
+        height: row.height(),
+        width: row.width(),
+        left: row.offset().left,
+        top: row.offset().top - $(window).scrollTop()
+      });
+    });
+    var moveinterval;
+    $(document).on("mousemove", function(e) {
+      if (dragging) {
+        $("#tomove").css({
+          top: row.offset().top + e.pageY - cursor - $(window).scrollTop()
+        });
+        clearInterval(moveinterval);
+        moveinterval = undefined;
+        if ($("#tomove").css("display") != "none") {
+          var position = $("#tomove").position().top;
+          if (position <= 50) {
+            moveinterval = setInterval(function() {
+              $(window).scrollTop($(window).scrollTop() - 20);
+            }, 10);
+          }
+          else if ($(window).height() - position - $("#tomove").height() <= 0) {
+            moveinterval = setInterval(function() {
+              $(window).scrollTop($(window).scrollTop() + 20);
+            }, 10);
+          }
+        }
+      }
+    }).on("mouseup", function() {
+      if (dragging) {
+        dragging = false;
+        clearInterval(moveinterval);
+        moveinterval = undefined;
+        $("#tomove").hide();
+        $("#tomove").empty();
+        var newindex = $("#stations tr:hover").index();
+        if (newindex != -1 && newindex != dragindex) {
+          moveArray(currentlist, dragindex, newindex);
+          stationUpdate(true);
+        }
+      }
+    });
+});

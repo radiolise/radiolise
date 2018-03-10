@@ -25,6 +25,9 @@ body {
   overflow-x: hidden !important;
   transition: background 2s;
 }
+/*::-webkit-scrollbar {
+  display: none;
+}*/
 button {
   font-weight: 400;
 }
