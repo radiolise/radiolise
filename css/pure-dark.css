@@ -11,6 +11,10 @@ body, #volumebar > div:nth-child(1) {
   background: #ff7fff;
   color: #000;
 }
+.label.red {
+  background: #0ff;
+  color: #000;
+}
 .label {
   background: #555;
 }
@@ -24,8 +28,8 @@ body, #volumebar > div:nth-child(1) {
 a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type="number"] {
   color: #fff;
 }
-#logo {
-  filter: invert(100%);
+rect {
+  fill: #222;
 }
 #main > div, #modals > div {
   background: #444;

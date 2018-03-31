@@ -11,6 +11,10 @@ body, #volumebar > div:nth-child(1) {
   background: #ff7fff;
   color: #000;
 }
+.label.red {
+  background: #0ff;
+  color: #000;
+}
 #main > div {
   box-shadow: 10px 10px 40px #111;
 }

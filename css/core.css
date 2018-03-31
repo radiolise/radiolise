@@ -25,9 +25,6 @@ body {
   overflow-x: hidden !important;
   transition: background 2s;
 }
-/*::-webkit-scrollbar {
-  display: none;
-}*/
 button {
   font-weight: 400;
 }
@@ -42,6 +39,10 @@ b, h3, h4 {
 }
 .label.green {
   background: #008000;
+  color: #fff;
+}
+.label.red {
+  background: #f00;
   color: #fff;
 }
 button {
@@ -76,7 +77,7 @@ a > .fa, button > .fa {
   margin: 0 auto;
   padding: 0 10px;
 }
-#navbar > div > span > img {
+#navbar > div > span > svg {
   height: 36px;
   vertical-align: middle;
   padding: 7px;
@@ -104,6 +105,9 @@ input[type="number"] {
 }
 #maincontrols {
   transition: all .4s;
+}
+rect {
+  fill: #ddd;
 }
 .relaxed {
   overflow: hidden !important;
@@ -324,6 +328,9 @@ table {
   opacity: 0;
   pointer-events: none;
 }
+.tags::-webkit-scrollbar {
+  display: none;
+}
 .label {
   padding: .2em .6em .3em;
   display: inline-block;
@@ -389,6 +396,7 @@ h4 {
 #results {
   display: none;
   text-align: left;
+  padding-top: 5px;
 }
 td:nth-child(1) {
   display: inline;
@@ -441,6 +449,13 @@ input[type="checkbox"] + span {
   font-family: Roboto;
   padding: 10px;
   background: none;
+}
+#moreoptions {
+  text-align: left;
+  padding-bottom: 10px;
+}
+#moreoptions i {
+  transition: transform .4s linear;
 }
 #findstation {
   font-size: 20px;

@@ -22,8 +22,8 @@ a, #navbar > div > span > span, #learnmore > div:nth-child(3) > div > span, #fin
   border-bottom: 3px solid #54A3D8;
   border-radius: 20px 0 20px 0;
 }
-#logo {
-  filter: invert(100%);
+rect {
+  fill: #222;
 }
 #hint > div {
   background: rgba(34, 34, 34, .9);
