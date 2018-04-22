@@ -358,35 +358,39 @@ function browseCrb() {
   })(items[i]);
 }
 function updateFinish(newstation) {
-  if (newstation == nostream) {
+  if (prevdata != newstation) {
+    if (newstation == nostream) {
       $('title').html(appname);
       changeColor();
       stopV();
       wakeUp();
-  } else {
+    }
+    else {
       $('title').html(newstation + " – " + appname);
       currentstation = newstation;
       changeColor();
       if (vinterval == undefined) {
-          visualise();
+        visualise();
       }
       if (prevdata == nostream && settings.relax) {
-          clearTimeout(relaxtimer);
-          relaxtimer = setTimeout(function() {
-              relax(); 
-          }, settings["relax-timeout"] * 1000);
+        clearTimeout(relaxtimer);
+        relaxtimer = setTimeout(function() {
+          relax(); 
+        }, settings["relax-timeout"] * 1000);
       }
-  }
-  $("#station").css({
-    opacity: 0,
-    transform: "rotateY(45deg)"
-  });
-  setTimeout(function() {
-    $("#station").html(newstation).css({
-      opacity: 1,
-      transform: ""
+    }
+    $("#station").css({
+      opacity: 0,
+      transform: "rotateY(45deg)"
     });
-  }, 400);
+    setTimeout(function() {
+      $("#station").html(newstation).css({
+        opacity: 1,
+        transform: ""
+      });
+    }, 400);
+    prevdata = newstation;
+  }
 }
 function setPlaying(station) {
   $(".playbutton > i").addClass("fa-play").removeClass("fa-stop");
@@ -400,6 +404,17 @@ function setPlaying(station) {
     }
   }
 }
+var hls = new Hls();
+var errormessage;
+hls.on(Hls.Events.MANIFEST_PARSED, function() {
+  closeHint();
+  audio.play();
+});
+hls.on(Hls.Events.ERROR, function(_, data) {
+  stopStream();
+  updateFinish(nostream);
+  alert(tr("Sorry, an error has occurred. ") + errormessage + " → HLS fallback → " + data.details);
+});
 function startStream(index) {
   stopStream();
   $("body").css({
@@ -412,12 +427,6 @@ function startStream(index) {
     prevstation = index;
     console.info("Radio turned on: Playing '" + index.name + "'");
   };
-  audio.onerror = function(e) {
-    alert(tr("Sorry, an error has occurred. Please try again later."));
-    updateFinish(nostream);
-    toggle(false);
-    stopStream();
-  }
   audio.onwaiting = function() {
     hint("load");
   }
@@ -428,6 +437,7 @@ function startStream(index) {
   var play = function(url) {
     audio.setAttribute("src", url);
     audio.play().catch(function(e) {
+      errormessage = e.message;
       stopStream();
       if (e.name == "NotAllowedError") {
         alert(tr("User gesture seems to be required. Click on ‘") + index.name + tr("’ to start the stream."));
@@ -439,8 +449,14 @@ function startStream(index) {
       else if (!navigator.onLine) {
         alert(tr("Please make sure that you are online."));
       }      
+      else if (Hls.isSupported()) {
+        setPlaying(index);
+        hint("load");
+        hls.loadSource(url);
+        hls.attachMedia(audio);
+      }
       else {
-        alert(tr("Sorry, an error has occurred. ") + (e.message || tr("Please try again later.")));
+        alert(tr("Sorry, an error has occurred. ") + (errormessage || tr("Please try again later.")));
       }
     });
   };
@@ -457,18 +473,20 @@ function startStream(index) {
   hint("load");
 }
 function stopStream() {
-  if (audio.getAttribute("src") != null) {
-    if ($("#hint").find(".fa-spinner").length) {
-      closeHint();
-    }
-    audio.onerror = null;
-    audio.removeAttribute("src")
-    audio.load();
-    toggle(false);
-    stopV();
-    setPlaying(null);
+  hls.detachMedia();
+  hls.stopLoad();
+  if ($("#stop").children().hasClass("fa-stop")) {
     console.info("Radio turned off");
   }
+  setPlaying(null);
+  toggle(false);
+  if ($("#hint").find(".fa-spinner").length) {
+    closeHint();
+  }
+  audio.onerror = null;
+  audio.removeAttribute("src")
+  audio.load();
+  stopV();
 }
 function stationUpdate(save) {
     if (save) {
