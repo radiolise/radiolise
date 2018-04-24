@@ -42,6 +42,7 @@
   "languages": "Sprachen",
   "Request failed": "Anfrage fehlgeschlagen",
   "Sorry, an error has occurred. Please try again later.": "Sorry, ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+  "The stream may need a protocol like HLS, which doesn’t seem to be supported by your browser.": "Der Stream benötigt möglicherweise ein Protokoll wie HLS, das von Ihrem Browser anscheinend nicht unterstützt wird.",
   "User gesture seems to be required. Click on ‘": "Eine Nutzergeste scheint erforderlich zu sein. Klicken Sie auf „",
   "’ to start the stream.": "“, um den Stream zu starten.",
   "Please make sure that you are online.": "Bitte vergewissern Sie sich, dass Sie online sind.",

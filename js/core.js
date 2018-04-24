@@ -413,7 +413,7 @@ hls.on(Hls.Events.MANIFEST_PARSED, function() {
 hls.on(Hls.Events.ERROR, function(_, data) {
   stopStream();
   updateFinish(nostream);
-  alert(tr("Sorry, an error has occurred. ") + errormessage + " → HLS fallback → " + data.details);
+  alert(tr("Sorry, an error has occurred. ") + ((Hls.isSupported()) ? errormessage + " → HLS fallback → " + data.details : tr("The stream may need a protocol like HLS, which doesn’t seem to be supported by your browser.")));
 });
 function startStream(index) {
   stopStream();
@@ -449,14 +449,11 @@ function startStream(index) {
       else if (!navigator.onLine) {
         alert(tr("Please make sure that you are online."));
       }      
-      else if (Hls.isSupported()) {
+      else {
         setPlaying(index);
         hint("load");
         hls.loadSource(url);
         hls.attachMedia(audio);
-      }
-      else {
-        alert(tr("Sorry, an error has occurred. ") + (errormessage || tr("Please try again later.")));
       }
     });
   };
