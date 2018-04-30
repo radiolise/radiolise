@@ -1,3 +1,6 @@
+html {
+  --themecolor: #54a3d8;
+}
 body, #volumebar > div:nth-child(1) {
   background: #333;
 }
@@ -16,25 +19,35 @@ body, #volumebar > div:nth-child(1) {
   color: #000;
 }
 #main > div {
-  box-shadow: 10px 10px 40px #111;
+  box-shadow: 10px 10px 40px rgba(0, 0, 0, .3);
 }
 .label {
   background: #555;
 }
-#navbar {
+.videobar, #navbar {
   background: #444;
-  box-shadow: 0 0 20px #111;
-  border-bottom: 3px solid #2378c7;
 }
-a, #navbar > div > span > span, #learnmore > div:nth-child(3) > div > span, #findstation, #query, #navbar > div > div > button, input[type="number"] {
+#navbar, #navbar .videobar {
+  border-bottom: 3px solid var(--themecolor);
+}
+#navbar, #video, #navbar .videobar {
+  box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+}
+#video {
+  border-top-left-radius: 20px;
+  overflow: hidden;
+}
+a, #navbar > div > span > span, #learnmore > div:nth-child(3) > div > span, #findstation, #query, #navbar > div > div > button, input[type="number"], .videobar, #tomove {
   color: #fff;
 }
 #main > div, #modals > div {
   background: #444;
   color: #fff;
-  border-top: 3px solid #2378c7;
-  border-bottom: 3px solid #2378c7;
+  border-bottom: 3px solid var(--themecolor);
   border-radius: 20px 0 20px 0;
+}
+#modals > div, #video {
+  border-top: 3px solid var(--themecolor);
 }
 #hint > div {
   background: rgba(255, 255, 255, .9);
@@ -44,26 +57,32 @@ select, input {
   background: #444;
   color: #fff;
 }
+select:-moz-focusring {
+  text-shadow: 0 0 0 #fff;
+}
+tr:hover .smartmenu {
+  background: #3d3d3d;
+}
 #footer, #addfooter {
   background: rgba(255, 255, 255, .9);
   color: #000;
 }
 .button:hover, #navbar > div > div > button:hover {
-  color: #54a3d8;
+  color: var(--themecolor);
 }
 .button:active, #navbar > div > div > button:active {
-  background: #2378c7;
+  background: var(--themecolor);
   color: #fff;
 }
 #addstation > div > div:nth-child(1), select, input:not(#query) {
   border-bottom: 2px solid rgba(255, 255, 255, .5) !important;
 }
 #modals {
-  background: rgba(255, 255, 255, .5);
+  background: rgba(0, 0, 0, .5);
 }
 #volumeline, #volumecircle {
   background: #eee;
 }
 #progressbar {
-  background: #2378c7;
+  background: var(--themecolor);
 }

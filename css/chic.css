@@ -1,26 +1,39 @@
+html {
+  --themecolor: #54a3d8;
+}
 body, #volumebar > div:nth-child(1) {
   background: #ddd;
 }
 #main > div {
-  box-shadow: 10px 10px 40px #aaa;
+  box-shadow: 10px 10px 40px rgba(0, 0, 0, .3);
 }
 .label {
   background: #eee;
 }
-#navbar {
+.videobar, #navbar {
   background: #fff;
-  box-shadow: 0 0 20px #aaa;
-  border-bottom: 3px solid #54A3D8;
 }
-a, #navbar > div > span > span, #learnmore > div:nth-child(3) > div > span, #findstation, #query, #navbar > div > div > button, input[type="number"] {
+#navbar, #navbar .videobar {
+  border-bottom: 3px solid var(--themecolor);
+}
+#navbar, #video, #navbar .videobar {
+  box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+}
+#video {
+  border-top-left-radius: 20px;
+  overflow: hidden;
+}
+a, #navbar > div > span > span, #learnmore > div:nth-child(3) > div > span, #findstation, #query, #navbar > div > div > button, input[type="number"], .smartmenu {
   color: #222;
 }
 #main > div, #modals > div {
   background: #fff;
   color: #222;
-  border-top: 3px solid #54A3D8;
-  border-bottom: 3px solid #54A3D8;
+  border-bottom: 3px solid var(--themecolor);
   border-radius: 20px 0 20px 0;
+}
+#modals > div, #video {
+  border-top: 3px solid var(--themecolor);
 }
 rect {
   fill: #222;
@@ -38,10 +51,10 @@ input {
   color: #fff;
 }
 .button:hover, #navbar > div > div > button:hover {
-  color: #54a3d8;
+  color: var(--themecolor);
 }
 .button:active, #navbar > div > div > button:active {
-  background: #54a3d8;
+  background: var(--themecolor);
   color: #fff;
 }
 #addstation > div > div:nth-child(1), select, input:not(#query) {
@@ -57,5 +70,5 @@ input {
   background: #000;
 }
 #progressbar {
-  background: #54A3D8;
+  background: var(--themecolor);
 }

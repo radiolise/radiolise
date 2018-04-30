@@ -1,5 +1,5 @@
 "use strict";
-var version = "(1)";
+var version = "(3)";
 var urlsToCache = [
   "",
   ".",
@@ -10,12 +10,12 @@ var urlsToCache = [
   "css/fontawesome-all.min.css",
   "css/pure.css",
   "css/pure-dark.css",
-  "css/vivid.css",
   "img/icon.png",
   "img/logo.png",
   "img/logo.svg",
   "img/spin.svg",
   "js/core.js",
+  "js/hls.min.js",
   "js/i18next.min.js",
   "js/i18nextXHRBackend.min.js",
   "js/jquery.min.js",

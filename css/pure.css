@@ -1,3 +1,6 @@
+html {
+  --themecolor: #54a3d8;
+}
 body, #volumebar > div:nth-child(1) {
   background: #ddd;
 }
@@ -6,12 +9,11 @@ body, #volumebar > div:nth-child(1) {
 }
 #navbar {
   background: rgba(34, 34, 34, .9);
-/*   border-bottom: 3px solid #54A3D8; */
 }
-#navbar > div > span > span, #navbar > div > div > button {
+#navbar > div > span > span, #navbar > div > div > button, .button-primary {
   color: #fff;
 }
-a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type="number"] {
+a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type="number"], .smartmenu {
   color: #222;
 }
 #main > div, #modals > div {
@@ -26,15 +28,15 @@ input {
   background: #fff;
   color: #222;
 }
-#footer, #addfooter {
+#footer, #addfooter, .videobar {
   background: rgba(34, 34, 34, .9);
   color: #fff;
 }
 .button:hover, #navbar > div > div > button:hover {
-  color: #54a3d8;
+  color: var(--themecolor);
 }
 .button:active, #navbar > div > div > button:active {
-  background: #54a3d8;
+  background: var(--themecolor);
   color: #fff;
 }
 #addstation > div > div:nth-child(1), select, input:not(#query) {
@@ -50,5 +52,5 @@ input {
   background: #000;
 }
 #progressbar {
-  background: #54A3D8;
+  background: var(--themecolor);
 }

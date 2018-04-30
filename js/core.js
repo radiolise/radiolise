@@ -21,16 +21,16 @@ function tr(string) {
   return i18next.t(string);
 }
 window.onoffline = function() {
-  if (!audio.paused) {
+  if (!player.paused) {
     alert(tr("Oh no! The stream was interrupted due to a sudden disconnect."));
   }
   stopStream();
   updateFinish(nostream);
 }
-if ('serviceWorker' in navigator) {
+if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js");
 }
-var defaultsettings = '{"theme":1,"visualization":false,"relax":false,"relax-timeout":10,"theme-hue":0,"random-color":true,"volume":100,"transitions":true,"loadpolicy":true,"language":"auto"}',
+var defaultsettings = '{"theme":4,"visualization":false,"relax":false,"relax-timeout":10,"changecolor":false,"volume":100,"transitions":true,"loadpolicy":false,"language":"auto"}',
 lists,
 settings,
 currentstation,
@@ -45,7 +45,7 @@ slow,
 timedout,
 relaxtimer,
 currentlist,
-audio = new Audio(),
+player = $("video")[0],
 appname = $("title").text(),
 visible = false,
 fetch,
@@ -53,7 +53,9 @@ nostream,
 listsbackup = {},
 listname,
 ismousedown = false;
-console.log("%c Welcome to " + appname + "! %c\n > and Happy Hacking!_%c\n\nhttps://gitlab.com/radiolise/radiolise.gitlab.io\n\n", "font-size: 30px; background-color: #ccc; color: #000; font-family: sans-serif", "font-size: 20px", "font-family: sans-serif; font-size: 14px");
+console.log("%c Welcome to " + appname + "! ", "font-size: 30px; background-color: #ccc; color: #000; font-family: sans-serif");
+console.log("%c > and Happy Hacking!_", "font-size: 20px");
+console.log("%c\nhttps://gitlab.com/radiolise/radiolise.gitlab.io\n\n", "font-family: sans-serif; font-size: 14px");
 console.info("%c" + appname + " is free software, and you are welcome to redistribute it under certain conditions; type%c learnMore() %cfor details.", "font-size: 14px; font-family: sans-serif", "font-size: 14px", "font-size: 14px; font-family: sans-serif");
 function refreshData() {
   var dataobject = {"lists":lists,"settings":settings};
@@ -93,7 +95,7 @@ function init() {
     }
     history.replaceState({}, document.title, ".");
   }
-  $("#themestyle").attr("href", "css/" + (["pure-dark", "vivid", "chic", "chic-dark"][settings.theme - 2] || "pure") + ".css");
+  $("#themestyle").attr("href", "css/" + (["pure-dark", "pure", "chic", "chic-dark"][settings.theme - 2] || "pure") + ".css");
   $("#splash").css({
     "background-image": "none",
     "pointer-events": "none",
@@ -105,7 +107,7 @@ function init() {
   if (prevcolor == "" || settings.theme != 3) {
     changeColor();
   }
-  if (!audio.paused) {
+  if (!player.paused) {
     if (settings.visualization) {
       if (vinterval == undefined) {
         visualise();
@@ -124,13 +126,13 @@ function init() {
   }
   console.info("Initialization completed");
 }
-audio.onpause = function() {
+player.onpause = function() {
   stopStream();
   updateFinish(nostream);
 }
-audio.onplay = function() {
-  if (audio.getAttribute("src") == null) {
-    $("#stop").trigger("click");
+player.onplay = function() {
+  if (player.getAttribute("src") == null) {
+    $(".stop:first").trigger("click");
   }
 }
 function moveArray(arr, oldindex, newindex) {
@@ -151,7 +153,10 @@ function showLoading() {
 }
 function loadSettings() {
   $(".checked").removeClass("checked");
-  $("#theme").val(["pure", "puredark", "vivid", "chic", "chicdark"][settings.theme - 1]);
+  $("#theme").val(["pure", "puredark", "pure", "chic", "chicdark"][settings.theme - 1]);
+  if (settings.changecolor || settings.theme == 3) {
+    $("#colorchange").addClass("checked");
+  }
   themeSet();
   if (settings.visualization) {
     $("#pseudovsl").addClass("checked");
@@ -183,9 +188,6 @@ function saveSettings() {
     case "puredark":
       settings.theme = 2;
       break;
-    case "vivid":
-      settings.theme = 3;
-      break;
     case "chic":
       settings.theme = 4;
       break;
@@ -198,12 +200,14 @@ function saveSettings() {
   settings.visualization = $("#pseudovsl").hasClass("checked");
   settings.relax = $("#relaxmode").hasClass("checked");
   settings["relax-timeout"] = +$("#relaxtimeout").val();
+  settings.changecolor = $("#colorchange").hasClass("checked");
   settings.volume = +$("#defaultvolume").val();
   settings.transitions = $("#transitions").hasClass("checked");
   settings.loadpolicy = $("#loadpolicy").hasClass("checked");
   settings.language = $("#locales").val();
   if (settings.language != tr("en") && (!detected || settings.language != "auto")) {
-    if (audio.paused) {
+    if (player.paused) {
+      $(document).off("scroll");
       $("html").html("<h1 style=\"font-family: Roboto, sans-serif\">" + tr("One moment please…") + "</h1>"); 
       stopStream();
       location.reload();
@@ -222,23 +226,22 @@ function saveSettings() {
 }
 $("title").text(appname);
 function showVolume(plus) {
-    $(window).scrollTop(0);
-    var newvol = audio.volume;
-    if (plus) {
-      newvol += .1;
-    }
-    else {
-      newvol -= .1;
-    }
-    if (newvol > 1) {
-      newvol = 1;
-    }
-    else if (newvol < 0) {
-      newvol = 0;
-    }
-    audio.volume = newvol.toFixed(1);
-    var rvolume = audio.volume * 100;
-    hint("<i style='font-size: 60px' class='fa fa-volume-" + ((rvolume > 0) ? "up" : "off") + "'></i><div style='font-size: 25px'>" + ((rvolume > 0) ? rvolume + "%" : tr("Off")) + "</div>", true);
+  var newvol = player.volume;
+  if (plus) {
+    newvol += .1;
+  }
+  else {
+    newvol -= .1;
+  }
+  if (newvol > 1) {
+    newvol = 1;
+  }
+  else if (newvol < 0) {
+    newvol = 0;
+  }
+  player.volume = newvol.toFixed(1);
+  var rvolume = player.volume * 100;
+  hint("<i style='font-size: 60px' class='fa fa-volume-" + ((rvolume > 0) ? "up" : "off") + "'></i><div style='font-size: 25px'>" + ((rvolume > 0) ? rvolume + "%" : tr("Off")) + "</div>", true);
 }
 function restoreStation() {
   stationUpdate(true);
@@ -292,40 +295,40 @@ function learnMore() {
   return $("#infotext").text().replace(/          /g, "\n").trim();
 }
 function hint(text, square, confirm) {
-    clearTimeout(hinttimer);
-    $("#navbar").css({
-      opacity: .5
-    });    
-    $("#hint").css({
-      opacity: 1,
-      visibility: "visible"
-    }).children().html((text != "load") ? text : "<i style='font-size: 60px; margin: 16px 0' class='fa fa-spinner fa-spin'></i>");
-    var timems = 5000;
-    if (confirm) {
-      $("#hint > div").append("<div style='text-align: right'><a onclick='closeHint()' class='button'>OK</a></div>")
-    }
-    else if (text != "load") {
-      hinttimer = setTimeout(function() {
-        closeHint();
-      }, timems);      
-    }
-    if (square || text == "load") {
-      $("#hint > div").css({
-        "width": "100px"
-      });
-      timems = 2000;
-    }
-    else {
-      $("#hint > div").css({
-        "width": "300px"
-      });
-    }
+  clearTimeout(hinttimer);
+  $("#navbar, .videobar").css({
+    opacity: .5
+  });    
+  $("#hint").css({
+    opacity: 1,
+    visibility: "visible"
+  }).children().html((text != "load") ? text : "<i style='font-size: 60px; margin: 16px 0' class='fa fa-spinner fa-spin'></i>");
+  var timems = 5000;
+  if (confirm) {
+    $("#hint > div").append("<div style='text-align: right'><a onclick='closeHint()' class='button'>OK</a></div>")
+  }
+  else if (text != "load") {
+    hinttimer = setTimeout(function() {
+      closeHint();
+    }, timems);      
+  }
+  if (square || text == "load") {
     $("#hint > div").css({
-      transform: "scale(1, 1)"
+      "width": "100px"
     });
+    timems = 2000;
+  }
+  else {
+    $("#hint > div").css({
+      "width": "300px"
+    });
+  }
+  $("#hint > div").css({
+    transform: "scale(1, 1)"
+  });
 }
 function closeHint() {
-  $("#navbar").css({
+  $("#navbar, .videobar").css({
     opacity: 1
   });    
   $("#hint").css({
@@ -379,26 +382,24 @@ function updateFinish(newstation) {
         }, settings["relax-timeout"] * 1000);
       }
     }
-    $("#station").css({
-      opacity: 0,
-      transform: "rotateY(45deg)"
+    $(".station").css({
+      opacity: 0
     });
     setTimeout(function() {
-      $("#station").html(newstation).css({
-        opacity: 1,
-        transform: ""
+      $(".station, #relaxcaption span").html(newstation).css({
+        opacity: 1
       });
     }, 400);
     prevdata = newstation;
   }
 }
 function setPlaying(station) {
-  $(".playbutton > i").addClass("fa-play").removeClass("fa-stop");
+  $("#stations .playbutton > i").addClass("fa-play").removeClass("fa-stop");
   $("#stations > tr").removeClass("playing");
   if (station) {
     for (i in currentlist) {
       if (JSON.stringify(currentlist[i]) == JSON.stringify(station)) {
-        $(".playbutton:eq(" + i + ") > i").addClass("fa-stop").removeClass("fa-play");
+        $("#stations .playbutton:eq(" + i + ") > i").addClass("fa-stop").removeClass("fa-play");
         $("#stations > tr:eq(" + i + ")").addClass("playing");
       }
     }
@@ -408,35 +409,52 @@ var hls = new Hls();
 var errormessage;
 hls.on(Hls.Events.MANIFEST_PARSED, function() {
   closeHint();
-  audio.play();
+  player.play();
 });
 hls.on(Hls.Events.ERROR, function(_, data) {
   stopStream();
   updateFinish(nostream);
-  alert(tr("Sorry, an error has occurred. ") + ((Hls.isSupported()) ? errormessage + " → HLS fallback → " + data.details : tr("The stream may need a protocol like HLS, which doesn’t seem to be supported by your browser.")));
+  alert(tr("Sorry, an error has occurred. ") + ((Hls.isSupported()) ? ((data.details != "levelLoadTimeOut") ? errormessage + " → HLS fallback → " + data.details : tr("Timeout: Your network connection seems to be too slow at the moment.")) : tr("The stream may need a protocol like HLS, which doesn’t seem to be supported by your browser.")));
 });
+var hasvideo;
 function startStream(index) {
   stopStream();
   $("body").css({
     scrollTop: 0
   });
   setPlaying(index);
-  audio.onloadeddata = function() {
+  player.ontimeupdate = function() {
+    if (hasvideo != (player.videoHeight > 0)) {
+      hasvideo = (player.videoHeight > 0);
+      if (player.videoHeight > 0) {
+        $("#vcontain").show();
+        $(".fullscreen").show();
+        $(document).trigger("scroll");
+        wakeUp();
+      }
+      else {
+        $("#vcontain").hide();
+      }
+    }
+  }
+  player.onloadedmetadata = function() {
     updateFinish(index.name);
     toggle(true);
     prevstation = index;
-    console.info("Radio turned on: Playing '" + index.name + "'");
-  };
-  audio.onwaiting = function() {
+    $("#external").attr("href", index.url);
+    $("#external").show();
+    console.info("Started streaming '" + index.name + "'");
+  }
+  player.onwaiting = function() {
     hint("load");
   }
-  audio.oncanplay = function() {
+  player.oncanplay = function() {
     closeHint();
   }
-  audio.load();
+  player.load();
   var play = function(url) {
-    audio.setAttribute("src", url);
-    audio.play().catch(function(e) {
+    player.setAttribute("src", url);
+    player.play().catch(function(e) {
       errormessage = e.message;
       stopStream();
       if (e.name == "NotAllowedError") {
@@ -452,8 +470,8 @@ function startStream(index) {
       else {
         setPlaying(index);
         hint("load");
-        hls.loadSource(url);
-        hls.attachMedia(audio);
+        hls.loadSource((location.protocol == "https:") ? url.replace("http:", "https:") : url);
+        hls.attachMedia(player);
       }
     });
   };
@@ -470,19 +488,26 @@ function startStream(index) {
   hint("load");
 }
 function stopStream() {
+  $("#vcontain").hide();
+  $(".fullscreen").hide();
+  $(document).trigger("scroll");
+  hasvideo = false;
+  if ($(".fullscreen i").hasClass("fa-compress")) {
+    $(".fullscreen").trigger("click");
+  }
   hls.detachMedia();
   hls.stopLoad();
-  if ($("#stop").children().hasClass("fa-stop")) {
-    console.info("Radio turned off");
+  if ($(".stop").children().hasClass("fa-stop")) {
+    console.info("Stopped streaming");
   }
   setPlaying(null);
   toggle(false);
   if ($("#hint").find(".fa-spinner").length) {
     closeHint();
   }
-  audio.onerror = null;
-  audio.removeAttribute("src")
-  audio.load();
+  player.onerror = null;
+  player.removeAttribute("src")
+  player.load();
   stopV();
 }
 function stationUpdate(save) {
@@ -491,14 +516,14 @@ function stationUpdate(save) {
     }
     $("#stations").empty();
     for (i = 0; i < currentlist.length; i++) {
-      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { $(\"#stop\").trigger(\"click\") }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<div class='icontain'><img class='icon' src='" + ((settings.loadpolicy) ? currentlist[i].icon : "") + "' onerror='$(this).replaceWith(\"<div class=\\\"icon\\\" style=\\\"background: hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\\\"><span>" + currentlist[i].name[0].toUpperCase() + "</span></div>\")'>" + "</div></div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: 500; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
+      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { $(\".stop:first\").trigger(\"click\") }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<div class='icontain'><img class='icon' src='" + ((settings.loadpolicy) ? currentlist[i].icon : "") + "' onerror='$(this).replaceWith(\"<div class=\\\"icon\\\" style=\\\"background: hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\\\"><span>" + currentlist[i].name[0].toUpperCase() + "</span></div>\")'>" + "</div></div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: 500; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
       for (z = 0; z < currentlist[i].tags.split(",").length; z++) {
         content += "<span class='label'>" + currentlist[i].tags.split(",")[z].trim() + "</span> ";
       }
-      content += "</div></div></div></div></td><td style='padding-right: 15px'><a class='trashcan' style='font-size: 18px' onclick='gearclicked = " + i + "' title='" + tr("Options for ‘") + currentlist[i].name + tr("’") + "'><i class='fa fa-fw fa-ellipsis-v'></i></a></td></tr>";
+      content += "</div></div></div></div></td><td style='padding-right: 15px'><select class='smartmenu' title='" + tr("Options for ‘") + currentlist[i].name + tr("’") + "'><option selected hidden value='icon'>&#xf142;&nbsp;</option><optgroup label='" + tr("Options for ‘") + currentlist[i].name + tr("’") + "'><option value='edit'>" + tr("Edit") + "</option>" + ((i > 0) ? "<option value='moveup'>" + tr("Move up") + "</option>" : "") + ((i < currentlist.length - 1) ? "<option value='movedown'>" + tr("Move down") + "</option>" : "") + "<option value='delete'>" + tr("Delete") + "</option></optgroup><option>" + tr("Cancel") + "</option></select></td></tr>";
       $("#stations").append(content);
     }
-    if (!audio.paused) {
+    if (!player.paused) {
       setPlaying(prevstation);
     }
     if (currentlist.length != 0) {
@@ -532,7 +557,6 @@ function addCustomStation() {
   currentlist.push({});
   $("#customstations input").val("");
   gearclicked = currentlist.length - 1;
-  $("#deletestation").hide();
   modal("stationmanager");
 }
 function setList(name) {
@@ -573,6 +597,22 @@ function applyLists() {
     appendList(list);
   }
   $("#lists").val(listname);
+}
+var bartimer;
+function showVideoBar() {
+  clearTimeout(bartimer);
+  $(".videobar, .stationdiv").finish().show();
+  $("#video").css({
+    cursor: "auto"
+  });
+  if (player.videoHeight > 0 && $("#video").hasClass("fs")) {
+    bartimer = setTimeout(function() {
+      $(".videobar, .stationdiv").fadeOut();
+      $("#video").css({
+        cursor: "none"
+      });
+    }, 3000);
+  }
 }
 function refreshTags(tagstring) {
   $("#preview").empty();
@@ -625,7 +665,7 @@ function loadEntries() {
             break;
           }
         }
-        results += "<div style='cursor: pointer; display: table; table-layout: fixed; width: 100%" + ((available) ? "" : "; opacity: .5; cursor: not-allowed' title='" + tr("This station has already been added to ‘") + listname + tr("’.")) + "' data-meta='" + JSON.stringify(data[i]).replace(/'/g, "&apos;") + "' class='result'><div class='checkmark green' style='display: table-cell; opacity: 0; width: 0'><i class='fa fa-check' style='margin-left: 10px'></i></div><div style='padding: 10px; margin-bottom: 10px; display: table-cell'><h4 style='margin: 0'>" + ((available) ? "" : "<i class='fa fa-ban red'></i> ") + data[i].name + "</h4><br>" + ((data[i].lastcheckok == 0) ? "<span class='label red' style='font-weight: 500'>" + tr("BROKEN") + "</span> " : "") + (($("#order").prop("selectedIndex") > 0) ? "<span class='label green' style='font-weight: 500'><i class='fa fa-" + icons[$("#order").prop("selectedIndex")] + "'></i> " + (data[i][$("#order").val()] || "<i class='fa fa-question'></i>") + "</span> " : "") + (($("#order").prop("selectedIndex") != 1) ? "<span class='label'>" + data[i].country + "</span> " : "") + (($("#order").prop("selectedIndex") != 2) ? "<span class='label'>" + data[i].state + "</span> " : "");
+        results += "<div style='cursor: pointer; display: table; table-layout: fixed; width: 100%" + ((available) ? "" : "; opacity: .5; cursor: not-allowed' title='" + tr("This station has already been added to ‘") + listname + tr("’.")) + "' data-meta='" + JSON.stringify(data[i]).replace(/'/g, "&apos;") + "' class='result'><div class='checkmark green' style='display: table-cell; opacity: 0; width: 0'><i class='fa fa-check' style='margin-left: 10px'></i></div><div style='padding: 10px; margin-bottom: 10px; display: table-cell'><h4 style='margin: 0'>" + ((available) ? "" : "<i class='fa fa-ban red'></i> ") + data[i].name + "</h4><br>" + ((data[i].lastcheckok == 0) ? "<span class='label red' style='font-weight: 500'>" + tr("BROKEN") + "</span> " : "") + (($("#order").prop("selectedIndex") > 0) ? "<span class='label green' style='font-weight: 500'><i class='fa fa-" + icons[$("#order").prop("selectedIndex")] + "'></i> " + (data[i][$("#order").val()] || "<i class='fa fa-question'></i>") + "</span> " : "") + ((+data[i].hls) ? "<span class='label'>HLS</span> " : ((+data[i].bitrate) ? "<span class='label'>" + data[i].bitrate + " kBit/s</span> " : "")) + (($("#order").prop("selectedIndex") != 1) ? "<span class='label'>" + data[i].country + "</span> " : "") + (($("#order").prop("selectedIndex") != 2) ? "<span class='label'>" + data[i].state + "</span> " : "");
         if (data[i].tags != "") { 
           for (z = 0; z < data[i].tags.split(",").length; z++) {
             results += "<span class='label'>" + data[i].tags.split(",")[z].trim() + "</span> ";
@@ -650,7 +690,6 @@ function loadEntries() {
       searching = false;
       $("#loadmore").hide();
       if ($("#results > div").length == 0) {
-        console.log("NICHTS");
         $("#results").html("<p style='font-size: 18px; text-align: center'><i class='far fa-fw fa-meh'></i>" + tr("No matching stations found.") + "</p>");
       }
     }
@@ -659,7 +698,7 @@ function loadEntries() {
     }
     clearInterval(closetimer);
     $("#results").show();
-    console.log("Got " + $("#results > div").length + " results.");
+    console.info("Got " + $("#results > div").length + " results.");
     $("#modals").trigger("scroll");
   }).fail(function(event) {
     if (event.statusText != "abort") {
@@ -681,44 +720,27 @@ function findStation(name) {
 }
 var prevcolor;
 function changeColor() {
-  var color;
-  if (settings.theme == 3) {
-    if (audio.paused) {
-      color = "#333";
-    }
-    else {
-      color = "hsl(" + currentstation.toUpperCase().charCodeAt(0) * 20 + ", 50%, 30%)";
-    }
-  }
-  else {
-    color = "";
-  }
+  var color = ((settings.changecolor || settings.theme == 3) && !player.paused) ? "hsl(" + currentstation.toUpperCase().charCodeAt(0) * 20 + ", 50%, 60%)" : "";
   if (color != prevcolor) {
     prevcolor = color;
     $("body").css({
-      "background": color
+      background: color.replace("60%", "30%")
     });
-    $("body, input, button:not(#navbar > div > div > button), a:not(#loading > div > a), select").css({
-      "color": color
-    });
-    $("#footer, #addfooter").css({
-      "border-top-color": color
-    });
+    $("body")[0].style.setProperty("--themecolor", color);
     console.info("Style color set");
   }
 }
 var relaxed = false;
 function relax() {
-  if (!audio.paused && location.hash != "#dialog" && settings.relax) {
+  if (!player.paused && location.hash != "#dialog" && settings.relax && player.videoHeight == 0) {
     relaxed = true;
     if (vinterval == undefined) {
       visualise();
     }
-    $("body").addClass("relaxed");
-    $("#station").css({
-      "font-size": Math.sqrt($(window).width() * 1.2) + "pt"
+    $("body").addClass("relaxed").css({
+      background: "hsl(" + currentstation.toUpperCase().charCodeAt(0) * 20 + ", 50%, 30%)"
     });
-    console.info("Relax mode entered");
+    console.info("Entered relax mode");
   }
 }
 function wakeUp() {
@@ -728,10 +750,12 @@ function wakeUp() {
       stopV();
     }
     $("body").removeClass("relaxed");
-    $("#station").css({
-        "font-size": "18pt"
-    });
-    console.info("Relax mode left");
+    if (!settings.changecolor && settings.theme != 3) {
+      $("body").css({
+        background: ""
+      });
+    }
+    console.info("Left relax mode");
   }
 }
 function modal(id) {
@@ -819,12 +843,13 @@ var vinterval;
 function visualise() {
   if (settings.visualization || relaxed) {
     vinterval = setInterval(function() {
-        $("#visualization").children().each(function() {
-            $(this).css({
-                "top": Math.random() * 15 + 50 + "%"
-            });
+      $("#visualization").children().each(function() {
+        $(this).css({
+          top: Math.random() * 15 + 50 + "%"
         });
+      });
     }, 100);
+    $("#visualization").show();
     console.info("Pseudo-visualization shown");
   }
 }
@@ -833,13 +858,14 @@ function stopV() {
     clearInterval(vinterval);
     vinterval = undefined;
     $("#visualization").children().css({
-        "top": "100%" 
+      top: "100%" 
     });
+    $("#visualization").hide()
     console.info("Pseudo-visualization hidden");
   }
 }
 function toggle(on) {
-  var icon = $("#stop").children();
+  var icon = $(".stop").children();
   if (on) {
     icon
       .removeClass("fa-play")
@@ -919,14 +945,17 @@ i18next
       $("#locales [value=auto]").append(" (" + tr("en") + ")");
       detected = true;
     }
-    nostream = tr("Radio off");
+    nostream = tr("Ready");
     console.info("Locale strings loaded");
     updateFinish(nostream);
     init();
     $("select:has([data-type])").prop("disabled", true);
     applyLists();
-    audio.volume = settings.volume / 100;
+    player.volume = settings.volume / 100;
     sync(false);
+    $("#relaxcaption").css({
+      "font-size": Math.sqrt($(window).width() * 1.2) + "pt"
+    });    
     function param(param) {
       if (param = (new RegExp("[?&]" + encodeURIComponent(param) + "=([^&]*)")).exec(location.search)) {
         return decodeURIComponent(param[1]);
@@ -980,20 +1009,6 @@ i18next
         visibility: "hidden"
       });
     });
-    $(document).on("click", ".trashcan", function() {
-      modal("stationmanager");
-      $("#stationname").text(currentlist[gearclicked].name);
-      $("#customstations").show();
-      $("[placeholder='" + tr("Name") + "']").val(currentlist[gearclicked].name);
-      $("[placeholder='" + tr("URL") + "']").val(currentlist[gearclicked].url);
-      $("[placeholder='" + tr("Homepage") + "']").val(currentlist[gearclicked].homepage);
-      $("[placeholder='" + tr("Icon") + "']").val(currentlist[gearclicked].icon);
-      $("[placeholder='" + tr("Country") + "']").val(currentlist[gearclicked].country);
-      $("[placeholder='" + tr("State") + "']").val(currentlist[gearclicked].state);
-      $("[placeholder='" + tr("Language") + "']").val(currentlist[gearclicked].language);
-      $("[placeholder='" + tr("Tags") + "']").val(currentlist[gearclicked].tags);
-      $("#deletestation").show();
-    });
     $("#chremove").on("click", function() {
       currentlist.splice(gearclicked, 1);
       stationUpdate(true);
@@ -1004,6 +1019,8 @@ i18next
         event.preventDefault();
       }
     });
+    var typing = false;
+    var typetimer;
     $("body").on("keyup", function(event) {
       var key = event.key;
       if (!(location.hash == "#dialog" || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
@@ -1015,24 +1032,51 @@ i18next
             showVolume(true);
             break;
           case " ":
-            if (!$("#stop").hasClass("disabled")) {
-              if (!$("#stop").children().hasClass("fa-play")) {
+            if (!$(".stop").hasClass("disabled")) {
+              if (!$(".stop").children().hasClass("fa-play")) {
                 hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-stop'></i>", true);
               }
-              $("#stop").trigger("click");
+              $(".stop:first").trigger("click");
             }
+            break;
+          case "f":
+            if ($(".fullscreen").css("display") != "none") {
+              $(".fullscreen").trigger("click");
+            }
+            else {
+              hint("<i class='fa fa-exclamation-triangle'></i> " + tr("No video stream"));
+            }
+            break;
+          case "p":
+            $(".prevstation:first").trigger("click");
+            break;
+          case "n":
+            $(".nextstation:first").trigger("click");
             break;
           default:
             if (!isNaN(key)) {
-              var digit = key - 1;
-              if (key == 0) {
-                digit = 9;
-              }
-              if (digit < currentlist.length) {
-                startStream(currentlist[digit]);
+              clearTimeout(typetimer);
+              typetimer = setTimeout(function() {
+                var digit = $("#hint span").html().replace(/–/g, "");
+                typing = false;
+                if (digit <= currentlist.length && digit > 0) {
+                  closeHint();
+                  startStream(currentlist[digit - 1]);
+                }
+                else {
+                  hint("<i class='fa fa-fw fa-exclamation-triangle'></i> " + tr("Station ") + +digit + tr(" doesn’t exist."));
+                }
+              }, 2000);
+              if (!typing || !$("#hint span").html().match(/–/g)) {
+                typing = true;
+                var output = "";
+                for (var i = 0; i < currentlist.length.toString().length - 1; i++){
+                  output += "–";
+                }
+                hint("<span style='font-size: 32px'>" + key + output + "</span>", true, false);
               }
               else {
-                hint("<i class='fa fa-fw fa-exclamation-triangle'></i> " + tr("Station ") + (digit + 1) + tr(" doesn’t exist."));
+                $("#hint span").html($("#hint span").html().replace("–", key));
               }
             }
         }
@@ -1046,27 +1090,19 @@ i18next
     });
     $("#customstations input").on("blur", function() {
       if (validStation()) {
-        currentlist[gearclicked].name = $("[placeholder='" + tr("Name") + "']").val();
-        currentlist[gearclicked].url = $("[placeholder='" + tr("URL") + "']").val();
+        currentlist[gearclicked].name     = $("[placeholder='" + tr("Name")     + "']").val();
+        currentlist[gearclicked].url      = $("[placeholder='" + tr("URL")      + "']").val();
         currentlist[gearclicked].homepage = $("[placeholder='" + tr("Homepage") + "']").val();
-        currentlist[gearclicked].icon = $("[placeholder='" + tr("Icon") + "']").val();
-        currentlist[gearclicked].country = $("[placeholder='" + tr("Country") + "']").val();
-        currentlist[gearclicked].state = $("[placeholder='" + tr("State") + "']").val();
-        currentlist[gearclicked].language = $("[placeholder='" + tr("Sprache") + "']").val();
-        currentlist[gearclicked].tags = $("[placeholder='" + tr("Tags") + "']").val();
+        currentlist[gearclicked].icon     = $("[placeholder='" + tr("Icon")     + "']").val();
+        currentlist[gearclicked].country  = $("[placeholder='" + tr("Country")  + "']").val();
+        currentlist[gearclicked].state    = $("[placeholder='" + tr("State")    + "']").val();
+        currentlist[gearclicked].language = $("[placeholder='" + tr("Sprache")  + "']").val();
+        currentlist[gearclicked].tags     = $("[placeholder='" + tr("Tags")     + "']").val();
         sync(true);
       }
     });
     $("#done").on("click", function() {
       closeModal();
-    });
-    $("#deletestation").on("click", function() {
-      closeModal();
-      var stationbackup = currentlist.slice();
-      var victim = currentlist[gearclicked].name;
-      currentlist.splice(gearclicked, 1);
-      stationUpdate(true);    
-      undelete(tr("Station named ‘") + victim + tr("’ has been removed."), stationbackup, "currentlist", restoreStation);
     });
     $("#wrench").on("click", function() {
       modal("listmanager");
@@ -1074,8 +1110,7 @@ i18next
     $("#closesettings").on("click", function() {
       $('#discardsettings').trigger('click');
     });
-    $("#stop").on("click", function() {
-      $(window).scrollTop(0);
+    $(".stop").on("click", function() {
       var icon = $(this).children();
       if (icon.hasClass("fa-stop")) {
         stopStream();
@@ -1090,12 +1125,42 @@ i18next
         }
         else {
           hint("<i class='fa fa-fw fa-exclamation-triangle'></i>" + tr("Please add a station to the list first."));
-          console.warn("Radio not turned on: Station list is empty");
         }
       }
     });
+    $(".prevstation").on("click", function() {
+      if (currentlist.length > 1) {
+        var index = currentlist.indexOf(prevstation);
+        if (index > 0) {
+          startStream(currentlist[index - 1]);
+        }
+        else if (index >= 0) {
+          startStream(currentlist[currentlist.length - 1]);
+        }
+      }
+    });
+    $(".nextstation").on("click", function() {
+      if (currentlist.length > 1) {
+        var index = currentlist.indexOf(prevstation);
+        if (index >= 0 && index < currentlist.length - 1) {
+          startStream(currentlist[index + 1]);
+        }
+        else if (index >= 0) {
+          startStream(currentlist[0]);
+        }
+      }
+    });
+    $("#external").on("click", function() {
+      stopStream();
+    });
+    $("#vcontain").on("dblclick", function() {
+      $(".fullscreen").trigger("click");
+    });
+    $("#video").on("mousedown mouseup mousemove", function() {
+      showVideoBar();
+    });
     $("#tryfetch").on("click", function() {
-      $("#failmsg").slideUp();
+// //       $("#failmsg").slideUp();
       browseCrb();
     });
     $("#redoajax").on("click", function() {
@@ -1103,12 +1168,66 @@ i18next
       showLoading();
       $("#failure").hide();
     });
-    $("#minus").on("click", function() {
+    $(".minus").on("click", function() {
         showVolume(false);
     });
-    $("#plus").on("click", function() {
+    $(".plus").on("click", function() {
         showVolume(true);
     });
+    $(".fullscreen").on("click", function() {
+      var video = $("#video")[0];
+      if ($(".fullscreen i").hasClass("fa-expand")) {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        }
+        else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
+        }
+        else if (video.mozRequestFullScreen) {
+          video.mozRequestFullScreen();
+        }
+        else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        }
+      }
+      else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+        else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+        else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        }
+        else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+        $("#video").removeClass("fs")
+        console.info("Left fullscreen");
+      }
+    });
+    $("video").on("contextmenu", function() {
+      return false;
+    });
+    function fullscreenChange() {
+      if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement) {
+        $(".fullscreen i").removeClass("fa-expand").addClass("fa-compress");
+        $("#video").addClass("fs");
+        $("#hint").prependTo("#video");
+        console.info("Entered fullscreen");
+      }
+      else {
+        $(".fullscreen i").removeClass("fa-compress").addClass("fa-expand");
+        $("#video").removeClass("fs");
+        $("#hint").insertAfter("#modals");
+        clearTimeout(bartimer);
+        console.info("Left fullscreen");
+      }
+      showVideoBar();
+      $(document).trigger("scroll");
+    }
+    $(document).on("fullscreenchange", fullscreenChange).on("webkitfullscreenchange", fullscreenChange).on("mozfullscreenchange", fullscreenChange);
     $(window).on("hashchange", function() {
         if (location.hash === "" && $(".shown").length == 1) {
           closeModal();
@@ -1124,8 +1243,11 @@ i18next
         }, settings["relax-timeout"] * 1000);
       }
     }).on("resize", function() {
+        $("#relaxcaption").css({
+          "font-size": Math.sqrt($(window).width() * 1.2) + "pt"
+        });
         if (relaxed) {
-            relax();
+          relax();
         }
         if ($("#footer").css("visibility") == "visible") {
           $("#footer").css({
@@ -1136,7 +1258,8 @@ i18next
           $("#addfooter").css({
             top: "calc(100% - " + $("#addfooter").height() + "px)"
           });
-        }        
+        }
+        $(document).trigger("scroll");
     });
     $("#findstation").on("click", function() {
       if (searching) {
@@ -1247,7 +1370,6 @@ i18next
       settings = JSON.parse(defaultsettings);
       loadSettings();
       saveSettings();
-      init();
     });
     $(".checkable").on("click", function() {
       if ($(this).hasClass("checked")) {
@@ -1265,8 +1387,45 @@ i18next
       if ($(this).is("#reverse") || $(this).is("#showbroken")) {
         refreshResults();
       }
+      if ($(this).css("opacity") == .5) {
+        hint("<i class='fa fa-exclamation-triangle'></i> " + tr("Screen or window not wide enough") + ".");
+      }
     }).on("select", function() {
       return false;
+    });
+    $("#listdl").on("change", function() {
+      if ($(this).val() != "cancel") {
+        var output;
+        var type;
+        switch ($(this).val()) {
+          case "m3u":
+            output = "#EXTM3U\n";
+            type = "audio/mpegurl";
+            currentlist.forEach(function(item) {
+              output += "#EXTINF:-1," + item.name + "\n" + item.url + "\n";
+            });
+            break;
+          case "pls":
+            output = "[playlist]\n";
+            type = "audio/x-scpls";
+            currentlist.forEach(function(item, index) {
+              output += "File" + ++index + "=" + item.url + "\nTitle" + index + "=" + item.name + "\n";
+            });
+            output += "Version=2\n";
+            break;
+          case "xspf":
+            output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<playlist version=\"1\" xmlns=\"http://xspf.org/ns/0/\">\n  <trackList>\n";
+            type = "application/xspf+xml";
+            currentlist.forEach(function(item, index) {
+              output += "    <track>\n      <title>" + item.name + "</title>\n      <location>" + item.url + "</location>\n    </track>\n";
+            });
+            output += "  </trackList>\n</playlist>\n";
+        }  
+        $("#blob").attr("href", URL.createObjectURL(new Blob([output], {type: type})));
+        $("#blob").attr("download", listname.replace(/ /g, "_") + "_" + (new Date).getTime() + "." + $(this).val());
+        $("#blob")[0].click();
+      }
+      $(this).val("icon");
     });
     $("input[type=file]").on("change", function(event) {
       var file = event.target.files[0];
@@ -1289,10 +1448,10 @@ i18next
     $("#export").on("click", function() {
       saveSettings();
       $("#blob").attr("href", URL.createObjectURL(new Blob([JSON.stringify(settings)], {type: "application/json"})));
-      $("#blob").attr("download", "Radiolise_settings_" + (new Date).getTime() + ".json");
+      $("#blob").attr("download", "Settings_" + (new Date).getTime() + ".json");
       $("#blob")[0].click();
     });
-    $("#minus, #plus").on("DOMMouseScroll", function(event) {
+    $(".minus, .plus").on("DOMMouseScroll", function(event) {
       event.preventDefault();
       showVolume(event.originalEvent.detail < 0);
     }).on("mousewheel", function(event) {
@@ -1306,24 +1465,27 @@ i18next
       clickY = e.pageX;
       scrollleft = $(this).scrollLeft();
       tagdiv = $(this);
-      $("body, .tags").css({
-        cursor: "-webkit-grabbing"
-      }).css({
-        cursor: "grabbing"
-      });
+      $("html").addClass("dragging");
     }).on("mousemove", function(e) {
         if (clicked) {
           tagdiv.scrollLeft(scrollleft + clickY - e.pageX);
         }
     }).on("mouseup", function() {
       clicked = false;
-      $("body").css({
-        cursor: "auto"
-      });
-      $(".tags").css({
-        cursor: "ew-resize"
-      });   
     });
+    var scrollstate;
+    $(document).on("scroll", function(event) {
+      if (scrollstate != ($("#video .videobar").offset().top - $(window).scrollTop() <= 50)) {
+        scrollstate = ($("#video .videobar").offset().top - $(window).scrollTop() <= 50);
+        if (scrollstate) {
+          $("body").addClass("fixedplayer");
+        }
+        else {
+          $("body").removeClass("fixedplayer");
+        }
+      }
+    });
+    $(document).trigger("scroll");
     $("#modals").on("scroll", function() {
       if (searching && $("#addstation").hasClass("shown") && $("#loadmore").offset().top - $(window).height() - $(window).scrollTop() < 0) {
         searching = false;
@@ -1343,6 +1505,45 @@ i18next
       else {
         setList($(this).val());      
       }
+    });
+    $(document).on("mousedown", ".smartmenu, .tags", function() {
+      dragging = false;
+      $("#tomove").hide();   
+      $("#stations td:nth-child(2) > div:nth-child(1)").css({
+        cursor: "pointer"
+      });
+    }).on("change", ".smartmenu", function() {
+      gearclicked = $(this).index("#stations .smartmenu");
+      switch ($(this).val()) {
+        case "edit":
+          modal("stationmanager");
+          $("#stationname").text(currentlist[gearclicked].name);
+          $("#customstations").show();
+          $("[placeholder='" + tr("Name")     + "']").val(currentlist[gearclicked].name);
+          $("[placeholder='" + tr("URL")      + "']").val(currentlist[gearclicked].url);
+          $("[placeholder='" + tr("Homepage") + "']").val(currentlist[gearclicked].homepage);
+          $("[placeholder='" + tr("Icon")     + "']").val(currentlist[gearclicked].icon);
+          $("[placeholder='" + tr("Country")  + "']").val(currentlist[gearclicked].country);
+          $("[placeholder='" + tr("State")    + "']").val(currentlist[gearclicked].state);
+          $("[placeholder='" + tr("Language") + "']").val(currentlist[gearclicked].language);
+          $("[placeholder='" + tr("Tags")     + "']").val(currentlist[gearclicked].tags);        
+          break;
+        case "moveup":
+          moveArray(currentlist, gearclicked, gearclicked - 1);
+          stationUpdate(true);
+          break;
+        case "movedown":
+          moveArray(currentlist, gearclicked, gearclicked + 1);
+          stationUpdate(true);
+          break;
+        case "delete":
+          var stationbackup = currentlist.slice();
+          var victim = currentlist[gearclicked].name;
+          currentlist.splice(gearclicked, 1);
+          stationUpdate(true);    
+          undelete(tr("Station named ‘") + victim + tr("’ has been removed."), stationbackup, "currentlist", restoreStation);          
+      }
+      $(this).val("icon");
     });
     $("#addchecked").on("click", function() {
       $(".selected").each(function(index) {
@@ -1469,7 +1670,6 @@ i18next
       dragindex = $(this).index();
       row = $(this);
       $("#tomove").html(row[0].outerHTML.replace(/id=/g, ""));
-      $("#tomove").show();
       cursor = e.pageY;
       $("#tomove").css({
         height: row.height(),
@@ -1481,6 +1681,8 @@ i18next
     var moveinterval;
     $(document).on("mousemove", function(e) {
       if (dragging) {
+        $("html").addClass("dragging");
+        $("#tomove").show();
         $("#tomove").css({
           top: row.offset().top + e.pageY - cursor - $(window).scrollTop()
         });
@@ -1501,6 +1703,7 @@ i18next
         }
       }
     }).on("mouseup", function() {
+      $("html").removeClass("dragging");
       if (dragging) {
         dragging = false;
         clearInterval(moveinterval);
@@ -1512,6 +1715,9 @@ i18next
           moveArray(currentlist, dragindex, newindex);
           stationUpdate(true);
         }
+        $("#stations td:nth-child(2) > div:nth-child(1)").css({
+          cursor: "pointer"
+        });        
       }
     });
 });
