@@ -1,5 +1,5 @@
 "use strict";
-var version = "(3)";
+var version = "(4)";
 var urlsToCache = [
   "",
   ".",
@@ -20,6 +20,7 @@ var urlsToCache = [
   "js/i18nextXHRBackend.min.js",
   "js/jquery.min.js",
   "locales/de.json",
+  "locales/ru.json",
   "manifest.json",
   "webfonts/fa-brands-400.eot",
   "webfonts/fa-brands-400.svg",
