@@ -132,7 +132,7 @@
   "A simple yet elegant dark theme.": "Простая, но элегантная тема оформления в темной гамме.",
   "Color change": "Менять цвета",
   "Screen or window not wide enough": "Недостаточная ширина экрана или окна",
-  "Automatically picks an accent and background color depending on which stream is currently running.": "Автоматически меняет цвет пиков и фона псевдовизуализации в зависимости от воспроизводимого потока.",
+  "Automatically picks an accent and background color depending on which stream is currently running.": "Автоматически меняет цвет пиков псевдовизуализации и фона в зависимости от воспроизводимого потока.",
   "Pseudo-visualization": "Псевдовизуализация",
   "Displays an audio visualization based on random values during a running audio stream.": "Отображает аудио визуализацию на основе случайных значений во время воспроизведения.",
   "Relax mode": "Режим отдыха",
