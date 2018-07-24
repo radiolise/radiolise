@@ -17,12 +17,15 @@
  * for the JavaScript code in this page.
  * 
  */
+window.onerror = function(error) {
+  alert(error);
+}
 function tr(string) {
   return i18next.t(string);
 }
 window.onoffline = function() {
   if (!player.paused) {
-    alert(tr("Oh no! The stream was interrupted due to a sudden disconnect."));
+    message(tr("Oh no! The stream was interrupted due to a sudden disconnect."));
   }
   stopStream();
   updateFinish(nostream);
@@ -302,10 +305,16 @@ function hint(text, square, confirm) {
   $("#hint").css({
     opacity: 1,
     visibility: "visible"
-  }).children().html((text != "load") ? text : "<i style='font-size: 60px; margin: 16px 0' class='fa fa-spinner fa-spin'></i>");
+  });
+  if (text != "load") {
+    $("#hint > div").html(text);
+  }
+  else if ($("#hint .fa-spinner").length == 0) {
+    $("#hint > div").html("<i style='font-size: 60px; margin: 16px 0' class='fa fa-spinner fa-spin'></i>");
+  }
   var timems = 5000;
   if (confirm) {
-    $("#hint > div").append("<div style='text-align: right'><a onclick='closeHint()' class='button'>OK</a></div>")
+    $("#hint > div").append("<div style='text-align: right'><a onclick='closeHint()' class='button'>" + tr("OK") + "</a></div>")
   }
   else if (text != "load") {
     hinttimer = setTimeout(function() {
@@ -339,7 +348,7 @@ function closeHint() {
     transform: "scale(1, .5)"
   });
 }
-function alert(text) {
+function message(text) {
   hint(text, false, true);
 }
 function browseCrb() {
@@ -414,7 +423,7 @@ hls.on(Hls.Events.MANIFEST_PARSED, function() {
 hls.on(Hls.Events.ERROR, function(_, data) {
   stopStream();
   updateFinish(nostream);
-  alert(tr("Sorry, an error has occurred. ") + ((Hls.isSupported()) ? ((data.details != "levelLoadTimeOut") ? errormessage + " → HLS fallback → " + data.details : tr("Timeout: Your network connection seems to be too slow at the moment.")) : tr("The stream may need a protocol like HLS, which doesn’t seem to be supported by your browser.")));
+  message(tr("Sorry, an error has occurred. ") + ((Hls.isSupported()) ? ((data.details != "levelLoadTimeOut") ? errormessage + " → HLS fallback → " + data.details : tr("Timeout: Your network connection seems to be too slow at the moment.")) : tr("The stream may need a protocol like HLS, which doesn’t seem to be supported by your browser.")));
 });
 var hasvideo;
 function startStream(index) {
@@ -453,27 +462,34 @@ function startStream(index) {
   }
   player.load();
   var play = function(url) {
-    player.setAttribute("src", url);
-    player.play().catch(function(e) {
-      errormessage = e.message;
-      stopStream();
-      if (e.name == "NotAllowedError") {
-        alert(tr("User gesture seems to be required. Click on ‘") + index.name + tr("’ to start the stream."));
-      }
-      else if (url != index.url) {
-        play(index.url);
-        setPlaying(index);
-      }
-      else if (!navigator.onLine) {
-        alert(tr("Please make sure that you are online."));
-      }      
-      else {
-        setPlaying(index);
+    if (navigator.onLine) {
+      if (url.endsWith(".m3u8")) {
         hint("load");
         hls.loadSource((location.protocol == "https:") ? url.replace("http:", "https:") : url);
         hls.attachMedia(player);
       }
-    });
+      else {
+        player.setAttribute("src", url);
+        player.play().catch(function(e) {
+          errormessage = e.message;
+          stopStream();
+          if (e.name == "NotAllowedError") {
+            message(tr("User gesture seems to be required. Click on ‘") + index.name + tr("’ to start the stream."));
+          }
+          else if (url != index.url) {
+            play(index.url);
+            setPlaying(index);
+          }
+          else {
+            message(tr("Sorry, an error has occurred. ") + errormessage);
+          }
+        });
+      }
+    }
+    else {
+      stopStream();
+      message(tr("Please make sure that you are online."));
+    }
   };
   if (index.id) {
     $.post("https://www.radio-browser.info/webservice/v2/json/url/" + index.id, function(data) {
@@ -520,7 +536,7 @@ function stationUpdate(save) {
       for (z = 0; z < currentlist[i].tags.split(",").length; z++) {
         content += "<span class='label'>" + currentlist[i].tags.split(",")[z].trim() + "</span> ";
       }
-      content += "</div></div></div></div></td><td style='padding-right: 15px'><select class='smartmenu' title='" + tr("Options for ‘") + currentlist[i].name + tr("’") + "'><option selected hidden value='icon'>&#xf142;&nbsp;</option><optgroup label='" + tr("Options for ‘") + currentlist[i].name + tr("’") + "'><option value='edit'>" + tr("Edit") + "</option>" + ((i > 0) ? "<option value='moveup'>" + tr("Move up") + "</option>" : "") + ((i < currentlist.length - 1) ? "<option value='movedown'>" + tr("Move down") + "</option>" : "") + "<option value='delete'>" + tr("Delete") + "</option></optgroup><option>" + tr("Cancel") + "</option></select></td></tr>";
+      content += "</div></div></div></div></td><td style='padding-right: 15px'><select class='smartmenu' title='" + tr("Options for ‘") + currentlist[i].name + tr("’") + "'><option selected hidden value='icon'>&#xf142;&nbsp;</option><optgroup label='" + tr("Options for ‘") + currentlist[i].name + tr("’") + "'><option value='homepage'>" + tr("Visit homepage") + "</option><option value='edit'>" + tr("Edit") + "</option>" + ((i > 0) ? "<option value='moveup'>" + tr("Move up") + "</option>" : "") + ((i < currentlist.length - 1) ? "<option value='movedown'>" + tr("Move down") + "</option>" : "") + "<option value='delete'>" + tr("Delete") + "</option></optgroup><option>" + tr("Cancel") + "</option></select></td></tr>";
       $("#stations").append(content);
     }
     if (!player.paused) {
@@ -988,7 +1004,7 @@ i18next
             stationUpdate(true);
             autoStart();
           }).fail(function() {
-            alert(tr("Sorry, the station could not be added via ") + source + tr(" because a request failed."));
+            message(tr("Sorry, the station could not be added via ") + source + tr(" because a request failed."));
           });
         }
         else {
@@ -1358,7 +1374,7 @@ i18next
         closeModal();
       }
       else {
-        alert(tr("At least one invalid number input has been detected."));
+        message(tr("At least one invalid number input has been detected."));
       }
     });
     $("#discardsettings").on("click", function() {
@@ -1438,7 +1454,7 @@ i18next
         hint(tr("Import successful."));
       }
       reader.onerror = function() {
-        alert(tr("Error reading file."));
+        message(tr("Error reading file."));
       }
       $(this).val("");
     });
@@ -1473,16 +1489,12 @@ i18next
     }).on("mouseup", function() {
       clicked = false;
     });
-    var scrollstate;
     $(document).on("scroll", function(event) {
-      if (scrollstate != ($("#video .videobar").offset().top - $(window).scrollTop() <= 50)) {
-        scrollstate = ($("#video .videobar").offset().top - $(window).scrollTop() <= 50);
-        if (scrollstate) {
-          $("body").addClass("fixedplayer");
-        }
-        else {
-          $("body").removeClass("fixedplayer");
-        }
+      if ($("#video .videobar").offset().top - $(window).scrollTop() <= 50 && !$("#video").hasClass("fs")) {
+        $("body").addClass("fixedplayer");
+      }
+      else {
+        $("body").removeClass("fixedplayer");
       }
     });
     $(document).trigger("scroll");
@@ -1515,6 +1527,9 @@ i18next
     }).on("change", ".smartmenu", function() {
       gearclicked = $(this).index("#stations .smartmenu");
       switch ($(this).val()) {
+        case "homepage":
+          open(currentlist[gearclicked].homepage, "_blank");
+          break;
         case "edit":
           modal("stationmanager");
           $("#stationname").text(currentlist[gearclicked].name);
@@ -1638,7 +1653,7 @@ i18next
         });
       }
       else {
-        alert(tr("‘") + $(this).data("meta").name + tr("’ has already been added to ‘") + listname + tr("’."));
+        message(tr("‘") + $(this).data("meta").name + tr("’ has already been added to ‘") + listname + tr("’."));
       }
       if ($(".selected").length != 1) {
         $("#stationcount").html($(".selected").length + tr(" stations"));      
