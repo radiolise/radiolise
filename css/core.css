@@ -28,7 +28,7 @@ body {
 button {
   font-weight: 400;
 }
-b, h3, h4 {
+b, h3, h4, .broadcaster {
   font-weight: 500;
 }
 .red {
@@ -75,6 +75,7 @@ a > .fa, button > .fa {
   width: calc(100% - 120px);
   margin: 0 auto;
   padding: 0 10px;
+  overflow: hidden;
 }
 #navbar > div > span > svg {
   height: 36px;
@@ -104,6 +105,7 @@ input[type="number"] {
 }
 #main > div {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, .1);
+  overflow: hidden;
 }
 #maincontrols {
   transition: all .4s;
@@ -143,7 +145,7 @@ rect {
 .button-primary:hover {
   text-decoration: underline;
 }
-.fullscreen {
+.back, .fullscreen {
   display: none;
 }
 #video {
@@ -173,17 +175,20 @@ rect {
 /*   position: absolute; */
   bottom: 0;
   text-align: left;
-  display: flex;
+  display: table;
+  height: 41px;
 }
 #navbar > div > div:nth-child(3) {
   transform: translateX(30px);
   width: calc(100% + 20px);
-  visibility: hidden;
+  display: none;
   padding: 0 20px 20px 20px;
   overflow-y: hidden;
 }
 .videobar > div {
   white-space: nowrap;
+  display: table-cell;
+  vertical-align: middle;
 }
 .fs .videobar {
   padding: 22.5px 15px;
@@ -297,11 +302,13 @@ select::-ms-expand {
 }
 #tomove {
   display: none;
-  position: fixed;
-  pointer-events: none;
   opacity: .5;
+  position: fixed;
   height: 50px;
   width: 50px;
+}
+#tomove tr {
+  pointer-events: none;
 }
 .dragging {
   cursor: -webkit-grabbing;
@@ -378,16 +385,27 @@ p {
 }
 .station {
   width: 100%;
+  max-width: 0;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+.station > div {
   overflow: hidden;
   text-overflow: ellipsis;
-  margin: 0 10px;
-  white-space: nowrap;
 }
 .station, .button-primary {
   font-size: 18px;
 }
-.station, .button-primary, #navbar, #main > div {
+.station > div, .button-primary, #navbar, #main > div {
   transition: opacity .4s;  
+}
+.broadcaster {
+  line-height: 21px;
+}
+.info {
+  font-size: 17px;
+  line-height: 20px;
+  display: none;
 }
 table {
   width: 100%;
@@ -473,7 +491,7 @@ video::-webkit-media-controls {
 tr, #results > div, .checkmark {
   transition: all .2s;
 }
-#tomove, tr:hover, #results > div:hover, input:not(#query):focus {
+#tomove, tr:hover, #results > div:hover, input:not(#query):focus, .hovered {
   background: rgba(0, 0, 0, .1);
 }
 a {
@@ -624,7 +642,6 @@ input[type="checkbox"] + span {
   display: table;
   text-align: center;
   overflow: hidden;
-  font-weight: bold;
   position: fixed;
   z-index: 3;
   left: 0;
@@ -640,6 +657,18 @@ input[type="checkbox"] + span {
 #relaxcaption span {
   display: table-cell;
   vertical-align: middle;
+}
+#relaxcaption div {
+  width: 80vw;
+}
+#relaxcaption div:nth-child(1) {
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#relaxcaption div:nth-child(2) {
+  font-size: 0.9em;
 }
 .relaxed #relaxcaption {
   visibility: visible;
@@ -671,7 +700,7 @@ input[type="checkbox"] + span {
   border-bottom: none;
 }
 .fixedplayer #navbar > div > div:nth-child(3) {
-  visibility: visible;
+  display: block;
 }
 .fixedplayer #video .videobar {
   visibility: hidden;

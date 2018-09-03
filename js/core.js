@@ -19,7 +19,8 @@
  */
 window.onerror = function(error) {
   alert(error);
-}
+};
+window.onunload = stopStream;
 function tr(string) {
   return i18next.t(string);
 }
@@ -55,7 +56,8 @@ fetch,
 nostream,
 listsbackup = {},
 listname,
-ismousedown = false;
+ismousedown = false,
+metarequest;
 console.log("%c Welcome to " + appname + "! ", "font-size: 30px; background-color: #ccc; color: #000; font-family: sans-serif");
 console.log("%c > and Happy Hacking!_", "font-size: 20px");
 console.log("%c\nhttps://gitlab.com/radiolise/radiolise.gitlab.io\n\n", "font-family: sans-serif; font-size: 14px");
@@ -371,31 +373,37 @@ function browseCrb() {
 }
 function updateFinish(newstation) {
   if (prevdata != newstation) {
+    $(".broadcaster").attr("title", newstation);
     if (newstation == nostream) {
+      newstation = nostream;
       $('title').html(appname);
       changeColor();
       stopV();
       wakeUp();
+      toggle(false);
     }
     else {
-      $('title').html(newstation + " – " + appname);
-      currentstation = newstation;
-      changeColor();
-      if (vinterval == undefined) {
-        visualise();
+      if (newstation != loading) {
+        $('title').html(newstation + " - " + appname);
+        currentstation = newstation;
+        changeColor();
+        if (vinterval == undefined) {
+          visualise();
+        }
+        if (settings.relax) {
+          clearTimeout(relaxtimer);
+          relaxtimer = setTimeout(function() {
+            relax(); 
+          }, settings["relax-timeout"] * 1000);
+        }
       }
-      if (prevdata == nostream && settings.relax) {
-        clearTimeout(relaxtimer);
-        relaxtimer = setTimeout(function() {
-          relax(); 
-        }, settings["relax-timeout"] * 1000);
-      }
+      toggle(true);
     }
-    $(".station").css({
+    $(".broadcaster").css({
       opacity: 0
     });
     setTimeout(function() {
-      $(".station, #relaxcaption span").html(newstation).css({
+      $(".broadcaster, #relaxcaption div:eq(0)").html(newstation).css({
         opacity: 1
       });
     }, 400);
@@ -423,11 +431,53 @@ hls.on(Hls.Events.MANIFEST_PARSED, function() {
 hls.on(Hls.Events.ERROR, function(_, data) {
   stopStream();
   updateFinish(nostream);
-  message(tr("Sorry, an error has occurred. ") + ((Hls.isSupported()) ? ((data.details != "levelLoadTimeOut") ? errormessage + " → HLS fallback → " + data.details : tr("Timeout: Your network connection seems to be too slow at the moment.")) : tr("The stream may need a protocol like HLS, which doesn’t seem to be supported by your browser.")));
+  message(tr("Sorry, an error has occurred. ") + ((Hls.isSupported()) ? ((data.details != "levelLoadTimeOut") ? data.details : tr("Timeout: Your network connection seems to be too slow at the moment.")) : tr("The stream may need a protocol like HLS, which doesn’t seem to be supported by your browser.")));
 });
 var hasvideo;
+var updatetimer;
+var info;
+function updateInfo(newinfo) {
+  if (newinfo != info) {
+    $(".info").attr("title", newinfo);
+    $(".info").css({
+      opacity: 0
+    });
+    setTimeout(function() {
+      $(".info, #relaxcaption div:eq(1)").html(newinfo).css({
+        opacity: 1
+      });
+    }, 400);
+    if (newinfo != "<br>") {
+      $(".info").slideDown();
+    }
+    else {
+      $(".info").slideUp();
+    }
+    info = newinfo;
+  }
+}
+function getFileExtension(url) {
+  if (!url) {
+    return "";
+  }
+  var index = url.lastIndexOf("/");
+  if (index !== -1) {
+    url = url.substring(index + 1);
+  }
+  index = url.indexOf("?");
+  if (index !== -1) {
+    url = url.substring(0, index);
+  }
+  index = url.indexOf("#");
+  if (index !== -1) {
+    url = url.substring(0, index);
+  }
+  index = url.lastIndexOf(".");
+  return index !== -1 ? url.substring(index + 1) : "";
+}
 function startStream(index) {
   stopStream();
+  showBuffering();
   $("body").css({
     scrollTop: 0
   });
@@ -447,24 +497,51 @@ function startStream(index) {
     }
   }
   player.onloadedmetadata = function() {
-    updateFinish(index.name);
-    toggle(true);
     prevstation = index;
+    updateFinish(index.name);
+    var post = function() {
+      metarequest = $.post("https://service.radiolise.de/?url=" + player.src, function(data) {
+        var name = data.name || index.name;
+        updateFinish(name);
+        var description = data.title || data.description || "";
+        if (name.toLowerCase() != description.toLowerCase()) {
+          updateInfo(description);
+        }
+        else {
+          updateInfo("<br>");
+        }
+      }).fail(function() {
+        updateInfo("<br>");
+      }).always(function() {
+        if (!updatetimer) {
+          updatetimer = setTimeout(function() {
+            updatetimer = undefined;
+            post();
+          }, 10000);
+        }
+      });
+    };
+    post();
     $("#external").attr("href", index.url);
     $("#external").show();
     console.info("Started streaming '" + index.name + "'");
   }
   player.onwaiting = function() {
-    hint("load");
+    if (prevdata != loading) {
+      hint("load");
+    }
   }
   player.oncanplay = function() {
     closeHint();
   }
   player.load();
   var play = function(url) {
+    if (!url) {
+      url = "";
+    }
     if (navigator.onLine) {
-      if (url.endsWith(".m3u8")) {
-        hint("load");
+      if (getFileExtension(url) == "m3u8") {
+        showBuffering();
         hls.loadSource((location.protocol == "https:") ? url.replace("http:", "https:") : url);
         hls.attachMedia(player);
       }
@@ -473,21 +550,34 @@ function startStream(index) {
         player.play().catch(function(e) {
           errormessage = e.message;
           stopStream();
-          if (e.name == "NotAllowedError") {
-            message(tr("User gesture seems to be required. Click on ‘") + index.name + tr("’ to start the stream."));
-          }
-          else if (url != index.url) {
-            play(index.url);
-            setPlaying(index);
+          if (e.name != "AbortError") {
+            if (e.name == "NotAllowedError") {
+              message(tr("User gesture seems to be required. Click on ‘") + index.name + tr("’ to start the stream."));
+              updateFinish(nostream);
+            }
+            else if (!url.endsWith("/;")) {
+              if (url != index.url) {
+                play(index.url);
+              }
+              else {
+                play((url + "/;").replace("//;", "/;"));
+              }
+              setPlaying(index);
+            }
+            else {
+              message(tr("Sorry, an error has occurred. ") + errormessage);
+              updateFinish(nostream);
+            }
           }
           else {
-            message(tr("Sorry, an error has occurred. ") + errormessage);
+            updateFinish(nostream);
           }
         });
       }
     }
     else {
       stopStream();
+      updateFinish(nostream);
       message(tr("Please make sure that you are online."));
     }
   };
@@ -501,7 +591,6 @@ function startStream(index) {
   else {
     play(index.url);
   }
-  hint("load");
 }
 function stopStream() {
   $("#vcontain").hide();
@@ -517,7 +606,6 @@ function stopStream() {
     console.info("Stopped streaming");
   }
   setPlaying(null);
-  toggle(false);
   if ($("#hint").find(".fa-spinner").length) {
     closeHint();
   }
@@ -525,6 +613,15 @@ function stopStream() {
   player.removeAttribute("src")
   player.load();
   stopV();
+  updateInfo("<br>");
+  if (metarequest) {
+    metarequest.abort();
+  }
+  clearTimeout(updatetimer);
+  updatetimer = undefined;
+}
+function showBuffering() {
+  updateFinish("<i class='fa fa-spin fa-spinner'></i> " + tr("Loading…"));
 }
 function stationUpdate(save) {
     if (save) {
@@ -748,7 +845,7 @@ function changeColor() {
 }
 var relaxed = false;
 function relax() {
-  if (!player.paused && location.hash != "#dialog" && settings.relax && player.videoHeight == 0) {
+  if (prevdata != nostream && prevdata != loading && location.hash != "#dialog" && settings.relax && player.videoHeight == 0) {
     relaxed = true;
     if (vinterval == undefined) {
       visualise();
@@ -962,6 +1059,7 @@ i18next
       detected = true;
     }
     nostream = tr("Ready");
+    loading = "<i class='fa fa-spin fa-spinner'></i> " + tr("Loading…");
     console.info("Locale strings loaded");
     updateFinish(nostream);
     init();
@@ -1039,6 +1137,7 @@ i18next
     var typetimer;
     $("body").on("keyup", function(event) {
       var key = event.key;
+      clearTimeout(typetimer);
       if (!(location.hash == "#dialog" || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
         switch (key) {
           case "-":
@@ -1049,9 +1148,7 @@ i18next
             break;
           case " ":
             if (!$(".stop").hasClass("disabled")) {
-              if (!$(".stop").children().hasClass("fa-play")) {
-                hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-stop'></i>", true);
-              }
+              hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-" + (($(".stop i").hasClass("fa-play")) ? "play" : "stop") + "'></i>", true);
               $(".stop:first").trigger("click");
             }
             break;
@@ -1065,25 +1162,29 @@ i18next
             break;
           case "p":
             $(".prevstation:first").trigger("click");
+            hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-step-backward'></i>", true);
             break;
           case "n":
             $(".nextstation:first").trigger("click");
+            hint("<i style='font-size: 60px; margin: 16px 0' class='fa fa-step-forward'></i>", true);
             break;
           default:
             if (!isNaN(key)) {
-              clearTimeout(typetimer);
+              var number = $("#hint span").html() || "";
               typetimer = setTimeout(function() {
-                var digit = $("#hint span").html().replace(/–/g, "");
-                typing = false;
-                if (digit <= currentlist.length && digit > 0) {
-                  closeHint();
-                  startStream(currentlist[digit - 1]);
-                }
-                else {
-                  hint("<i class='fa fa-fw fa-exclamation-triangle'></i> " + tr("Station ") + +digit + tr(" doesn’t exist."));
+                if ($("#hint span").length) {
+                  var digit = $("#hint span").html().replace(/–/g, "");
+                  typing = false;
+                  if (digit <= currentlist.length && digit > 0) {
+                    closeHint();
+                    startStream(currentlist[digit - 1]);
+                  }
+                  else {
+                    hint("<i class='fa fa-fw fa-exclamation-triangle'></i> " + tr("Station ") + +digit + tr(" doesn’t exist."));
+                  }
                 }
               }, 2000);
-              if (!typing || !$("#hint span").html().match(/–/g)) {
+              if (!typing || !number.match(/–/g)) {
                 typing = true;
                 var output = "";
                 for (var i = 0; i < currentlist.length.toString().length - 1; i++){
@@ -1092,7 +1193,7 @@ i18next
                 hint("<span style='font-size: 32px'>" + key + output + "</span>", true, false);
               }
               else {
-                $("#hint span").html($("#hint span").html().replace("–", key));
+                $("#hint span").html(number.replace("–", key));
               }
             }
         }
@@ -1142,6 +1243,24 @@ i18next
         else {
           hint("<i class='fa fa-fw fa-exclamation-triangle'></i>" + tr("Please add a station to the list first."));
         }
+      }
+    });
+    $(".back, .station").on("click", function() {
+      if ($(".back").css("display") == "none") {
+        $(".videobar .button-primary").hide();
+        $(".back").show();
+        $(".info").css({
+          "white-space": "normal"
+        });
+      }
+      else {
+        $(".videobar .button-primary").css({
+          display: ""
+        });
+        $(".back").hide();
+        $(".info").css({
+          "white-space": ""
+        });        
       }
     });
     $(".prevstation").on("click", function() {
@@ -1680,9 +1799,12 @@ i18next
     var dragindex;
     var row;
     var cursor;
+    var newcursor;
+    var newindex;
     $("#stations").on("mousedown", "tr", function(e) {
       dragging = true;
       dragindex = $(this).index();
+      newindex = dragindex;
       row = $(this);
       $("#tomove").html(row[0].outerHTML.replace(/id=/g, ""));
       cursor = e.pageY;
@@ -1698,26 +1820,61 @@ i18next
       if (dragging) {
         $("html").addClass("dragging");
         $("#tomove").show();
-        $("#tomove").css({
-          top: row.offset().top + e.pageY - cursor - $(window).scrollTop()
-        });
         clearInterval(moveinterval);
         moveinterval = undefined;
-        if ($("#tomove").css("display") != "none") {
-          var position = $("#tomove").position().top;
-          if (position <= 50) {
-            moveinterval = setInterval(function() {
-              $(window).scrollTop($(window).scrollTop() - 20);
-            }, 10);
+        newcursor = e.pageY;
+        var setIndex = function(y) {
+          newindex = Math.floor((y - $("#stations").offset().top) / $("#stations tr").height());
+          if (newindex < 0) {
+            newindex = 0;
           }
-          else if ($(window).height() - position - $("#tomove").height() <= 0) {
-            moveinterval = setInterval(function() {
-              $(window).scrollTop($(window).scrollTop() + 20);
-            }, 10);
+          else if (newindex >= $("#stations tr").length) {
+            newindex = $("#stations tr").length - 1;
           }
+          $("#stations tr").removeClass("hovered");
+          $("#stations tr:nth-child(" + (newindex + 1) + ")").addClass("hovered");
+          var newtop = row.offset().top + y - cursor - $(window).scrollTop();
+          var mintop = $("#stations").offset().top - $(window).scrollTop();
+          var maxtop = $("#stations").offset().top + $("#stations").height() - $("#tomove").height() - $(window).scrollTop();
+          if (newtop < mintop) {
+            $("#tomove").css({
+              transform: "translateY(" + (mintop - newtop) + "px)"
+            });
+          }
+          else if (newtop > maxtop) {
+            $("#tomove").css({
+              transform: "translateY(" + (maxtop - newtop) + "px)"
+            });
+          }
+          else {
+            $("#tomove").css({
+              transform: ""
+            });
+          }
+          $("#tomove").css({
+            top: newtop
+          });
+        }
+        var position = parseInt($("#tomove").css("top"), 10);
+        if (position <= 50 + $(".videobar").outerHeight()) {
+          moveinterval = setInterval(function() {
+            $(window).scrollTop($(window).scrollTop() - 20);
+            newcursor -= 20;
+            setIndex(newcursor);
+          }, 10);
+        }
+        else if ($(window).height() - position - $("#tomove").height() <= 0) {
+          moveinterval = setInterval(function() {
+            $(window).scrollTop($(window).scrollTop() + 20);
+            newcursor += 20;
+            setIndex(newcursor);
+          }, 10);
+        }
+        else {
+          setIndex(newcursor);
         }
       }
-    }).on("mouseup", function() {
+    }).on("mouseup", function(e) {
       $("html").removeClass("dragging");
       if (dragging) {
         dragging = false;
@@ -1725,14 +1882,14 @@ i18next
         moveinterval = undefined;
         $("#tomove").hide();
         $("#tomove").empty();
-        var newindex = $("#stations tr:hover").index();
-        if (newindex != -1 && newindex != dragindex) {
+        if (newindex != dragindex) {
           moveArray(currentlist, dragindex, newindex);
           stationUpdate(true);
         }
         $("#stations td:nth-child(2) > div:nth-child(1)").css({
           cursor: "pointer"
-        });        
+        });    
+        $("#stations tr").removeClass("hovered");
       }
     });
 });
