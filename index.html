@@ -49,7 +49,7 @@
     <div id="page">
       <div id="navbar">
         <div>
-          <span>
+          <span class="menu">
             <svg width="36px" height="36px" id="logo">
               <rect height="3.6000011" width="10.800002" x="12.600003" y="29.699999"></rect>
               <rect height="3.6000011" width="10.800002" x="25.199999" y="29.699999"></rect>
@@ -70,8 +70,8 @@
           </span>
           <div>
             <button class="addbutton" aria-label="Find stations"><i class="fa fa-search"></i> <span tr>Find stations</span></button>
-            <button id="settingsbutton" aria-label="Customize"><i class="fa fa-paint-brush"></i> <span tr>Customize</span></button>
-            <button id="learnmorebutton" aria-label="Learn more"><i class="fa fa-info-circle"></i> <span tr>Learn more</span></button>
+            <button class="settingsbutton" aria-label="Customize"><i class="fa fa-paint-brush"></i> <span tr>Customize</span></button>
+            <button class="learnmorebutton" aria-label="Learn more"><i class="fa fa-info-circle"></i> <span tr>Learn more</span></button>
           </div>
           <div>
             <div class="videobar">
@@ -97,7 +97,9 @@
       <div id="main">
         <div>
           <div id="video">
-            <div id="vcontain"><video></video></div>
+            <div id="vcontain" style="background-size: contain; background-repeat: no-repeat; background-position: center">
+              <video></video>
+            </div>
             <div class="videobar">
               <div>
                 <a class="button-primary back"><i class="fa fa-arrow-left"></i></a>
@@ -139,7 +141,7 @@
                 </optgroup>
                 <option value="cancel" tr>Cancel</option>
               </select>
-              <a id="wrench" title="Manage station lists"><i class="fa fa-fw fa-wrench"></i></a>
+              <a class="wrench" title="Manage station lists"><i class="fa fa-fw fa-wrench"></i></a>
               <div id="zero" tr>This station list is empty.<br>Press the lower right button to add some stations.</div>
               <table id="stations"></table>
             </div>              
@@ -156,8 +158,17 @@
       </div>
     </div>
     <div id="modals">
-      <div id="addstation">
+      <div id="menu">
         <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
+        <h3><i class="fa fa-fw fa-bars"></i><span tr>Main menu</span></h3>
+        <button class="addbutton"><i class="fa fa-fw fa-search"></i> <span tr>Find stations</span></button>
+        <button class="wrench"><i class="fa fa-fw fa-list-alt"></i> <span tr>Manage station lists</span></button>
+        <button class="settingsbutton"><i class="fa fa-fw fa-paint-brush"></i> <span tr>Customize</span></button>
+        <button class="learnmorebutton"><i class="fa fa-fw fa-info-circle"></i> <span tr>Learn more</span></button>
+        <button class="closer"><i class="fa fa-fw fa-times"></i> <span tr>Cancel</span></button>
+      </div>
+      <div id="addstation">
+        <div style="float: right"><a class="menu"><i class="fa fa-fw fa-lg fa-bars"></i></a> <a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <h3><i class="fa fa-fw fa-search"></i><span tr>Find stations</span></h3>
           <p><span tr>The search feature is made possible by the </span><a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener"><span tr>free</span><i class="fa fa-fw fa-external-link-alt"></i></a> <a class="btn-link white" href="http://www.radio-browser.info" target="_blank" rel="noopener">Community Radio Browser<i class="fa fa-fw fa-external-link-alt"></i></a>.</p>
         <div>
@@ -222,7 +233,7 @@
         </div>
       </div>
       <div id="stationmanager">
-        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
+        <div style="float: right"><a class="menu"><i class="fa fa-fw fa-lg fa-bars"></i></a> <a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <h3><i class="fa fa-fw fa-edit"></i><span id="stationname"></span> – <span tr>Station editor</span></h3>
 <!--         <p>Use this tool to manage your custom stations.</p> -->
         <div id="customstations" style="">
@@ -242,7 +253,7 @@
         </div>   
       </div>
       <div id="learnmore">
-        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
+        <div style="float: right"><a class="menu"><i class="fa fa-fw fa-lg fa-bars"></i></a> <a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <br><div><div><img src="img/logo.svg"><span class="name"></span></div></div><br>
         <div id="infotext">
           <p>© 2017-2018 Marco Bauer</p>
@@ -254,7 +265,7 @@
         <a href="js/LICENSES.html" rel="jslicense"></a>
       </div>
       <div id="settings">
-        <div style="float: right"><a id="closesettings"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
+        <div style="float: right"><a class="menu"><i class="fa fa-fw fa-lg fa-bars"></i></a> <a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <h3><i class="fa fa-fw fa-paint-brush"></i><span tr>Customize</span></h3>
         <p><span tr>Here you may customize </span><span class="name"></span><span tr> to your needs.</span></p>
         <div id="controlpanel">
@@ -336,7 +347,7 @@
         </div>
       </div>
       <div id="listmanager">
-        <div style="float: right"><a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
+        <div style="float: right"><a class="menu"><i class="fa fa-fw fa-lg fa-bars"></i></a> <a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <h3><i class="fa fa-fw fa-list-alt"></i><span tr>Station lists</span></h3>
         <p tr>Use this tool to manage your station lists.</p>
         <div>

@@ -13,7 +13,7 @@ body, #volumebar > div:nth-child(1) {
 #navbar > div > span > span, #navbar > div > div > button, .button-primary {
   color: #fff;
 }
-a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type="number"], .smartmenu {
+a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type="number"], .smartmenu, #modals button {
   color: #222;
 }
 #main > div, #modals > div {
@@ -21,8 +21,9 @@ a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type=
   color: #222;
 }
 #hint > div {
-  background: rgba(34, 34, 34, .9);
+  background: #222;
   color: #fff;
+  border: 2px solid rgba(255, 255, 255, .5);
 }
 input {
   background: #fff;
@@ -32,18 +33,11 @@ input {
   background: rgba(34, 34, 34, .9);
   color: #fff;
 }
-.button:hover, #navbar > div > div > button:hover {
-  color: var(--themecolor);
-}
-.button:active, #navbar > div > div > button:active {
-  background: var(--themecolor);
-  color: #fff;
-}
 #addstation > div > div:nth-child(1), select, input:not(#query) {
   border-bottom: 2px solid rgba(0, 0, 0, .5) !important;
 }
 #modals {
-  background: rgba(0, 0, 0, .5);
+  background: #fff;
 }
 #volumeline, #volumecircle {
   background: #222;

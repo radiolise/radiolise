@@ -1,5 +1,5 @@
 "use strict";
-var version = "(4)";
+var version = "(6)";
 var urlsToCache = [
   "",
   ".",
@@ -19,6 +19,7 @@ var urlsToCache = [
   "js/i18next.min.js",
   "js/i18nextXHRBackend.min.js",
   "js/jquery.min.js",
+  "locales/be.json",
   "locales/de.json",
   "locales/ru.json",
   "manifest.json",
@@ -37,9 +38,9 @@ var urlsToCache = [
   "webfonts/fa-solid-900.ttf",
   "webfonts/fa-solid-900.woff",
   "webfonts/fa-solid-900.woff2",
-  "webfonts/Roboto-Bold.ttf",
-  "webfonts/Roboto-Medium.ttf",
-  "webfonts/Roboto-Regular.ttf"
+  "webfonts/FiraSans-Bold.ttf",
+  "webfonts/FiraSans-Medium.ttf",
+  "webfonts/FiraSans-Regular.ttf"
 ];
 self.addEventListener("install", function(event) {
   event.waitUntil(

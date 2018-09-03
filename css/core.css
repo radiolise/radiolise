@@ -1,26 +1,26 @@
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Fira Sans';
   font-style: normal;
   font-weight: 400;
-  src: url(../webfonts/Roboto-Regular.ttf);
+  src: url(../webfonts/FiraSans-Regular.ttf);
 }
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Fira Sans';
   font-style: normal;
   font-weight: 500;
-  src: url(../webfonts/Roboto-Medium.ttf);
+  src: url(../webfonts/FiraSans-Medium.ttf);
 }
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Fira Sans';
   font-style: normal;
   font-weight: 700;
-  src: url(../webfonts/Roboto-Bold.ttf);
+  src: url(../webfonts/FiraSans-Bold.ttf);
 }
 * {
   outline: 0;
 }
 body {
-  font-family: Roboto;
+  font-family: Fira Sans;
   margin: 0;
   overflow-x: hidden !important;
   transition: background 2s;
@@ -46,7 +46,7 @@ b, h3, h4, .broadcaster {
   color: #fff;
 }
 button {
-  font-family: Roboto;
+  font-family: Fira Sans;
 }
 #relaxtimeoutdiv, #nightmode {
   display: none;
@@ -61,6 +61,9 @@ a > .fa, button > .fa {
 :hover > .fa {
   opacity: 1;
 }
+#navbar, #page {
+  /*TODO*/
+}
 #navbar {
   position: fixed;
   top: 0;
@@ -73,7 +76,7 @@ a > .fa, button > .fa {
   top: 0;
   max-width: 800px;
   width: calc(100% - 120px);
-  margin: 0 auto;
+/*   margin: 0 auto; */
   padding: 0 10px;
   overflow: hidden;
 }
@@ -85,6 +88,7 @@ a > .fa, button > .fa {
 #navbar > div > span {
   float: left;
   font-size: 22px;
+  cursor: pointer;
 }
 #navbar > div > span > span {
   vertical-align: middle;
@@ -100,7 +104,7 @@ input[type="number"] {
   border: none;
   font-size: 18px;
   width: 70px;
-  font-family: Roboto;
+  font-family: Fira Sans;
   text-align: center;
 }
 #main > div {
@@ -236,7 +240,7 @@ select {
   -moz-appearance: none;
   -webkit-appearance: none;
   border: none;
-  font-family: Roboto;
+  font-family: Fira Sans;
   color: #000;
   font-size: 18px;
   background: none;
@@ -251,7 +255,7 @@ select::-ms-expand {
   display: none;
 }
 .smartmenu {
-  font-family: Font Awesome\ 5 Free, Roboto;
+  font-family: Font Awesome\ 5 Free, Fira Sans;
   font-weight: 900;
   border-bottom: none !important;
   opacity: .7;
@@ -280,7 +284,7 @@ select::-ms-expand {
 #main {
   max-width: 820px;
   height: calc(100% - 50px);
-  margin: 50px auto 0 auto;
+/*   margin: 50px auto 0 auto; */
   text-align: center;
 }
 #main > div {
@@ -293,7 +297,7 @@ select::-ms-expand {
 .itemname, #customstations input {
   border: none;
   font-size: 20px;
-  font-family: Roboto;
+  font-family: Fira Sans;
   background: none;
   width: calc(100% - 20px);
 }
@@ -364,18 +368,25 @@ select::-ms-expand {
 p {
   padding: 10px 0;
 }
+#page {
+  transition: margin-left .4s;
+}
 #modals {
   position: fixed;
   top: 0;
-  left: 0;
+  left: -200px;
+  max-width: 470px;
   width: 100%;
   height: 100%;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: scale(1.1);
   overflow-y: auto;
   transition: all .4s;
+}
+#settings .checkable span, #relaxtimeoutdiv span {
+  font-size: 15px;
+  opacity: .7;
 }
 #modals, #hint, #volumemodal, #tomove {
   z-index: 2;
@@ -397,7 +408,7 @@ p {
   font-size: 18px;
 }
 .station > div, .button-primary, #navbar, #main > div {
-  transition: opacity .4s;  
+  transition: opacity .4s, padding-left .4s, width .4s;  
 }
 .broadcaster {
   line-height: 21px;
@@ -423,8 +434,6 @@ table {
   transition: all .4s;
 }
 #modals > div {
-  margin: 50px auto;
-  width: 600px;
   padding: 20px;
 }
 #hint, #volumemodal {
@@ -477,7 +486,7 @@ video::-webkit-media-controls {
 #loading > div > a {
   color: #fff;
 }
-#navbar > div > div > button, #loading > div > a {
+#menu button, #navbar > div > div > button, #loading > div > a {
   height: 50px;
   font-size: 20px;
   background: none;
@@ -487,6 +496,17 @@ video::-webkit-media-controls {
   cursor: pointer;
   text-decoration: none;
   transition: all .2s;
+}
+#menu button {
+  text-align: left;
+  width: 100%;
+}
+#menu button:hover, .button:hover, #navbar > div > div > button:hover {
+  color: var(--themecolor);
+}
+#menu button:active, .button:active, #navbar > div > div > button:active {
+  background: var(--themecolor);
+  color: #fff;
 }
 tr, #results > div, .checkmark {
   transition: all .2s;
@@ -555,7 +575,7 @@ input[type="checkbox"] + span {
   width: calc(100% - 60px);
   border: none;
   font-size: 24px;
-  font-family: Roboto;
+  font-family: Fira Sans;
   padding: 10px;
   background: none;
 }
@@ -568,7 +588,7 @@ input[type="checkbox"] + span {
 }
 #findstation {
   font-size: 20px;
-  font-family: Roboto;
+  font-family: Fira Sans;
   width: 40px;
   border: none;
   background: none;
@@ -708,6 +728,61 @@ input[type="checkbox"] + span {
 .fixedplayer #video {
   box-shadow: none;
 }
+#main, #navbar > div {
+  transition: all .4s;
+}
+#page, #navbar {
+  display: flex;
+}
+#page::before {
+  content: "";
+  width: calc(50% - 460px);
+  min-width: calc(50% - 460px);
+  transition: all .4s;
+}
+#main {
+  flex: 1;
+}
+#navbar::before {
+  content: "";
+  width: calc(50% - 460px);
+  min-width: calc(50% - 460px);
+  transition: all .4s;
+}
+#navbar > div {
+  flex: 1;
+  overflow: visible;
+  padding: 0 60px;
+}
+#navbar > div > div:nth-child(3) {
+  padding: 0 0 20px 0;
+  margin: 0 20px;
+}
+.dialog #page {
+  opacity: .5;
+}
+.dialog {
+  overflow-y: hidden;
+}
+@media screen and (min-width: 1024px) and (max-width: 1230px) {
+  .dialog #navbar > div > div > button > span {
+    display: none;
+  } 
+}
+@media screen and (min-width: 1024px) {
+  .dialog {
+    overflow-y: auto;
+  }
+  .dialog #page {
+    opacity: 1;
+  }
+  .dialog #page::before {
+    min-width: 470px;
+  }
+  .dialog #navbar::before {
+    min-width: 470px;
+  }
+}
 @media screen and (min-width: 821px) {
   #main {
     padding: 0 50px;
@@ -717,11 +792,14 @@ input[type="checkbox"] + span {
   }
 }
 @media screen and (max-width: 820px) {
+  #main {
+    margin-top: 50px;
+  }
   #main > div {
     min-height: calc(100vh - 70px);
   }
   #navbar > div {
-    width: auto;
+    padding: 0 10px;
   }
   #main > div, #video {
     border-bottom: none !important;
@@ -737,18 +815,7 @@ input[type="checkbox"] + span {
     display: inline;
   }
 }
-@media screen and (max-width: 840px) {
-  #modals > div {
-    top: 10px;
-    left: 10px;
-    width: calc(100% - 60px);
-  }
-}
 @media screen and (max-width: 680px) {
-  #modals > div {
-    left: 20px;
-    width: calc(100vw - 80px);
-  }
   #navbar > div > div > button > span {
     display: none;
   }

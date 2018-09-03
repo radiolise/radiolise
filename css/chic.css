@@ -4,11 +4,31 @@ html {
 body, #volumebar > div:nth-child(1) {
   background: #ddd;
 }
+.red {
+  color: #0ff;
+}
+.green {
+  color: #ff7fff;
+}
+.label.green {
+  background: #ff7fff;
+  color: #000;
+}
+.label.red {
+  background: #0ff;
+  color: #000;
+}
 #main > div {
   box-shadow: 10px 10px 40px rgba(0, 0, 0, .3);
+  background: #fff;
+  border-bottom: 3px solid var(--themecolor);
+  border-radius: 20px 0 20px 0;
 }
 .label {
   background: #eee;
+}
+#modals .label:not(.green) {
+  background: #444;
 }
 .videobar, #navbar {
   background: #fff;
@@ -23,45 +43,45 @@ body, #volumebar > div:nth-child(1) {
   border-top-left-radius: 20px;
   overflow: hidden;
 }
-a, #navbar > div > span > span, #learnmore > div:nth-child(3) > div > span, #findstation, #query, #navbar > div > div > button, input[type="number"], .smartmenu {
+a, #navbar > div > span > span, #navbar > div > div > button, input[type="number"], .smartmenu {
   color: #222;
 }
-#main > div, #modals > div {
-  background: #fff;
-  color: #222;
-  border-bottom: 3px solid var(--themecolor);
-  border-radius: 20px 0 20px 0;
+#modals a, #learnmore > div:nth-child(3) > div > span, #query, #findstation {
+  color: #fff;
 }
-#modals > div, #video {
+#main > div {
+  color: #222;
+}
+#video {
   border-top: 3px solid var(--themecolor);
 }
 rect {
   fill: #222;
 }
 #hint > div {
-  background: rgba(34, 34, 34, .9);
+  background: #222;
   color: #fff;
+  border: 2px solid rgba(255, 255, 255, .5);
 }
 input {
   background: #fff;
   color: #222;
 }
-#footer, #addfooter {
+#modals select {
+  background: #343434;
+}
+#modals select, #modals input, #modals button {
+  color: #fff;  
+}
+#modals, #footer, #addfooter {
   background: rgba(34, 34, 34, .9);
   color: #fff;
 }
-.button:hover, #navbar > div > div > button:hover {
-  color: var(--themecolor);
-}
-.button:active, #navbar > div > div > button:active {
-  background: var(--themecolor);
-  color: #fff;
-}
-#addstation > div > div:nth-child(1), select, input:not(#query) {
+select, input:not(#query) {
   border-bottom: 2px solid rgba(0, 0, 0, .5) !important;
 }
-#modals {
-  background: rgba(0, 0, 0, .5);
+#addstation > div > div:nth-child(1), #modals select, #modals input:not(#query) {
+  border-bottom: 2px solid rgba(255, 255, 255, .5) !important;
 }
 #volumeline, #volumecircle {
   background: #222;

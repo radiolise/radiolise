@@ -141,6 +141,9 @@ player.onplay = function() {
   }
 }
 function moveArray(arr, oldindex, newindex) {
+  if (gearclicked == oldindex) {
+    gearclicked = newindex;
+  }
   if (newindex >= arr.length) {
     var k = newindex - arr.length + 1;
     while (k--) {
@@ -213,7 +216,7 @@ function saveSettings() {
   if (settings.language != tr("en") && (!detected || settings.language != "auto")) {
     if (player.paused) {
       $(document).off("scroll");
-      $("html").html("<h1 style=\"font-family: Roboto, sans-serif\">" + tr("One moment please…") + "</h1>"); 
+      $("html").html("<h1 style=\"font-family: Fira Sans, sans-serif\">" + tr("One moment please…") + "</h1>"); 
       stopStream();
       location.reload();
     }
@@ -448,12 +451,108 @@ function updateInfo(newinfo) {
       });
     }, 400);
     if (newinfo != "<br>") {
+      $("#vcontain").css({
+        "background-image": ""
+      });
+      getCoverArt(newinfo);
       $(".info").slideDown();
     }
     else {
+      $("#vcontain").hide();
       $(".info").slideUp();
     }
     info = newinfo;
+  }
+}
+var allids;
+function findAlbum(title, previd) {
+  if (title.match(/ \/ | - |: /g)) {
+    $.get("https://musicbrainz.org/ws/2/recording/?fmt=json&query=" + encodeURIComponent(title.replace(/ \/ | - |: /g, " AND ")), function(data) {
+      if (data.count) {
+        var release = data.recordings[0];
+        var track = release.title;
+        var artist = release["artist-credit"][0].artist.name;
+        var ids = [];
+        for (i = 0; i < data.count; i++) {
+          var recording = data.recordings[i];
+          if (recording) {
+            var releases = recording.releases || [];
+            for (z = 0; z < releases.length; z++) {
+              var item = releases[z];
+              var id = item["release-group"].id;
+              if (ids.indexOf(id) == -1 && previd != id && (!item["release-group"]["secondary-types"] || item["release-group"]["secondary-types"].indexOf("Soundtrack") != -1) && (title.toLowerCase().indexOf(item.media[0].track[0].title.toLowerCase()) != -1 && (recording.title == item.title || (!item["artist-credit"] || artist == item["artist-credit"][0].artist.name)))) {
+                ids.push(id);
+              }
+            }
+          }
+        }
+        requestCover(ids, track, false);
+      }
+      else {
+        console.log("Nothing found");
+      }
+    }).fail(function() {
+      console.log("It failed! Sorry…");
+    });
+  }
+  else {
+    console.log("Malformed title");
+  }
+}
+function requestCover(ids, title, firsttry) {
+  console.log(ids);
+  if (ids.length) {
+    $.get("https://coverartarchive.org/release-group/" + ids[0], function(data) {
+      console.log("SUCCESS");
+      var source = data.images[0].thumbnails.large;
+      for (i = 0; i < data.images.length; i++) {
+        if (data.images[i].front) {
+          source = data.images[i].thumbnails.large;
+          break;
+        }
+      }
+      $("#vcontain").css({
+        "background-image": "url(" + source + ")"
+      });
+    }).fail(function() {
+      requestCover(ids.slice(1), title, firsttry);
+    });
+  }
+  else if (firsttry) {
+    findAlbum(title, allids);
+  }
+  else {
+    console.log("Nothing found");
+  }
+}
+var coverart = false;
+function enableCoverArt() {
+  coverart = true;
+  getCoverArt(info);
+}
+function getCoverArt(title) {
+  if (coverart) {
+    $("#vcontain").show();
+    if (!title || title.toLowerCase().indexOf(currentstation.toLowerCase()) != -1) {
+      console.log("Invalid song title");
+      return;
+    }
+//     $("#coverart img")[0].src = "";
+    $("#coverart h3").text(title);
+    var newtitle = title.replace(",", " ").replace(/[^feat.a-zA-Z\d!\s:\/-]/g, "*");
+    $.get("https://musicbrainz.org/ws/2/release-group/?fmt=json&query=" + encodeURIComponent(newtitle.replace(/ \/ | - |: /g, " AND ")), function(data) {
+      var ids = [];
+      for (i = 0; i < data.count; i++) {
+        var group = data["release-groups"][i];
+        if (group && group.score == 100 && (group["primary-type"] == "Single" || group["primary-type"] == "EP") && title.toLowerCase().indexOf(group["artist-credit"][0].artist.name.toLowerCase()) != -1) {
+          ids.push(group.id);
+        }
+      }
+      allids = ids;
+      requestCover(ids, newtitle, true);
+    }).fail(function() {
+      console.log("It failed! Sorry…");
+    });
   }
 }
 function getFileExtension(url) {
@@ -500,18 +599,18 @@ function startStream(index) {
     prevstation = index;
     updateFinish(index.name);
     var post = function() {
-      metarequest = $.post("https://service.radiolise.de/?url=" + player.src, function(data) {
+      metarequest = $.post("https://service.radiolise.com/?url=" + player.src, function(data) {
         var name = data.name || index.name;
         updateFinish(name);
-        var description = data.title || data.description || "";
-        if (name.toLowerCase() != description.toLowerCase()) {
-          updateInfo(description);
+        if (data.title || !$("<div/>").html(info).text()) {
+          var description = data.title || data.description || "";
+          if (name.toLowerCase() != description.toLowerCase()) {
+            updateInfo(description);
+          }
+          else {
+            updateInfo("<br>");
+          }
         }
-        else {
-          updateInfo("<br>");
-        }
-      }).fail(function() {
-        updateInfo("<br>");
       }).always(function() {
         if (!updatetimer) {
           updatetimer = setTimeout(function() {
@@ -871,17 +970,18 @@ function wakeUp() {
     console.info("Left relax mode");
   }
 }
-function modal(id) {
+function showModal(id) {
   if (id != "hint") {
     $("#modals").css({
-      transform: "scale(1)",
+      left: "0",
       opacity: 1,
       visibility: "visible",
       "pointer-events": "auto"
     });
-    $("body").css({
-      overflow: "hidden"
-    });
+    $("body").addClass("dialog");
+//     $("body").css({
+//       overflow: "hidden"
+//     });
   }
   if (id == "addstation") {
     browseCrb();
@@ -892,6 +992,16 @@ function modal(id) {
     }, 100);
   }
   else if (id == "stationmanager") {
+    $("#stationname").text(currentlist[gearclicked].name);
+    $("#customstations").show();
+    $("[placeholder='" + tr("Name")     + "']").val(currentlist[gearclicked].name);
+    $("[placeholder='" + tr("URL")      + "']").val(currentlist[gearclicked].url);
+    $("[placeholder='" + tr("Homepage") + "']").val(currentlist[gearclicked].homepage);
+    $("[placeholder='" + tr("Icon")     + "']").val(currentlist[gearclicked].icon);
+    $("[placeholder='" + tr("Country")  + "']").val(currentlist[gearclicked].country);
+    $("[placeholder='" + tr("State")    + "']").val(currentlist[gearclicked].state);
+    $("[placeholder='" + tr("Language") + "']").val(currentlist[gearclicked].language);
+    $("[placeholder='" + tr("Tags")     + "']").val(currentlist[gearclicked].tags);
     refreshTags(currentlist[gearclicked].tags || "");
   }
   $("#modals").scrollTop(0);
@@ -903,29 +1013,41 @@ function modal(id) {
   wakeUp();
   console.info("Dialog with tag ID " + id + " shown");
 }
+var modaltimer;
+function modal(id) {
+  if (location.hash == "#dialog") {
+    if ($(".shown").attr("id") != id || id == "stationmanager") {
+      clearTimeout(modaltimer);
+      modaltimer = setTimeout(function() {
+        showModal(id);        
+      }, 400);
+      closeModal(true);
+    }
+    else {
+      closeModal();
+    }
+  }
+  else {
+    showModal(id);
+  }
+}
 var closetimer;
-function closeModal() {
+function closeModal(reopen = false) {
   if ($(".shown").attr("id") == "listmanager") {
     applyLists();
   }
-  else if ($(".shown").attr("id") == "stationmanager") {
-    $("#customstations input").trigger("blur");
-    if (validStation()) {
-      stationUpdate(true);
-    }
-    else {
-      hint("<i class='fa fa-exclamation-triangle'></i> " + tr("Saving failed: Bad station data"));
-    }
-  }
   $("#modals").css({
-    transform: "scale(1.1)",
+    left: "-200px",
     opacity: 0,
     visibility: "hidden",
     "pointer-events": "none"
   });
-  $("body").css({
-    overflow: "auto"
-  });
+  if (!reopen) {
+    $("body").removeClass("dialog");
+  }
+//   $("body").css({
+//     overflow: "auto"
+//   });
   if (location.hash == "#dialog") {
     history.back();
     $(window).trigger("mousemove");
@@ -1138,7 +1260,7 @@ i18next
     $("body").on("keyup", function(event) {
       var key = event.key;
       clearTimeout(typetimer);
-      if (!(location.hash == "#dialog" || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
+      if (!($("input").is(":focus") || event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
         switch (key) {
           case "-":
             showVolume(false);
@@ -1216,12 +1338,19 @@ i18next
         currentlist[gearclicked].language = $("[placeholder='" + tr("Sprache")  + "']").val();
         currentlist[gearclicked].tags     = $("[placeholder='" + tr("Tags")     + "']").val();
         sync(true);
+        stationUpdate(true);
       }
+      else {
+        hint("<i class='fa fa-exclamation-triangle'></i> " + tr("Saving failed: Bad station data"));
+      }      
     });
     $("#done").on("click", function() {
       closeModal();
     });
-    $("#wrench").on("click", function() {
+    $(".menu").on("click", function() {
+      modal("menu");
+    });
+    $(".wrench").on("click", function() {
       modal("listmanager");
     });
     $("#closesettings").on("click", function() {
@@ -1465,7 +1594,7 @@ i18next
         event.preventDefault();
     });
     $("#addlist").on("click", addList);
-    $("#modals, .closer").on("click", function() {
+    $(".closer").on("click", function() {
       closeModal();
     });
     $("#modals > div").on("click", function(event) {
@@ -1474,10 +1603,10 @@ i18next
     $(".addbutton").on("click", function() {
       modal("addstation");
     });
-    $("#settingsbutton").on("click", function() {
+    $(".settingsbutton").on("click", function() {
       modal("settings");
     });
-    $("#learnmorebutton").on("click", function() {
+    $(".learnmorebutton").on("click", function() {
       modal("learnmore");
     });
     $("#applysettings").on("click", function() {
@@ -1609,6 +1738,7 @@ i18next
       clicked = false;
     });
     $(document).on("scroll", function(event) {
+      $(window).trigger("mousemove");
       if ($("#video .videobar").offset().top - $(window).scrollTop() <= 50 && !$("#video").hasClass("fs")) {
         $("body").addClass("fixedplayer");
       }
@@ -1650,17 +1780,7 @@ i18next
           open(currentlist[gearclicked].homepage, "_blank");
           break;
         case "edit":
-          modal("stationmanager");
-          $("#stationname").text(currentlist[gearclicked].name);
-          $("#customstations").show();
-          $("[placeholder='" + tr("Name")     + "']").val(currentlist[gearclicked].name);
-          $("[placeholder='" + tr("URL")      + "']").val(currentlist[gearclicked].url);
-          $("[placeholder='" + tr("Homepage") + "']").val(currentlist[gearclicked].homepage);
-          $("[placeholder='" + tr("Icon")     + "']").val(currentlist[gearclicked].icon);
-          $("[placeholder='" + tr("Country")  + "']").val(currentlist[gearclicked].country);
-          $("[placeholder='" + tr("State")    + "']").val(currentlist[gearclicked].state);
-          $("[placeholder='" + tr("Language") + "']").val(currentlist[gearclicked].language);
-          $("[placeholder='" + tr("Tags")     + "']").val(currentlist[gearclicked].tags);        
+          modal("stationmanager");        
           break;
         case "moveup":
           moveArray(currentlist, gearclicked, gearclicked - 1);
