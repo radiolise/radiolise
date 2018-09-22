@@ -14,13 +14,14 @@
     <title>Radiolise</title>
     <meta name="description" content="Enjoy your favorite TV and radio streams!">
     <meta name="google" content="notranslate">
-    <link rel="icon" href="img/icon.png">
+    <link rel="icon" href="img/logo.png">
+    <link rel="apple-touch-icon" href="img/logo.png">
     <meta content="#222" name="theme-color">
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, user-scalable=0" name="viewport">
     <link href="manifest.json" rel="manifest">
     <link rel="stylesheet" href="css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/core.css?v=3">
     <link id="themestyle" rel="stylesheet">
   </head>
   <body>
@@ -50,22 +51,12 @@
       <div id="navbar">
         <div>
           <span class="menu">
-            <svg width="36px" height="36px" id="logo">
-              <rect height="3.6000011" width="10.800002" x="12.600003" y="29.699999"></rect>
-              <rect height="3.6000011" width="10.800002" x="25.199999" y="29.699999"></rect>
-              <rect height="3.6000011" width="10.800002" x="0"         y="29.699999"></rect>
-              <rect height="3.6000011" width="10.800002" x="12.600003" y="25.199989"></rect>
-              <rect height="3.6000011" width="10.800002" x="25.199999" y="25.199989"></rect>
-              <rect height="3.6000011" width="10.800002" x="0"         y="25.199989"></rect>
-              <rect height="3.6000011" width="10.800002" x="12.600003" y="20.699968"></rect>
-              <rect height="3.6000011" width="10.800002" x="25.199999" y="20.699968"></rect>
-              <rect height="3.6000011" width="10.800002" x="0"         y="20.699968"></rect>
-              <rect height="3.6000011" width="10.800002" x="12.600003" y="16.200006"></rect>
-              <rect height="3.6000011" width="10.800002" x="12.600003" y="11.699979"></rect>
-              <rect height="3.6000011" width="10.800002" x="12.600003" y="7.1999655"></rect>
-              <rect height="3.6000011" width="10.800002" x="12.600003" y="2.6999753"></rect>
-              <rect height="3.6000011" width="10.800002" x="25.199999" y="11.699979"></rect>
-              <rect height="3.6000011" width="10.800002" x="25.199999" y="16.200006"></rect>
+            <svg id="logo" width="30" height="30" preserveAspectRatio="xMidYMid" viewBox="0 0 512 512">
+              <g transform="matrix(1.3889 0 0 1.3889 -99.562 -99.556)">
+                <path d="m130.22 128c139.4 0 253.78 114.4 253.78 252.84 0 0.985-0.062 1.969-0.078 2.969h-47.579c0.016-1 0.078-1.984 0.078-2.969 0-112.4-93.045-205.58-206.2-205.58-0.649 0-1.316 0.056-1.968 0.056v-47.259c0.652 0 1.319-0.054 1.968-0.054z"/>
+                <path d="m164.19 384c-19.979 0-36.187-16.066-36.187-35.934 0-19.845 16.208-35.943 36.187-35.943 20 0 36.185 16.098 36.185 35.943 0 19.868-16.185 35.934-36.185 35.934z"/>
+                <path d="m248.28 383.8c0.023-1.015 0.148-1.968 0.148-2.969 0-65.156-52.613-117.65-118.21-117.65-0.649 0-1.316 0.086-1.968 0.094v-47.258c0.652-0.016 1.319-0.117 1.968-0.117 91.832 0 165.8 73.711 165.8 164.93 0 1.001-0.141 1.954-0.168 2.969z"/>
+              </g>
             </svg><span class="name"></span>
           </span>
           <div>
@@ -380,11 +371,13 @@
     </div>
     <div id="addfooter"><div style="display: table"><span style="padding: 14px 20px; float:left;"><i class="fa fa-fw fa-info-circle"></i><span id="stationcount"></span><span tr> selected.</span></span><span style="white-space: nowrap;float:right;"><a class="button" id="deselectall"><i class="fa fa-fw fa-ban"></i><span tr>Deselect</span></a><a class="button" id="addchecked"><i class="fa fa-fw fa-plus"></i><span tr>Add</span></a></span></div></div>
     <div id="visualization"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    <script>if (typeof module === "object") {window.module = module; module = undefined;}</script>
     <script src="js/jquery.min.js"></script>
     <script src="js/i18next.min.js"></script>
     <script src="js/i18nextXHRBackend.min.js"></script>
     <script src="js/hls.min.js"></script>
-    <script src="js/core.js"></script>
+    <script src="js/core.js?v=3"></script>
+    <script>if (window.module) module = window.module;</script>
   </body>
 </html>
 <!--

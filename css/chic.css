@@ -15,7 +15,7 @@ body, #volumebar > div:nth-child(1) {
   color: #000;
 }
 .label.red {
-  background: #0ff;
+  background: #0ff !important;
   color: #000;
 }
 #main > div {
@@ -55,7 +55,7 @@ a, #navbar > div > span > span, #navbar > div > div > button, input[type="number
 #video {
   border-top: 3px solid var(--themecolor);
 }
-rect {
+path {
   fill: #222;
 }
 #hint > div {

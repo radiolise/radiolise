@@ -15,7 +15,7 @@ body, #volumebar > div:nth-child(1) {
   color: #000;
 }
 .label.red {
-  background: #0ff;
+  background: #0ff !important;
   color: #000;
 }
 .label {
@@ -30,8 +30,8 @@ body, #volumebar > div:nth-child(1) {
 a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type="number"], #tomove, #modals button {
   color: #fff;
 }
-rect {
-  fill: #222;
+path {
+  fill: #000;
 }
 #main > div, #modals > div {
   background: #444;

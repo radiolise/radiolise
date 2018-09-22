@@ -34,7 +34,7 @@ window.onoffline = function() {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js");
 }
-var defaultsettings = '{"theme":4,"visualization":false,"relax":false,"relax-timeout":10,"changecolor":false,"volume":100,"transitions":true,"loadpolicy":false,"language":"auto"}',
+var defaultsettings = '{"theme":4,"visualization":false,"relax":false,"relax-timeout":10,"changecolor":false,"volume":100,"transitions":true,"loadpolicy":true,"language":"auto"}',
 lists,
 settings,
 currentstation,
@@ -100,7 +100,7 @@ function init() {
     }
     history.replaceState({}, document.title, ".");
   }
-  $("#themestyle").attr("href", "css/" + (["pure-dark", "pure", "chic", "chic-dark"][settings.theme - 2] || "pure") + ".css");
+  $("#themestyle").attr("href", "css/" + (["pure-dark", "pure", "chic", "chic-dark"][settings.theme - 2] || "pure") + ".css?v=3");
   $("#splash").css({
     "background-image": "none",
     "pointer-events": "none",
@@ -728,7 +728,7 @@ function stationUpdate(save) {
     }
     $("#stations").empty();
     for (i = 0; i < currentlist.length; i++) {
-      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton' onclick='if ($(this).children().hasClass(\"fa-play\")) { startStream(currentlist[" + i + "]); } else { $(\".stop:first\").trigger(\"click\") }'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<div class='icontain'><img class='icon' src='" + ((settings.loadpolicy) ? currentlist[i].icon : "") + "' onerror='$(this).replaceWith(\"<div class=\\\"icon\\\" style=\\\"background: hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\\\"><span>" + currentlist[i].name[0].toUpperCase() + "</span></div>\")'>" + "</div></div></td><td><div style='display: block; padding-bottom: 20px; cursor: pointer' onclick='$(this).closest(\"tr\").find(\".playbutton\").trigger(\"click\")'><div><h4 style='font-weight: 500; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
+      var content = "<tr><td style='vertical-align: middle'><div><div class='playbutton'><i style='display: table-cell; vertical-align: middle' class='fa fa-fw fa-play'></i></div>" + "<div class='icontain'><img class='icon' src='" + ((settings.loadpolicy) ? currentlist[i].icon : "") + "' onerror='$(this).replaceWith(\"<div class=\\\"icon\\\" style=\\\"background: hsl(" + currentlist[i].name.toUpperCase().charCodeAt(0) * 20 + ", 50%, 50%)\\\"><span>" + currentlist[i].name[0].toUpperCase() + "</span></div>\")'>" + "</div></div></td><td><div style='display: block; padding-bottom: 20px'><div><h4 style='font-weight: 500; display: inline'>" + currentlist[i].name + "</h4></div></div><div style='position: relative; overflow: hidden; height: 30px'><div style='position: absolute; overflow-x: scroll; overflow-y: hidden; width: 100%' class='tags'><div style='white-space: nowrap; height: 30px'><span class='label'>" + currentlist[i].country + "</span> <span class='label'>" + currentlist[i].state + "</span> ";
       for (z = 0; z < currentlist[i].tags.split(",").length; z++) {
         content += "<span class='label'>" + currentlist[i].tags.split(",")[z].trim() + "</span> ";
       }
@@ -1140,7 +1140,7 @@ i18next
     nsSeparator: null,
     keySeparator: null,
     backend: {
-      loadPath: "locales/{{lng}}.json"
+      loadPath: "locales/{{lng}}.json?v=3"
     }
   }, function() {
     $("[tr]").each(function() {
@@ -1723,20 +1723,6 @@ i18next
       showVolume(event.originalEvent.wheelDelta > 0);
     });  
     $("#theme").on("change", themeSet);
-    var clicked = false, clickY, scrollleft, tagdiv;
-    $(document).on("mousedown", ".tags", function(e) {
-      clicked = true;
-      clickY = e.pageX;
-      scrollleft = $(this).scrollLeft();
-      tagdiv = $(this);
-      $("html").addClass("dragging");
-    }).on("mousemove", function(e) {
-        if (clicked) {
-          tagdiv.scrollLeft(scrollleft + clickY - e.pageX);
-        }
-    }).on("mouseup", function() {
-      clicked = false;
-    });
     $(document).on("scroll", function(event) {
       $(window).trigger("mousemove");
       if ($("#video .videobar").offset().top - $(window).scrollTop() <= 50 && !$("#video").hasClass("fs")) {
@@ -1767,12 +1753,9 @@ i18next
         setList($(this).val());      
       }
     });
-    $(document).on("mousedown", ".smartmenu, .tags", function() {
+    $(document).on("mousedown", ".smartmenu", function() {
       dragging = false;
       $("#tomove").hide();   
-      $("#stations td:nth-child(2) > div:nth-child(1)").css({
-        cursor: "pointer"
-      });
     }).on("change", ".smartmenu", function() {
       gearclicked = $(this).index("#stations .smartmenu");
       switch ($(this).val()) {
@@ -2006,10 +1989,16 @@ i18next
           moveArray(currentlist, dragindex, newindex);
           stationUpdate(true);
         }
-        $("#stations td:nth-child(2) > div:nth-child(1)").css({
-          cursor: "pointer"
-        });    
         $("#stations tr").removeClass("hovered");
       }
+    }).on("click", "#stations tr", function() {
+      if ($(this).hasClass("playing")) {
+        $(".stop:first").trigger("click");
+      }
+      else {
+        startStream(currentlist[$(this).index()]);
+      }
+    }).on("click", "#stations td:eq(2)", function(e) {
+      e.stopPropagation();
     });
 });

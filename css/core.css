@@ -42,7 +42,7 @@ b, h3, h4, .broadcaster {
   color: #fff;
 }
 .label.red {
-  background: #f00;
+  background: #f00 !important;
   color: #fff;
 }
 button {
@@ -54,15 +54,12 @@ button {
 a {
   white-space: nowrap;
 }
-a > .fa, button > .fa {
+a > .fa, button > .fa, svg {
   opacity: .7;
   transition: opacity .2s;
 }
-:hover > .fa {
+:hover > .fa, :hover > svg {
   opacity: 1;
-}
-#navbar, #page {
-  /*TODO*/
 }
 #navbar {
   position: fixed;
@@ -80,21 +77,24 @@ a > .fa, button > .fa {
   padding: 0 10px;
   overflow: hidden;
 }
-#navbar > div > span > svg {
+svg {
   height: 36px;
   vertical-align: middle;
-  padding: 7px;
+  padding: 7px 0 7px 4px;
 }
 #navbar > div > span {
   float: left;
   font-size: 22px;
   cursor: pointer;
+  white-space: nowrap;
+  width: 0;
 }
 #navbar > div > span > span {
   vertical-align: middle;
 }
 #navbar > div > div {
   float: right;
+  white-space: nowrap;
 }
 input {
   border-radius: 0;
@@ -114,8 +114,8 @@ input[type="number"] {
 #maincontrols {
   transition: all .4s;
 }
-rect {
-  fill: #ddd;
+path {
+  fill: #fff;
 }
 .relaxed {
   overflow: hidden !important;
@@ -205,8 +205,11 @@ rect {
   font-weight: normal;
   margin-bottom: -5px;
 }
-.checkable {
+.checkable, #stations tr {
   cursor: pointer;
+}
+#stations td:nth-child(3) {
+  cursor: auto;
 }
 body {
   -webkit-touch-callout: none;
@@ -215,9 +218,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-.tags {
-  cursor: ew-resize;
 }
 .checkable > div > div {
   cursor: auto !important;
@@ -322,7 +322,6 @@ select::-ms-expand {
   cursor: inherit !important;
 }
 .playbutton {
-  cursor: pointer;
   position: absolute;
   z-index: 1;
   color: #fff;
