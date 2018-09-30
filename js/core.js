@@ -17,9 +17,6 @@
  * for the JavaScript code in this page.
  * 
  */
-window.onerror = function(error) {
-  alert(error);
-};
 window.onunload = stopStream;
 function tr(string) {
   return i18next.t(string);
@@ -597,6 +594,7 @@ function startStream(index) {
   }
   player.onloadedmetadata = function() {
     prevstation = index;
+    localStorage.lastStation = JSON.stringify(index);
     updateFinish(index.name);
     var post = function() {
       metarequest = $.post("https://service.radiolise.com/?url=" + player.src, function(data) {
@@ -776,6 +774,7 @@ function setList(name) {
   if (listname != name) {
     listname = name;
     sync(false);  
+    localStorage.lastList = name;
   }
 }
 function addList() {
@@ -1032,7 +1031,7 @@ function modal(id) {
   }
 }
 var closetimer;
-function closeModal(reopen = false) {
+function closeModal(reopen) {
   if ($(".shown").attr("id") == "listmanager") {
     applyLists();
   }
@@ -1184,6 +1183,9 @@ i18next
     loading = "<i class='fa fa-spin fa-spinner'></i> " + tr("Loading…");
     console.info("Locale strings loaded");
     updateFinish(nostream);
+    if (localStorage.lastList) {
+      setList(localStorage.lastList);
+    }
     init();
     $("select:has([data-type])").prop("disabled", true);
     applyLists();
@@ -1201,7 +1203,7 @@ i18next
     var id = param("id");
     var keepoff = param("keepoff");
     var query = param("q");
-    history.pushState(null, null, ".");
+    history.replaceState(null, null, ".");
     function autoStart() {
       if (!keepoff || keepoff == false) {
         for (i in currentlist) {
@@ -1365,6 +1367,9 @@ i18next
       else {
         if (prevstation != undefined) {
           startStream(prevstation);
+        }
+        else if (localStorage.lastStation) {
+          startStream(JSON.parse(localStorage.lastStation));
         }
         else if (currentlist.length > 0) {
           startStream(currentlist[0]);
@@ -1998,7 +2003,7 @@ i18next
       else {
         startStream(currentlist[$(this).index()]);
       }
-    }).on("click", "#stations td:eq(2)", function(e) {
+    }).on("click", "#stations td:nth-child(3)", function(e) {
       e.stopPropagation();
     });
 });

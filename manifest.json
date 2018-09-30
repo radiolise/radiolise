@@ -6,10 +6,6 @@
 	"background_color": "#222",
 	"icons": [
     {
-      "src": "img/icon.png",
-      "sizes": "64x64"
-    },
-    {
       "src": "img/logo.png",
       "sizes": "512x512"
     }    
