@@ -1,8 +1,19 @@
 html {
   --themecolor: #54a3d8;
 }
-body, #volumebar > div:nth-child(1) {
+body, #volumeslider {
   background: #ddd;
+}
+#volumeslider > div {
+  background: #656565;
+}
+@media screen and (max-width: 820px) {
+  #video:not(.fs) .videobar {
+    border-bottom: 3px solid var(--themecolor);
+  } 
+}
+#infobox {
+  border-top-color: #0003;
 }
 .red {
   color: #0ff;
@@ -43,7 +54,7 @@ body, #volumebar > div:nth-child(1) {
   border-top-left-radius: 20px;
   overflow: hidden;
 }
-a, #navbar > div > span > span, #navbar > div > div > button, input[type="number"], .smartmenu {
+a, #navbar > div > span > span, #navbar > div > div > button, input[type="number"], .smartmenu, .videobar {
   color: #222;
 }
 #modals a, #learnmore > div:nth-child(3) > div > span, #query, #findstation {
@@ -80,7 +91,7 @@ input {
 select, input:not(#query) {
   border-bottom: 2px solid rgba(0, 0, 0, .5) !important;
 }
-#addstation > div > div:nth-child(1), #modals select, #modals input:not(#query) {
+#addstation > div > div:nth-child(1), #modals select, #modals input:not(#query), .monthseparator {
   border-bottom: 2px solid rgba(255, 255, 255, .5) !important;
 }
 #volumeline, #volumecircle {

@@ -1,8 +1,17 @@
 html {
   --themecolor: #54a3d8;
 }
-body, #volumebar > div:nth-child(1) {
+body {
   background: #ddd;
+}
+#volumeslider {
+  background: #555;
+}
+#volumeslider > div {
+  background: #c2c2c2;
+}
+#infobox {
+  border-top-color: #fff5;
 }
 .label {
   background: #eee;
@@ -10,7 +19,7 @@ body, #volumebar > div:nth-child(1) {
 #navbar {
   background: rgba(34, 34, 34, .9);
 }
-#navbar > div > span > span, #navbar > div > div > button, .button-primary {
+#navbar > div > span > span, #navbar > div > div > button, .button-primary, .videobar a {
   color: #fff;
 }
 a, #learnmore > div:nth-child(3) > div > span, #findstation, #query, input[type="number"], .smartmenu, #modals button {
@@ -33,7 +42,7 @@ input {
   background: rgba(34, 34, 34, .9);
   color: #fff;
 }
-#addstation > div > div:nth-child(1), select, input:not(#query) {
+#addstation > div > div:nth-child(1), select, input:not(#query), .monthseparator {
   border-bottom: 2px solid rgba(0, 0, 0, .5) !important;
 }
 #modals {
@@ -47,4 +56,8 @@ input {
 }
 #progressbar {
   background: var(--themecolor);
+}
+.videobar .label {
+  background: #444;
+  color: #fff;
 }

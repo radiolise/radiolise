@@ -16,6 +16,26 @@
   font-weight: 700;
   src: url(../webfonts/FiraSans-Bold.ttf);
 }
+@keyframes fadein {
+  from {
+    opacity: 0;
+    max-height: 0%;
+  }
+  to {
+    opacity: 1;
+    max-height: 100%;
+  }
+}
+@keyframes fadeout {
+  from {
+    opacity: 1;
+    max-height: 100%;
+  }
+  to {
+    opacity: 0;
+    max-height: 0%;
+  }
+}
 * {
   outline: 0;
 }
@@ -149,7 +169,25 @@ path {
 .button-primary:hover {
   text-decoration: underline;
 }
-.back, .fullscreen {
+.button-big {
+  font-size: 24px;
+  color: #fff;
+  background: rgba(0, 0, 0, .5);
+  border-radius: 50%;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  padding: 12px 10px 8px 10px;
+}
+.button-big:hover {
+  background: var(--themecolor);
+  transition: background .2s;
+}
+.fsdiv {
+  display: table-cell;
+  vertical-align: middle;
+}
+.back {
   display: none;
 }
 #video {
@@ -190,7 +228,7 @@ path {
   overflow-y: hidden;
 }
 .videobar > div {
-  white-space: nowrap;
+/*   white-space: nowrap; */
   display: table-cell;
   vertical-align: middle;
 }
@@ -417,6 +455,41 @@ p {
   line-height: 20px;
   display: none;
 }
+.fs .videobar > div:nth-child(1) {
+  display: none;
+}
+#infobox {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 2px solid;
+  font-size: 16px;
+  margin-left: 5px;
+  display: none;
+}
+#infobox > div:nth-child(3) a {
+  display: block;
+  width: 100%;
+  max-width: fit-content;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.active {
+  color: var(--themecolor) !important;
+  font-weight: 500;  
+}
+.active i {
+  opacity: 1;
+}
+.ifactive, .active .unlessactive {
+  display: none;
+}
+.active .ifactive {
+  display: inline;
+}
+.options .button {
+  font-size: 18px;
+  padding: 2px 12px;
+}
 table {
   width: 100%;
   border-collapse: collapse;
@@ -448,10 +521,7 @@ video {
   max-height: 100%;
   display: block;
 }
-video::-webkit-media-controls {
-  display: none;
-}
-.tags::-webkit-scrollbar {
+video::-webkit-media-controls, .tags::-webkit-scrollbar, .label:empty {
   display: none;
 }
 .label {
@@ -459,9 +529,6 @@ video::-webkit-media-controls {
   display: inline-block;
   margin-bottom: 2px;
   font-size: 12px;
-}
-.label:empty {
-  display: none;
 }
 #loading {
   position: fixed;
@@ -485,7 +552,7 @@ video::-webkit-media-controls {
 #loading > div > a {
   color: #fff;
 }
-#menu button, #navbar > div > div > button, #loading > div > a {
+#menu button, #history button, #navbar > div > div > button, #loading > div > a {
   height: 50px;
   font-size: 20px;
   background: none;
@@ -496,25 +563,35 @@ video::-webkit-media-controls {
   text-decoration: none;
   transition: all .2s;
 }
-#menu button {
+#menu button, #history button {
   text-align: left;
   width: 100%;
 }
-#menu button:hover, .button:hover, #navbar > div > div > button:hover {
+#menu button:hover, #history button:hover, .button:hover, #navbar > div > div > button:hover {
   color: var(--themecolor);
 }
-#menu button:active, .button:active, #navbar > div > div > button:active {
+#menu button:active, #history button:active, .button:active, #navbar > div > div > button:active {
   background: var(--themecolor);
   color: #fff;
 }
-tr, #results > div, .checkmark {
+.listitem {
+  cursor: pointer;
+}
+.options {
+  cursor: default;
+}
+.reload {
+  display: table-cell;
+}
+tr, #results > div, .listitem, .checkmark {
   transition: all .2s;
 }
-#tomove, tr:hover, #results > div:hover, input:not(#query):focus, .hovered {
+#tomove, tr:hover, #results > div:hover, input:not(#query):focus, .listitem:hover, .hovered {
   background: rgba(0, 0, 0, .1);
 }
 a {
   cursor: pointer;
+  text-decoration: none;
 }
 td:nth-child(2) {
   text-align: left;
@@ -582,8 +659,11 @@ input[type="checkbox"] + span {
   text-align: left;
   padding-bottom: 10px;
 }
-#moreoptions i {
+#moreoptions i, #showrecent i, #showbookmarks i {
   transition: transform .4s linear;
+}
+#showbookmarks i {
+  transform: rotate(-180deg);
 }
 #findstation {
   font-size: 20px;
@@ -797,6 +877,10 @@ input[type="checkbox"] + span {
   #main > div {
     min-height: calc(100vh - 70px);
   }
+  #navbar {
+    box-shadow: none !important;
+    border-bottom: none !important;
+  }
   #navbar > div {
     padding: 0 10px;
   }
@@ -815,8 +899,8 @@ input[type="checkbox"] + span {
   }
 }
 @media screen and (max-width: 680px) {
-  #navbar > div > div > button > span {
-    display: none;
+  #navbar > div > div > button > span, .advopts {
+    display: none !important;
   }
 }
 @media screen and (max-width: 600px) {
@@ -827,5 +911,10 @@ input[type="checkbox"] + span {
   #video {
     width: calc(100% + 40px);
     transform: translateX(-20px);    
+  }
+}
+@media screen and (max-width: 480px) {
+  .mainopts .prevstation, .mainopts .nextstation {
+    display: none;
   }
 }

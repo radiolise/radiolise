@@ -66,8 +66,8 @@
           </div>
           <div>
             <div class="videobar">
-              <div>
-                <a class="button-primary back"><i class="fa fa-arrow-left"></i></a>
+              <div class="mainopts">
+                <a class="button-primary expand" title="Advanced view"><i class="fa fa-chevron-down"></i></a>
                 <a class="button-primary prevstation" title="Previous station"><i class="fa fa-fw fa-step-backward"></i></a>
                 <a class="button-primary stop" title="Play | Stop"><i class="fa fa-fw fa-play"></i></a>
                 <a class="button-primary nextstation" title="Next station"><i class="fa fa-fw fa-step-forward"></i></a>
@@ -76,10 +76,14 @@
                 <div class="broadcaster"><br></div>
                 <div class="info"><br></div>
               </div>
-              <div>
-                <a class="button-primary minus" title="Volume down (−10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-minus"></i></a>
-                <a class="button-primary plus" title="Volume up (+10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-plus"></i></a>
-                <a class="button-primary fullscreen" title="Toggle fullscreen"><i class="fa fa-fw fa-expand"></i></a>
+              <div class="advopts">
+                <a class="button-primary like"><i class="fa fa-fw fa-thumbs-up"></i></a>              
+                <a class="button-primary homepage" title="Visit homepage" target="blank"><i class="fa fa-fw fa-home"></i></a>
+                <a class="button-primary showhistory" title="Manage titles"><i class="fa fa-fw fa-history"></i></a>
+                <a class="button-primary plushistory" title="Add current title to bookmarks"><i class="fa fa-music"></i><i class="fa fa-fw fa-xs fa-plus" style="vertical-align: super"></i></a>
+              </div>
+              <div class="fsdiv" style="display: none">
+                &nbsp;<a class="button-primary fullscreen" title="Toggle fullscreen"><i class="fa fa-fw fa-expand"></i></a>
               </div>
             </div>
           </div>
@@ -91,32 +95,64 @@
             <div id="vcontain" style="background-size: contain; background-repeat: no-repeat; background-position: center">
               <video></video>
             </div>
-            <div class="videobar">
-              <div>
-                <a class="button-primary back"><i class="fa fa-arrow-left"></i></a>
-                <a class="button-primary prevstation" title="Previous station"><i class="fa fa-fw fa-step-backward"></i></a>
-                <a class="button-primary stop" title="Play | Stop"><i class="fa fa-fw fa-play"></i></a>
-                <a class="button-primary nextstation" title="Next station"><i class="fa fa-fw fa-step-forward"></i></a>
-              </div>
-              <div class="station">
-                <div class="broadcaster"><br></div>
-                <div class="info"><br></div>
+            <div class="videobar" style="display: table; table-layout: fixed">
+              <div style="width: 30px">
+                <a class="button-primary expand" title="Advanced view"><i class="fa fa-chevron-down" style="transition: transform .4s linear"></i></a>&nbsp;
               </div>
               <div>
-                <a class="button-primary minus" title="Volume down (−10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-minus"></i></a>
-                <a class="button-primary plus" title="Volume up (+10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-plus"></i></a>
-                <a class="button-primary fullscreen" title="Toggle fullscreen"><i class="fa fa-fw fa-expand"></i></a>
+                <div class="player" style="display: table-row; height: 41px; width: 100%; vertical-align: middle">
+                  <div class="mainopts" style="white-space: nowrap; display: table-cell; vertical-align: middle; max-width: 100%; transition: max-width .4s">
+                    <a class="button-primary prevstation" title="Previous station"><i class="fa fa-fw fa-step-backward"></i></a>
+                    <a class="button-primary stop" title="Play | Stop"><i class="fa fa-fw fa-stop"></i></a>
+                    <a class="button-primary nextstation" title="Next station"><i class="fa fa-fw fa-step-forward"></i></a>
+                  </div>
+                  <div class="station" style="white-space: nowrap; width: 100%; display: table-cell; vertical-align: middle; padding: 0 10px">
+                    <div class="broadcaster"><br></div>
+                    <div class="info" style="display: none"><br></div>
+                  </div>
+                  <div class="advopts" style="display: table-cell; white-space: nowrap; vertical-align: middle">
+                    <a class="button-primary like"><i class="fa fa-fw fa-thumbs-up"></i></a>
+                    <a class="button-primary homepage" target="blank"><i class="fa fa-fw fa-home"></i></a>
+                    <a class="button-primary showhistory" title="Manage titles"><i class="fa fa-fw fa-history"></i></a>
+                    <a class="button-primary plushistory" title="Add current title to bookmarks"><i class="fa fa-music"></i><i class="fa fa-fw fa-xs fa-plus" style="vertical-align: super"></i></a>
+                  </div>
+                  <div class="fsdiv" style="display: none">
+                    &nbsp;<a class="button-primary fullscreen" title="Toggle fullscreen"><i class="fa fa-fw fa-expand"></i></a>
+                  </div>                  
+                </div>
+                <div id="infobox">
+                  <div id="tags" style="padding: 0 5px 10px 5px"></div>
+                  <div style="white-space: nowrap; padding: 10px 0; vertical-align: middle">
+                    <a class="button-primary prevstation" title="Previous station"><i class="fa fa-fw fa-step-backward"></i></a>
+                    <a class="button-primary stop" title="Play | Stop"><i class="fa fa-fw fa-stop"></i></a>
+                    <a class="button-primary nextstation" title="Next station"><i class="fa fa-fw fa-step-forward"></i></a>
+                    <div style="font-size: 18px; padding: 0 5px; display: inline-block">
+                      <a class="minus" title="Volume down (−10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-volume-off"></i></a>
+                      <div id="volumeslider" style="width: 100px; margin: 2px 5px; height: 9px; display: inline-block">
+                        <div style="width: 100%; height: 100%; text-align: left"></div>
+                      </div>
+                      <a class="plus" title="Volume up (+10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-volume-up"></i></a>
+                    </div>
+                  </div>
+                  <div style="padding-bottom: 5px">
+                    <a class="like" style="margin-top: 10px">
+                      <i class="fa fa-fw fa-thumbs-up" style="width: 31px"></i><span class="likecounter"></span> | <span class="unlessactive" tr>Like</span><span class="ifactive" tr>Already voted</span></span>
+                    </a>
+                    <a class="homepage" style="margin-top: 10px" target="blank">
+                      <i class="fa fa-fw fa-home" style="width: 31px"></i><span tr>Visit homepage</span>&nbsp;<i class="fa fa-fw fa-external-link-alt"></i>
+                    </a>
+                    <a class="showhistory" style="margin-top: 10px">
+                      <i class="fa fa-fw fa-history" style="width: 31px"></i><span tr>Manage titles</span>
+                    </a>
+                    <a class="plushistory" style="margin-top: 9px">
+                      <i class="fa fa-music"></i><i class="fa fa-fw fa-xs fa-plus" style="vertical-align: super"></i><span class="unlessactive" tr>Add current title to bookmarks</span><span class="ifactive" tr>Added to bookmarks</span>
+                    </a>
+                  </div>
+                </div>
               </div>
-            </div>
+            </div>       
           </div>
-          <!--<div id="station"><br></div>-->
           <div id="maincontrols">
-            <!--<p id="controls">
-              <a class="button-primary" id="minus" title="Volume down (−10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-minus"></i></a>
-              <a class="button-primary" id="stop" title="Play | Stop"><i class="fa fa-fw fa-play"></i></a>
-              <a class="button-primary" id="plus" title="Volume up (+10%)&#010;Scroll here to change volume bidirectionally."><i class="fa fa-fw fa-plus"></i></a>
-              <a class="button-primary" id="fullscreen" title="Enter fullscreen" style="display: none"><i class="fa fa-fw fa-expand"></i></a>
-            </p>-->
             <div style="text-align: left; padding-top: 40px">
               <b tr>List</b>:
               <select style="margin-bottom: 20px; text-align: left" id="lists" aria-label="Station lists">
@@ -140,11 +176,6 @@
               <a class="button addbutton"><i class="fa fa-fw fa-search"></i><span tr>Find stations</span></a>
             </p>
           </div>
-          <!--<div style="background: rgba(0,0,0,.1); padding: 10px; position: relative">
-            <span style="position: absolute; top: 10px; right: 12px"><a onclick="$(this).parent().parent().remove();hint('You may go to &nbsp; &lt;i class=&quot;fa fa-cog&quot;&gt;&lt;/i&gt; Settings &nbsp; if you wish to receive these messages again.')"><i class="fa fa-ban fa-fw fa-lg"></i>Disable</a> <a onclick="$(this).parent().parent().slideUp()"><i class="fa fa-close fa-fw fa-lg"></i>Close</a></span>
-            <h3>Did you already know …</h3>
-            <p>… <span></span></p>
-          </div>-->
         </div>
       </div>
     </div>
@@ -154,6 +185,7 @@
         <h3><i class="fa fa-fw fa-bars"></i><span tr>Main menu</span></h3>
         <button class="addbutton"><i class="fa fa-fw fa-search"></i> <span tr>Find stations</span></button>
         <button class="wrench"><i class="fa fa-fw fa-list-alt"></i> <span tr>Manage station lists</span></button>
+        <button class="showhistory"><i class="fa fa-fw fa-history"></i> <span tr>Manage titles</span></button>
         <button class="settingsbutton"><i class="fa fa-fw fa-paint-brush"></i> <span tr>Customize</span></button>
         <button class="learnmorebutton"><i class="fa fa-fw fa-info-circle"></i> <span tr>Learn more</span></button>
         <button class="closer"><i class="fa fa-fw fa-times"></i> <span tr>Cancel</span></button>
@@ -226,8 +258,7 @@
       <div id="stationmanager">
         <div style="float: right"><a class="menu"><i class="fa fa-fw fa-lg fa-bars"></i></a> <a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <h3><i class="fa fa-fw fa-edit"></i><span id="stationname"></span> – <span tr>Station editor</span></h3>
-<!--         <p>Use this tool to manage your custom stations.</p> -->
-        <div id="customstations" style="">
+        <div id="customstations">
           <span style="display: table-cell"><span class="red" title="This field is required."><sup>∗</sup></span> Name: </span><input style="display: table-cell; width: 100%" placeholder="Name" type="text">
           <span style="display: table-cell"><span class="red" title="This field is required."><sup>∗</sup></span> <span tr>Stream URL</span>: </span><input style="display: table-cell; width: 100%" placeholder="URL" type="url">
           <span style="display: table-cell"><span tr>Homepage URL</span>: </span><input style="display: table-cell; width: 100%" placeholder="Homepage" type="url">
@@ -247,7 +278,7 @@
         <div style="float: right"><a class="menu"><i class="fa fa-fw fa-lg fa-bars"></i></a> <a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <br><div><div><img src="img/logo.svg"><span class="name"></span></div></div><br>
         <div id="infotext">
-          <p>© 2017-2018 Marco Bauer</p>
+          <p>© 2017-2019 Marco Bauer</p>
           <p class="text-left"><span class="name"></span><span tr> is </span><a class="btn-link white" href="https://www.gnu.org/philosophy/free-sw.html" target="_blank" rel="noopener"><span tr>free software</span><i class="fa fa-fw fa-external-link-alt"></i></a><span tr>: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</span></p>
           <p class="text-left"><span class="name"></span><span tr> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.</span></p>
           <p class="text-left"><span tr>You should have received a copy of the GNU Affero General Public License along with </span><span class="name"></span><span tr>. If not, see </span><a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener">http://www.gnu.org/licenses/<i class="fa fa-fw fa-external-link-alt"></i></a><span tr> for more details.</span></p>
@@ -337,27 +368,33 @@
           </div>            
         </div>
       </div>
+      <div id="history">
+        <div style="float: right"><a class="menu"><i class="fa fa-fw fa-lg fa-bars"></i></a> <a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
+        <h3><i class="fa fa-fw fa-history"></i><span tr>Title manager</span></h3>
+        <div style="display: table; width: 100%">
+          <button id="showrecent" style="display: table-cell; width: 100%"><i class="fa fa-fw fa-chevron-down"></i> <span tr>Recent titles</span></button>
+          <div class="reload" style="display: none; font-size: 20px; width: 35px; text-align: right">
+            <a><i class="fa fa-fw fa-redo"></i></a>
+          </div>
+        </div>
+        <div id="recent" style="text-align: left; display: none"></div>
+        <div style="display: table; width: 100%">        
+          <button id="showbookmarks"><i class="fa fa-fw fa-chevron-down"></i> <span tr>Bookmarks</span></button>
+          <div class="download" style="display: table-cell; font-size: 20px; width: 35px; text-align: right">
+            <a><i class="fa fa-fw fa-download"></i></a>
+          </div>
+        </div>          
+        <div id="favorites" style="text-align: left"></div>
+      </div>
       <div id="listmanager">
         <div style="float: right"><a class="menu"><i class="fa fa-fw fa-lg fa-bars"></i></a> <a class="closer"><i class="fa fa-fw fa-lg fa-times-circle"></i></a></div>
         <h3><i class="fa fa-fw fa-list-alt"></i><span tr>Station lists</span></h3>
         <p tr>Use this tool to manage your station lists.</p>
         <div>
-          <!--<i class="fa fa-lg fa-trash" style="width: 0"></i>
-          <select style="opacity: 0; width: 20px">
-            <optgroup label="Options">
-              <option>Just clear</option>
-              <option>Remove entirely</option>
-            </optgroup>
-            <option>Cancel</option>
-          </select>-->
           <div style="display: table; margin: 0 auto; padding-bottom: 10px; font-size: 20px" id="listdiv"></div>
           <div style="text-align: right">
             <a class="button" id="addlist"><i class="fa fa-plus"></i> <span tr>New list</span></a>
           </div>
-          <!--<div style="margin-bottom: 10px; margin-right: 15px; text-align: right">
-            <a href="#dialog" id="importlists"><i class="fa fa-fw fa-upload"></i>Import lists</a><br>
-            <a href="#dialog" id="exportlists"><i class="fa fa-fw fa-download"></i>Export lists</a>
-          </div>-->
         </div>
       </div>
     </div>
@@ -372,11 +409,12 @@
     <div id="addfooter"><div style="display: table"><span style="padding: 14px 20px; float:left;"><i class="fa fa-fw fa-info-circle"></i><span id="stationcount"></span><span tr> selected.</span></span><span style="white-space: nowrap;float:right;"><a class="button" id="deselectall"><i class="fa fa-fw fa-ban"></i><span tr>Deselect</span></a><a class="button" id="addchecked"><i class="fa fa-fw fa-plus"></i><span tr>Add</span></a></span></div></div>
     <div id="visualization"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     <script>if (typeof module === "object") {window.module = module; module = undefined;}</script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/i18next.min.js"></script>
-    <script src="js/i18nextXHRBackend.min.js"></script>
-    <script src="js/hls.min.js"></script>
-    <script src="js/core.js?v=3"></script>
+    <script src="js/scripts/jquery.min.js"></script>   
+    <script src="js/scripts/i18next.min.js"></script>
+    <script src="js/scripts/i18nextXHRBackend.min.js"></script>
+    <script src="js/scripts/hls.min.js"></script>
+    <script src="js/scripts/moment-with-locales.min.js"></script>
+    <script src="js/scripts/radiolise.min.js"></script>
     <script>if (window.module) module = window.module;</script>
   </body>
 </html>

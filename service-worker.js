@@ -1,5 +1,5 @@
 "use strict";
-var version = "(7)";
+var version = "(8)";
 var urlsToCache = [
   "",
   ".",
@@ -13,11 +13,12 @@ var urlsToCache = [
   "img/logo.png",
   "img/logo.svg",
   "img/spin.svg",
-  "js/core.js",
-  "js/hls.min.js",
-  "js/i18next.min.js",
-  "js/i18nextXHRBackend.min.js",
-  "js/jquery.min.js",
+  "js/scripts/hls.min.js",
+  "js/scripts/i18next.min.js",
+  "js/scripts/i18nextXHRBackend.min.js",
+  "js/scripts/jquery.min.js",  
+  "js/scripts/moment-with-locales.min.js",
+  "js/scripts/radiolise.min.js",
   "locales/be.json",
   "locales/de.json",
   "locales/ru.json",
