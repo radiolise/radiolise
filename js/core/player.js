@@ -22,6 +22,7 @@ var hasvideo;
 var updatetimer;
 var info;
 var bartimer;
+var lastUrl;
 
 const Player = {
   volume: {
@@ -284,7 +285,7 @@ const Player = {
           metarequest = $.post(
             "https://service.radiolise.com/",
             {
-              url: player.src
+              url: lastUrl
             },
             function(data) {
               var name = data.name || index.name;
@@ -395,6 +396,7 @@ const Player = {
               }
             });
           }
+          lastUrl = url;
         } else {
           Player.stream.stop();
           Player.update.setName(nostream);

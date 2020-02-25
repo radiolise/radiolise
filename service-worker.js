@@ -1,5 +1,5 @@
 "use strict";
-var version = "(9)";
+var version = "(10)";
 var urlsToCache = [
   "",
   ".",
