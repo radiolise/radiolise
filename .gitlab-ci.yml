@@ -1,14 +1,14 @@
-image: node:latest
-
 pages:
+  image: node:latest
   stage: deploy
   script:
-  - mkdir .public
-  - cp -r * .public
-  - mv .public public
-  - find public -type f -iregex '.*\.\(htm\|html\|txt\|text\|js\|css\|img\)$' -execdir gzip -f --keep {} \;
+    - yarn --frozen-lockfile
+    - yarn build
+    - mv public public-vue
+    - mv dist public
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
+    - master

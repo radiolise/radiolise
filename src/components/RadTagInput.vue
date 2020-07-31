@@ -1,0 +1,44 @@
+<template>
+  <div class="tagInput">
+    <span style="display: table-cell">{{ $t("tagInput.label") }}: </span
+    ><rad-input
+      :value="renderedTags"
+      style="display: table-cell; width: 100%"
+      :placeholder="$t('general.tags')"
+      type="text"
+      @input="renderedTags = $event"
+      @change="syncedTags = $event"
+    />
+    <div style="text-align: left; display: table">
+      <div style="display: table-cell">
+        {{ $t("tagInput.preview") }}:{{ "\xa0" }}
+      </div>
+      <div style="display: table-cell">
+        <rad-tags :labels="renderedTags.split(',')" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, PropSync, Vue } from "vue-property-decorator";
+
+import RadInput from "@/components/RadInput.vue";
+import RadTags from "@/components/RadTags.vue";
+
+@Component({
+  components: {
+    RadInput,
+    RadTags,
+  },
+})
+export default class RadTagInput extends Vue {
+  renderedTags = "";
+
+  @PropSync("tags", { type: String, required: true }) syncedTags!: string;
+
+  created(): void {
+    this.renderedTags = this.syncedTags;
+  }
+}
+</script>

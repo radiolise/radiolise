@@ -1,0 +1,323 @@
+{
+  "general": {
+    "menu": "Main menu",
+    "findStations": "Find stations",
+    "manageLists": "Manage station lists",
+    "manageTitles": "Manage titles",
+    "importBackup": "Import backup",
+    "hotkeys": "Hotkeys",
+    "settings": "Settings",
+    "more": "More",
+    "learnMore": "Learn more",
+    "apply": "Apply",
+    "undo": "Undo",
+    "note": "Note",
+    "ok": "OK",
+    "done": "Done",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "tryAgainLater": "Please try again later.",
+    "tags": "Tags",
+    "noTags": "(no tags)",
+    "country": "Country | Countries",
+    "state": "State | States",
+    "language": "Language | Languages",
+    "stationLists": "Station lists",
+    "list": "List",
+    "manage": "Manage…",
+    "loading": "Loading…",
+    "downloadPlaylist": "Download as playlist",
+    "downloadAs": "Download list as",
+    "yamlFile": "{0} file (for transfer)",
+    "listEmpty": [
+      "This station list is empty.",
+      "Press the lower right button to add some stations."
+    ],
+    "like": {
+      "submit": "Like",
+      "submitted": "Liked",
+      "count": "{0}+ people like this station.",
+      "alreadyVoted": "You have already voted.",
+      "submitMessage": "Your like has been submitted to the Community Radio Browser.",
+      "unableToVote": {
+        "title": "Failed to vote",
+        "description": "Unable to vote for the station. Error message received: “{0}”"
+      }
+    },
+    "visitHomepage": "Visit homepage",
+    "error": {
+      "generic": "Sorry, an error has occurred.",
+      "genericTryLater": "@:general.error.generic @:general.tryAgainLater",
+      "goOnline": "Please make sure that you are online.",
+      "fileNotSupported": {
+        "title": "File not supported",
+        "description": "The selected file was not created with this version of {0} or is corrupt."
+      },
+      "networkIssue": {
+        "title": "Network error",
+        "description": "Sorry, there seems to be a network issue a the moment.\n{0}"
+      },
+      "hlsNotSupported": {
+        "title": "HLS not supported",
+        "description": "Sorry, the HLS protocol is required to play {0}, which your browser does not seem to support."
+      },
+      "decode": {
+        "title": "Decode error",
+        "description": "Sorry, the stream could not be decoded and is apparently not supported."
+      },
+      "noSupportedSource": {
+        "title": "No supported source",
+        "description": "Sorry, the stream is either not supported, is currently unavailable, or has been blocked."
+      },
+      "timeout": {
+        "title": "Timeout",
+        "description": "Sorry, your network connection seems to be too slow at the moment. @:general.tryAgainLater"
+      },
+      "hlsGeneric": {
+        "title": "Failed to play",
+        "description": "Sorry, {0} cannot be played due to a {1}.",
+        "network": "network error",
+        "media": "media error",
+        "other": "HLS error"
+      }
+    },
+    "undoableEvent": {
+      "station": "“{0}” has been removed from {1}.",
+      "list": "A list called “{0}” has been removed.",
+      "bookmark": "“{0}” has been removed from bookmarks."
+    },
+    "newName": "New name"
+  },
+  "about": {
+    "freeSoftware": "free software",
+    "licenseInfo": "{0} is {1}: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.",
+    "noWarranty": "{0} is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.",
+    "licenseCopy": "You should have received a copy of the GNU Affero General Public License along with {0}. If not, see {1} for more details.",
+    "code": "Code",
+    "issues": "Issues",
+    "donate": "Donate"
+  },
+  "dropZone": {
+    "fileAdded": "File added",
+    "usage": "Use drag & drop to add a file, or click here to add it manually…",
+    "multipleFilesError": {
+      "title": "Multiple files selected",
+      "description": "Please select only one file per process."
+    }
+  },
+  "editor": {
+    "title": "Station editor",
+    "newStation": "New station",
+    "field": {
+      "name": "Name",
+      "url": "Stream URL",
+      "homepage": "Homepage URL",
+      "icon": "Icon URL",
+      "required": "Required field",
+      "marked": "This is a @:(editor.field.required)."
+    },
+    "notExisting": "The station to be edited does not exist."
+  },
+  "hotkeys": {
+    "title": "Hotkey reference",
+    "space": "Space",
+    "bindings": {
+      "H": {
+        "name": "@:general.hotkeys",
+        "description": "Show or hide this hotkey overview."
+      },
+      "M": {
+        "name": "@:general.menu",
+        "description": "Open up a dialog directly from the main menu."
+      },
+      "–": {
+        "name": "Volume down",
+        "description": "Decrease the volume by 10 %."
+      },
+      "+": {
+        "name": "Volume up",
+        "description": "Increase the volume by 10 %."
+      },
+      " ": {
+        "name": "@:player.playStop",
+        "description": "Start or stop playing the most recently selected station."
+      },
+      "F": {
+        "name": "@:player.toggleFullscreen",
+        "description": "Enter or exit fullscreen mode during video streams."
+      },
+      "Esc": {
+        "name": "Close current view",
+        "description": "Close the current dialog. In addition, Escape usually exits fullscreen mode."
+      },
+      "P": {
+        "name": "@:player.prevStation",
+        "description": "Switch to the previous station in the current list."
+      },
+      "N": {
+        "name": "@:player.nextStation",
+        "description": "Switch to the next station in the current list."
+      },
+      "0-9": {
+        "name": "Station selection",
+        "description": "Switch to another station depending on its position in the current list."
+      }
+    },
+    "onScreenHints": {
+      "volume": "Volume: {0}%",
+      "noVideoStream": "No video stream",
+      "playingPrevious": "Playing previous: {0}",
+      "playingNext": "Playing next: {0}",
+      "playingIndex": "Playing #{0}: {1}",
+      "notExisting": "Station {0} does not exist."
+    }
+  },
+  "importWizard": {
+    "stationLists": "station lists",
+    "settings": "settings",
+    "description": "Here you may import backups of your {0}.",
+    "step": "Step {0}: {1}",
+    "chooseFile": "Choose file",
+    "setName": "Set name",
+    "selectStations": "Select stations",
+    "emptyName": {
+      "title": "Empty name",
+      "description": "Please enter a name for the list under “Step 2”."
+    },
+    "nameTaken": {
+      "title": "Name already taken",
+      "description": "A list with this name already exists. Do you want to overwrite it?"
+    }
+  },
+  "listManager": {
+    "description": "Use this tool to manage your station lists.",
+    "specifyName": "Please specify a name",
+    "invalidName": "Invalid name",
+    "newList": "New list",
+    "nameTaken": "A list called “{0}” already exists.",
+    "nameEmpty": "The name needs to consist of at least one character."
+  },
+  "menu": {
+    "close": "Close"
+  },
+  "player": {
+    "ready": "Ready",
+    "alreadyVoted": "Already voted",
+    "addBookmark": "Added current title to bookmarks",
+    "bookmarked": "Added to bookmarks",
+    "prevStation": "Previous station",
+    "nextStation": "Next station",
+    "playStop": "Play/stop",
+    "advancedView": "Advanced view",
+    "toggleFullscreen": "Toggle fullscreen",
+    "noHomepage": "No homepage registered"
+  },
+  "search": {
+    "credit": {
+      "free": "free",
+      "radioBrowser": "The search feature is made possible by the {0} {1}."
+    },
+    "error": "@:general.error.generic @:general.error.goOnline",
+    "optionsUnavailable": "Oh no! Some options are currently unavailable due to connectivity issues.",
+    "tryAgain": "Try again",
+    "byName": "Stations by name",
+    "showOptions": "Show options",
+    "hideOptions": "Hide options",
+    "filters": {
+      "label": "Filters",
+      "allCountries": "All countries",
+      "allStates": "All states",
+      "allLanguages": "All languages",
+      "noCountrySelected": "Please select a country first."
+    },
+    "reverse": "Show results in reverse order",
+    "includeBroken": "Include stations marked as broken",
+    "loading": "Loading results…",
+    "noMatches": "No matching stations found.",
+    "loadMore": "Load more results",
+    "comparison": {
+      "station": "station | stations",
+      "added": "added",
+      "removed": "removed",
+      "oneChange": "{0} has been {1}.",
+      "stationsAdded": "{0} stations @:(search.comparison.added).",
+      "stationsRemoved": "{1} stations @:(search.comparison.removed).",
+      "diff": "{0} {2} @:search.comparison.added, {1} @:(search.comparison.removed).",
+      "orderChanged": "Original order changed."
+    },
+    "order": {
+      "sortBy": "Sort by",
+      "votes": "Votes",
+      "clicks": "Clicks",
+      "names": "Names",
+      "countries": "Countries",
+      "states": "States",
+      "languages": "Languages",
+      "codecs": "Codecs"
+    }
+  },
+  "settings": {
+    "description": "Here you may customize {0} to your needs.",
+    "theme": "Theme | Themes",
+    "themes": {
+      "candy": "A simple yet elegant theme.",
+      "pure": "A simple and minimalistic theme."
+    },
+    "colorScheme": {
+      "name": "Color scheme | Color schemes",
+      "auto": "Auto",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "colorChange": {
+      "name": "Color change",
+      "description": "Automatically pick an accent and background color depending on which stream is currently running."
+    },
+    "visualization": {
+      "name": "Pseudo-visualization",
+      "description": "Display an audio visualization based on random values during an ongoing audio stream.",
+      "screenWidthIssue": "Screen or window not wide enough"
+    },
+    "relaxMode": {
+      "name": "Relax mode",
+      "description": "For audio streams, only show station info and visualization on a colored background. Fired during user inactivity.",
+      "timer": "Trigger relax mode after"
+    },
+    "loadIcons": {
+      "name": "Load icons"
+    },
+    "transitions": {
+      "name": "Enable transitions"
+    },
+    "sleep": {
+      "name": "Sleep timer",
+      "description": "Stops the current stream automatically after a certain number of minutes.",
+      "timer": "Stop stream after"
+    },
+    "volume": "Default volume",
+    "detect": "Detect",
+    "discard": "Discard",
+    "reset": "Reset to defaults",
+    "import": "Import from file",
+    "export": "Export to file"
+  },
+  "station": {
+    "options": "Options for “{0}”",
+    "edit": "Edit",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "delete": "Delete"
+  },
+  "tagInput": {
+    "label": "@:general.tags (separate with commas)",
+    "preview": "Preview"
+  },
+  "titleManager": {
+    "title": "Title manager",
+    "recentTitles": "Recent titles",
+    "bookmark": "Bookmark | Bookmarks",
+    "listEmpty": "This list is currently empty.",
+    "remove": "Remove"
+  }
+}

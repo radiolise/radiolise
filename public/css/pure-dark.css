@@ -1,0 +1,101 @@
+:root {
+  --themecolor: cornflowerblue;
+}
+#app {
+  background: #333;
+}
+.slider {
+  background: #bbb;
+}
+.slider > div {
+  background: #484848;
+}
+.hr {
+  border-bottom-color: #0003;
+}
+.important {
+  color: #0ff;
+}
+.highlighted {
+  color: #ff7fff;
+}
+.label.highlighted {
+  background: #ff7fff;
+  color: #000;
+}
+.label.important {
+  background: #0ff !important;
+  color: #000;
+}
+.label,
+.dropzone {
+  background: #555;
+}
+nav {
+  background: rgba(255, 255, 255, 0.9);
+}
+nav > div > span > span,
+nav > div > div > button,
+.button-primary,
+.videobar a,
+#logo {
+  color: #000;
+}
+a,
+#learnmore > div:nth-child(3) > div > span,
+#findstation,
+#query,
+input[type="number"],
+#tomove,
+#drawers button {
+  color: #fff;
+}
+main > div,
+#drawers > div {
+  background: #444;
+  color: #fff;
+}
+#hint > div {
+  background: #fff;
+  color: #000;
+}
+input,
+.modal {
+  background: #444;
+  color: #fff;
+}
+tr:hover .smartmenu {
+  background: #3d3d3d;
+}
+#footer,
+#addfooter,
+.videobar {
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+}
+#search > div > div:nth-child(1),
+input:not(#query),
+.monthseparator {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+#drawers,
+#app.fullscreen {
+  background: #444;
+}
+#volumeline,
+#volumecircle {
+  background: #eee;
+}
+#progressbar {
+  background: var(--themecolor);
+}
+.videobar .label {
+  background: #ddd;
+  color: #000;
+}
+.hotkeyTile {
+  background: rgba(255, 255, 255, 0.1);
+}
+.modal {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+}

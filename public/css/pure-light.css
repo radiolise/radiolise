@@ -1,0 +1,87 @@
+:root {
+  --themecolor: cornflowerblue;
+}
+#app {
+  background: #ddd;
+}
+.slider {
+  background: #555;
+}
+.slider > div {
+  background: #c2c2c2;
+}
+.hr {
+  border-bottom-color: #fff5;
+}
+.label,
+.dropzone {
+  background: #eee;
+}
+nav {
+  background: rgba(34, 34, 34, 0.9);
+}
+nav > div > span > span,
+nav > div > div > button,
+.button-primary,
+.videobar a,
+#logo {
+  color: #fff;
+}
+a,
+#learnmore > div:nth-child(3) > div > span,
+#findstation,
+#query,
+input[type="number"],
+.smartmenu,
+#drawers button {
+  color: #222;
+}
+main > div,
+#drawers > div {
+  background: #fff;
+  color: #222;
+}
+#hint > div {
+  background: #222;
+  color: #fff;
+}
+input,
+.modal {
+  background: #fff;
+  color: #222;
+}
+#footer,
+#addfooter,
+.videobar {
+  background: rgba(34, 34, 34, 0.9);
+  color: #fff;
+}
+#search > div > div:nth-child(1),
+input:not(#query),
+.monthseparator {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5) !important;
+}
+#drawers,
+#app.fullscreen {
+  background: #fff;
+}
+#volumeline,
+#volumecircle {
+  background: #222;
+}
+#app:not(.colorful) #visualization > div {
+  background: #000;
+}
+#progressbar {
+  background: var(--themecolor);
+}
+.videobar .label {
+  background: #444;
+  color: #fff;
+}
+.hotkeyTile {
+  background: rgba(0, 0, 0, 0.1);
+}
+.modal {
+  box-shadow: 0 25px 50px -12px rgba(255, 255, 255, 0.2);
+}

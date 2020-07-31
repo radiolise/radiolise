@@ -1,0 +1,128 @@
+:root {
+  --themecolor: cornflowerblue;
+}
+#app,
+.slider {
+  background: #ddd;
+}
+.slider > div {
+  background: #656565;
+}
+.hr {
+  border-bottom-color: #0003;
+}
+@media screen and (max-width: 820px) {
+  #app:not(.hasVideo) #video:not(.fs) .videobar {
+    border-bottom: 3px solid var(--themecolor);
+  }
+}
+.important {
+  color: #0ff;
+}
+.highlighted {
+  color: #ff7fff;
+}
+.label.highlighted {
+  background: #ff7fff;
+  color: #000;
+}
+.label.important {
+  background: #0ff !important;
+  color: #000;
+}
+main > div {
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  border-bottom: 3px solid var(--themecolor);
+  border-radius: 10px 0 10px 0;
+}
+.label {
+  background: #eee;
+}
+#drawers .label:not(.highlighted),
+.dropzone {
+  background: #444;
+}
+.videobar,
+nav,
+#app.fullscreen {
+  background: #fff;
+}
+nav,
+nav .videobar {
+  border-bottom: 3px solid var(--themecolor);
+}
+nav,
+#video,
+nav .videobar {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+#video {
+  border-top-left-radius: 10px;
+  overflow: hidden;
+}
+a,
+nav > div > span > span,
+nav > div > div > button,
+input[type="number"],
+.smartmenu,
+.videobar,
+#logo {
+  color: #222;
+}
+#drawers a,
+#learnmore > div:nth-child(3) > div > span,
+#query,
+#findstation {
+  color: #fff;
+}
+main > div {
+  color: #222;
+}
+#video {
+  border-top: 3px solid var(--themecolor);
+}
+#hint > div {
+  background: #222;
+  color: #fff;
+}
+input,
+.modal {
+  background: #fff;
+  color: #222;
+}
+#drawers input,
+#drawers button {
+  color: #fff;
+}
+#drawers,
+#footer,
+#addfooter {
+  background: rgba(34, 34, 34, 0.9);
+  backdrop-filter: blur(10px);
+  color: #fff;
+}
+input:not(#query) {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5) !important;
+}
+#search > div > div:nth-child(1),
+#drawers input:not(#query),
+.monthseparator {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+#volumeline,
+#volumecircle {
+  background: #222;
+}
+#app:not(.colorful) #visualization > div {
+  background: #000;
+}
+#progressbar {
+  background: var(--themecolor);
+}
+.hotkeyTile {
+  background: rgba(255, 255, 255, 0.1);
+}
+.modal {
+  box-shadow: 0 25px 50px -12px rgba(255, 255, 255, 0.2);
+}

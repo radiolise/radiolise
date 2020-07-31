@@ -1,0 +1,323 @@
+{
+  "general": {
+    "menu": "Hauptmenü",
+    "findStations": "Sender finden",
+    "manageLists": "Senderlisten verwalten",
+    "manageTitles": "Titel verwalten",
+    "importBackup": "Backup importieren",
+    "hotkeys": "Hotkeys",
+    "settings": "Einstellungen",
+    "more": "Mehr",
+    "learnMore": "Mehr erfahren",
+    "apply": "Übernehmen",
+    "undo": "Rückgängig machen",
+    "note": "Hinweis",
+    "ok": "OK",
+    "done": "Fertig",
+    "cancel": "Abbrechen",
+    "yes": "Ja",
+    "no": "Nein",
+    "tryAgainLater": "Bitte versuchen Sie es später erneut.",
+    "tags": "Stichwörter",
+    "noTags": "(keine @:general.tags)",
+    "country": "Land | Länder",
+    "state": "Region | Regionen",
+    "language": "Sprache | Sprachen",
+    "stationLists": "Senderlisten",
+    "list": "Liste",
+    "manage": "Verwalten…",
+    "loading": "Wird geladen…",
+    "downloadPlaylist": "Als Wiedergabeliste herunterladen",
+    "downloadAs": "Liste herunterladen als",
+    "yamlFile": "{0}-Datei (zum Transfer)",
+    "listEmpty": [
+      "Diese Senderliste ist leer.",
+      "Drücken Sie die Schaltfläche unten rechts, um ein paar Sender hinzuzufügen."
+    ],
+    "like": {
+      "submit": "Positiv bewerten",
+      "submitted": "Positiv bewertet",
+      "count": "{0}+ Leuten gefällt dieser Sender.",
+      "alreadyVoted": "Sie haben bereits abgestimmt.",
+      "submitMessage": "Ihre positive Bewertung wurde dem Community Radio Browser übermittelt.",
+      "unableToVote": {
+        "title": "Bewertung fehlgeschlagen",
+        "description": "Konnte nicht für den Sender abstimmen. Erhaltene Fehlermeldung: „{0}“"
+      }
+    },
+    "visitHomepage": "Homepage besuchen",
+    "error": {
+      "generic": "Sorry, ein Fehler ist aufgetreten.",
+      "genericTryLater": "@:general.error.generic @:general.tryAgainLater",
+      "goOnline": "Bitte vergewissern Sie sich, dass Sie online sind.",
+      "fileNotSupported": {
+        "title": "Datei nicht unterstützt",
+        "description": "Die ausgewählte Datei wurde nicht mit dieser Version von {0} erstellt oder ist beschädigt."
+      },
+      "networkIssue": {
+        "title": "Netzwerkfehler",
+        "description": "Sorry, es scheint zurzeit ein Netzwerkproblem zu geben.\n{0}"
+      },
+      "hlsNotSupported": {
+        "title": "HLS nicht unterstützt",
+        "description": "Sorry, {0} benötigt das HLS-Protokoll, welches von Ihrem Browser anscheinend nicht unterstützt wird."
+      },
+      "decode": {
+        "title": "Dekodierfehler",
+        "description": "Sorry, der Stream konnte nicht dekodiert werden und wird offenbar nicht unterstützt."
+      },
+      "noSupportedSource": {
+        "title": "Keine unterstützte Quelle",
+        "description": "Sorry, der Stream wird entweder nicht unterstützt, ist derzeit nicht verfügbar oder wurde blockiert."
+      },
+      "timeout": {
+        "title": "Zeitüberschreitung",
+        "description": "Sorry, Ihre Netzwerkverbindung scheint im Moment zu langsam zu sein. @:general.tryAgainLater"
+      },
+      "hlsGeneric": {
+        "title": "Wiedergabe gescheitert",
+        "description": "Sorry, {0} kann aufgrund eines {1} nicht abgespielt werden.",
+        "network": "Netzwerkfehlers",
+        "media": "Medienfehlers",
+        "other": "HLS-Fehlers"
+      }
+    },
+    "undoableEvent": {
+      "station": "„{0}“ wurde aus {1} entfernt.",
+      "list": "Eine Liste namens „{0}“ wurde entfernt.",
+      "bookmark": "„{0}“ wurde aus den Lesezeichen entfernt."
+    },
+    "newName": "Neuer Name"
+  },
+  "about": {
+    "freeSoftware": "freie Software",
+    "licenseInfo": "{0} ist {1}: Sie können sie unter den Bedingungen der GNU Affero General Public License, wie von der Free Software Foundation herausgegeben, weitergeben und/oder modifizieren, entweder unter Version 3 der Lizenz oder (wenn Sie es wünschen) jeder späteren Version.",
+    "noWarranty": "{0} wird in der Hoffnung veröffentlicht, dass es Ihnen von Nutzen sein wird, aber OHNE JEDE GEWÄHRLEISTUNG – sogar ohne die implizite Gewährleistung der MARKTREIFE oder der EIGNUNG FÜR EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU Affero General Public License.",
+    "licenseCopy": "Sie sollten eine Kopie der GNU Affero General Public License zusammen mit {0} erhalten haben. Falls nicht, finden Sie sie unter {1}.",
+    "code": "Code",
+    "issues": "Issues",
+    "donate": "Spenden"
+  },
+  "dropZone": {
+    "fileAdded": "Datei hinzugefügt",
+    "usage": "Benutzen Sie Drag & Drop, um eine Datei hinzuzufügen, oder klicken Sie hier, um sie manuell auszuwählen…",
+    "multipleFilesError": {
+      "title": "Mehrere Dateien ausgewählt",
+      "description": "Bitte wählen Sie pro Vorgang nur eine Datei aus."
+    }
+  },
+  "editor": {
+    "title": "Sendereditor",
+    "newStation": "Neuer Sender",
+    "field": {
+      "name": "Name",
+      "url": "Stream-URL",
+      "homepage": "Homepage-URL",
+      "icon": "Symbol-URL",
+      "required": "Pflichtfeld",
+      "marked": "Dies ist ein @:(editor.field.required)."
+    },
+    "notExisting": "Der zu editierende Sender existiert nicht."
+  },
+  "hotkeys": {
+    "title": "Hotkey-Referenz",
+    "space": "Leer",
+    "bindings": {
+      "H": {
+        "name": "@:general.hotkeys",
+        "description": "Diese Hotkey-Übersicht anzeigen oder ausblenden."
+      },
+      "M": {
+        "name": "@:general.menu",
+        "description": "Direkt über das Hauptmenü einen Dialog aufrufen."
+      },
+      "–": {
+        "name": "Leiser",
+        "description": "Verringern der Lautstärke um 10 %."
+      },
+      "+": {
+        "name": "Lauter",
+        "description": "Erhöhen der Lautstärke um 10 %."
+      },
+      " ": {
+        "name": "@:player.playStop",
+        "description": "Starten oder Stoppen der Wiedergabe des zuletzt ausgewählten Senders."
+      },
+      "F": {
+        "name": "@:player.toggleFullscreen",
+        "description": "Starten oder Beenden des Vollbildmodus bei Video-Streams."
+      },
+      "Esc": {
+        "name": "Ansicht schließen",
+        "description": "Aktuellen Dialog schließen. Meist wird durch Escape auch der Vollbildmodus beendet."
+      },
+      "P": {
+        "name": "@:player.prevStation",
+        "description": "Zum vorherigen Sender in der aktuellen Liste umschalten."
+      },
+      "N": {
+        "name": "@:player.nextStation",
+        "description": "Zum nächsten Sender in der aktuellen Liste umschalten."
+      },
+      "0-9": {
+        "name": "Senderwahl",
+        "description": "Umschalten zu einem anderen Sender je nach seiner Position in der aktuellen Liste."
+      }
+    },
+    "onScreenHints": {
+      "volume": "Lautstärke: {0}%",
+      "noVideoStream": "Kein Video-Stream",
+      "playingPrevious": "Spiele vorigen ab: {0}",
+      "playingNext": "Spiele nächsten ab: {0}",
+      "playingIndex": "Spiele #{0} ab: {1}",
+      "notExisting": "Sender {0} existiert nicht."
+    }
+  },
+  "importWizard": {
+    "stationLists": "Senderlisten",
+    "settings": "Einstellungen",
+    "description": "Hier können Sie Backups Ihrer {0} importieren.",
+    "step": "Schritt {0}: {1}",
+    "chooseFile": "Datei auswählen",
+    "setName": "Namen festlegen",
+    "selectStations": "Sender aussuchen",
+    "emptyName": {
+      "title": "Leerer Name",
+      "description": "Bitte tragen Sie unter „Schritt 2“ einen Namen für die Liste ein."
+    },
+    "nameTaken": {
+      "title": "Name bereits vergeben",
+      "description": "Eine Liste mit diesem Namen existiert bereits. Möchten Sie diese überschreiben?"
+    }
+  },
+  "listManager": {
+    "description": "Verwenden Sie dieses Tool, um Ihre Senderlisten zu verwalten.",
+    "specifyName": "Bitte einen Namen angeben",
+    "invalidName": "Ungültiger Name",
+    "newList": "Neue Liste",
+    "nameTaken": "Eine Liste mit dem Namen „{0}“ existiert bereits.",
+    "nameEmpty": "Der Name muss aus mindestens einem Zeichen bestehen."
+  },
+  "menu": {
+    "close": "Schließen"
+  },
+  "player": {
+    "ready": "Bereit",
+    "alreadyVoted": "Bereits abgestimmt",
+    "addBookmark": "Aktuellen Titel zu Lesezeichen hinzufügen",
+    "bookmarked": "Zu Lesezeichen hinzugefügt",
+    "prevStation": "Voriger Sender",
+    "nextStation": "Nächster Sender",
+    "playStop": "Play/Stopp",
+    "advancedView": "Erweiterte Ansicht",
+    "toggleFullscreen": "Vollbild umschalten",
+    "noHomepage": "Keine Homepage hinterlegt"
+  },
+  "search": {
+    "credit": {
+      "free": "freien",
+      "radioBrowser": "Die Suchfunktion wird ermöglicht durch den {0} {1}."
+    },
+    "error": "@:general.error.generic @:general.error.goOnline",
+    "optionsUnavailable": "Oh nein! Einige Optionen sind derzeit wegen Verbindungsproblemen nicht verfügbar.",
+    "tryAgain": "Erneut versuchen",
+    "byName": "Sender nach Namen",
+    "showOptions": "Optionen anzeigen",
+    "hideOptions": "Optionen ausblenden",
+    "filters": {
+      "label": "Filter",
+      "allCountries": "Alle Länder",
+      "allStates": "Alle Regionen",
+      "allLanguages": "Alle Sprachen",
+      "noCountrySelected": "Bitte wählen Sie zunächst ein Land aus."
+    },
+    "reverse": "Ergebnisse in umgekehrter Reihenfolge anzeigen",
+    "includeBroken": "Als defekt gekennzeichnete Sender einbeziehen",
+    "loading": "Ergebnisse werden geladen…",
+    "noMatches": "Keine passenden Sender gefunden.",
+    "loadMore": "Weitere Ergebnisse laden",
+    "comparison": {
+      "station": "Sender",
+      "added": "hinzugefügt",
+      "removed": "entfernt",
+      "oneChange": "{0} wurde {1}.",
+      "stationsAdded": "{0} Sender @:(search.comparison.added).",
+      "stationsRemoved": "{1} Sender @:(search.comparison.removed).",
+      "diff": "{0} {2} @:search.comparison.added, {1} @:(search.comparison.removed).",
+      "orderChanged": "Ursprüngliche Reihenfolge verändert."
+    },
+    "order": {
+      "sortBy": "Sortieren nach",
+      "votes": "Bewertungen",
+      "clicks": "Klicks",
+      "names": "Namen",
+      "countries": "Ländern",
+      "states": "Regionen",
+      "languages": "Sprachen",
+      "codecs": "Codecs"
+    }
+  },
+  "settings": {
+    "description": "Hier können Sie {0} an Ihre Bedürfnisse anpassen.",
+    "theme": "Erscheinungsbild | Erscheinungsbilder",
+    "themes": {
+      "candy": "Ein einfaches, aber elegantes Erscheinungsbild.",
+      "pure": "Ein einfaches und minimalistisches Erscheinungsbild."
+    },
+    "colorScheme": {
+      "name": "Farbschema | Farbschemen",
+      "auto": "Auto",
+      "light": "Hell",
+      "dark": "Dunkel"
+    },
+    "colorChange": {
+      "name": "Farbwechsel",
+      "description": "Automatisch eine Akzent- und Hintergrundfarbe abhängig vom gerade laufenden Stream auswählen."
+    },
+    "visualization": {
+      "name": "Pseudovisualisierung",
+      "description": "Eine Audiovisualisierung basierend auf zufälligen Werten während eines laufenden Audiostreams anzeigen.",
+      "screenWidthIssue": "Bildschirm oder Fenster nicht breit genug"
+    },
+    "relaxMode": {
+      "name": "Entspannungsmodus",
+      "description": "Bei Audio-Streams nur noch Senderinfos und Visualisierung vor farbigem Hintergrund anzeigen. Geschieht bei Inaktivität des Nutzers.",
+      "timer": "Entspannungsmodus aktivieren nach"
+    },
+    "loadIcons": {
+      "name": "Symbole laden"
+    },
+    "transitions": {
+      "name": "Übergangseffekte aktivieren"
+    },
+    "sleep": {
+      "name": "Sleep-Timer",
+      "description": "Hält den aktuellen Stream automatisch nach einer bestimmten Minutenzahl an.",
+      "timer": "Stream anhalten nach"
+    },
+    "volume": "Voreingestellte Lautstärke",
+    "detect": "Erkennen",
+    "discard": "Verwerfen",
+    "reset": "Auf Standardwerte zurücksetzen",
+    "import": "Aus Datei importieren",
+    "export": "In Datei exportieren"
+  },
+  "station": {
+    "options": "Optionen für „{0}“",
+    "edit": "Bearbeiten",
+    "moveUp": "Nach oben verschieben",
+    "moveDown": "Nach unten verschieben",
+    "delete": "Löschen"
+  },
+  "tagInput": {
+    "label": "@:general.tags (mit Kommas abtrennen)",
+    "preview": "Vorschau"
+  },
+  "titleManager": {
+    "title": "Titelverwaltung",
+    "recentTitles": "Letzte Titel",
+    "bookmark": "Lesezeichen | Lesezeichen",
+    "listEmpty": "Diese Liste ist derzeit leer.",
+    "remove": "Entfernen"
+  }
+}
