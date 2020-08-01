@@ -6,7 +6,7 @@ module.exports = {
 
   configureWebpack(config) {
     config.plugins.push(
-      new MomentLocalesPlugin({ localesToKeep: ["en", "de", "be", "ru"] })
+      new MomentLocalesPlugin({ localesToKeep: ["en", "de", "be", "ru", "fr"] })
     );
   },
 };
