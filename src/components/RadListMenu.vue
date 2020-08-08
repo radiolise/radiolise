@@ -30,6 +30,7 @@
         { id: 'm3u', name: 'M3U' },
         { id: 'xspf', name: 'XSPF' },
       ]"
+      :title="$t('general.downloadPlaylist')"
       @change="downloadList"
     >
       <font-awesome-icon icon="download" fixed-width />

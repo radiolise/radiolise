@@ -116,7 +116,7 @@ If you cancel, you can download a copy of the (possibly damaged) storage data be
 
   .logo {
     color: #fff;
-    background-image: url("/img/logo.svg");
+    background-image: url("../assets/img/logo.svg");
     background-repeat: no-repeat;
     background-position: center;
     width: 100%;

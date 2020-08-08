@@ -1,0 +1,323 @@
+{
+  "general": {
+    "menu": "Menu principal",
+    "findStations": "Trouver des stations",
+    "manageLists": "Gérer la liste des stations",
+    "manageTitles": "Gérer les titres",
+    "importBackup": "Importer une sauvegarde",
+    "hotkeys": "Raccourcis",
+    "settings": "Préférences",
+    "more": "Plus",
+    "learnMore": "En savoir plus",
+    "apply": "Appliquer",
+    "undo": "Annuler",
+    "note": "Note",
+    "ok": "OK",
+    "done": "Terminé",
+    "cancel": "Annuler",
+    "yes": "Oui",
+    "no": "Non",
+    "tryAgainLater": "Veuillez réessayer plus tard.",
+    "tags": "Étiquettes",
+    "noTags": "(pas d’étiquettes)",
+    "country": "Pays",
+    "state": "État | États",
+    "language": "Langue | Langues",
+    "stationLists": "Listes des stations",
+    "list": "Liste",
+    "manage": "Gérer…",
+    "loading": "Chargement…",
+    "downloadPlaylist": "Télécharger comme liste de lecture",
+    "downloadAs": "Enregistrer la liste sous",
+    "yamlFile": "{0} file (for transfer)",
+    "listEmpty": [
+      "Cette liste de stations est vide.",
+      "Cliquez sur le bouton en bas à droite pour ajouter des stations."
+    ],
+    "like": {
+      "submit": "J’aime",
+      "submitted": "J’ai aimé",
+      "count": "{0}+ personnes aiment cette station.",
+      "alreadyVoted": "Vous avez déjà voté.",
+      "submitMessage": "Votre vote a été soumis à la communauté Radio Browser.",
+      "unableToVote": {
+        "title": "Échec du vote",
+        "description": "Impossible de voter pour la station. Message d’erreur : « {0} »"
+      }
+    },
+    "visitHomepage": "Voir le site Web",
+    "error": {
+      "generic": "Désolé, une erreur est survenue.",
+      "genericTryLater": "@:general.error.generic @:general.tryAgainLater",
+      "goOnline": "Veuillez vous assurez que vous êtes connecté à Internet.",
+      "fileNotSupported": {
+        "title": "Fichier non pris en charge",
+        "description": "Le fichier sélectionné n’a pas été créé avec cette version de {0} ou bien a été corrompu."
+      },
+      "networkIssue": {
+        "title": "Erreur réseau",
+        "description": "Désolé, il semblerait y avoir une erreur de connexion en ce moment.\n{0}"
+      },
+      "hlsNotSupported": {
+        "title": "HLS non pris en charge",
+        "description": "Désolé, le protocole HLS est requis pour écouter {0}, et votre navigateur ne semble pas le prendre en charge."
+      },
+      "decode": {
+        "title": "Erreur de décodage",
+        "description": "Désolé, le flux n’a pas pu être décodé et ne semble pas être pris en charge."
+      },
+      "noSupportedSource": {
+        "title": "Aucune source prise en charge",
+        "description": "Désolé, le flux est soit non pris en charge, indisponible pour le moment, ou a été bloqué."
+      },
+      "timeout": {
+        "title": "Expiration du délai d’attente",
+        "description": "Désolé, votre connexion réseau semble être trop lente pour l’instant. @:general.tryAgainLater"
+      },
+      "hlsGeneric": {
+        "title": "Impossible de lancer l’écoute",
+        "description": "Désolé, {0} ne peut pas être écouté à cause d’une {1}.",
+        "network": "erreur de réseau",
+        "media": "erreur de média",
+        "other": "erreur HLS"
+      }
+    },
+    "undoableEvent": {
+      "station": "« {0} » a été supprimé de {1}.",
+      "list": "Une liste « {0} » a été supprimée.",
+      "bookmark": "« {0} » a été supprimée des favoris."
+    },
+    "newName": "Nouveau nom"
+  },
+  "about": {
+    "freeSoftware": "free software",
+    "licenseInfo": "{0} is {1}: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.",
+    "noWarranty": "{0} is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.",
+    "licenseCopy": "You should have received a copy of the GNU Affero General Public License along with {0}. If not, see {1} for more details.",
+    "code": "Code",
+    "issues": "Bogues",
+    "donate": "Donnez"
+  },
+  "dropZone": {
+    "fileAdded": "Fichier ajouté",
+    "usage": "Faites un glisser/déposer pour ajouter un fichier, ou cliquer ici pour l’ajouter manuellement…",
+    "multipleFilesError": {
+      "title": "Plusieurs fichiers sélectionnés",
+      "description": "Veuillez ne sélectionner qu’un seul fichier par importation."
+    }
+  },
+  "editor": {
+    "title": "Éditeur de station",
+    "newStation": "Nouvelle station",
+    "field": {
+      "name": "Nom",
+      "url": "URL du flux",
+      "homepage": "Site Web",
+      "icon": "Icône",
+      "required": "Champ requis",
+      "marked": "C’est un @:(editor.field.required)."
+    },
+    "notExisting": "La station à édité n’existe pas."
+  },
+  "hotkeys": {
+    "title": "Liste des raccourcis",
+    "space": "Espace",
+    "bindings": {
+      "H": {
+        "name": "@:general.hotkeys",
+        "description": "Affiche ou masque la liste des raccourcis."
+      },
+      "M": {
+        "name": "@:general.menu",
+        "description": "Ouvre le menu principal."
+      },
+      "–": {
+        "name": "Moins fort",
+        "description": "Baisse le volume 10 %."
+      },
+      "+": {
+        "name": "Plus fort",
+        "description": "Augmente le volume de 10 %."
+      },
+      " ": {
+        "name": "@:player.playStop",
+        "description": "Démarre ou arrête l’écoute de la station la plus récente."
+      },
+      "F": {
+        "name": "@:player.toggleFullscreen",
+        "description": "Entre ou quitte le mode plein écran pour les flux vidéos."
+      },
+      "Esc": {
+        "name": "Fermer la vue courante",
+        "description": "Ferme la boîte de dialogue courante. De plus, Échap. quitte normalement le mode plein écran."
+      },
+      "P": {
+        "name": "@:player.prevStation",
+        "description": "Bascule vers la station précédente de la liste courante."
+      },
+      "N": {
+        "name": "@:player.nextStation",
+        "description": "Bascule vers la station suivante de la liste courante."
+      },
+      "0-9": {
+        "name": "Sélection de station",
+        "description": "Bascule vers une autre station en fonction de sa position dans la liste."
+      }
+    },
+    "onScreenHints": {
+      "volume": "Volume: {0}%",
+      "noVideoStream": "Pas de flux vidéo",
+      "playingPrevious": "Écoute de la précédente : {0}",
+      "playingNext": "Écoute de la suivante : {0}",
+      "playingIndex": "Écoute de #{0} : {1}",
+      "notExisting": "La station {0} n’existe pas."
+    }
+  },
+  "importWizard": {
+    "stationLists": "listes de stations",
+    "settings": "préférences",
+    "description": "Vous pouvez importer ici les sauvegardes de vos {0}.",
+    "step": "Étape {0} : {1}",
+    "chooseFile": "Choisir un fichier",
+    "setName": "Définir un nom",
+    "selectStations": "Choisir des stations",
+    "emptyName": {
+      "title": "Pas de nom",
+      "description": "Veuillez entrer un nom pour la liste à l’étape 2."
+    },
+    "nameTaken": {
+      "title": "Nom existant",
+      "description": "Un liste existe déjà sous ce nom. Voulez-vous l’écraser ?"
+    }
+  },
+  "listManager": {
+    "description": "Utilisez cet outil pour gérer vos listes de stations.",
+    "specifyName": "Veuillez choisir un nom",
+    "invalidName": "Nom invalide",
+    "newList": "Nouvelle liste",
+    "nameTaken": "Une liste nommé « {0} » existe déjà.",
+    "nameEmpty": "Le nom doit comporter au moins un caractère."
+  },
+  "menu": {
+    "close": "Fermer"
+  },
+  "player": {
+    "ready": "Prêt",
+    "alreadyVoted": "Vote déjà effectué",
+    "addBookmark": "Titre en cours ajouté aux favoris",
+    "bookmarked": "Ajouté aux favoris",
+    "prevStation": "Station précédente",
+    "nextStation": "Station suivante",
+    "playStop": "Lecture/arrêt",
+    "advancedView": "Vue détaillée",
+    "toggleFullscreen": "Afficher en plein écran",
+    "noHomepage": "Pas de page d’accueil définie"
+  },
+  "search": {
+    "credit": {
+      "free": "libre",
+      "radioBrowser": "La fonction de recherche est assurée par le projet {0} {1}."
+    },
+    "error": "@:general.error.generic @:general.error.goOnline",
+    "optionsUnavailable": "Oh non ! Certaines options sont indisponibles pour le moment à cause d’un problème de connexion.",
+    "tryAgain": "Nouvel essai",
+    "byName": "Stations par nom",
+    "showOptions": "Montrer les options",
+    "hideOptions": "Cacher les options",
+    "filters": {
+      "label": "Filtres",
+      "allCountries": "Tous les pays",
+      "allStates": "Tous les états",
+      "allLanguages": "Toutes les langues",
+      "noCountrySelected": "Veuillez d’abord choisir un pays."
+    },
+    "reverse": "Afficher les résultats dans l’ordre inverse",
+    "includeBroken": "Inclure les stations marquées comme non fonctionnelles",
+    "loading": "Chargement des résultats…",
+    "noMatches": "Aucune station correspondant aux critères.",
+    "loadMore": "Charger plus de résultats",
+    "comparison": {
+      "station": "station | stations",
+      "added": "ajoutée(s)",
+      "removed": "supprimée(s)",
+      "oneChange": "{0} a été {1}.",
+      "stationsAdded": "{0} stations @:(search.comparison.added).",
+      "stationsRemoved": "{1} stations @:(search.comparison.removed).",
+      "diff": "{0} {2} @:search.comparison.added, {1} @:(search.comparison.removed).",
+      "orderChanged": "L’ordre original a été modifié."
+    },
+    "order": {
+      "sortBy": "Trier par",
+      "votes": "Votes",
+      "clicks": "Clics",
+      "names": "Noms",
+      "countries": "Pays",
+      "states": "États",
+      "languages": "Langues",
+      "codecs": "Codecs"
+    }
+  },
+  "settings": {
+    "description": "Vous pouvez personnaliser {0} ici pour correspondre à votre besoin.",
+    "theme": "Thème | Thèmes",
+    "themes": {
+      "candy": "Un thème simple mais élégant.",
+      "pure": "Un thème simple et minimaliste."
+    },
+    "colorScheme": {
+      "name": "Palette de couleurs | Palettes de couleurs",
+      "auto": "Auto",
+      "light": "Clair",
+      "dark": "Sombre"
+    },
+    "colorChange": {
+      "name": "Changement de couleur",
+      "description": "Choisir automatiquement une couleur de premier et d’arrière plan en fonction du flux en cours d’écoute."
+    },
+    "visualization": {
+      "name": "Pseudo-visualisation",
+      "description": "Affiche une visualisation audio en fonction de valeur aléatoire pendant l’écoute d’un flux audio.",
+      "screenWidthIssue": "L’écran ou la fenêtre n’est pas assez large"
+    },
+    "relaxMode": {
+      "name": "Mode relax",
+      "description": "Après une période d’inactivité lors de l’écoute d’un flux audio, affiche uniquement les informations de la stations et la visualisation sur un fond coloré.",
+      "timer": "Déclencher le mode relax après"
+    },
+    "loadIcons": {
+      "name": "Charger les icônes"
+    },
+    "transitions": {
+      "name": "Activer les transitions"
+    },
+    "sleep": {
+      "name": "Minuterie",
+      "description": "Arrête l’écoute du flux automatiquement après un certain temps (en minutes).",
+      "timer": "Arrêter l’écoute après"
+    },
+    "volume": "Volume par défaut",
+    "detect": "Détecter",
+    "discard": "Annuler",
+    "reset": "Réinitialiser",
+    "import": "Importer depuis un fichier",
+    "export": "Exporter dans un fichier"
+  },
+  "station": {
+    "options": "Options pour « {0} »",
+    "edit": "Éditer",
+    "moveUp": "Déplacer vers le haut",
+    "moveDown": "Déplacer vers le bas",
+    "delete": "Supprimer"
+  },
+  "tagInput": {
+    "label": "@:general.tags (séparé par des virgules)",
+    "preview": "Prévisualisation"
+  },
+  "titleManager": {
+    "title": "Gestionnaire de titres",
+    "recentTitles": "Titres récents",
+    "bookmark": "Favori | Favoris",
+    "listEmpty": "La liste est actuellement vide.",
+    "remove": "Supprimer"
+  }
+}

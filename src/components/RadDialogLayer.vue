@@ -17,7 +17,7 @@
         </div>
       </div>
     </transition>
-    <transition name="fade">
+    <transition name="scale-fade">
       <div
         v-if="modalOptions !== undefined"
         :key="animationTrigger"
@@ -138,10 +138,8 @@ export default class RadDialogLayer extends Vue {
   }
 
   closeModal(): void {
-    const modalOptions = this.modalOptions as ModalOptions;
-
-    if (modalOptions.closeable) {
-      const handleButtonClicked = modalOptions.handleButtonClicked as (
+    if (this.modalOptions !== undefined && this.modalOptions.closeable) {
+      const handleButtonClicked = this.modalOptions.handleButtonClicked as (
         button: number
       ) => void;
 
@@ -174,14 +172,27 @@ export default class RadDialogLayer extends Vue {
   }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s, transform 0.3s;
+.fade-enter,
+.fade-leave-to,
+.scale-fade-enter,
+.scale-fade-leave-to {
+  opacity: 0;
 }
 
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
+.fade-enter-active,
+.fade-leave-active,
+.scale-fade-enter-active,
+.scale-fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.scale-fade-enter-active,
+.scale-fade-leave-active {
+  transition-property: opacity, transform;
+}
+
+.scale-fade-enter,
+.scale-fade-leave-to {
   transform: scale(1.25);
 }
 </style>

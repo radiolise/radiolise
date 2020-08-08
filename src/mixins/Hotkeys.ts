@@ -114,17 +114,12 @@ export default class Hotkeys extends Vue {
   }
 
   handleKeyUp(event: KeyboardEvent): void {
-    if (event.key === "Escape") {
-      keyBindings.Escape.trigger(this);
-      return;
-    }
-
-    if (event.key === "Enter") {
-      this.closeModal();
-    }
-
     if (this.isHotkeyAllowed(event)) {
-      if (event.key in keyBindings) {
+      if (event.key === "Escape") {
+        keyBindings.Escape.trigger(this);
+      } else if (event.key === "Enter") {
+        this.closeModal();
+      } else if (event.key in keyBindings) {
         keyBindings[event.key].trigger(this);
       } else {
         const enteredDigit = Number(event.key);

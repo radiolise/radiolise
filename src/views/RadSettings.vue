@@ -116,16 +116,7 @@
             id="locales"
             v-model="settings.language"
             :label="$tc('general.language', 0)"
-            :data="[
-              {
-                id: 'auto',
-                name: $t('settings.detect'),
-                description:
-                  globalSettings.language === 'auto' ? $i18n.locale : undefined,
-              },
-              { id: 'de', name: 'Deutsch' },
-              { id: 'en', name: 'English' },
-            ]"
+            :data="locales"
           />
         </div>
       </div>
@@ -200,6 +191,22 @@ export default class RadSettings extends Vue {
         ? (this.$t("settings.colorScheme.dark") as string)
         : (this.$t("settings.colorScheme.light") as string)
       : undefined;
+  }
+
+  get locales(): DropdownOption[] {
+    return [
+      {
+        id: "auto",
+        name: this.$t("settings.detect") as string,
+        description:
+          this.globalSettings.language === "auto"
+            ? this.$i18n.locale
+            : undefined,
+      },
+      { id: "de", name: "Deutsch" },
+      { id: "en", name: "English" },
+      { id: "fr", name: "Français" },
+    ];
   }
 
   initialize(): void {

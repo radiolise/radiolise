@@ -88,7 +88,10 @@ interface DropdownOption {
   description?: string | number;
 }
 
-type Hint = { message: string; icon?: boolean };
+interface Hint {
+  message: string;
+  icon?: boolean;
+}
 
 interface Window {
   app?: Vue;

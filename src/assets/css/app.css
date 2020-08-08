@@ -2,14 +2,14 @@
   font-family: "Fira Sans";
   font-style: normal;
   font-weight: 400;
-  src: url(../webfonts/FiraSans-Regular.ttf);
+  src: url(../fonts/FiraSans-Regular.ttf);
   font-display: swap;
 }
 @font-face {
   font-family: "Fira Sans";
   font-style: normal;
   font-weight: 700;
-  src: url(../webfonts/FiraSans-Medium.ttf);
+  src: url(../fonts/FiraSans-Medium.ttf);
   font-display: swap;
 }
 @keyframes fadein {

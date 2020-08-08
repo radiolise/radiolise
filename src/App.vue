@@ -183,3 +183,5 @@ export default class App extends Mixins(ColorChanger, Hotkeys, LikeHelper) {
   }
 }
 </script>
+
+<style src="@/assets/css/app.css" />

@@ -1,4 +1,19 @@
-# Changes in 5.0.0-rc.1 (latest – 2020-07-30)
+# Changes in 5.0.0-rc.2 (latest – 2020-08-09)
+
+- Due to a bug in RC1, some dialog components were cached even though they
+  shouldn't be. This commit fixes any issues caused by this, including some
+  misbehavior of the Settings component. See
+  https://github.com/vuejs/vue-class-component/issues/407 and
+  https://github.com/webpack/webpack/issues/8132#issuecomment-427089354 for more
+  information.
+- Fixed unfavorable fallback to the English locale if other fallbacks are
+  provided by the browser.
+- Added French locale by accepting merge request !10.
+- All icons provided in `public/img` are now identical to those specified in the
+  `<head>` section of `public/index.html`.
+- Minor adjustments.
+
+# Changes in [5.0.0-rc.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/41e9e78bb77daeacc1f43024be738bc29851f6ce) (2020-07-30)
 
 More information coming soon.
 

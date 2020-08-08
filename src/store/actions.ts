@@ -571,12 +571,16 @@ const actions: ActionTree<StoreState, StoreState> = {
 
     try {
       const response = await Axios.get(styleSheetUrl);
+      let themeElement = document.querySelector("#themeStyle");
 
-      const themeStyle = document.querySelector(
-        "#themestyle"
-      ) as HTMLStyleElement;
+      if (themeElement === null) {
+        themeElement = document.createElement("style");
+        themeElement.id = "themeStyle";
+        const head = document.querySelector("head") as HTMLHeadElement;
+        head.appendChild(themeElement);
+      }
 
-      themeStyle.innerHTML = response.data;
+      themeElement.innerHTML = response.data;
 
       if (!state.ready) {
         commit("SET_READY");

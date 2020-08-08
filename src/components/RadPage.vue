@@ -85,7 +85,7 @@
 
 <script lang="ts">
 import { Component, Watch, Mixins } from "vue-property-decorator";
-import { State, Getter, Action } from "vuex-class";
+import { Getter, Action } from "vuex-class";
 import Moment from "moment";
 
 import ScrollHelper from "@/mixins/ScrollHelper";
@@ -107,23 +107,22 @@ import RadVideo from "./RadVideo.vue";
 export default class RadPage extends Mixins(ScrollHelper) {
   provideMediaSession = false;
 
-  @State(state => state.memory.settings.language) readonly language!: string;
-
   @Getter readonly appName!: string;
   @Getter readonly currentStation?: Station;
   @Getter readonly currentList!: Station[];
+  @Getter readonly language!: string;
 
   @Action playClosestStation!: (forward: boolean) => void;
 
   @Watch("language", { immediate: true })
-  handleLanguageChanged(language: string): void {
-    if (language === "auto") {
-      language = navigator.language.substring(0, 2);
+  handleLanguageChanged(locale: string): void {
+    if (locale === "auto") {
+      locale = this.detectLocale();
     }
 
-    this.$i18n.locale = language;
-    document.documentElement.lang = language;
-    Moment.locale(language);
+    this.$i18n.locale = locale;
+    document.documentElement.lang = locale;
+    Moment.locale(locale);
   }
 
   @Watch("currentList")
@@ -133,13 +132,24 @@ export default class RadPage extends Mixins(ScrollHelper) {
 
   @Watch("currentStation", { immediate: true })
   handleStationChanged(station?: Station, oldStation?: Station): void {
-    document.title = `${station !== undefined ? `${station.name} - ` : ""}${
-      this.appName
-    }`;
+    const titlePrefix = station !== undefined ? station.name + " - " : "";
+    document.title = titlePrefix + this.appName;
 
     if (station === undefined || oldStation === undefined) {
       this.setSwitchButtons();
     }
+  }
+
+  detectLocale(): string {
+    const preferredLocales = [
+      ...new Set(navigator.languages.map(language => language.substring(0, 2))),
+    ];
+
+    const detectedLocale = preferredLocales.find(locale => {
+      return Object.keys(this.$i18n.messages).includes(locale);
+    });
+
+    return detectedLocale ?? "en";
   }
 
   setSwitchButtons(): void {

@@ -50,6 +50,10 @@ const getters: GetterTree<StoreState, StoreState> = {
     return state.initialized ? state.memory.settings.colorScheme : null;
   },
 
+  language(state): string {
+    return state.memory.settings.language;
+  },
+
   playing(state): boolean {
     return state.playing;
   },

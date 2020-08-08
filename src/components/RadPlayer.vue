@@ -61,28 +61,16 @@
             @click="expand()"
           >
             <transition name="slide-fade" mode="out-in" appear>
-              <div
-                :key="
-                  loading ? '' : station ? station.name : $t('player.ready')
-                "
-                class="broadcaster"
-              >
-                <template v-if="loading">
-                  <font-awesome-icon icon="spinner" spin />
-                  {{ $t("general.loading") }}
-                </template>
-                <template v-else-if="station">
-                  {{ station.name }}
-                </template>
-                <template v-else>
-                  {{ $t("player.ready") }}
-                </template>
+              <div :key="broadcaster" class="broadcaster" :title="broadcaster">
+                <font-awesome-icon v-if="loading" icon="spinner" spin />
+                {{ broadcaster }}
               </div>
             </transition>
             <div
               v-show-slide="!!info && animationFinished"
               class="info"
               :style="{ maxHeight: expanded ? 'none' : '20px' }"
+              :title="renderedInfo"
             >
               <transition name="slide-fade" mode="out-in" appear>
                 <span
@@ -292,8 +280,8 @@ export default class RadPlayer extends Vue {
   hideTimeout?: number;
 
   @Getter readonly fixedPlayer!: boolean;
-  @Getter("currentLikeCount") readonly likeCount?: number;
-  @Getter("currentStation") readonly station?: Station;
+  @Getter("currentLikeCount") readonly likeCount: number | undefined;
+  @Getter("currentStation") readonly station: Station | undefined;
   @Getter("currentInfo") readonly info!: string;
   @Getter readonly hasVideo!: boolean;
   @Getter readonly fullscreen!: boolean;
@@ -315,6 +303,18 @@ export default class RadPlayer extends Vue {
 
   get main(): boolean {
     return "default" in this.$slots;
+  }
+
+  get broadcaster(): string {
+    if (this.loading) {
+      return this.$t("general.loading") as string;
+    }
+
+    if (this.station !== undefined) {
+      return this.station.name;
+    }
+
+    return this.$t("player.ready") as string;
   }
 
   get compact(): boolean {
