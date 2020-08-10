@@ -4,7 +4,11 @@
       <font-awesome-icon icon="cog" fixed-width /> {{ $t("general.settings") }}
     </h3>
     <p class="description">{{ $t("settings.description", [appName]) }}</p>
-    <form ref="form" @submit.prevent="handleSubmit()" @keypress.prevent>
+    <form
+      ref="form"
+      @submit.prevent="handleSubmit()"
+      @keypress="handleKeyPress"
+    >
       <div v-if="settings !== null" id="controlpanel">
         <div>
           <strong>{{ $tc("settings.theme", 1) }}</strong
@@ -225,6 +229,17 @@ export default class RadSettings extends Vue {
   handleSubmit(): void {
     this.applySettings(this.settings);
     this.$router.push("/");
+  }
+
+  handleKeyPress(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const activeElement = document.activeElement as HTMLElement | null;
+
+      if (activeElement?.tagName === "INPUT") {
+        activeElement.blur();
+      }
+    }
   }
 
   exportSettings(): void {
