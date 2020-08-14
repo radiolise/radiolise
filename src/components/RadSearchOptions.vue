@@ -173,27 +173,26 @@ export default class RadSearchOptions extends Vue {
     setTimeout(() => {
       const { filters } = this;
 
-      Object.keys(filters).forEach(item => {
+      Object.keys(filters).forEach(async item => {
         if (item !== "states") {
-          Axios.get(`${this.radioBrowserUrl}${item}`).then(response => {
-            this.filters[item] = response.data;
-          });
+          const response = await Axios.get(`${this.radioBrowserUrl}${item}`);
+          this.filters[item] = response.data;
         }
       });
     }, 300);
   }
 
-  updateStates(): void {
+  async updateStates(): Promise<void> {
     this.syncedOptions.state = "";
 
     if (this.syncedOptions.country !== "") {
       this.filters.states = null;
 
-      Axios.get(
+      const response = await Axios.get(
         `${this.radioBrowserUrl}states/${this.syncedOptions.country}/`
-      ).then(response => {
-        this.filters.states = response.data;
-      });
+      );
+
+      this.filters.states = response.data;
     } else {
       this.filters.states = [];
     }

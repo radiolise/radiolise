@@ -14,8 +14,12 @@ export default class DragHelper extends Vue {
   @Getter readonly currentList!: Station[];
   @Getter readonly sortIndex!: number;
 
-  @Action moveStation!: (payload: { index: number; newIndex: number }) => void;
-  @Action startSorting!: (index?: number) => void;
+  @Action moveStation!: (payload: {
+    index: number;
+    newIndex: number;
+  }) => Promise<void>;
+
+  @Action startSorting!: (index?: number) => Promise<void>;
 
   get dragging(): boolean {
     return this.sortIndex === this.index;

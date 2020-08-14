@@ -15,7 +15,7 @@ export const defaultSettings: Settings = {
 
 export const defaultMemory: Memory = {
   version: "2",
-  lists: [{ name: "Favorites", content: [] }],
+  lists: [],
   settings: defaultSettings,
   titles: {
     history: [],

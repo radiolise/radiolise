@@ -64,6 +64,7 @@ const keyBindings: Record<string, KeyBinding> = {
         toggleFullscreen();
       } else {
         showHint({
+          icon: "exclamation-triangle",
           message: context.$t("hotkeys.onScreenHints.noVideoStream") as string,
         });
       }

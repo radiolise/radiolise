@@ -64,7 +64,7 @@ input,
   background: #444;
   color: #fff;
 }
-tr:hover .smartmenu {
+.stationRow.dragging {
   background: #3d3d3d;
 }
 #footer,

@@ -38,18 +38,18 @@ export default class RadStartup extends Vue {
 
   @Getter readonly appName!: string;
 
-  @Action init!: (memory: Memory) => void;
+  @Action init!: (memory: Memory) => Promise<void>;
 
-  created(): void {
+  async created(): Promise<void> {
     if (memoryUpgradeNeeded) {
       this.showMessages = true;
     }
 
-    getMemory()
-      .then(this.startup)
-      .catch(() => {
-        this.failed = true;
-      });
+    try {
+      this.startup(await getMemory());
+    } catch {
+      this.failed = true;
+    }
   }
 
   startup(memory: Memory): void {

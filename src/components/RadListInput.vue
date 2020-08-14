@@ -51,10 +51,15 @@ export default class RadListInput extends Vue {
 
   @Ref() readonly input!: HTMLInputElement;
 
-  @Action changeList!: (index: number) => void;
-  @Action createList!: (list: StationList) => void;
-  @Action renameList!: (payload: { index: number; name: string }) => void;
-  @Action removeList!: (index: number) => void;
+  @Action changeList!: (index: number) => Promise<void>;
+  @Action createList!: (list: StationList) => Promise<void>;
+
+  @Action renameList!: (payload: {
+    index: number;
+    name: string;
+  }) => Promise<void>;
+
+  @Action removeList!: (index: number) => Promise<void>;
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   get isNewList(): boolean {
@@ -66,11 +71,10 @@ export default class RadListInput extends Vue {
   }
 
   @Watch("adding")
-  handleAddingChanged(adding: boolean): void {
+  async handleAddingChanged(adding: boolean): Promise<void> {
     if (adding) {
-      this.$nextTick(() => {
-        this.input.focus();
-      });
+      await this.$nextTick();
+      this.input.focus();
     }
   }
 

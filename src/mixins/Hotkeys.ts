@@ -19,11 +19,11 @@ export default class Hotkeys extends Vue {
   @Getter readonly modalOptions: ModalOptions | undefined;
   @Getter readonly volume!: number;
 
-  @Action adjustVolume!: (step: number) => void;
-  @Action playClosestStation!: (forward: boolean) => void;
-  @Action showHint!: (hint: Hint) => void;
-  @Action toggleFullscreen!: () => void;
-  @Action toggleStation!: (station?: Station) => void;
+  @Action adjustVolume!: (step: number) => Promise<void>;
+  @Action playClosestStation!: (forward: boolean) => Promise<void>;
+  @Action showHint!: (hint: Hint) => Promise<void>;
+  @Action toggleFullscreen!: () => Promise<void>;
+  @Action toggleStation!: (station?: Station) => Promise<void>;
 
   created(): void {
     window.addEventListener("keydown", this.handleKeyDown);
@@ -46,6 +46,7 @@ export default class Hotkeys extends Vue {
       }
     } else {
       this.showHint({
+        icon: "exclamation-triangle",
         message: this.$t("hotkeys.onScreenHints.notExisting", [
           index,
         ]) as string,
@@ -114,12 +115,18 @@ export default class Hotkeys extends Vue {
   }
 
   handleKeyUp(event: KeyboardEvent): void {
+    if (event.key === "Escape") {
+      keyBindings.Escape.trigger(this);
+      return;
+    }
+
+    if (event.key === "Enter") {
+      this.closeModal();
+      return;
+    }
+
     if (this.isHotkeyAllowed(event)) {
-      if (event.key === "Escape") {
-        keyBindings.Escape.trigger(this);
-      } else if (event.key === "Enter") {
-        this.closeModal();
-      } else if (event.key in keyBindings) {
+      if (event.key in keyBindings) {
         keyBindings[event.key].trigger(this);
       } else {
         const enteredDigit = Number(event.key);

@@ -31,6 +31,7 @@
 <script lang="ts">
 import { Component, Ref, Watch, Mixins } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
+import Moment from "moment";
 
 import ColorChanger from "./mixins/ColorChanger";
 import Hotkeys from "./mixins/Hotkeys";
@@ -54,6 +55,14 @@ import RadVisualization from "./components/RadVisualization.vue";
 export default class App extends Mixins(ColorChanger, Hotkeys, LikeHelper) {
   navbarShown = true;
 
+  inputEventTypes: Array<keyof GlobalEventHandlersEventMap> = [
+    "mousemove",
+    "mousedown",
+    "keydown",
+    "touchstart",
+    "wheel",
+  ];
+
   @Ref() readonly app!: HTMLDivElement;
 
   @State readonly playing!: boolean;
@@ -64,12 +73,15 @@ export default class App extends Mixins(ColorChanger, Hotkeys, LikeHelper) {
   @Getter readonly fixedPlayer!: boolean;
   @Getter readonly fullscreen!: boolean;
   @Getter readonly hasVideo!: boolean;
+  @Getter readonly language!: string;
+  @Getter readonly lists!: StationList[];
   @Getter readonly ready!: boolean;
   @Getter readonly settings!: Settings;
 
-  @Action loadStyle!: () => void;
-  @Action setDarkMode!: (darkMode: boolean) => void;
-  @Action setRelaxTimer!: () => void;
+  @Action createList!: (list: StationList) => Promise<void>;
+  @Action loadStyle!: () => Promise<void>;
+  @Action setDarkMode!: (darkMode: boolean) => Promise<void>;
+  @Action setRelaxTimer!: () => Promise<void>;
 
   get darkSchemeQuery(): MediaQueryList {
     return window.matchMedia("(prefers-color-scheme: dark)");
@@ -98,6 +110,17 @@ export default class App extends Mixins(ColorChanger, Hotkeys, LikeHelper) {
 
   get transitions(): boolean {
     return this.settings.transitions;
+  }
+
+  async created(): Promise<void> {
+    await this.$nextTick();
+
+    if (this.lists.length === 0) {
+      this.createList({
+        name: this.$t("general.defaultListName") as string,
+        content: [],
+      });
+    }
   }
 
   @Watch("noOverflow", { immediate: true })
@@ -150,6 +173,17 @@ export default class App extends Mixins(ColorChanger, Hotkeys, LikeHelper) {
     }
   }
 
+  @Watch("language", { immediate: true })
+  handleLanguageChanged(locale: string): void {
+    if (locale === "auto") {
+      locale = this.detectLocale();
+    }
+
+    this.$i18n.locale = locale;
+    document.documentElement.lang = locale;
+    Moment.locale(locale);
+  }
+
   @Watch("relaxModeAllowed")
   onRelaxModeAllowedChanged(relaxModeAllowed: boolean): void {
     if (relaxModeAllowed) {
@@ -159,14 +193,26 @@ export default class App extends Mixins(ColorChanger, Hotkeys, LikeHelper) {
     }
   }
 
+  detectLocale(): string {
+    const preferredLocales = [
+      ...new Set(navigator.languages.map(language => language.substring(0, 2))),
+    ];
+
+    const detectedLocale = preferredLocales.find(locale => {
+      return Object.keys(this.$i18n.messages).includes(locale);
+    });
+
+    return detectedLocale ?? "en";
+  }
+
   addInputListeners(listener: EventListener): void {
-    ["mousemove", "mousedown", "keydown", "touchstart"].forEach(type => {
+    this.inputEventTypes.forEach(type => {
       window.addEventListener(type, listener);
     });
   }
 
   removeInputListeners(listener: EventListener): void {
-    ["mousemove", "mousedown", "keydown", "touchstart"].forEach(type => {
+    this.inputEventTypes.forEach(type => {
       window.removeEventListener(type, listener);
     });
   }

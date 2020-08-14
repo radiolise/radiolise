@@ -25,6 +25,7 @@
     "language": "Language | Languages",
     "stationLists": "Station lists",
     "list": "List",
+    "defaultListName": "Favorites",
     "manage": "Manage…",
     "loading": "Loading…",
     "downloadPlaylist": "Download as playlist",

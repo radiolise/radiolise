@@ -53,14 +53,14 @@ export default class RadVideo extends Vue {
   @Getter readonly volume!: number;
   @Getter readonly fullscreen!: boolean;
 
-  @Action allowFullscreen!: (hasVideo: boolean) => void;
-  @Action confirmFullscreen!: (fullscreen: boolean) => void;
-  @Action confirmPlaying!: (url: string) => void;
-  @Action handleBufferWaiting!: (waiting: boolean) => void;
+  @Action allowFullscreen!: (hasVideo: boolean) => Promise<void>;
+  @Action confirmFullscreen!: (fullscreen: boolean) => Promise<void>;
+  @Action confirmPlaying!: (url: string) => Promise<void>;
+  @Action handleBufferWaiting!: (waiting: boolean) => Promise<void>;
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
-  @Action stop!: () => void;
-  @Action toggleFullscreen!: () => void;
-  @Action toggleStation!: () => void;
+  @Action stop!: () => Promise<void>;
+  @Action toggleFullscreen!: () => Promise<void>;
+  @Action toggleStation!: () => Promise<void>;
 
   get videoShown(): boolean {
     return this.station !== undefined && this.hasVideo;
@@ -78,7 +78,7 @@ export default class RadVideo extends Vue {
   }
 
   @Watch("station")
-  onStationChanged(station?: Station): void {
+  async onStationChanged(station?: Station): Promise<void> {
     if (source) {
       source.cancel();
       source = CancelToken.source();
@@ -87,17 +87,20 @@ export default class RadVideo extends Vue {
     this.detachStream();
 
     if (station !== undefined) {
-      Axios.get(`${this.radioBrowserUrl}url/${station.id}`, {
-        cancelToken: source.token,
-      })
-        .then(response => {
-          this.play(response.data.ok ? response.data.url : station.url);
-        })
-        .catch(error => {
-          if (!Axios.isCancel(error)) {
-            this.play(station.url);
+      try {
+        const response = await Axios.get(
+          `${this.radioBrowserUrl}url/${station.id}`,
+          {
+            cancelToken: source.token,
           }
-        });
+        );
+
+        this.play(response.data.ok ? response.data.url : station.url);
+      } catch (error) {
+        if (!Axios.isCancel(error)) {
+          this.play(station.url);
+        }
+      }
     }
   }
 

@@ -3,7 +3,7 @@
     <br />
     <div>
       <div>
-        <img src="img/logo.svg" /><span>{{ appName }}</span>
+        <img src="@/assets/img/logo.svg" /><span>{{ appName }}</span>
       </div>
     </div>
     <br />

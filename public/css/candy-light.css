@@ -95,6 +95,9 @@ input,
 #drawers button {
   color: #fff;
 }
+.stationRow.dragging {
+  background: #ddd;
+}
 #drawers,
 #footer,
 #addfooter {

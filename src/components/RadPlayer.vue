@@ -261,10 +261,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from "vue-property-decorator";
+import { Component, Watch, Mixins } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 import RadRouterToggle from "./RadRouterToggle.vue";
 import RadSlider from "./RadSlider.vue";
+import BookmarkHelper from "@/mixins/BookmarkHelper";
 
 @Component({
   components: {
@@ -272,7 +273,7 @@ import RadSlider from "./RadSlider.vue";
     RadSlider,
   },
 })
-export default class RadPlayer extends Vue {
+export default class RadPlayer extends Mixins(BookmarkHelper) {
   animationFinished = true;
   animationTrigger = false;
   renderedInfo = "";
@@ -292,14 +293,13 @@ export default class RadPlayer extends Vue {
   @Getter("volume") readonly globalVolume!: number;
   @Getter readonly playing!: boolean;
 
-  @Action changeVolume!: (volume: number) => void;
-  @Action expandPlayer!: (expand: boolean) => void;
+  @Action changeVolume!: (volume: number) => Promise<void>;
+  @Action expandPlayer!: (expand: boolean) => Promise<void>;
   @Action fetchLikeCount!: (id?: string) => Promise<number>;
-  @Action likeStation!: (id: string) => void;
-  @Action playClosestStation!: (forward: boolean) => void;
-  @Action toggleBookmark!: (payload: { station: string; info: string }) => void;
-  @Action toggleFullscreen!: () => void;
-  @Action toggleStation!: () => void;
+  @Action likeStation!: (id: string) => Promise<void>;
+  @Action playClosestStation!: (forward: boolean) => Promise<void>;
+  @Action toggleFullscreen!: () => Promise<void>;
+  @Action toggleStation!: () => Promise<void>;
 
   get main(): boolean {
     return "default" in this.$slots;

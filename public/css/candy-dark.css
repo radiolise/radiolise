@@ -81,7 +81,7 @@ input,
 #drawers button {
   color: #000;
 }
-tr:hover .smartmenu {
+.stationRow.dragging {
   background: #3d3d3d;
 }
 #drawers,

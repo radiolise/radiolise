@@ -36,10 +36,9 @@ export default class RadDropZone extends Vue {
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   created(): void {
-    this.reader.addEventListener("load", () => {
-      import(/* webpackChunkName: "yaml" */ "yaml").then(YAML => {
-        this.handleReaderLoaded(YAML.parse(this.reader.result as string));
-      });
+    this.reader.addEventListener("load", async () => {
+      const YAML = await import(/* webpackChunkName: "yaml" */ "yaml");
+      this.handleReaderLoaded(YAML.parse(this.reader.result as string));
     });
   }
 

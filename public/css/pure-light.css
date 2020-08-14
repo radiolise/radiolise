@@ -50,6 +50,9 @@ input,
   background: #fff;
   color: #222;
 }
+.stationRow.dragging {
+  background: #ddd;
+}
 #footer,
 #addfooter,
 .videobar {

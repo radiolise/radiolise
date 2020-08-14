@@ -86,7 +86,6 @@
 <script lang="ts">
 import { Component, Watch, Mixins } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
-import Moment from "moment";
 
 import ScrollHelper from "@/mixins/ScrollHelper";
 import RadListMenu from "./RadListMenu.vue";
@@ -110,20 +109,8 @@ export default class RadPage extends Mixins(ScrollHelper) {
   @Getter readonly appName!: string;
   @Getter readonly currentStation?: Station;
   @Getter readonly currentList!: Station[];
-  @Getter readonly language!: string;
 
-  @Action playClosestStation!: (forward: boolean) => void;
-
-  @Watch("language", { immediate: true })
-  handleLanguageChanged(locale: string): void {
-    if (locale === "auto") {
-      locale = this.detectLocale();
-    }
-
-    this.$i18n.locale = locale;
-    document.documentElement.lang = locale;
-    Moment.locale(locale);
-  }
+  @Action playClosestStation!: (forward: boolean) => Promise<void>;
 
   @Watch("currentList")
   handleListChanged(): void {
@@ -138,18 +125,6 @@ export default class RadPage extends Mixins(ScrollHelper) {
     if (station === undefined || oldStation === undefined) {
       this.setSwitchButtons();
     }
-  }
-
-  detectLocale(): string {
-    const preferredLocales = [
-      ...new Set(navigator.languages.map(language => language.substring(0, 2))),
-    ];
-
-    const detectedLocale = preferredLocales.find(locale => {
-      return Object.keys(this.$i18n.messages).includes(locale);
-    });
-
-    return detectedLocale ?? "en";
   }
 
   setSwitchButtons(): void {

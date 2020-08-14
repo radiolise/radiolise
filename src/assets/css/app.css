@@ -299,14 +299,14 @@ nav > div > div:nth-child(3) {
   margin-bottom: -5px;
 }
 .checkable,
-#stations > div {
+.stationRow {
   cursor: pointer;
   display: table;
 }
-#stations > div > div {
+.stationRow > div {
   display: table-cell;
 }
-#stations > div > div:nth-child(3) {
+.stationRow > div:nth-child(3) {
   cursor: auto;
   vertical-align: middle;
 }
@@ -419,7 +419,7 @@ main > div {
   overflow: hidden;
 }
 .playing .playbutton,
-#stations > div:hover .playbutton {
+.stationRow:hover .playbutton {
   opacity: 1;
 }
 .icontain {
@@ -448,7 +448,7 @@ main > div {
   width: 100%;
 }
 .playing .icon,
-#stations > div:hover .icon {
+.stationRow:hover .icon {
   filter: blur(5px);
 }
 p {
@@ -696,7 +696,7 @@ button.active svg path {
   transition: all 0.2s;
 }
 #tomove,
-#stations > div:hover,
+.stationRow:hover,
 .result:hover,
 input:not(#query):focus,
 .listitem:hover,
@@ -707,7 +707,7 @@ a {
   cursor: pointer;
   text-decoration: none;
 }
-#stations > div > div:nth-child(2) {
+.stationRow > div:nth-child(2) {
   text-align: left;
   width: 100%;
   max-width: 0;
@@ -727,7 +727,7 @@ h4 {
   text-align: left;
   padding-top: 5px;
 }
-#stations > div > div:nth-child(1) {
+.stationRow > div:nth-child(1) {
   padding: 20px 0;
   vertical-align: top;
 }

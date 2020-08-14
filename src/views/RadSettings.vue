@@ -7,7 +7,7 @@
     <form
       ref="form"
       @submit.prevent="handleSubmit()"
-      @keypress="handleKeyPress"
+      @keypress.enter.prevent="handleEnterPressed"
     >
       <div v-if="settings !== null" id="controlpanel">
         <div>
@@ -128,7 +128,12 @@
         <router-link id="discardsettings" class="button" to="/">
           <font-awesome-icon icon="ban" /> {{ $t("settings.discard") }}
         </router-link>
-        <a id="applysettings" class="button" @click="form.submit.click()">
+        <a
+          id="applysettings"
+          href="#/"
+          class="button"
+          @click="form.submit.click()"
+        >
           <font-awesome-icon icon="check" />
           {{ $t("general.apply") }}
         </a>
@@ -186,8 +191,8 @@ export default class RadSettings extends Vue {
   @Getter readonly appName!: string;
   @Getter("settings") readonly globalSettings!: Settings;
 
-  @Action applySettings!: (settings: Settings | null) => void;
-  @Action("reset") handleReset!: () => void;
+  @Action applySettings!: (settings: Settings | null) => Promise<void>;
+  @Action("reset") handleReset!: () => Promise<void>;
 
   get detectedTheme(): string | undefined {
     return this.globalSettings.colorScheme === "auto"
@@ -228,17 +233,13 @@ export default class RadSettings extends Vue {
 
   handleSubmit(): void {
     this.applySettings(this.settings);
-    this.$router.push("/");
   }
 
-  handleKeyPress(event: KeyboardEvent): void {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      const activeElement = document.activeElement as HTMLElement | null;
+  handleEnterPressed(event: KeyboardEvent): void {
+    const activeElement = event.target as HTMLElement | null;
 
-      if (activeElement?.tagName === "INPUT") {
-        activeElement.blur();
-      }
+    if (activeElement?.tagName === "INPUT") {
+      activeElement.blur();
     }
   }
 

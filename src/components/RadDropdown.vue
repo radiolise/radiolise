@@ -19,8 +19,8 @@
       </div>
       <select
         ref="select"
-        :disabled="!enabled"
         :value="value"
+        :disabled="!enabled"
         :class="{ covering: isMenu }"
         @change="handleChange()"
       >
@@ -43,7 +43,7 @@
           {{ action }}
         </option>
       </select>
-      <div v-if="isMenu" class="dropdownLabel"><slot></slot></div>
+      <div v-if="isMenu" class="dropdownLabel"><slot /></div>
     </div>
   </div>
 </template>

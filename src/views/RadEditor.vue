@@ -138,8 +138,8 @@ export default class RadEditor extends Vue {
 
   @Getter readonly lists!: StationList[];
 
-  @Action editStation!: (station: Station | undefined) => void;
-  @Action updateStation!: (station: Station) => void;
+  @Action editStation!: (station: Station | undefined) => Promise<void>;
+  @Action updateStation!: (station: Station) => Promise<void>;
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   created(): void {

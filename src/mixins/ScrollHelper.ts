@@ -14,7 +14,7 @@ export default class ScrollHelper extends Vue {
   @Getter readonly hasVideo!: boolean;
   @Getter readonly isPlayerExpanded!: boolean;
 
-  @Action fixPlayer!: (fixedPlayer: boolean) => void;
+  @Action fixPlayer!: (fixedPlayer: boolean) => Promise<void>;
 
   getPlayerBarHeight(): number {
     const playerBar = document.querySelector(
@@ -32,8 +32,9 @@ export default class ScrollHelper extends Vue {
   }
 
   @Watch("hasVideo")
-  onVideoToggled(): void {
-    this.$nextTick(this.resizeHandler);
+  async onVideoToggled(): Promise<void> {
+    await this.$nextTick();
+    this.resizeHandler();
   }
 
   scrollHandler(): void {

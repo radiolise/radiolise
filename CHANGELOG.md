@@ -1,9 +1,16 @@
-# Changes in 5.0.0-rc.3 (latest – 2020-08-11)
+# Changes in 5.0.0-rc.4 (latest – 2020-08-15)
+
+- Fixed a bug which led to misbehavior of the drop-down menu for station lists
+  after importing a list.
+- Refactoring of some Promise-based operations.
+- Minor improvements and adjustments.
+
+# Changes in [5.0.0-rc.3](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/dd3cfb1acb615d80e37703379ad02e828cad7976) (2020-08-11)
 
 - Fixed a bug in the Settings component that caused keystrokes in numeric input
   fields to be ignored.
 
-# Changes in [5.0.0-rc.2](830ccdbb3abfa820d89ce8c355612e0f88418aac) (2020-08-09)
+# Changes in [5.0.0-rc.2](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/830ccdbb3abfa820d89ce8c355612e0f88418aac) (2020-08-09)
 
 - Due to a bug in RC1, some dialog components were cached even though they
   shouldn't be. This commit fixes any issues caused by this, including some
@@ -18,23 +25,23 @@
   `<head>` section of `public/index.html`.
 - Minor adjustments.
 
-# Changes in [5.0.0-rc.1](41e9e78bb77daeacc1f43024be738bc29851f6ce) (2020-07-30)
+# Changes in [5.0.0-rc.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/41e9e78bb77daeacc1f43024be738bc29851f6ce) (2020-07-30)
 
 More information coming soon.
 
-# Changes in [4.0.1.1](22f8198ba6e560f375652efe721f88df84f98a7e) (2020-02-25)
+# Changes in [4.0.1.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/22f8198ba6e560f375652efe721f88df84f98a7e) (2020-02-25)
 
 Minor fix for version 4.0.1: Unnecessary redirects to retrieve "Now playing"
 data are now avoided.
 
-# Changes in [4.0.1](1a135186d296dd26be01c00f23cf1d021d53f429) (2020-02-25)
+# Changes in [4.0.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/1a135186d296dd26be01c00f23cf1d021d53f429) (2020-02-25)
 
 - Bug fix for Google Chrome 80: Streams that do not support HTTPS should work
   again.
 - The code has been reformatted using Prettier.
 - Minor changes.
 
-# Changes in [4.0.0](0bcb1b7bde3295240adfa1833637154c53e6e7b8) (2019-01-14)
+# Changes in [4.0.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/0bcb1b7bde3295240adfa1833637154c53e6e7b8) (2019-01-14)
 
 - The JavaScript code has been divided into individual modules and sections to
   provide more clarity and separation of concerns.
@@ -54,20 +61,20 @@ data are now avoided.
 - GNU LibreJS license file and service worker have been updated.
 - Minor improvements and fixes.
 
-# Changes in [3.2.2](8c276f56e48d280edaaf3b80860ae54d142c5a7e) (2018-09-30)
+# Changes in [3.2.2](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/8c276f56e48d280edaaf3b80860ae54d142c5a7e) (2018-09-30)
 
 - The selected station list and the last station played will be remembered now.
 - Fixed option menus and app manifest issue.
 - Updated service worker.
 - Minor improvements and fixes.
 
-# Changes in [3.2.1](841b09f9e774933eae937212220b4e99b7b36e9d) (2018-09-22)
+# Changes in [3.2.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/841b09f9e774933eae937212220b4e99b7b36e9d) (2018-09-22)
 
 - Radiolise has a different logo now.
 - Fixed cache issues.
 - Minor improvements and fixes.
 
-# Changes in [3.2.0](18852c2e75a9e9849a24df735be5a71c461bd3aa) (2018-09-04)
+# Changes in [3.2.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/18852c2e75a9e9849a24df735be5a71c461bd3aa) (2018-09-04)
 
 - Major design updates and improvements.
 - New layout that offers a higher contrast and makes better use of the space on
@@ -77,7 +84,7 @@ data are now avoided.
 - Updated service worker.
 - Minor improvements and fixes.
 
-# Changes in [3.1.0](575de837ed1fe2ffda69f8cdd13a4fd78ae0ab10) (2018-09-03)
+# Changes in [3.1.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/575de837ed1fe2ffda69f8cdd13a4fd78ae0ab10) (2018-09-03)
 
 - The new Radiolise Web Service API (<https://gitlab.com/radiolise/service>)
   allows 'Now playing' information such as song titles or headlines to be
@@ -87,11 +94,11 @@ data are now avoided.
 - The option to move stations within the list has been improved a bit.
 - Minor improvements and fixes.
 
-# Changes in [3.0.1](4f3a47c4cf7504d31b05c288761cac52daf40144) (2018-07-23)
+# Changes in [3.0.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/4f3a47c4cf7504d31b05c288761cac52daf40144) (2018-07-23)
 
 Includes small preparations for support of the Russian language, see !4.
 
-# Changes in [3.0.0](bf06741921f88631818d02baa1511d62a8d35910) (2018-04-30)
+# Changes in [3.0.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/bf06741921f88631818d02baa1511d62a8d35910) (2018-04-30)
 
 - Radiolise supports HLS streams that contain video now (e.g. TV stations from
   the CRB database).
@@ -115,19 +122,19 @@ Includes small preparations for support of the Russian language, see !4.
 - The current station list may be downloaded as a PLS, M3U or XSPF playlist now.
 - Minor improvements and fixes.
 
-# Changes in [2.3.2](9d3d1882a404bfc3bc6980ed2176ac6f3bb79090) (2018-04-24)
+# Changes in [2.3.2](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/9d3d1882a404bfc3bc6980ed2176ac6f3bb79090) (2018-04-24)
 
 Merge branch 'master' into 'master'  
 Fix #3 : Accessibility  
 Closes #3  
 See merge request !3
 
-# Changes in [2.3.1](4cc191caa0a9213e17289a46a0a20310e1b4d4bd) (2018-04-22)
+# Changes in [2.3.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/4cc191caa0a9213e17289a46a0a20310e1b4d4bd) (2018-04-22)
 
 - Added basic support for HLS playlists.
 - Minor improvements and fixes.
 
-# Changes in [2.3.0](1ac63e89fdc6fb9596b99ce3875d499f07138c7b) (2018-04-01)
+# Changes in [2.3.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/1ac63e89fdc6fb9596b99ce3875d499f07138c7b) (2018-04-01)
 
 - Added service worker to meet the criteria of a progressive web app
   (<https://developers.google.com/web/progressive-web-apps/checklist>).

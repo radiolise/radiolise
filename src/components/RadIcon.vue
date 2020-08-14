@@ -40,7 +40,10 @@ export default class RadIcon extends Vue {
   @Getter readonly currentStation?: Station;
   @Getter readonly loading!: boolean;
 
-  @Action updateColor!: (payload: { station: Station; hue: number }) => void;
+  @Action updateColor!: (payload: {
+    station: Station;
+    hue: number;
+  }) => Promise<void>;
 
   created(): void {
     if (this.station.hue === undefined) {

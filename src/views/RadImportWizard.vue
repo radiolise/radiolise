@@ -115,11 +115,15 @@ export default class RadImportWizard extends Vue {
 
   @Getter readonly appName!: string;
 
-  @Action applySettings!: (settings: Settings) => void;
-  @Action changeList!: (index: number) => void;
-  @Action createList!: (list: StationList) => void;
+  @Action applySettings!: (settings: Settings) => Promise<void>;
+  @Action changeList!: (index: number) => Promise<void>;
+  @Action createList!: (list: StationList) => Promise<void>;
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
-  @Action updateList!: (payload: { name?: string; content: Station[] }) => void;
+
+  @Action updateList!: (payload: {
+    name?: string;
+    content: Station[];
+  }) => Promise<void>;
 
   setBackup(rawBackup: Backup): void {
     try {
@@ -157,7 +161,7 @@ export default class RadImportWizard extends Vue {
     }
   }
 
-  importItems(): void {
+  async importItems(): Promise<void> {
     if (this.type === "settings") {
       this.applySettings(this.backup as Settings);
       this.$router.push("/settings");
@@ -177,6 +181,7 @@ export default class RadImportWizard extends Vue {
 
     try {
       this.createList({ name, content });
+      await this.$nextTick();
       this.changeList(-1);
       this.$router.push("/");
     } catch (error) {
@@ -188,7 +193,7 @@ export default class RadImportWizard extends Vue {
           message: this.$t("importWizard.emptyName.description") as string,
         });
       } else {
-        this.showMessage({
+        const buttonId = await this.showMessage({
           type: ModalType.QUESTION,
           title: this.$t("importWizard.nameTaken.title") as string,
           message: this.$t("importWizard.nameTaken.description") as string,
@@ -197,12 +202,12 @@ export default class RadImportWizard extends Vue {
             this.$t("general.no") as string,
           ],
           closeable: false,
-        }).then(buttonId => {
-          if (buttonId === 0) {
-            this.$router.push("/");
-            this.updateList({ name, content });
-          }
         });
+
+        if (buttonId === 0) {
+          this.$router.push("/");
+          this.updateList({ name, content });
+        }
       }
     }
   }

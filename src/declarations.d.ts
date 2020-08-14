@@ -90,7 +90,7 @@ interface DropdownOption {
 
 interface Hint {
   message: string;
-  icon?: boolean;
+  icon?: string;
 }
 
 interface Window {

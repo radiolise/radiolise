@@ -13,6 +13,11 @@
     <transition name="fade">
       <div v-if="hint !== null" id="hint">
         <div>
+          <font-awesome-icon
+            v-if="hint.icon !== undefined"
+            :icon="hint.icon"
+            fixed-width
+          />
           {{ hint.message }}
         </div>
       </div>

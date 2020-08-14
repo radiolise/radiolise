@@ -9,8 +9,7 @@ type OutputType = keyof typeof mimeTypes;
 
 type ListOutput =
   | string
-  | Record<string, string | Record<string, Station[]> | Settings>
-  | (string | Title)[];
+  | Record<string, string | Record<string, Station[]> | Settings | Title[]>;
 
 interface DownloadInfo {
   name: string;
@@ -22,22 +21,27 @@ interface Downloadable extends DownloadInfo {
   output: string;
 }
 
-function provideFile({ name, type, output }: Downloadable): void {
+async function provideFile({
+  name,
+  type,
+  output,
+}: Downloadable): Promise<void> {
   const mimeType = mimeTypes[type];
   const fileName = `${name.replace(/ /g, "_")}_${new Date().getTime()}.${type}`;
 
-  import(/* webpackChunkName: "file-saver" */ "file-saver").then(FileSaver => {
-    FileSaver.saveAs(new Blob([output], { type: mimeType }), fileName);
-  });
+  const FileSaver = await import(
+    /* webpackChunkName: "file-saver" */ "file-saver"
+  );
+
+  FileSaver.saveAs(new Blob([output], { type: mimeType }), fileName);
 }
 
-function download({ name, type, output }: DownloadInfo): void {
+async function download({ name, type, output }: DownloadInfo): Promise<void> {
   if (typeof output === "string") {
     provideFile({ name, type, output });
   } else {
-    import(/* webpackChunkName: "yaml" */ "yaml").then(YAML => {
-      provideFile({ name, type, output: YAML.stringify(output) });
-    });
+    const YAML = await import(/* webpackChunkName: "yaml" */ "yaml");
+    provideFile({ name, type, output: YAML.stringify(output) });
   }
 }
 

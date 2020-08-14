@@ -47,12 +47,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Mixins } from "vue-property-decorator";
 import Moment from "moment";
-import { Getter, Action } from "vuex-class";
+import { Getter } from "vuex-class";
+
+import BookmarkHelper from "@/mixins/BookmarkHelper";
 
 @Component
-export default class RadTitleRow extends Vue {
+export default class RadTitleRow extends Mixins(BookmarkHelper) {
   updateInterval: number | null = null;
   timeStamp: string | null = null;
 
@@ -62,17 +64,14 @@ export default class RadTitleRow extends Vue {
 
   @Getter readonly bookmarks!: Title[];
 
-  @Action toggleBookmark!: (payload: { station: string; info: string }) => void;
-
-  created(): void {
+  async created(): Promise<void> {
     const update = (): void => {
       this.timeStamp = Moment(this.title.time * 60).fromNow();
     };
 
-    this.$nextTick(() => {
-      this.updateInterval = setInterval(update, 5000);
-      update();
-    });
+    await this.$nextTick();
+    this.updateInterval = setInterval(update, 1000);
+    update();
   }
 
   destroyed(): void {

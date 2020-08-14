@@ -67,9 +67,9 @@ export default class RadStation extends Mixins(DragHelper) {
   @Getter readonly currentStation?: Station;
   @Getter readonly selectedList!: number;
 
-  @Action("removeStation") handleDelete!: (index: number) => void;
-  @Action likeStation!: (id: string) => void;
-  @Action toggleStation!: (station: Station) => void;
+  @Action("removeStation") handleDelete!: (index: number) => Promise<void>;
+  @Action likeStation!: (id: string) => Promise<void>;
+  @Action toggleStation!: (station: Station) => Promise<void>;
 
   get transition(): boolean {
     return !this.dragging && this.sortIndex !== undefined;
@@ -184,7 +184,6 @@ export default class RadStation extends Mixins(DragHelper) {
 
   &.dragging {
     position: relative;
-    background: #ddd;
     z-index: 10;
     opacity: 0.8;
   }

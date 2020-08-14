@@ -390,57 +390,60 @@ const actions: ActionTree<StoreState, StoreState> = {
     dispatch("requestInfo", url);
   },
 
-  requestInfo({ dispatch, state }, url: string): void {
+  async requestInfo({ dispatch, state }, url: string): Promise<void> {
     let cancelled = false;
 
-    Axios.post(serviceUrl, QueryString.stringify({ url }), {
-      cancelToken: source.token,
-      timeout: 50000,
-    })
-      .then((response: AxiosResponse<Record<string, string>>) => {
-        let info = response.data.title;
+    try {
+      const response = (await Axios.post(
+        serviceUrl,
+        QueryString.stringify({ url }),
+        {
+          cancelToken: source.token,
+          timeout: 50000,
+        }
+      )) as AxiosResponse<Record<string, string>>;
 
-        if (info) {
-          if (info === "-") {
-            info = "";
-          }
+      let info = response.data.title;
 
-          const delimiter = " - ";
-          const cutStrings = info.split(delimiter);
-
-          if (cutStrings.length >= 2) {
-            info = [
-              cutStrings
-                .slice(0, 2)
-                .reverse()
-                .join(" / "),
-              ...cutStrings.slice(2),
-            ].join(delimiter);
-          }
-        } else {
-          const description = response.data.description;
-
-          if (description !== "Unspecified description") {
-            info = description;
-          }
+      if (info) {
+        if (info === "-") {
+          info = "";
         }
 
-        if (info && state.currentInfo !== info) {
-          dispatch("updateInfo", info);
+        const delimiter = " - ";
+        const cutStrings = info.split(delimiter);
+
+        if (cutStrings.length >= 2) {
+          info = [
+            cutStrings
+              .slice(0, 2)
+              .reverse()
+              .join(" / "),
+            ...cutStrings.slice(2),
+          ].join(delimiter);
         }
-      })
-      .catch(error => {
-        if (Axios.isCancel(error)) {
-          cancelled = true;
+      } else {
+        const description = response.data.description;
+
+        if (description !== "Unspecified description") {
+          info = description;
         }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          updateTimer = setTimeout(() => {
-            dispatch("requestInfo", url);
-          }, 10000);
-        }
-      });
+      }
+
+      if (info && state.currentInfo !== info) {
+        dispatch("updateInfo", info);
+      }
+    } catch (error) {
+      if (Axios.isCancel(error)) {
+        cancelled = true;
+      }
+    } finally {
+      if (!cancelled) {
+        updateTimer = setTimeout(() => {
+          dispatch("requestInfo", url);
+        }, 10000);
+      }
+    }
   },
 
   setSleepTimer({ dispatch, state }): void {
@@ -552,16 +555,20 @@ const actions: ActionTree<StoreState, StoreState> = {
   toggleBookmark(
     { dispatch, state },
     { station, info }: { station: string; info: string }
-  ): void {
+  ): boolean {
     const titleIndex = state.memory.titles.favorites.findIndex(
       item => item.station === station && item.info === info
     );
 
-    if (titleIndex === -1) {
+    const notExisting = titleIndex === -1;
+
+    if (notExisting) {
       dispatch("addBookmark", { station, info });
     } else {
       dispatch("removeBookmark", titleIndex);
     }
+
+    return notExisting;
   },
 
   async loadStyle({ state, commit, dispatch }): Promise<void> {
@@ -597,22 +604,28 @@ const actions: ActionTree<StoreState, StoreState> = {
   likeStation({ state, getters, commit }, id: string): void {
     commit("SET_LIKE_STATE", {
       id,
-      promise: getters.likes.includes(id)
-        ? Promise.reject(true)
-        : Axios.get(`${radioBrowserUrl}vote/${id}`)
-            .then(response => {
-              if (
-                response.data.ok ||
-                response.data.message.includes("too often")
-              ) {
-                commit("SET_CACHE_ITEM", {
-                  [id]: { ...state.memory.cache[id], liked: true },
-                });
-              }
+      promise: (async () => {
+        if (getters.likes.includes(id)) {
+          throw true;
+        } else {
+          try {
+            const response = await Axios.get(`${radioBrowserUrl}vote/${id}`);
 
-              return response.data;
-            })
-            .catch(() => Promise.reject(false)),
+            if (
+              response.data.ok ||
+              response.data.message.includes("too often")
+            ) {
+              commit("SET_CACHE_ITEM", {
+                [id]: { ...state.memory.cache[id], liked: true },
+              });
+            }
+
+            return response.data;
+          } catch {
+            throw false;
+          }
+        }
+      })(),
     });
   },
 

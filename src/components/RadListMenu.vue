@@ -65,7 +65,7 @@ export default class RadListMenu extends Vue {
   @Getter readonly lists!: StationList[];
   @Getter readonly selectedList!: number;
 
-  @Action changeList!: (index: number) => void;
+  @Action changeList!: (index: number) => Promise<void>;
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   get dropdownOptions(): DropdownOption[] {

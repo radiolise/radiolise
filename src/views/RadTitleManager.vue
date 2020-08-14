@@ -31,16 +31,17 @@
       >
         {{ $t("titleManager.listEmpty") }}
       </div>
-      <rad-title-row
-        v-for="title in history"
-        v-else
-        :key="title.time"
-        :title="title"
-        :active="activeTitle === title.time"
-        @click.native="
-          activeTitle = activeTitle !== title.time ? title.time : -1
-        "
-      />
+      <div v-else style="display: flex; flex-direction: column-reverse">
+        <rad-title-row
+          v-for="title in history"
+          :key="title.time"
+          :title="title"
+          :active="activeTitle === title.time"
+          @click.native="
+            activeTitle = activeTitle !== title.time ? title.time : -1
+          "
+        />
+      </div>
     </div>
     <div style="display: table; width: 100%">
       <button id="showbookmarks" @click="showBookmarks = !showBookmarks">
@@ -64,31 +65,33 @@
     </div>
     <div id="favorites" v-show-slide="showBookmarks" style="text-align: left">
       <div
-        v-if="bookmarks.length === 0"
+        v-if="Object.keys(bookmarks).length === 0"
         style="padding: 15px 0; text-align: center"
       >
         {{ $t("titleManager.listEmpty") }}
       </div>
-      <template v-for="title in bookmarks" v-else>
-        <rad-title-row
-          v-if="title.hasOwnProperty('station')"
-          :key="title.time"
-          :title="title"
-          :active="activeBookmark === title.time"
-          is-bookmark
-          @click.native="
-            activeBookmark = activeBookmark !== title.time ? title.time : -1
-          "
-        />
-        <div
-          v-else
-          :key="title"
-          class="monthseparator"
-          style="margin: 10px 0; padding: 5px 10px; font-size: 20px; font-weight: bold; opacity: .7"
-        >
-          {{ title }}
+      <div v-else style="display: flex; flex-direction: column-reverse">
+        <div v-for="(titles, month) in bookmarks" :key="month">
+          <div
+            class="monthseparator"
+            style="margin: 10px 0; padding: 5px 10px; font-size: 20px; font-weight: bold; opacity: .7"
+          >
+            {{ month }}
+          </div>
+          <div style="display: flex; flex-direction: column-reverse">
+            <rad-title-row
+              v-for="title in titles"
+              :key="title.time"
+              :title="title"
+              :active="activeBookmark === title.time"
+              is-bookmark
+              @click.native="
+                activeBookmark = activeBookmark !== title.time ? title.time : -1
+              "
+            />
+          </div>
         </div>
-      </template>
+      </div>
     </div>
   </rad-drawer>
 </template>
@@ -115,26 +118,22 @@ export default class RadTitleManager extends Vue {
 
   @State readonly memory!: Memory;
 
-  get bookmarks(): (string | Title)[] {
-    let month: string;
-    const content: (string | Title)[] = [];
-
-    [...this.memory.titles.favorites].reverse().forEach(item => {
-      const currentMonth = Moment(item.time * 60).format("MMMM YYYY");
-
-      if (currentMonth !== month) {
-        content.push(currentMonth);
-        month = currentMonth;
-      }
-
-      content.push(item);
-    });
-
-    return content;
+  get history(): Title[] {
+    return this.memory.titles.history;
   }
 
-  get history(): Title[] {
-    return [...this.memory.titles.history].reverse();
+  get bookmarks(): Record<string, Title[]> {
+    return this.memory.titles.favorites.reduce((bookmarks, item) => {
+      const currentMonth = Moment(item.time * 60).format("MMMM YYYY");
+
+      if (bookmarks[currentMonth] !== undefined) {
+        bookmarks[currentMonth].push(item);
+      } else {
+        bookmarks[currentMonth] = [item];
+      }
+
+      return bookmarks;
+    }, {} as Record<string, Title[]>);
   }
 
   exportBookmarks(): void {

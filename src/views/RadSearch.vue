@@ -193,9 +193,16 @@ export default class RadSearch extends Vue {
   @Getter readonly listName!: string;
   @Getter readonly selectedList!: number;
 
-  @Action resetSearchStats!: () => void;
-  @Action setStationBackup!: (stationBackup: Station[] | undefined) => void;
-  @Action updateList!: (payload: { name?: string; content: Station[] }) => void;
+  @Action resetSearchStats!: () => Promise<void>;
+
+  @Action setStationBackup!: (
+    stationBackup: Station[] | undefined
+  ) => Promise<void>;
+
+  @Action updateList!: (payload: {
+    name?: string;
+    content: Station[];
+  }) => Promise<void>;
 
   get ids(): string[] {
     return this.currentList.map((station: Station) => station.id);
@@ -273,7 +280,7 @@ export default class RadSearch extends Vue {
     this.loadEntries();
   }
 
-  loadEntries(): void {
+  async loadEntries(): Promise<void> {
     if (source) {
       source.cancel();
       source = CancelToken.source();
@@ -282,7 +289,7 @@ export default class RadSearch extends Vue {
     let cancelled = false;
     this.loading = true;
 
-    Axios.post(
+    const response = await Axios.post(
       this.radioBrowserUrl + "stations/search",
       QueryString.stringify({
         name: this.searchTerm,
@@ -301,39 +308,38 @@ export default class RadSearch extends Vue {
         hidebroken: !this.options.includeBroken,
       }),
       { cancelToken: source.token }
-    )
-      .then(response => {
-        if (this.offset === 0) {
-          this.results = [];
+    );
 
-          if (this.scrollOnceLoaded) {
-            this.scrollDown();
-          }
+    try {
+      if (this.offset === 0) {
+        this.results = [];
+
+        if (this.scrollOnceLoaded) {
+          this.scrollDown();
         }
+      }
 
-        response.data.forEach((result: Record<string, string>) => {
-          this.results.push(Object.freeze(result));
-        });
-
-        this.moreAvailable =
-          this.results.length % 20 === 0 && response.data.length > 0;
-
-        this.empty = !this.moreAvailable && this.results.length === 0;
-      })
-      .catch(error => {
-        if (Axios.isCancel(error)) {
-          cancelled = true;
-        } else {
-          this.failed = true;
-        }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          this.loading = false;
-          this.scrollOnceLoaded = false;
-          this.showSpinner = false;
-        }
+      response.data.forEach((result: Record<string, string>) => {
+        this.results.push(Object.freeze(result));
       });
+
+      this.moreAvailable =
+        this.results.length % 20 === 0 && response.data.length > 0;
+
+      this.empty = !this.moreAvailable && this.results.length === 0;
+    } catch (error) {
+      if (Axios.isCancel(error)) {
+        cancelled = true;
+      } else {
+        this.failed = true;
+      }
+    } finally {
+      if (!cancelled) {
+        this.loading = false;
+        this.scrollOnceLoaded = false;
+        this.showSpinner = false;
+      }
+    }
   }
 
   loadMore(): void {

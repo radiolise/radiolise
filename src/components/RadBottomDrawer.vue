@@ -52,8 +52,12 @@ export default class RadBottomDrawer extends Vue {
   @Getter readonly currentList!: Station[];
   @Getter readonly selectedList!: number;
 
-  @Action discardUndoableEvent!: () => void;
-  @Action updateList!: (payload: { name?: string; content: Station[] }) => void;
+  @Action discardUndoableEvent!: () => Promise<void>;
+
+  @Action updateList!: (payload: {
+    name?: string;
+    content: Station[];
+  }) => Promise<void>;
 
   get itemRemoved(): boolean {
     return this.undoableEvent !== undefined;
