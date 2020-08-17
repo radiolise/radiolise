@@ -1,23 +1,9 @@
 import { GetterTree } from "vuex";
-import {
-  appName,
-  serviceUrl,
-  radioBrowserUrl,
-  StoreState,
-  ModalOptions,
-} from ".";
+import { appName, StoreState, ModalOptions } from ".";
 
 const getters: GetterTree<StoreState, StoreState> = {
   appName(): string {
     return appName;
-  },
-
-  serviceUrl(): string {
-    return serviceUrl;
-  },
-
-  radioBrowserUrl(): string {
-    return radioBrowserUrl;
   },
 
   listName(state): string {

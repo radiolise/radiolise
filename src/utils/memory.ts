@@ -1,7 +1,5 @@
-import Axios from "axios";
-import QueryString from "qs";
-
 import { defaultSettings, defaultMemory } from "@/store/default-data";
+import { convertOldIds } from "./network";
 
 interface OldSettings {
   theme: number;
@@ -31,7 +29,7 @@ interface OldMemory {
   };
 }
 
-async function convertIds(memory: OldMemory): Promise<Record<string, string>> {
+function convertIds(memory: OldMemory): Promise<Record<string, string>> {
   const oldStationIds = Object.values(memory.lists)
     .flatMap(list => list.map(station => station.id))
     .reduce((oldStationIds, id) => {
@@ -42,13 +40,7 @@ async function convertIds(memory: OldMemory): Promise<Record<string, string>> {
       return oldStationIds;
     }, memory.likes);
 
-  const response = await Axios.get(
-    `https://service.radiolise.com/convert-ids/?${QueryString.stringify({
-      ids: oldStationIds.join(","),
-    })}`
-  );
-
-  return response.data;
+  return convertOldIds(oldStationIds);
 }
 
 async function migrateData(memory: OldMemory): Promise<Memory> {

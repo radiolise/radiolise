@@ -114,14 +114,12 @@
 
 <script lang="ts">
 import { Component, PropSync, Vue } from "vue-property-decorator";
-import Axios from "axios";
-import { Getter } from "vuex-class";
+
+import { fetchCountries, fetchStates, fetchLanguages } from "@/utils/network";
 
 import RadCheck from "@/components/RadCheck.vue";
 import RadDropdown from "@/components/RadDropdown.vue";
 import RadTagInput from "@/components/RadTagInput.vue";
-
-type Filter = { name: string; stationcount: number; country?: string }[] | null;
 
 @Component({
   components: {
@@ -141,8 +139,6 @@ export default class RadSearchOptions extends Vue {
 
   @PropSync("options", { type: Object, required: true })
   syncedOptions!: SearchOptions;
-
-  @Getter readonly radioBrowserUrl!: string;
 
   get filterOptions(): Record<string, DropdownOption[]> {
     return Object.keys(this.filters).reduce((filterOptions, filterKind) => {
@@ -170,15 +166,9 @@ export default class RadSearchOptions extends Vue {
   }
 
   created(): void {
-    setTimeout(() => {
-      const { filters } = this;
-
-      Object.keys(filters).forEach(async item => {
-        if (item !== "states") {
-          const response = await Axios.get(`${this.radioBrowserUrl}${item}`);
-          this.filters[item] = response.data;
-        }
-      });
+    setTimeout(async () => {
+      this.filters.countries = await fetchCountries();
+      this.filters.languages = await fetchLanguages();
     }, 300);
   }
 
@@ -187,12 +177,7 @@ export default class RadSearchOptions extends Vue {
 
     if (this.syncedOptions.country !== "") {
       this.filters.states = null;
-
-      const response = await Axios.get(
-        `${this.radioBrowserUrl}states/${this.syncedOptions.country}/`
-      );
-
-      this.filters.states = response.data;
+      this.filters.states = await fetchStates(this.syncedOptions.country);
     } else {
       this.filters.states = [];
     }

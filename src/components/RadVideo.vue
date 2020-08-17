@@ -27,16 +27,13 @@
 import { Component, Ref, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import Axios from "axios";
 import Hls from "hls.js";
-import QueryString from "qs";
 import Screenfull from "screenfull";
 
 import { ModalOptions, ModalType } from "@/store";
+import network, { fetchPlayableUrl, getRedirectUrl } from "@/utils/network";
 
-const { CancelToken } = Axios;
-let source = CancelToken.source();
-
+let source = network.CancelToken.source();
 let hls: Hls | undefined;
 
 @Component
@@ -47,8 +44,6 @@ export default class RadVideo extends Vue {
   @Ref() readonly mediaElement!: HTMLVideoElement;
 
   @Getter readonly loading!: boolean;
-  @Getter readonly serviceUrl!: string;
-  @Getter readonly radioBrowserUrl!: string;
   @Getter("currentStation") readonly station?: Station;
   @Getter readonly volume!: number;
   @Getter readonly fullscreen!: boolean;
@@ -81,23 +76,21 @@ export default class RadVideo extends Vue {
   async onStationChanged(station?: Station): Promise<void> {
     if (source) {
       source.cancel();
-      source = CancelToken.source();
+      source = network.CancelToken.source();
     }
 
     this.detachStream();
 
     if (station !== undefined) {
       try {
-        const response = await Axios.get(
-          `${this.radioBrowserUrl}url/${station.id}`,
-          {
-            cancelToken: source.token,
-          }
-        );
+        const data = await fetchPlayableUrl({
+          stationId: station.id,
+          cancelToken: source.token,
+        });
 
-        this.play(response.data.ok ? response.data.url : station.url);
+        this.play(data.ok ? data.url : station.url);
       } catch (error) {
-        if (!Axios.isCancel(error)) {
+        if (!network.isCancel(error)) {
           this.play(station.url);
         }
       }
@@ -161,10 +154,7 @@ export default class RadVideo extends Vue {
     this.lastTriedUrl = url;
 
     if (RadVideo.isNativeStream(url)) {
-      this.mediaElement.src = `${this.serviceUrl}?${QueryString.stringify({
-        url,
-        play: 1,
-      })}`;
+      this.mediaElement.src = getRedirectUrl(url);
     } else {
       this.playHls(url);
     }
@@ -343,10 +333,11 @@ export default class RadVideo extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 video {
   pointer-events: none;
 }
+
 .spin-container {
   position: absolute;
   display: flex;

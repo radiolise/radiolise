@@ -5,7 +5,7 @@
     :class="{ dragging, playing, transition }"
     :style="{ transform: dragging ? `translateY(${currentTranslate}px)` : '' }"
     @click="handleClick()"
-    @mousedown="handleMouseDown"
+    @mousedown.left="handleMouseDown"
   >
     <div>
       <rad-icon :station="station" />
@@ -43,7 +43,6 @@
 <script lang="ts">
 import { Component, Prop, Ref, Mixins } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
-import QueryString from "qs";
 
 import RadDropdown from "./RadDropdown.vue";
 import RadIcon from "./RadIcon.vue";
@@ -123,15 +122,21 @@ export default class RadStation extends Mixins(DragHelper) {
   }
 
   edit(): void {
-    const newRoute =
-      "/editor?" +
-      QueryString.stringify({
-        list: this.selectedList,
+    const newLocation = {
+      path: "/editor",
+      query: {
+        list: String(this.selectedList),
         id: this.station.id,
-      });
+      },
+    };
 
-    if (this.$route.fullPath !== newRoute) {
-      this.$router.push(newRoute);
+    const otherRouteActive =
+      this.$route.path !== "/editor" ||
+      this.$route.query.list !== newLocation.query.list ||
+      this.$route.query.id !== newLocation.query.id;
+
+    if (otherRouteActive) {
+      this.$router.push(newLocation);
     }
   }
 
@@ -178,18 +183,18 @@ export default class RadStation extends Mixins(DragHelper) {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .stationRow {
   transition: background 0.2s;
+}
 
-  &.dragging {
-    position: relative;
-    z-index: 10;
-    opacity: 0.8;
-  }
+.dragging {
+  position: relative;
+  z-index: 10;
+  opacity: 0.8;
+}
 
-  &.transition {
-    transition: transform 0.3s;
-  }
+.transition {
+  transition: transform 0.3s;
 }
 </style>

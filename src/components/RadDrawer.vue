@@ -22,7 +22,7 @@ export default class RadDrawer extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .menuButtons {
   float: right;
 }

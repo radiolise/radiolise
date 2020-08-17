@@ -97,7 +97,7 @@ If you cancel, you can download a copy of the (possibly damaged) storage data be
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .splash {
   background-color: #222;
   position: fixed;
@@ -107,21 +107,21 @@ If you cancel, you can download a copy of the (possibly damaged) storage data be
   height: 100%;
   z-index: 3;
   transition: opacity 2s;
+}
 
-  &.fade-leave-to {
-    opacity: 0;
-    background-image: none;
-    pointer-events: none;
-  }
+.fade-leave-to {
+  opacity: 0;
+  background-image: none;
+  pointer-events: none;
+}
 
-  .logo {
-    color: #fff;
-    background-image: url("../assets/img/logo.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-  }
+.logo {
+  color: #fff;
+  background-image: url("../assets/img/logo.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
 }
 </style>

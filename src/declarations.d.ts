@@ -64,6 +64,12 @@ interface Memory {
   cache: StationCache;
 }
 
+type Filter = Array<{
+  name: string;
+  stationcount: number;
+  country?: string;
+}> | null;
+
 interface SearchOptions {
   tags: string;
   country: string;

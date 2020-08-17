@@ -9,8 +9,6 @@ import { defaultMemory } from "./default-data";
 Vue.use(Vuex);
 
 export const appName = "Radiolise";
-export const serviceUrl = "https://service.radiolise.com/";
-export const radioBrowserUrl = "https://fr1.api.radio-browser.info/json/";
 
 export enum ModalType {
   NONE,

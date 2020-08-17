@@ -1,4 +1,12 @@
-# Changes in 5.0.0-rc.4 (latest – 2020-08-15)
+# Changes in 5.0.0-rc.5 (latest – 2020-08-18)
+
+- Refactoring:
+  - Outsourcing of network-heavy tasks into `/src/utils/network.ts`.
+  - Removed Less dependency.
+- Validation of input fields in the Settings component should work again.
+- Minor adjustments and bug fixes.
+
+# Changes in [5.0.0-rc.4](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/b0f2d89fafbb3fd5e8d5faee2150533fc34a65ab) (2020-08-15)
 
 - Fixed a bug which led to misbehavior of the drop-down menu for station lists
   after importing a list.

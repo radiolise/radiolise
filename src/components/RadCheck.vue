@@ -41,7 +41,7 @@ export default class RadCheck extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: transform 80ms;

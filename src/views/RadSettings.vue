@@ -128,12 +128,7 @@
         <router-link id="discardsettings" class="button" to="/">
           <font-awesome-icon icon="ban" /> {{ $t("settings.discard") }}
         </router-link>
-        <a
-          id="applysettings"
-          href="#/"
-          class="button"
-          @click="form.submit.click()"
-        >
+        <a id="applysettings" class="button" @click="form.submit.click()">
           <font-awesome-icon icon="check" />
           {{ $t("general.apply") }}
         </a>
@@ -233,6 +228,7 @@ export default class RadSettings extends Vue {
 
   handleSubmit(): void {
     this.applySettings(this.settings);
+    this.$router.push("/");
   }
 
   handleEnterPressed(event: KeyboardEvent): void {

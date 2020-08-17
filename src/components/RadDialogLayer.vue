@@ -154,7 +154,7 @@ export default class RadDialogLayer extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .modalContainer {
   width: 100%;
   height: 100%;
@@ -170,11 +170,11 @@ export default class RadDialogLayer extends Vue {
   position: absolute;
   box-sizing: border-box;
   padding: 0 5px;
+}
 
-  > div {
-    width: 300px;
-    border-radius: 0 10px 0 10px;
-  }
+#hint > div {
+  width: 300px;
+  border-radius: 0 10px 0 10px;
 }
 
 .fade-enter,

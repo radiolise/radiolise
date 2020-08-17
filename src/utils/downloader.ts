@@ -7,25 +7,13 @@ const mimeTypes = {
 
 type OutputType = keyof typeof mimeTypes;
 
-type ListOutput =
-  | string
-  | Record<string, string | Record<string, Station[]> | Settings | Title[]>;
-
-interface DownloadInfo {
+interface FileInfo {
   name: string;
   type: OutputType;
-  output: ListOutput;
+  output: any;
 }
 
-interface Downloadable extends DownloadInfo {
-  output: string;
-}
-
-async function provideFile({
-  name,
-  type,
-  output,
-}: Downloadable): Promise<void> {
+async function provideFile({ name, type, output }: FileInfo): Promise<void> {
   const mimeType = mimeTypes[type];
   const fileName = `${name.replace(/ /g, "_")}_${new Date().getTime()}.${type}`;
 
@@ -36,7 +24,7 @@ async function provideFile({
   FileSaver.saveAs(new Blob([output], { type: mimeType }), fileName);
 }
 
-async function download({ name, type, output }: DownloadInfo): Promise<void> {
+async function download({ name, type, output }: FileInfo): Promise<void> {
   if (typeof output === "string") {
     provideFile({ name, type, output });
   } else {

@@ -45,49 +45,49 @@ export default class RadHotkeyReference extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .content {
   display: table;
   text-align: left;
+}
 
-  .hotkeyItem {
-    display: table-row;
-    margin: 10px 0;
+.hotkeyItem {
+  display: table-row;
+  margin: 10px 0;
+}
 
-    > :first-child {
-      font-size: 20px;
-      white-space: nowrap;
-      text-align: center;
-      vertical-align: top;
-      padding: 8px 10px;
+.hotkeyItem > :first-child {
+  font-size: 20px;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: top;
+  padding: 8px 10px;
+}
 
-      .hotkeyTile {
-        margin: 5px 0 0 auto;
-        border-radius: 5px;
-        display: table;
-        width: 40px;
-        height: 35px;
+.hotkeyTile {
+  margin: 5px 0 0 auto;
+  border-radius: 5px;
+  display: table;
+  width: 40px;
+  height: 35px;
+}
 
-        > span {
-          display: table-cell;
-          vertical-align: middle;
-        }
-      }
+.hotkeyTile span {
+  display: table-cell;
+  vertical-align: middle;
+}
 
-      .spacebarLabel {
-        font-size: 12px;
-      }
-    }
+.spacebarLabel {
+  font-size: 12px;
+}
 
-    > div {
-      display: table-cell;
-      padding: 10px 10px 10px 0;
-    }
+.hotkeyItem > div {
+  display: table-cell;
+  padding: 10px 10px 10px 0;
+}
 
-    .name {
-      font-size: 20px;
-      margin-bottom: 5px;
-    }
-  }
+.name {
+  font-size: 20px;
+  margin-bottom: 5px;
 }
 </style>

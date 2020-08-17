@@ -112,93 +112,93 @@ export default class RadDropdown extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .dropdownMenu {
   display: inline-block;
   max-width: 200px;
+}
 
-  &.isList,
-  &.flexAlign {
-    font-size: 18px;
-  }
+.dropdownMenu.isList,
+.dropdownMenu.flexAlign {
+  font-size: 18px;
+}
 
-  &.flexAlign {
-    width: 42px;
-    height: 42px;
+.dropdownMenu.flexAlign {
+  width: 42px;
+  height: 42px;
+}
 
-    .dropdownLabel {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
+.dropdownMenu.flexAlign .dropdownLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .wrapper {
-    position: relative;
-    display: inline-block;
-    vertical-align: text-top;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+.wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: text-top;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 
-    &,
-    select {
-      cursor: pointer;
-    }
+.wrapper,
+select {
+  cursor: pointer;
+}
 
-    &.fixedHeight {
-      height: 25px;
-    }
+.wrapper.fixedHeight {
+  height: 25px;
+}
 
-    .dropdownLabel {
-      white-space: nowrap;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-      pointer-events: none;
-      user-select: none;
+.dropdownLabel {
+  white-space: nowrap;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  pointer-events: none;
+  user-select: none;
+}
 
-      &.covering {
-        border-bottom: 2px solid #aaa;
-      }
-    }
+.dropdownLabel.covering {
+  border-bottom: 2px solid #aaa;
+}
 
-    select {
-      font-size: 18px;
-      font-family: Fira Sans, sans-serif;
-      opacity: 0;
-      max-width: 400px;
-      max-height: 100%;
-      width: inherit;
-      height: inherit;
-      border: none;
-      appearance: none;
+select {
+  font-size: 18px;
+  font-family: Fira Sans, sans-serif;
+  opacity: 0;
+  max-width: 400px;
+  max-height: 100%;
+  width: inherit;
+  height: inherit;
+  border: none;
+  appearance: none;
+}
 
-      &.covering {
-        height: 100%;
-      }
+select.covering {
+  height: 100%;
+}
 
-      + div path {
-        opacity: 0.7;
-        transition: opacity 0.2s;
-      }
+select + div path {
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
 
-      &:hover + div path {
-        opacity: 1;
-      }
-    }
+select:hover + div path {
+  opacity: 1;
+}
 
-    .covering {
-      position: absolute;
-    }
-  }
+.covering {
+  position: absolute;
+}
 
-  &.disabled {
-    opacity: 0.5;
+.dropdownMenu.disabled {
+  opacity: 0.5;
+}
 
-    select {
-      cursor: not-allowed;
-    }
-  }
+.dropdownMenu.disabled select {
+  cursor: not-allowed;
 }
 </style>

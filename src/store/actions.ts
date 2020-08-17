@@ -1,16 +1,20 @@
 import { ActionTree } from "vuex";
 import XorWith from "lodash.xorwith";
-import { appName, radioBrowserUrl, serviceUrl } from ".";
+import { appName } from ".";
 
-import Axios, { AxiosResponse } from "axios";
-import QueryString from "qs";
 import Screenfull from "screenfull";
 
 import { StoreState, ModalOptions, ModalType, ChangeKinds } from ".";
 import { defaultSettings } from "./default-data";
 
-const { CancelToken } = Axios;
-let source = CancelToken.source();
+import network, {
+  fetchNowPlayingInfo,
+  fetchTheme,
+  voteForStation,
+  fetchVoteNumber,
+} from "@/utils/network";
+
+let source = network.CancelToken.source();
 let updateTimer: number;
 let sleepTimer: number;
 let relaxTimer: number;
@@ -356,7 +360,7 @@ const actions: ActionTree<StoreState, StoreState> = {
   play({ commit, dispatch, state }, station?: Station): void {
     if (source) {
       source.cancel();
-      source = CancelToken.source();
+      source = network.CancelToken.source();
     }
 
     if (updateTimer) {
@@ -394,16 +398,12 @@ const actions: ActionTree<StoreState, StoreState> = {
     let cancelled = false;
 
     try {
-      const response = (await Axios.post(
-        serviceUrl,
-        QueryString.stringify({ url }),
-        {
-          cancelToken: source.token,
-          timeout: 50000,
-        }
-      )) as AxiosResponse<Record<string, string>>;
+      const nowPlayingInfo = await fetchNowPlayingInfo({
+        url,
+        cancelToken: source.token,
+      });
 
-      let info = response.data.title;
+      let info = nowPlayingInfo.title;
 
       if (info) {
         if (info === "-") {
@@ -423,7 +423,7 @@ const actions: ActionTree<StoreState, StoreState> = {
           ].join(delimiter);
         }
       } else {
-        const description = response.data.description;
+        const description = nowPlayingInfo.description;
 
         if (description !== "Unspecified description") {
           info = description;
@@ -434,7 +434,7 @@ const actions: ActionTree<StoreState, StoreState> = {
         dispatch("updateInfo", info);
       }
     } catch (error) {
-      if (Axios.isCancel(error)) {
+      if (network.isCancel(error)) {
         cancelled = true;
       }
     } finally {
@@ -574,10 +574,10 @@ const actions: ActionTree<StoreState, StoreState> = {
   async loadStyle({ state, commit, dispatch }): Promise<void> {
     const { theme } = state.memory.settings;
     const colorScheme = state.darkMode ? "dark" : "light";
-    const styleSheetUrl = `css/${theme}-${colorScheme}.css`;
+    const styleSheetName = theme + "-" + colorScheme;
 
     try {
-      const response = await Axios.get(styleSheetUrl);
+      const styleSheet = await fetchTheme(styleSheetName);
       let themeElement = document.querySelector("#themeStyle");
 
       if (themeElement === null) {
@@ -587,7 +587,7 @@ const actions: ActionTree<StoreState, StoreState> = {
         head.appendChild(themeElement);
       }
 
-      themeElement.innerHTML = response.data;
+      themeElement.innerHTML = styleSheet;
 
       if (!state.ready) {
         commit("SET_READY");
@@ -609,18 +609,15 @@ const actions: ActionTree<StoreState, StoreState> = {
           throw true;
         } else {
           try {
-            const response = await Axios.get(`${radioBrowserUrl}vote/${id}`);
+            const voteResult = await voteForStation(id);
 
-            if (
-              response.data.ok ||
-              response.data.message.includes("too often")
-            ) {
+            if (voteResult.ok || voteResult.message.includes("too often")) {
               commit("SET_CACHE_ITEM", {
                 [id]: { ...state.memory.cache[id], liked: true },
               });
             }
 
-            return response.data;
+            return voteResult;
           } catch {
             throw false;
           }
@@ -638,11 +635,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     const oldLikeCount = state.memory.cache[id]?.likeCount;
 
     try {
-      const response = await Axios.get(
-        `${radioBrowserUrl}stations/byuuid/${id}`
-      );
-
-      const { votes } = response.data[0];
+      const votes = await fetchVoteNumber(id);
 
       if (votes !== oldLikeCount) {
         commit("SET_CACHE_ITEM", {

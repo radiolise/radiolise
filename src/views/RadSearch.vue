@@ -142,17 +142,16 @@
 
 <script lang="ts">
 import { Component, Ref, Watch, Vue } from "vue-property-decorator";
-import Axios from "axios";
-import QueryString from "qs";
 import { Getter, Action } from "vuex-class";
+
+import network, { findStations } from "@/utils/network";
 
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadTags from "@/components/RadTags.vue";
 import RadResult from "@/components/RadResult.vue";
 import RadSearchOptions from "@/components/RadSearchOptions.vue";
 
-const { CancelToken } = Axios;
-let source = CancelToken.source();
+let source = network.CancelToken.source();
 
 @Component({
   components: {
@@ -188,7 +187,6 @@ export default class RadSearch extends Vue {
 
   @Ref() readonly query!: HTMLInputElement;
 
-  @Getter readonly radioBrowserUrl!: string;
   @Getter readonly currentList!: Station[];
   @Getter readonly listName!: string;
   @Getter readonly selectedList!: number;
@@ -283,34 +281,33 @@ export default class RadSearch extends Vue {
   async loadEntries(): Promise<void> {
     if (source) {
       source.cancel();
-      source = CancelToken.source();
+      source = network.CancelToken.source();
     }
 
     let cancelled = false;
     this.loading = true;
 
-    const response = await Axios.post(
-      this.radioBrowserUrl + "stations/search",
-      QueryString.stringify({
-        name: this.searchTerm,
-        tagList: this.options.tags,
-        country: this.options.country,
-        state: this.options.state,
-        language: this.options.language,
-        tagExact: true,
-        countryExact: this.options.country !== "",
-        stateExact: this.options.state !== "",
-        languageExact: this.options.language !== "",
-        offset: this.offset,
-        limit: 20,
-        order: this.options.order,
-        reverse: this.descendingOrder,
-        hidebroken: !this.options.includeBroken,
-      }),
-      { cancelToken: source.token }
-    );
-
     try {
+      const searchResults = await findStations({
+        searchEntries: {
+          name: this.searchTerm,
+          tagList: this.options.tags,
+          country: this.options.country,
+          state: this.options.state,
+          language: this.options.language,
+          tagExact: true,
+          countryExact: this.options.country !== "",
+          stateExact: this.options.state !== "",
+          languageExact: this.options.language !== "",
+          offset: this.offset,
+          limit: 20,
+          order: this.options.order,
+          reverse: this.descendingOrder,
+          hidebroken: !this.options.includeBroken,
+        },
+        cancelToken: source.token,
+      });
+
       if (this.offset === 0) {
         this.results = [];
 
@@ -319,16 +316,16 @@ export default class RadSearch extends Vue {
         }
       }
 
-      response.data.forEach((result: Record<string, string>) => {
+      searchResults.forEach((result: Record<string, string>) => {
         this.results.push(Object.freeze(result));
       });
 
       this.moreAvailable =
-        this.results.length % 20 === 0 && response.data.length > 0;
+        this.results.length % 20 === 0 && searchResults.length > 0;
 
       this.empty = !this.moreAvailable && this.results.length === 0;
     } catch (error) {
-      if (Axios.isCancel(error)) {
+      if (network.isCancel(error)) {
         cancelled = true;
       } else {
         this.failed = true;

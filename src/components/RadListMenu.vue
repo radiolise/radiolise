@@ -139,7 +139,7 @@ export default class RadListMenu extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .listMenu {
   margin-bottom: 20px;
 }

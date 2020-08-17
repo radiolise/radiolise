@@ -84,16 +84,16 @@ export default class RadDropZone extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 input[type="file"] {
   display: none;
 }
 
 label > div {
   margin: auto;
+}
 
-  div.highlighted {
-    font-size: 1.2em;
-  }
+.highlighted {
+  font-size: 1.2em;
 }
 </style>

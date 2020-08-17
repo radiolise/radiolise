@@ -168,7 +168,7 @@ export default class RadPage extends Mixins(ScrollHelper) {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 #logo path {
   fill: currentColor;
 }
