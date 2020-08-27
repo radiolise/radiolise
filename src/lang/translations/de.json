@@ -241,10 +241,10 @@
       "station": "Sender",
       "added": "hinzugefügt",
       "removed": "entfernt",
-      "oneChange": "{0} wurde {1}.",
-      "stationsAdded": "{0} Sender @:(search.comparison.added).",
-      "stationsRemoved": "{1} Sender @:(search.comparison.removed).",
-      "diff": "{0} {2} @:search.comparison.added, {1} @:(search.comparison.removed).",
+      "oneChange": "{name} wurde {modified}.",
+      "stationsAdded": "{plus} Sender hinzugefügt.",
+      "stationsRemoved": "{minus} Sender entfernt.",
+      "diff": "{plus} {station} {added}, {minus} {removed}.",
       "orderChanged": "Ursprüngliche Reihenfolge verändert."
     },
     "order": {

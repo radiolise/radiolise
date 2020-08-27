@@ -8,8 +8,6 @@ import { defaultMemory } from "./default-data";
 
 Vue.use(Vuex);
 
-export const appName = "Radiolise";
-
 export enum ModalType {
   NONE,
   ERROR,

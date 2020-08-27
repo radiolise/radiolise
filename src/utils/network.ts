@@ -84,7 +84,7 @@ export function getRedirectUrl(url: string): string {
 }
 
 export function findStations(options: {
-  searchEntries: any;
+  searchEntries: Record<string, any>;
   cancelToken: CancelToken;
 }): Promise<any> {
   const { searchEntries, cancelToken } = options;
@@ -114,7 +114,9 @@ export function fetchTheme(themeName: string): Promise<string> {
   return fetch({ url: "css/" + themeName + ".css" });
 }
 
-export function voteForStation(stationId: string): Promise<any> {
+export function voteForStation(
+  stationId: string
+): Promise<Record<string, any>> {
   return fetchFromRadioBrowser("/vote/" + stationId);
 }
 

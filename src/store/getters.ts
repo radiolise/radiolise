@@ -1,11 +1,7 @@
 import { GetterTree } from "vuex";
-import { appName, StoreState, ModalOptions } from ".";
+import { StoreState, ModalOptions } from ".";
 
 const getters: GetterTree<StoreState, StoreState> = {
-  appName(): string {
-    return appName;
-  },
-
   listName(state): string {
     return state.memory.lists[state.memory.lastList]?.name;
   },

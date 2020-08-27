@@ -11,7 +11,7 @@
   background: #484848;
 }
 .hr {
-  border-bottom-color: #0003;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
 }
 .important {
   color: #0ff;

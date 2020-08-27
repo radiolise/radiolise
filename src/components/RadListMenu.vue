@@ -25,7 +25,7 @@
       :actions="[$t('general.cancel')]"
       :label="$t('general.downloadAs')"
       :data="[
-        { id: 'txt', name: $t('general.yamlFile', [appName]) },
+        { id: 'txt', name: $t('general.yamlFile', [appTitle]) },
         { id: 'pls', name: 'PLS' },
         { id: 'm3u', name: 'M3U' },
         { id: 'xspf', name: 'XSPF' },
@@ -59,7 +59,8 @@ import { ModalOptions } from "@/store";
   },
 })
 export default class RadListMenu extends Vue {
-  @Getter readonly appName!: string;
+  appTitle = process.env.VUE_APP_TITLE;
+
   @Getter readonly currentList!: Station[];
   @Getter readonly listName!: string;
   @Getter readonly lists!: StationList[];

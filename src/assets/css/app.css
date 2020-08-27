@@ -99,7 +99,7 @@ h2 {
   min-height: 120px;
 }
 button {
-  font-family: Fira Sans, sans-serif;
+  font-family: inherit;
 }
 #nightmode {
   display: none;
@@ -163,7 +163,7 @@ input[type="number"] {
   border: none;
   font-size: 18px;
   width: 70px;
-  font-family: Fira Sans, sans-serif;
+  font-family: inherit;
   text-align: center;
 }
 main > div {
@@ -203,20 +203,6 @@ main > div {
 }
 .button-primary:hover {
   text-decoration: underline;
-}
-.button-big {
-  font-size: 24px;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  padding: 12px 10px 8px 10px;
-}
-.button-big:hover {
-  background: var(--themecolor);
-  transition: background 0.2s;
 }
 .fsdiv {
   display: table-cell;
@@ -342,33 +328,12 @@ nav > div > div:nth-child(3) {
 input[type="number"] {
   border-radius: 0;
 }
-.smartmenu {
-  font-family: Fira Sans, sans-serif;
-  font-weight: 900;
-  border-bottom: none !important;
-  opacity: 0.7;
-  cursor: pointer;
-}
-#stations .smartmenu,
-#tomove .smartmenu {
-  font-size: 18px;
-  padding: 10px;
-  height: 42px;
-  width: 42px;
-  text-align-last: center;
-}
 #listdl {
   font-size: 16px;
   padding: 0;
   height: auto;
   width: 20px;
   text-align-last: right;
-}
-#tomove .smartmenu {
-  background: transparent;
-}
-.smartmenu:hover {
-  opacity: 1;
 }
 main {
   max-width: 820px;
@@ -389,7 +354,7 @@ main > div {
 .tagInput input {
   border: none;
   font-size: 20px;
-  font-family: Fira Sans, sans-serif;
+  font-family: inherit;
   background: none;
   width: calc(100% - 20px);
 }
@@ -494,9 +459,7 @@ p {
   opacity: 0.7;
 }
 #drawers,
-#hint,
-#volumemodal,
-#tomove {
+#hint {
   z-index: 2;
 }
 #controls > a {
@@ -565,13 +528,6 @@ a.active {
 a.active svg path {
   opacity: 1;
 }
-.ifactive,
-a.active .unlessactive {
-  display: none;
-}
-a.active .ifactive {
-  display: inline;
-}
 .options .button {
   font-size: 18px;
   padding: 2px 12px;
@@ -583,8 +539,7 @@ a.active .ifactive {
   text-align: right;
 }
 #drawers > div,
-#hint,
-#volumemodal {
+#hint {
   top: 0;
   text-align: center;
   transition: all 0.3s;
@@ -592,8 +547,7 @@ a.active .ifactive {
 #drawers > div {
   padding: 20px;
 }
-#hint,
-#volumemodal {
+#hint {
   margin: 50px auto;
   overflow: hidden;
   pointer-events: none;
@@ -695,7 +649,6 @@ button.active svg path {
 .checkmark {
   transition: all 0.2s;
 }
-#tomove,
 .stationRow:hover,
 .result:hover,
 input:not(#query):focus,
@@ -749,19 +702,6 @@ h4 {
 #removestation > h3 {
   padding-bottom: 10px;
 }
-#about > div:nth-child(3) > div {
-  margin-bottom: 10px;
-}
-#about > div:nth-child(3) > div > img {
-  height: 50px;
-  margin-right: 5px;
-  vertical-align: middle;
-}
-#about > div:nth-child(3) > div > span {
-  margin-left: 5px;
-  font-size: 30px;
-  vertical-align: middle;
-}
 #settings > p:nth-child(4) > span,
 input {
   vertical-align: middle;
@@ -770,7 +710,7 @@ input {
   width: calc(100% - 40px);
   border: none;
   font-size: 24px;
-  font-family: Fira Sans, sans-serif;
+  font-family: inherit;
   padding: 10px;
   background: none;
 }
@@ -791,7 +731,7 @@ input {
 }
 #findstation {
   font-size: 20px;
-  font-family: Fira Sans, sans-serif;
+  font-family: inherit;
   width: 40px;
   border: none;
   background: none;
@@ -800,10 +740,6 @@ input {
 #footer {
   text-align: center;
   font-size: 20px;
-}
-.slide-enter,
-.slide-leave-to {
-  transform: translateY(100%);
 }
 @keyframes progress {
   from {
@@ -902,14 +838,10 @@ input {
   visibility: visible;
   opacity: 1;
 }
-#hint {
-  font-weight: bold;
-}
 #app.fullscreen #hint {
   transform: scale(1.5);
 }
-#hint,
-#volumemodal {
+#hint {
   width: 100%;
   position: fixed;
 }
@@ -979,14 +911,6 @@ nav > div > div:nth-child(3) {
 .result {
   display: inline-block;
   margin-right: 10px;
-}
-.flip-list-enter,
-.flip-list-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
-}
-.flip-list-leave-active {
-  position: absolute;
 }
 @media (min-width: 1024px) and (max-width: 1230px) {
   #app.dialog nav button > span {

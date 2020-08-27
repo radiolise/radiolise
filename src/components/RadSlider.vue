@@ -9,7 +9,7 @@
       ref="slider"
       class="slider"
       style="width: 100px; margin: 2px 5px; height: 9px; display: inline-block"
-      @mousedown="handleMouseDown"
+      @mousedown.left="handleMouseDown"
       @touchstart.prevent="handleTouchStart"
     >
       <div

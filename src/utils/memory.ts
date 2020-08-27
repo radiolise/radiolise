@@ -92,11 +92,13 @@ function checkVersion(exists: boolean): boolean {
 }
 
 async function unregisterServiceWorkers(): Promise<void> {
-  const registrations = await navigator.serviceWorker.getRegistrations();
+  if (navigator.serviceWorker !== undefined) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
 
-  registrations.forEach(registration => {
-    registration.unregister();
-  });
+    registrations.forEach(registration => {
+      registration.unregister();
+    });
+  }
 }
 
 async function load(exists: boolean, needsUpgrade: boolean): Promise<Memory> {

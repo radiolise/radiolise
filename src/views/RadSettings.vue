@@ -3,7 +3,7 @@
     <h3>
       <font-awesome-icon icon="cog" fixed-width /> {{ $t("general.settings") }}
     </h3>
-    <p class="description">{{ $t("settings.description", [appName]) }}</p>
+    <p class="description">{{ $t("settings.description", [appTitle]) }}</p>
     <form
       ref="form"
       @submit.prevent="handleSubmit()"
@@ -177,13 +177,13 @@ import RadDropdown from "@/components/RadDropdown.vue";
   },
 })
 export default class RadSettings extends Vue {
+  appTitle = process.env.VUE_APP_TITLE;
   settings: Settings | null = null;
 
   @Ref() readonly form!: HTMLFormElement;
 
   @State readonly darkMode!: boolean;
 
-  @Getter readonly appName!: string;
   @Getter("settings") readonly globalSettings!: Settings;
 
   @Action applySettings!: (settings: Settings | null) => Promise<void>;
@@ -202,13 +202,12 @@ export default class RadSettings extends Vue {
       {
         id: "auto",
         name: this.$t("settings.detect") as string,
-        description:
-          this.globalSettings.language === "auto"
-            ? this.$i18n.locale
-            : undefined,
+        ...(this.globalSettings.language === "auto"
+          ? { description: this.$i18n.locale }
+          : {}),
       },
-      { id: "de", name: "Deutsch" },
       { id: "en", name: "English" },
+      { id: "de", name: "Deutsch" },
       { id: "fr", name: "Français" },
     ];
   }

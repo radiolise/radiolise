@@ -241,10 +241,10 @@
       "station": "station | stations",
       "added": "added",
       "removed": "removed",
-      "oneChange": "{0} has been {1}.",
-      "stationsAdded": "{0} stations @:(search.comparison.added).",
-      "stationsRemoved": "{1} stations @:(search.comparison.removed).",
-      "diff": "{0} {2} @:search.comparison.added, {1} @:(search.comparison.removed).",
+      "oneChange": "{name} has been {modified}.",
+      "stationsAdded": "{plus} stations added.",
+      "stationsRemoved": "{minus} stations removed.",
+      "diff": "{plus} {station} {added}, {minus} {removed}.",
       "orderChanged": "Original order changed."
     },
     "order": {

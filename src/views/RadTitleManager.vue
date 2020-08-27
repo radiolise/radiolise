@@ -4,26 +4,14 @@
       <font-awesome-icon icon="history" fixed-width />
       {{ $t("titleManager.title") }}
     </h3>
-    <div style="display: table; width: 100%">
-      <button
-        id="showrecent"
-        style="display: table-cell; width: 100%"
-        @click="showTitles = !showTitles"
-      >
-        <font-awesome-icon
-          icon="chevron-down"
-          fixed-width
-          :style="{ transform: `rotate(${showTitles ? -180 : 0}deg)` }"
-        />
-        {{ $t("titleManager.recentTitles") }}
-      </button>
-      <div
-        class="reload"
-        style="display: none; font-size: 20px; width: 35px; text-align: right"
-      >
-        <a><font-awesome-icon icon="redo" fixed-width/></a>
-      </div>
-    </div>
+    <button id="showrecent" @click="showTitles = !showTitles">
+      <font-awesome-icon
+        icon="chevron-down"
+        fixed-width
+        :style="{ transform: `rotate(${showTitles ? -180 : 0}deg)` }"
+      />
+      {{ $t("titleManager.recentTitles") }}
+    </button>
     <div id="recent" v-show-slide="showTitles" style="text-align: left">
       <div
         v-if="history.length === 0"

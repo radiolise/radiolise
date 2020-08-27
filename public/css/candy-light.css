@@ -9,7 +9,7 @@
   background: #656565;
 }
 .hr {
-  border-bottom-color: #0003;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
 }
 @media screen and (max-width: 820px) {
   #app:not(.hasVideo) #video:not(.fs) .videobar {

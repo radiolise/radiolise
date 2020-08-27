@@ -11,7 +11,7 @@
   background: #c2c2c2;
 }
 .hr {
-  border-bottom-color: #fff5;
+  border-bottom-color: rgba(255, 255, 255, 0.333);
 }
 .label,
 .dropzone {

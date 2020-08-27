@@ -1,7 +1,8 @@
 {
   "name": "radiolise",
-  "version": "5.0.0-tsp",
+  "version": "5.0.0-rc.6",
   "private": true,
+  "author": "Marco Bauer",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -55,14 +56,22 @@
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.43.0"
   },
+  "bugs": {
+    "url": "https://gitlab.com/radiolise/radiolise.gitlab.io/-/issues"
+  },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
+  "homepage": "https://gitlab.com/radiolise/radiolise.gitlab.io",
   "license": "AGPL-3.0-or-later",
   "lint-staged": {
     "*.{js,vue,ts}": [
       "vue-cli-service lint",
       "git add"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/radiolise/radiolise.gitlab.io.git"
   }
 }

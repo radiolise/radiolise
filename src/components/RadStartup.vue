@@ -9,12 +9,12 @@
           <h1>Guru Meditation</h1>
           <p>
             Unfortunately, storage data could not be loaded.<br />
-            Reset Radiolise to be able to continue using it.
+            Reset {{ appTitle }} to be able to continue using it.
           </p>
           <button @click="download()">Save data for troubleshooting</button>
           <br />
           <br />
-          <button @click="reset()">Reset Radiolise</button>
+          <button @click="reset()">Reset {{ appTitle }}</button>
         </div>
       </div>
     </div>
@@ -23,20 +23,19 @@
 
 <script lang="ts">
 import { Component, Watch, Vue } from "vue-property-decorator";
-import { State, Getter, Action } from "vuex-class";
+import { State, Action } from "vuex-class";
 
 import { memoryUpgradeNeeded, getMemory, defaultMemory } from "@/utils/memory";
 import download from "@/utils/downloader";
 
 @Component
 export default class RadStartup extends Vue {
+  appTitle = process.env.VUE_APP_TITLE;
   failed = false;
   showMessages = false;
 
   @State readonly initialized!: boolean;
   @State readonly ready!: boolean;
-
-  @Getter readonly appName!: string;
 
   @Action init!: (memory: Memory) => Promise<void>;
 
@@ -62,7 +61,7 @@ export default class RadStartup extends Vue {
         return "Almost done...";
       }
 
-      return `Upgrading ${this.appName}, please wait...`;
+      return `Upgrading ${this.appTitle}, please wait...`;
     }
 
     return "";

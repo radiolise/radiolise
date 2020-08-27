@@ -21,7 +21,7 @@
                 d="m248.28 383.8c0.023-1.015 0.148-1.968 0.148-2.969 0-65.156-52.613-117.65-118.21-117.65-0.649 0-1.316 0.086-1.968 0.094v-47.258c0.652-0.016 1.319-0.117 1.968-0.117 91.832 0 165.8 73.711 165.8 164.93 0 1.001-0.141 1.954-0.168 2.969z"
               />
             </g></svg
-          ><span>{{ appName }}</span>
+          ><span>{{ appTitle }}</span>
         </rad-router-toggle>
         <div>
           <rad-router-toggle
@@ -58,7 +58,7 @@
     <main>
       <div>
         <rad-player>
-          <rad-video />
+          <rad-media />
         </rad-player>
         <div id="maincontrols">
           <div style="text-align: left; padding-top: 40px">
@@ -89,25 +89,25 @@ import { Getter, Action } from "vuex-class";
 
 import ScrollHelper from "@/mixins/ScrollHelper";
 import RadListMenu from "./RadListMenu.vue";
+import RadMedia from "./RadMedia.vue";
 import RadPlayer from "./RadPlayer.vue";
 import RadRouterToggle from "./RadRouterToggle.vue";
 import RadStationList from "./RadStationList.vue";
-import RadVideo from "./RadVideo.vue";
 
 @Component({
   components: {
     RadListMenu,
+    RadMedia,
     RadPlayer,
     RadRouterToggle,
     RadStationList,
-    RadVideo,
   },
 })
 export default class RadPage extends Mixins(ScrollHelper) {
+  appTitle = process.env.VUE_APP_TITLE;
   provideMediaSession = false;
 
-  @Getter readonly appName!: string;
-  @Getter readonly currentStation?: Station;
+  @Getter readonly currentStation: Station | undefined;
   @Getter readonly currentList!: Station[];
 
   @Action playClosestStation!: (forward: boolean) => Promise<void>;
@@ -120,7 +120,7 @@ export default class RadPage extends Mixins(ScrollHelper) {
   @Watch("currentStation", { immediate: true })
   handleStationChanged(station?: Station, oldStation?: Station): void {
     const titlePrefix = station !== undefined ? station.name + " - " : "";
-    document.title = titlePrefix + this.appName;
+    document.title = titlePrefix + this.appTitle;
 
     if (station === undefined || oldStation === undefined) {
       this.setSwitchButtons();

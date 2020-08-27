@@ -1,4 +1,16 @@
-# Changes in 5.0.0-rc.5 (latest – 2020-08-18)
+# Changes in 5.0.0-rc.6 (latest – 2020-08-28)
+
+- Added more pluralization rules for search statistics to avoid grammatical
+  issues with Romance languages. The French locale now benefits from this.
+- Refactoring:
+  - Added string constants such as app title to `process.env`.
+  - Removed some unused code.
+  - For the sake of clarity, i18n keys for search statistics now have names.
+- The app version may now be viewed in the About component by hovering over the
+  Radiolise logo.
+- Minor adjustments.
+
+# Changes in [5.0.0-rc.5](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/0da4acd47b2114334a8dcef63631ebc791d7fa9f) (2020-08-18)
 
 - Refactoring:
   - Outsourcing of network-heavy tasks into `/src/utils/network.ts`.

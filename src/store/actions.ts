@@ -1,6 +1,5 @@
 import { ActionTree } from "vuex";
 import XorWith from "lodash.xorwith";
-import { appName } from ".";
 
 import Screenfull from "screenfull";
 
@@ -312,7 +311,7 @@ const actions: ActionTree<StoreState, StoreState> = {
       mediaSession.metadata = new MediaMetadata({
         title: info ?? currentStation.name,
         artist: info ? currentStation.name : undefined,
-        album: appName,
+        album: process.env.VUE_APP_TITLE,
       });
     }
 

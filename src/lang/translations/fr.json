@@ -239,12 +239,12 @@
     "loadMore": "Charger plus de résultats",
     "comparison": {
       "station": "station | stations",
-      "added": "ajoutée(s)",
-      "removed": "supprimée(s)",
-      "oneChange": "{0} a été {1}.",
-      "stationsAdded": "{0} stations @:(search.comparison.added).",
-      "stationsRemoved": "{1} stations @:(search.comparison.removed).",
-      "diff": "{0} {2} @:search.comparison.added, {1} @:(search.comparison.removed).",
+      "added": "ajoutée | ajoutées",
+      "removed": "supprimée | supprimées",
+      "oneChange": "{name} a été {modified}.",
+      "stationsAdded": "{plus} stations ajoutées.",
+      "stationsRemoved": "{minus} stations supprimées.",
+      "diff": "{plus} {station} {added}, {minus} {removed}.",
       "orderChanged": "L’ordre original a été modifié."
     },
     "order": {

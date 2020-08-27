@@ -1,16 +1,27 @@
 <template>
   <rad-drawer id="about">
     <br />
-    <div>
+    <div
+      class="logo"
+      @mouseenter="logoHovered = true"
+      @mouseleave="logoHovered = false"
+    >
       <div>
-        <img src="@/assets/img/logo.svg" /><span>{{ appName }}</span>
+        <img src="@/assets/img/logo.svg" /><span>{{ appTitle }}</span>
+      </div>
+      <div
+        v-show-slide="logoHovered"
+        class="version"
+        :class="{ visible: logoHovered }"
+      >
+        <span><font-awesome-icon icon="code-branch" /> {{ version }}</span>
       </div>
     </div>
     <br />
     <div id="infotext">
-      <p>&copy; 2017-2020 Marco Bauer</p>
+      <p>{{ copyright }}</p>
       <i18n class="text-left" path="about.licenseInfo" tag="p">
-        {{ appName }}
+        {{ appTitle }}
         <a
           class="btn-link white"
           href="https://www.gnu.org/philosophy/free-sw.html"
@@ -21,10 +32,10 @@
         /></a>
       </i18n>
       <p class="text-left">
-        {{ $t("about.noWarranty", [appName]) }}
+        {{ $t("about.noWarranty", [appTitle]) }}
       </p>
       <i18n class="text-left" path="about.licenseCopy" tag="p">
-        {{ appName
+        {{ appTitle
         }}<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener"
           >http://www.gnu.org/licenses/<font-awesome-icon
             icon="external-link-alt"
@@ -33,21 +44,13 @@
       </i18n>
     </div>
     <p class="text-center">
-      <a
-        class="button"
-        href="https://gitlab.com/radiolise/radiolise.gitlab.io/tree/master"
-        target="_blank"
-        rel="noopener"
+      <a class="button" :href="repoUrl" target="_blank" rel="noopener"
         ><font-awesome-icon :icon="['fab', 'gitlab']" fixed-width/>{{
           $t("about.code")
         }}
         <font-awesome-icon icon="external-link-alt" fixed-width
       /></a>
-      <a
-        class="button"
-        href="https://gitlab.com/radiolise/radiolise.gitlab.io/issues"
-        target="_blank"
-        rel="noopener"
+      <a class="button" :href="issuesUrl" target="_blank" rel="noopener"
         ><font-awesome-icon icon="comments" fixed-width/>{{
           $t("about.issues")
         }}
@@ -60,8 +63,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Getter } from "vuex-class";
-
 import RadDrawer from "@/components/RadDrawer.vue";
 
 @Component({
@@ -70,6 +71,34 @@ import RadDrawer from "@/components/RadDrawer.vue";
   },
 })
 export default class RadAbout extends Vue {
-  @Getter readonly appName!: string;
+  appTitle = process.env.VUE_APP_TITLE;
+  version = process.env.VUE_APP_VERSION;
+  copyright = process.env.VUE_APP_COPYRIGHT;
+  repoUrl = process.env.VUE_APP_REPO;
+  issuesUrl = process.env.VUE_APP_ISSUES;
+  logoHovered = false;
 }
 </script>
+
+<style scoped>
+.logo > :first-child {
+  margin-bottom: 10px;
+}
+.logo img {
+  height: 50px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.logo img + span {
+  margin-left: 5px;
+  font-size: 30px;
+  vertical-align: middle;
+}
+.version > :only-child {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.version.visible > :only-child {
+  opacity: 0.5;
+}
+</style>

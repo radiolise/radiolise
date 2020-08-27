@@ -111,10 +111,13 @@ export default class RadBottomDrawer extends Vue {
     if (numberOfChanges === 1) {
       const added = searchStats.added.length === 1;
 
-      this.message = this.$t("search.comparison.oneChange", [
-        added ? searchStats.added[0] : searchStats.removed[0],
-        this.$t(`search.comparison.${added ? "added" : "removed"}`),
-      ]) as string;
+      this.message = this.$t("search.comparison.oneChange", {
+        name: added ? searchStats.added[0] : searchStats.removed[0],
+        modified: this.$tc(
+          `search.comparison.${added ? "added" : "removed"}`,
+          1
+        ),
+      }) as string;
 
       return;
     }
@@ -127,11 +130,19 @@ export default class RadBottomDrawer extends Vue {
             : "stationsAdded"
           : "stationsRemoved"
       }`,
-      [
-        searchStats.added.length,
-        searchStats.removed.length,
-        this.$tc("search.comparison.station", searchStats.added.length),
-      ]
+      {
+        plus: searchStats.added.length,
+        minus: searchStats.removed.length,
+        station: this.$tc(
+          "search.comparison.station",
+          searchStats.added.length
+        ),
+        added: this.$tc("search.comparison.added", searchStats.added.length),
+        removed: this.$tc(
+          "search.comparison.removed",
+          searchStats.removed.length
+        ),
+      }
     ) as string;
   }
 

@@ -112,7 +112,7 @@
             &nbsp;
             <a
               v-if="info"
-              class="button-primary plushistory"
+              class="button-primary"
               :title="$t('player.addBookmark')"
               :class="{ active: bookmarked }"
               @click="toggleBookmark({ station: station.name, info })"
@@ -237,7 +237,6 @@
               <div style="padding-top: 9px">
                 <a
                   v-if="info"
-                  class="plushistory"
                   :class="{ active: bookmarked }"
                   @click="toggleBookmark({ station: station.name, info })"
                 >
@@ -246,10 +245,9 @@
                     fixed-width
                     size="xs"
                     style="vertical-align: super"
-                  /><span class="unlessactive">{{
-                    $t("player.addBookmark")
-                  }}</span
-                  ><span class="ifactive">{{ $t("player.bookmarked") }}</span>
+                  />{{
+                    $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`)
+                  }}
                 </a>
               </div>
             </div>

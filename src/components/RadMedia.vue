@@ -37,7 +37,7 @@ let source = network.CancelToken.source();
 let hls: Hls | undefined;
 
 @Component
-export default class RadVideo extends Vue {
+export default class RadMedia extends Vue {
   hasVideo = false;
   lastTriedUrl = "";
 
@@ -153,7 +153,7 @@ export default class RadVideo extends Vue {
   play(url: string): void {
     this.lastTriedUrl = url;
 
-    if (RadVideo.isNativeStream(url)) {
+    if (RadMedia.isNativeStream(url)) {
       this.mediaElement.src = getRedirectUrl(url);
     } else {
       this.playHls(url);

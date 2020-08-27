@@ -85,7 +85,7 @@
 
 <script lang="ts">
 import { Component, Prop, Ref, Vue } from "vue-property-decorator";
-import { Getter, Action } from "vuex-class";
+import { Action } from "vuex-class";
 import { ModalOptions, ModalType } from "@/store";
 
 import RadDrawer from "@/components/RadDrawer.vue";
@@ -105,15 +105,13 @@ type Backup = Record<string, string | BackupKind>;
   },
 })
 export default class RadImportWizard extends Vue {
+  appTitle = process.env.VUE_APP_TITLE;
   backup: SelectableStation[] | Settings | null = null;
-
   listName?: string;
 
   @Prop({ type: String, required: true }) readonly type!: string;
 
   @Ref() readonly dropZone!: RadDropZone;
-
-  @Getter readonly appName!: string;
 
   @Action applySettings!: (settings: Settings) => Promise<void>;
   @Action changeList!: (index: number) => Promise<void>;
@@ -151,7 +149,7 @@ export default class RadImportWizard extends Vue {
         buttons: [this.$t("general.ok") as string],
         title: this.$t("general.error.fileNotSupported.title") as string,
         message: this.$t("general.error.fileNotSupported.description", [
-          this.appName,
+          this.appTitle,
         ]) as string,
       });
 
