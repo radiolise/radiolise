@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="moreoptions">
+    <div id="more-options">
       <a href="#/search" @click="showOptions = !showOptions"
         ><font-awesome-icon
           icon="chevron-down"
@@ -23,7 +23,7 @@
             {{ $t("search.filters.label") }}:{{ "\xa0" }}
           </div>
           <div style="display: table-cell; width: 100%">
-            <div id="failmsg" style="display: none">
+            <div style="display: none">
               <div style="display: table">
                 <font-awesome-icon
                   icon="exclamation-triangle"
@@ -32,7 +32,7 @@
                 />
                 <div>
                   {{ $t("search.optionsUnavailable")
-                  }}<a id="tryfetch" href="#/search"
+                  }}<a href="#/search"
                     ><font-awesome-icon icon="redo" fixed-width />{{
                       $t("search.tryAgain")
                     }}</a
@@ -167,8 +167,11 @@ export default class RadSearchOptions extends Vue {
 
   created(): void {
     setTimeout(async () => {
-      this.filters.countries = await fetchCountries();
-      this.filters.languages = await fetchLanguages();
+      const eventualCountries = fetchCountries();
+      const eventualLanguages = fetchLanguages();
+
+      this.filters.countries = await eventualCountries;
+      this.filters.languages = await eventualLanguages;
     }, 300);
   }
 
@@ -184,3 +187,13 @@ export default class RadSearchOptions extends Vue {
   }
 }
 </script>
+
+<style scoped>
+#more-options {
+  text-align: left;
+  padding-bottom: 10px;
+}
+#more-options svg {
+  transition: transform 0.3s;
+}
+</style>

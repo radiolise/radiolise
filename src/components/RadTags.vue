@@ -6,7 +6,7 @@
         &nbsp;<span :key="i" class="label">{{ item }}</span>
       </template>
     </template>
-    <span v-else style="opacity: 0.5">{{ this.$t("general.noTags") }}</span>
+    <span v-else style="opacity: 0.5"> {{ this.$t("general.noTags") }}</span>
   </div>
 </template>
 
@@ -22,3 +22,9 @@ export default class RadTags extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.tags::-webkit-scrollbar {
+  display: none;
+}
+</style>

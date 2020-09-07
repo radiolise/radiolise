@@ -103,8 +103,8 @@ const mutations: MutationTree<StoreState> = {
     state.messages.shift();
   },
 
-  SET_HINT(state, hint: Hint | null): void {
-    state.hint = hint;
+  SET_TOAST(state, toast: Toast | null): void {
+    state.toast = toast;
   },
 
   SET_PLAYING(state, playing: boolean): void {

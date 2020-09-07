@@ -94,7 +94,7 @@ interface DropdownOption {
   description?: string | number;
 }
 
-interface Hint {
+interface Toast {
   message: string;
   icon?: string;
 }

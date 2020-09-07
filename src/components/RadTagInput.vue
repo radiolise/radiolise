@@ -1,5 +1,5 @@
 <template>
-  <div class="tagInput">
+  <div class="tag-input">
     <span style="display: table-cell">{{ $t("tagInput.label") }}: </span
     ><rad-input
       :value="renderedTags"

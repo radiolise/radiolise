@@ -21,7 +21,7 @@ export default class Hotkeys extends Vue {
 
   @Action adjustVolume!: (step: number) => Promise<void>;
   @Action playClosestStation!: (forward: boolean) => Promise<void>;
-  @Action showHint!: (hint: Hint) => Promise<void>;
+  @Action showToast!: (toast: Toast) => Promise<void>;
   @Action toggleFullscreen!: () => Promise<void>;
   @Action toggleStation!: (station?: Station) => Promise<void>;
 
@@ -37,17 +37,17 @@ export default class Hotkeys extends Vue {
       if (this.currentStation?.id !== station.id) {
         this.toggleStation(station);
 
-        this.showHint({
-          message: this.$t("hotkeys.onScreenHints.playingIndex", [
+        this.showToast({
+          message: this.$t("hotkeys.onScreenToasts.playingIndex", [
             index,
             station.name,
           ]) as string,
         });
       }
     } else {
-      this.showHint({
+      this.showToast({
         icon: "exclamation-triangle",
-        message: this.$t("hotkeys.onScreenHints.notExisting", [
+        message: this.$t("hotkeys.onScreenToasts.notExisting", [
           index,
         ]) as string,
       });
@@ -69,7 +69,7 @@ export default class Hotkeys extends Vue {
       String(this.currentList.length).length - this.numberInput.input.length;
 
     if (digitsLeft > 0) {
-      this.showHint({
+      this.showToast({
         message: `${this.numberInput.input}${"–".repeat(digitsLeft)}`,
       });
 

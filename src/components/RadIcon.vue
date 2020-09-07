@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="playbutton">
-      <div style="display: table-cell; vertical-align: middle">
+    <div class="play-button">
+      <div>
         <font-awesome-icon
           :icon="overlay"
           fixed-width
@@ -9,16 +9,14 @@
         />
       </div>
     </div>
-    <div class="icontain">
+    <div class="icon-container">
       <div v-show="loaded" v-if="settings.loadpolicy" class="icon">
-        <img ref="image" :src="url" @load="hidePlaceholder()" />
+        <img ref="image" :src="url" alt="Logo" @load="hidePlaceholder()" />
       </div>
       <div
         v-if="!loaded"
         class="icon"
-        :style="{
-          background: `hsl(${station.hue}, 50%, 50%)`,
-        }"
+        :style="{ background: `hsl(${station.hue}, 50%, 50%)` }"
       >
         <span>{{ station.name[0].toUpperCase() }}</span>
       </div>
@@ -87,3 +85,49 @@ export default class RadIcon extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.play-button {
+  position: absolute;
+  z-index: 1;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 50%;
+  margin: 0 20px;
+  width: 35px;
+  height: 35px;
+  background: rgba(0, 0, 0, 0.5);
+  display: table;
+  opacity: 0;
+  overflow: hidden;
+}
+.play-button > div {
+  display: table-cell;
+  vertical-align: middle;
+}
+.icon-container {
+  margin: 0 20px;
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  overflow: hidden;
+  box-shadow: 0 0 1px #000;
+}
+.icon {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 22px;
+  text-align: center;
+  color: #fff;
+  background: #fff;
+  border-radius: 50%;
+}
+.icon > img {
+  width: 100%;
+}
+.icon > span {
+  width: 100%;
+}
+</style>

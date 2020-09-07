@@ -1,7 +1,7 @@
 <template>
   <div
-    ref="stationRow"
-    class="stationRow"
+    ref="station-row"
+    class="station-row"
     :class="{ dragging, playing, transition }"
     :style="{ transform: dragging ? `translateY(${currentTranslate}px)` : '' }"
     @click="handleClick()"
@@ -184,16 +184,36 @@ export default class RadStation extends Mixins(DragHelper) {
 </script>
 
 <style scoped>
-.stationRow {
+.station-row {
+  cursor: pointer;
+  display: table;
   transition: background 0.2s;
 }
-
+.station-row:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+.station-row > div {
+  display: table-cell;
+}
+.station-row > :first-child {
+  padding: 20px 0;
+  vertical-align: top;
+}
+.station-row > :nth-child(2) {
+  text-align: left;
+  width: 100%;
+  max-width: 0;
+  padding: 20px 0;
+}
+.station-row > :last-child {
+  cursor: auto;
+  vertical-align: middle;
+}
 .dragging {
   position: relative;
   z-index: 10;
   opacity: 0.8;
 }
-
 .transition {
   transition: transform 0.3s;
 }

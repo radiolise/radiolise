@@ -3,9 +3,9 @@ import VShowSlide from "v-show-slide";
 
 import App from "./App.vue";
 import "./font-awesome";
-import i18n from "./lang";
 import router from "./router";
 import store from "./store";
+import i18n from "./lang";
 
 Vue.config.productionTip = false;
 Vue.config.silent = process.env.NODE_ENV === "production";

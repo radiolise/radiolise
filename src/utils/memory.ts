@@ -1,4 +1,4 @@
-import { defaultSettings, defaultMemory } from "@/store/default-data";
+import { defaultMemory, defaultSettings } from "@/store/default-data";
 import { convertOldIds } from "./network";
 
 interface OldSettings {
@@ -47,7 +47,7 @@ async function migrateData(memory: OldMemory): Promise<Memory> {
   const { lists, settings, titles } = memory;
   const convertedIds = await convertIds(memory);
 
-  const newMemory = {
+  return {
     version: "2",
     lists: Object.entries(lists).map(([name, content]) => ({
       name,
@@ -75,8 +75,6 @@ async function migrateData(memory: OldMemory): Promise<Memory> {
     lastList: 0,
     cache: {},
   };
-
-  return newMemory;
 }
 
 function checkVersion(exists: boolean): boolean {

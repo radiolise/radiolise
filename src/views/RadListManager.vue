@@ -1,5 +1,5 @@
 <template>
-  <rad-drawer id="list-manager">
+  <rad-drawer>
     <h3>
       <font-awesome-icon icon="list-alt" fixed-width />
       {{ $t("general.stationLists") }}
@@ -7,7 +7,6 @@
     <p class="description">{{ $t("listManager.description") }}</p>
     <div>
       <div
-        id="listdiv"
         style="display: table; margin: 0 auto; padding-bottom: 10px; font-size: 20px"
       >
         <rad-list-input
@@ -25,7 +24,7 @@
           ><font-awesome-icon icon="file-import" />
           {{ $t("general.importBackup") }}</router-link
         >
-        <a id="addlist" class="button" @click="adding = true"
+        <a class="button" @click="adding = true"
           ><font-awesome-icon icon="plus" /> {{ $t("listManager.newList") }}</a
         >
       </div>

@@ -1,9 +1,9 @@
 <template>
   <div style="pointer-events: all">
-    <div id="footer" v-show-slide="shown">
+    <div id="bottom-drawer" v-show-slide="shown">
       <transition name="progress" appear>
         <div
-          id="progressbar"
+          id="progress-bar"
           :key="animationTrigger"
           :class="{ active: autoHide }"
         />
@@ -12,17 +12,15 @@
         style="display: table; padding: 10px; margin: 0 auto; max-width: 800px"
       >
         <span style="padding: 14px 20px; float: left"
-          ><font-awesome-icon icon="info-circle" fixed-width /><span
-            id="restoretext"
-            >{{ message }}</span
-          ></span
+          ><font-awesome-icon icon="info-circle" fixed-width />
+          {{ message }}</span
         >
         <span style="white-space: nowrap; float: right"
-          ><a id="restore" class="button" @click="undo()"
+          ><a class="button" @click="undo()"
             ><font-awesome-icon icon="undo" fixed-width />{{
               this.$t("general.undo")
             }}</a
-          ><a id="hidefooter" class="button" @click="confirm()"
+          ><a class="button" @click="confirm()"
             ><font-awesome-icon icon="check" fixed-width />{{
               this.$t("general.ok")
             }}</a
@@ -176,3 +174,27 @@ export default class RadBottomDrawer extends Vue {
   }
 }
 </script>
+
+<style scoped>
+#bottom-drawer {
+  text-align: center;
+  font-size: 20px;
+}
+#bottom-drawer .button {
+  color: inherit !important;
+}
+#progress-bar.progress-enter-active {
+  animation: progress 10s linear;
+}
+#progress-bar.progress-leave-active {
+  animation: none;
+}
+#progress-bar {
+  height: 3px;
+  transform-origin: left;
+  visibility: hidden;
+}
+#progress-bar.active {
+  visibility: visible;
+}
+</style>

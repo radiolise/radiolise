@@ -6,7 +6,7 @@
       {{ $t("editor.title") }}
     </h3>
     <form ref="form" @submit.prevent="handleSubmit()">
-      <div v-if="stationClone !== null" id="customstations">
+      <div v-if="stationClone !== null">
         <span style="display: table-cell"
           ><sup
             class="important"
@@ -94,11 +94,11 @@
         </div>
       </div>
       <div style="text-align: right">
-        <a id="done" class="button" @click="finish()">
+        <a class="button" @click="finish()">
           <font-awesome-icon icon="check" fixed-width />{{ $t("general.done") }}
         </a>
         <input
-          ref="submitButton"
+          ref="submit-button"
           type="submit"
           name="submit"
           style="display: none"
@@ -134,7 +134,7 @@ export default class RadEditor extends Vue {
   @Prop({ type: String, required: true }) readonly id!: string;
 
   @Ref() readonly form!: HTMLFormElement;
-  @Ref() readonly submitButton!: HTMLInputElement;
+  @Ref("submit-button") readonly submitButton!: HTMLInputElement;
 
   @Getter readonly lists!: StationList[];
 

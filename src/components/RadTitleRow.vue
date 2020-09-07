@@ -1,11 +1,9 @@
 <template>
-  <div class="listitem" style="padding: 10px">
-    <div
-      style="margin-bottom: 5px; font-weight: normal; font-size: 17px; font-weight: bold"
-    >
+  <div class="title-row" style="padding: 10px">
+    <div style="margin-bottom: 5px; font-size: 17px; font-weight: bold">
       {{ title.info }}
     </div>
-    <div style="opacity: .7; overflow: auto">
+    <div style="opacity: 0.7; overflow: auto">
       <span>{{ title.station }}</span
       ><span style="margin-left: 15px; float: right">{{ timeStamp }}</span>
     </div>
@@ -88,3 +86,20 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
   }
 }
 </script>
+
+<style scoped>
+.title-row {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.title-row:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+.options {
+  cursor: default;
+}
+.options .button {
+  font-size: 18px;
+  padding: 2px 12px;
+}
+</style>

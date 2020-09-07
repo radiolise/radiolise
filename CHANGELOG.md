@@ -1,4 +1,12 @@
-# Changes in 5.0.0-rc.6 (latest – 2020-08-28)
+# Changes in 5.0.0-rc.7 (latest – 2020-09-08)
+
+- Improved algorithm for finding supported station URLs.
+- Major refactoring, including:
+  - Outsourcing of CSS code into Vue single-file components.
+  - Improvement of class names, IDs and other property names.
+- Minor adjustments and bug fixes.
+
+# Changes in [5.0.0-rc.6](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/5b41690cf0b4860ecbb49b6f9d55ee27dc10dad5) (2020-08-28)
 
 - Added more pluralization rules for search statistics to avoid grammatical
   issues with Romance languages. The French locale now benefits from this.

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ checkable: true, checked }" @click="toggleChecked()">
+  <div class="check-box" :class="{ checked }" @click="toggleChecked()">
     <div>
       <transition name="fade" mode="out-in">
         <font-awesome-icon v-if="checked" key="checked" icon="check-square" />
@@ -42,6 +42,23 @@ export default class RadCheck extends Vue {
 </script>
 
 <style scoped>
+.check-box {
+  cursor: pointer;
+}
+.check-box > div {
+  vertical-align: top;
+  display: table-cell;
+}
+.check-box > :first-child {
+  width: 25px;
+  font-size: 20px;
+}
+.check-box > :last-child {
+  padding-top: 3px;
+}
+.fa-square {
+  opacity: 0.7;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: transform 80ms;

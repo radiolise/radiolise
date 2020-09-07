@@ -1,5 +1,5 @@
 <template>
-  <label class="dropzone" @drop.prevent="handleDrop" @dragover.prevent>
+  <label class="drop-zone" @drop.prevent="handleDrop" @dragover.prevent>
     <div>
       <div v-show-slide="imported">
         <div class="highlighted">
@@ -10,7 +10,7 @@
       {{ $t("dropZone.usage") }}
     </div>
     <input
-      ref="fileInput"
+      ref="file-input"
       type="file"
       accept="text/plain, application/x-yaml, .txt"
       @change="handleFileChanged"
@@ -31,14 +31,20 @@ export default class RadDropZone extends Vue {
   reader = new FileReader();
   imported = false;
 
-  @Ref() readonly fileInput!: HTMLInputElement;
+  @Ref("file-input") readonly fileInput!: HTMLInputElement;
 
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   created(): void {
     this.reader.addEventListener("load", async () => {
       const YAML = await import(/* webpackChunkName: "yaml" */ "yaml");
-      this.handleReaderLoaded(YAML.parse(this.reader.result as string));
+
+      try {
+        const fileContent = YAML.parse(this.reader.result as string);
+        this.handleReaderLoaded(fileContent);
+      } catch {
+        this.handleReaderError();
+      }
     });
   }
 
@@ -56,6 +62,9 @@ export default class RadDropZone extends Vue {
     this.fileInput.value = "";
     return result;
   }
+
+  @Emit("error")
+  handleReaderError(): void {}
 
   handleDrop({ dataTransfer }: DragEvent): void {
     if (dataTransfer === null) {
@@ -85,14 +94,20 @@ export default class RadDropZone extends Vue {
 </script>
 
 <style scoped>
+.drop-zone {
+  display: flex;
+  cursor: pointer;
+  border: 1px dotted #888;
+  padding: 10px;
+  text-align: center;
+  min-height: 120px;
+}
 input[type="file"] {
   display: none;
 }
-
 label > div {
   margin: auto;
 }
-
 .highlighted {
   font-size: 1.2em;
 }

@@ -1,13 +1,12 @@
 import { Component, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
-import VueScrollTo from "vue-scrollto";
+import VueScrollto from "vue-scrollto";
 
-Vue.use(VueScrollTo);
+Vue.use(VueScrollto);
 
 @Component
 export default class ScrollHelper extends Vue {
   playerBarHeight!: number;
-  expandTimeout?: number;
 
   @Getter readonly fixedPlayer!: boolean;
   @Getter readonly fullscreen!: boolean;
@@ -15,14 +14,6 @@ export default class ScrollHelper extends Vue {
   @Getter readonly isPlayerExpanded!: boolean;
 
   @Action fixPlayer!: (fixedPlayer: boolean) => Promise<void>;
-
-  getPlayerBarHeight(): number {
-    const playerBar = document.querySelector(
-      "#video .videobar"
-    ) as HTMLDivElement;
-
-    return playerBar.offsetHeight;
-  }
 
   mounted(): void {
     this.playerBarHeight = this.getPlayerBarHeight();
@@ -35,18 +26,6 @@ export default class ScrollHelper extends Vue {
   async onVideoToggled(): Promise<void> {
     await this.$nextTick();
     this.resizeHandler();
-  }
-
-  scrollHandler(): void {
-    const player = document.querySelector("#video") as HTMLDivElement;
-    const playerRect = player.getBoundingClientRect();
-
-    const fixedPlayer =
-      playerRect.top + playerRect.height <= this.playerBarHeight + 50;
-
-    if (this.fixedPlayer !== fixedPlayer) {
-      this.fixPlayer(fixedPlayer);
-    }
   }
 
   @Watch("fullscreen")
@@ -63,6 +42,26 @@ export default class ScrollHelper extends Vue {
 
     if (playerLocked) {
       this.fixPlayer(false);
+    }
+  }
+
+  getPlayerBarHeight(): number {
+    const playerBar = document.querySelector(
+      "#video .media-controls"
+    ) as HTMLDivElement;
+
+    return playerBar.offsetHeight;
+  }
+
+  scrollHandler(): void {
+    const player = document.querySelector("#video") as HTMLDivElement;
+    const playerRect = player.getBoundingClientRect();
+
+    const fixedPlayer =
+      playerRect.top + playerRect.height <= this.playerBarHeight + 50;
+
+    if (this.fixedPlayer !== fixedPlayer) {
+      this.fixPlayer(fixedPlayer);
     }
   }
 }

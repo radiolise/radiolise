@@ -17,7 +17,7 @@ let source = network.CancelToken.source();
 let updateTimer: number;
 let sleepTimer: number;
 let relaxTimer: number;
-let hintTimer: number;
+let toastTimer: number;
 
 const actions: ActionTree<StoreState, StoreState> = {
   init({ commit }, memory: Memory): void {
@@ -211,18 +211,22 @@ const actions: ActionTree<StoreState, StoreState> = {
     dispatch("play", currentList[index]);
   },
 
-  toggleStation({ dispatch, state }, station?: Station): void {
+  toggleStation({ dispatch, state }, station?: Station): Promise<void> {
     const { lastStation, lists } = state.memory;
 
     if (station === undefined) {
       station = lastStation ?? lists[state.memory.lastList].content[0];
+
+      if (station === undefined) {
+        return Promise.reject(new Error("There is no previous station."));
+      }
     }
 
     if (!state.active || lastStation?.id !== station.id) {
-      dispatch("play", station);
-    } else {
-      dispatch("stop");
+      return dispatch("play", station);
     }
+
+    return dispatch("stop");
   },
 
   confirmFullscreen({ commit, dispatch }, fullscreen: boolean): void {
@@ -577,16 +581,16 @@ const actions: ActionTree<StoreState, StoreState> = {
 
     try {
       const styleSheet = await fetchTheme(styleSheetName);
-      let themeElement = document.querySelector("#themeStyle");
+      const styleId = "theme";
+      let themeElement = document.getElementById(styleId);
 
       if (themeElement === null) {
         themeElement = document.createElement("style");
-        themeElement.id = "themeStyle";
-        const head = document.querySelector("head") as HTMLHeadElement;
-        head.appendChild(themeElement);
+        themeElement.id = styleId;
+        document.head.appendChild(themeElement);
       }
 
-      themeElement.innerHTML = styleSheet;
+      themeElement.textContent = styleSheet;
 
       if (!state.ready) {
         commit("SET_READY");
@@ -670,16 +674,16 @@ const actions: ActionTree<StoreState, StoreState> = {
     return buttonId;
   },
 
-  showHint({ commit }, hint: Hint): void {
-    if (hintTimer) {
-      clearTimeout(hintTimer);
+  showToast({ commit }, toast: Toast): void {
+    if (toastTimer) {
+      clearTimeout(toastTimer);
     }
 
-    hintTimer = setTimeout(() => {
-      commit("SET_HINT", null);
+    toastTimer = setTimeout(() => {
+      commit("SET_TOAST", null);
     }, 5000);
 
-    commit("SET_HINT", hint);
+    commit("SET_TOAST", toast);
   },
 };
 

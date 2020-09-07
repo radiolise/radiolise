@@ -3,7 +3,7 @@ import { Action } from "vuex-class";
 
 @Component
 export default class BookmarkHelper extends Vue {
-  @Action showHint!: (hint: Hint) => Promise<void>;
+  @Action showToast!: (toast: Toast) => Promise<void>;
 
   @Action("toggleBookmark") _toggleBookmark!: (payload: {
     station: string;
@@ -17,7 +17,7 @@ export default class BookmarkHelper extends Vue {
     const added = await this._toggleBookmark(bookmark);
 
     if (added) {
-      this.showHint({
+      this.showToast({
         icon: "check",
         message: this.$t("player.bookmarked") as string,
       });

@@ -6,17 +6,12 @@
     </h3>
     <i18n path="search.credit.radioBrowser" tag="p">
       <a
-        class="btn-link white"
         href="https://www.gnu.org/philosophy/free-sw.html"
         target="_blank"
         rel="noopener"
         >{{ $t("search.credit.free") }}
         <font-awesome-icon icon="external-link-alt" fixed-width/></a
-      ><a
-        class="btn-link white"
-        href="https://radio-browser.live"
-        target="_blank"
-        rel="noopener"
+      ><a href="http://www.radio-browser.info" target="_blank" rel="noopener"
         >Community Radio Browser
         <font-awesome-icon icon="external-link-alt" fixed-width
       /></a>
@@ -42,7 +37,7 @@
             query.blur();
             scrollDownIfLoaded();
           "
-        /><button id="findstation" @click="scrollDownIfLoaded()">
+        /><button id="find-station" @click="scrollDownIfLoaded()">
           <font-awesome-icon icon="search" />
         </button>
       </div>
@@ -102,8 +97,7 @@
                 moreAvailable ||
                 scrollOnceLoaded
             "
-            id="loadmore"
-            style="display: flex; font-size: 18px; height: 50px; margin-bottom: 0"
+            id="load-more"
           >
             <span
               v-if="!active || showSpinner || empty || scrollOnceLoaded"
@@ -126,10 +120,10 @@
             </button>
           </p>
         </template>
-        <p v-if="failed" id="failure" style="font-size: 18px">
+        <p v-if="failed" style="font-size: 18px">
           <font-awesome-icon icon="exclamation-triangle" fixed-width />
           {{ $t("search.error") }}
-          <a id="redoajax" href="#/search" @click="reset"
+          <a href="#/search" @click="reset"
             ><font-awesome-icon icon="redo" fixed-width />{{
               $t("search.tryAgain")
             }}</a
@@ -385,3 +379,38 @@ export default class RadSearch extends Vue {
   }
 }
 </script>
+
+<style scoped>
+#search > :nth-child(4) > :first-child {
+  margin-bottom: 20px;
+}
+#query {
+  width: calc(100% - 40px);
+  border: none;
+  font-size: 24px;
+  font-family: inherit;
+  padding: 10px;
+  background: none;
+}
+#query::-webkit-search-cancel-button {
+  display: none;
+}
+#find-station {
+  font-size: 20px;
+  font-family: inherit;
+  width: 40px;
+  border: none;
+  background: none;
+  white-space: nowrap;
+}
+#results {
+  text-align: left;
+  margin-top: 5px;
+}
+#load-more {
+  display: flex;
+  font-size: 18px;
+  height: 50px;
+  margin-bottom: 0;
+}
+</style>

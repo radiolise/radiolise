@@ -16,29 +16,6 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-    "padding-line-between-statements": [
-      "warn",
-      {
-        blankLine: "always",
-        prev: [
-          "multiline-block-like",
-          "multiline-const",
-          "multiline-expression",
-          "multiline-let",
-        ],
-        next: "*",
-      },
-      {
-        blankLine: "always",
-        prev: "*",
-        next: [
-          "multiline-block-like",
-          "multiline-const",
-          "multiline-expression",
-          "multiline-let",
-        ],
-      },
-    ],
     "@typescript-eslint/no-unused-vars": ["warn", { args: "none" }],
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "off",

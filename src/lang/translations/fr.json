@@ -165,7 +165,7 @@
         "description": "Bascule vers une autre station en fonction de sa position dans la liste."
       }
     },
-    "onScreenHints": {
+    "onScreenToasts": {
       "volume": "Volume: {0}%",
       "noVideoStream": "Pas de flux vidéo",
       "playingPrevious": "Écoute de la précédente : {0}",

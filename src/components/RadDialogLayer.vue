@@ -1,5 +1,5 @@
 <template>
-  <div id="dialogLayer">
+  <div id="dialog-layer">
     <div style="height: 100%; overflow: hidden" @click="$router.push('/')">
       <div id="drawers" :class="{ shown: $route.path !== '/' }" @click.stop>
         <transition name="slide-fade" mode="out-in">
@@ -11,14 +11,14 @@
     </div>
     <rad-bottom-drawer />
     <transition name="fade">
-      <div v-if="hint !== null" id="hint">
+      <div v-if="toast !== null" id="toast">
         <div>
           <font-awesome-icon
-            v-if="hint.icon !== undefined"
-            :icon="hint.icon"
+            v-if="toast.icon !== undefined"
+            :icon="toast.icon"
             fixed-width
           />
-          {{ hint.message }}
+          {{ toast.message }}
         </div>
       </div>
     </transition>
@@ -26,7 +26,7 @@
       <div
         v-if="modalOptions !== undefined"
         :key="animationTrigger"
-        class="modalContainer"
+        class="modal-container"
         @click="closeModal()"
       >
         <div
@@ -106,7 +106,7 @@ import { ModalOptions, ModalType } from "@/store";
 export default class RadDialogLayer extends Vue {
   animationTrigger = false;
 
-  @State readonly hint!: Hint | null;
+  @State readonly toast!: Toast | null;
 
   @Getter readonly modalOptions: ModalOptions | undefined;
 
@@ -155,7 +155,20 @@ export default class RadDialogLayer extends Vue {
 </script>
 
 <style scoped>
-.modalContainer {
+#dialog-layer {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  transition-property: background, opacity;
+  transition-duration: 0.3s;
+}
+.modal-container {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -165,37 +178,79 @@ export default class RadDialogLayer extends Vue {
   align-items: center;
   justify-content: center;
 }
-
-#hint {
+#toast {
   position: absolute;
   box-sizing: border-box;
   padding: 0 5px;
+  margin: 50px auto;
+  overflow: hidden;
+  pointer-events: none;
+  width: 100%;
 }
-
-#hint > div {
+#toast > div {
   width: 300px;
   border-radius: 0 10px 0 10px;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: calc(100% - 40px);
+  pointer-events: auto;
 }
-
+#toast .button {
+  color: inherit;
+  font-weight: normal;
+  margin-bottom: -5px;
+}
+#drawers {
+  transform: translateX(-200px);
+  max-width: 470px;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: all 0.3s;
+}
+#drawers.shown {
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+#drawers,
+#toast {
+  z-index: 2;
+}
+#drawers > div {
+  padding: 20px;
+}
+#drawers > div,
+#toast {
+  top: 0;
+  text-align: center;
+  transition: all 0.3s;
+}
+#drawers .slide-fade-enter,
+#drawers .slide-fade-leave-to {
+  transform: translateX(-50px);
+}
 .fade-enter,
 .fade-leave-to,
 .scale-fade-enter,
 .scale-fade-leave-to {
   opacity: 0;
 }
-
 .fade-enter-active,
 .fade-leave-active,
 .scale-fade-enter-active,
 .scale-fade-leave-active {
   transition: opacity 0.3s;
 }
-
 .scale-fade-enter-active,
 .scale-fade-leave-active {
   transition-property: opacity, transform;
 }
-
 .scale-fade-enter,
 .scale-fade-leave-to {
   transform: scale(1.25);

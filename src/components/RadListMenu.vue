@@ -1,5 +1,5 @@
 <template>
-  <div class="listMenu">
+  <div class="list-menu">
     <strong>{{ $t("general.list") }}</strong
     >:
     <rad-dropdown
@@ -141,7 +141,7 @@ export default class RadListMenu extends Vue {
 </script>
 
 <style scoped>
-.listMenu {
+.list-menu {
   margin-bottom: 20px;
 }
 </style>

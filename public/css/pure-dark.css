@@ -1,5 +1,5 @@
 :root {
-  --themecolor: cornflowerblue;
+  --theme-color: cornflowerblue;
 }
 #app {
   background: #333;
@@ -10,8 +10,8 @@
 .slider > div {
   background: #484848;
 }
-.hr {
-  border-bottom-color: rgba(0, 0, 0, 0.2);
+hr {
+  background: rgba(0, 0, 0, 0.2);
 }
 .important {
   color: #0ff;
@@ -28,7 +28,7 @@
   color: #000;
 }
 .label,
-.dropzone {
+.drop-zone {
   background: #555;
 }
 nav {
@@ -37,16 +37,14 @@ nav {
 nav > div > span > span,
 nav > div > div > button,
 .button-primary,
-.videobar a,
+.media-controls a,
 #logo {
   color: #000;
 }
 a,
-#learnmore > div:nth-child(3) > div > span,
-#findstation,
+#find-station,
 #query,
 input[type="number"],
-#tomove,
 #drawers button {
   color: #fff;
 }
@@ -55,7 +53,7 @@ main > div,
   background: #444;
   color: #fff;
 }
-#hint > div {
+#toast > div {
   background: #fff;
   color: #000;
 }
@@ -64,36 +62,31 @@ input,
   background: #444;
   color: #fff;
 }
-.stationRow.dragging {
+.station-row.dragging {
   background: #3d3d3d;
 }
-#footer,
-#addfooter,
-.videobar {
+#bottom-drawer,
+.media-controls {
   background: rgba(255, 255, 255, 0.9);
   color: #000;
 }
-#search > div > div:nth-child(1),
+#search > :nth-child(4) > :first-child,
 input:not(#query),
-.monthseparator {
-  border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+.month-separator {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
 }
 #drawers,
 #app.fullscreen {
   background: #444;
 }
-#volumeline,
-#volumecircle {
-  background: #eee;
+#progress-bar {
+  background: var(--theme-color);
 }
-#progressbar {
-  background: var(--themecolor);
-}
-.videobar .label {
+.media-controls .label {
   background: #ddd;
   color: #000;
 }
-.hotkeyTile {
+.hotkey-tile {
   background: rgba(255, 255, 255, 0.1);
 }
 .modal {

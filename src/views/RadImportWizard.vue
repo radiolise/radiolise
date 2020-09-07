@@ -1,5 +1,5 @@
 <template>
-  <rad-drawer id="import-wizard">
+  <rad-drawer>
     <h3>
       <font-awesome-icon icon="file-import" fixed-width />
       {{ $t("general.importBackup") }}
@@ -21,7 +21,11 @@
             {{ $t("importWizard.chooseFile") }}
           </template>
         </h4>
-        <rad-drop-zone ref="dropZone" @change="setBackup" />
+        <rad-drop-zone
+          ref="drop-zone"
+          @change="setBackup"
+          @error="handleError()"
+        />
       </div>
       <template v-if="backup">
         <br />
@@ -37,7 +41,7 @@
                 autocomplete="off"
                 type="text"
                 :placeholder="$t('general.newName')"
-                class="itemname"
+                class="list-name"
                 spellcheck="false"
               />
             </div>
@@ -111,7 +115,7 @@ export default class RadImportWizard extends Vue {
 
   @Prop({ type: String, required: true }) readonly type!: string;
 
-  @Ref() readonly dropZone!: RadDropZone;
+  @Ref("drop-zone") readonly dropZone!: RadDropZone;
 
   @Action applySettings!: (settings: Settings) => Promise<void>;
   @Action changeList!: (index: number) => Promise<void>;
@@ -124,38 +128,39 @@ export default class RadImportWizard extends Vue {
   }) => Promise<void>;
 
   setBackup(rawBackup: Backup): void {
-    try {
-      if (rawBackup.version !== "2" || this.type !== rawBackup.type) {
-        throw new Error("File not supported");
-      }
+    if (rawBackup.version !== "2" || this.type !== rawBackup.type) {
+      this.handleError();
+      return;
+    }
 
-      const backup = rawBackup.data;
+    const backup = rawBackup.data;
 
-      if (this.type === "settings") {
-        this.backup = backup as Settings;
-        return;
-      }
+    if (this.type === "settings") {
+      this.backup = backup as Settings;
+      return;
+    }
 
-      const entries = Object.entries(backup)[0] as [string, Station[]];
-      [this.listName] = entries;
+    const entries = Object.entries(backup)[0] as [string, Station[]];
+    [this.listName] = entries;
 
-      this.backup = entries[1].map((item: Station) => ({
-        ...item,
-        selected: true,
-      }));
-    } catch {
-      this.showMessage({
-        type: ModalType.ERROR,
-        buttons: [this.$t("general.ok") as string],
-        title: this.$t("general.error.fileNotSupported.title") as string,
-        message: this.$t("general.error.fileNotSupported.description", [
-          this.appTitle,
-        ]) as string,
-      });
+    this.backup = entries[1].map((item: Station) => ({
+      ...item,
+      selected: true,
+    }));
+  }
 
-      if (this.backup === null) {
-        this.dropZone.reset();
-      }
+  handleError(): void {
+    this.showMessage({
+      type: ModalType.ERROR,
+      buttons: [this.$t("general.ok") as string],
+      title: this.$t("general.error.fileNotSupported.title") as string,
+      message: this.$t("general.error.fileNotSupported.description", [
+        this.appTitle,
+      ]) as string,
+    });
+
+    if (this.backup === null) {
+      this.dropZone.reset();
     }
   }
 

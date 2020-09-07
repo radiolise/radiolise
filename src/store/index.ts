@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex, { Store, StoreOptions } from "vuex";
+import Vuex from "vuex";
 
 import getters from "./getters";
 import mutations from "./mutations";
@@ -55,7 +55,7 @@ export interface StoreState {
   hasVideo: boolean;
   memory: Memory;
   messages: ModalOptions[];
-  hint: Hint | null;
+  toast: Toast | null;
   playerExpanded: boolean;
   playing: boolean;
   relaxed: boolean;
@@ -71,7 +71,7 @@ export interface StoreState {
   likeState?: LikeState;
 }
 
-const storeOptions: StoreOptions<StoreState> = {
+const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== "production",
 
   plugins: [
@@ -103,7 +103,7 @@ const storeOptions: StoreOptions<StoreState> = {
     memory: defaultMemory,
     currentInfo: undefined,
     messages: [],
-    hint: null,
+    toast: null,
     undoableEvent: undefined,
     stationBackup: undefined,
     searchStats: {
@@ -121,6 +121,6 @@ const storeOptions: StoreOptions<StoreState> = {
   getters,
   mutations,
   actions,
-};
+});
 
-export default new Store(storeOptions);
+export default store;

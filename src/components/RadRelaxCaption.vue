@@ -1,9 +1,9 @@
 <template>
-  <div id="relaxcaption" :style="{ fontSize: fontSize + 'pt' }">
-    <span>
-      <div>{{ name }}</div>
-      <div>{{ info }}</div>
-    </span>
+  <div id="relax-caption" :style="{ fontSize: fontSize + 'pt' }">
+    <div class="station">
+      <div class="broadcaster">{{ name }}</div>
+      <div class="info">{{ info }}</div>
+    </div>
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default class RadRelaxCaption extends Vue {
   }
 
   get name(): string {
-    return this.currentStation ? this.currentStation.name : "";
+    return this.currentStation?.name ?? "";
   }
 
   get info(): string {
@@ -46,3 +46,38 @@ export default class RadRelaxCaption extends Vue {
   }
 }
 </script>
+
+<style scoped>
+#relax-caption {
+  color: #fff;
+  display: table;
+  text-align: center;
+  overflow: hidden;
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  width: calc(100% - 20vw);
+  height: 50%;
+  padding: 0 10vw;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+.station {
+  display: table-cell;
+  vertical-align: middle;
+}
+.station > div {
+  width: 80vw;
+}
+.broadcaster {
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.info {
+  font-size: 0.9em;
+}
+</style>

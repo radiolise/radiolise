@@ -3,7 +3,7 @@
     <input
       ref="input"
       type="text"
-      class="itemname"
+      class="list-name"
       :placeholder="
         $t(isNewList ? 'listManager.specifyName' : 'general.newName')
       "
@@ -14,10 +14,8 @@
       @keydown.enter="input.blur()"
     />
     <div style="display: table-cell; white-space: nowrap; text-align: left">
-      <a v-show="active" class="okay"
-        ><font-awesome-icon icon="check" fixed-width
-      /></a>
-      <a v-show="!active" class="renamelist" @click="input.focus()"
+      <a v-show="active"><font-awesome-icon icon="check" fixed-width/></a>
+      <a v-show="!active" @click="input.focus()"
         ><font-awesome-icon icon="edit" fixed-width/></a
       ><template v-if="!isNewList">
         <a @click="download()"

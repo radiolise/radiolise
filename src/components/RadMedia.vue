@@ -1,12 +1,12 @@
 <template>
   <div
     v-show="videoShown"
-    id="vcontain"
+    id="media-container"
     style="position: relative"
     @dblclick="toggleFullscreen()"
   >
     <video
-      ref="mediaElement"
+      ref="media-element"
       playsinline
       @loadedmetadata="onLoadedMetadata()"
       @loadeddata="confirmPlaying(lastTriedUrl)"
@@ -32,6 +32,7 @@ import Screenfull from "screenfull";
 
 import { ModalOptions, ModalType } from "@/store";
 import network, { fetchPlayableUrl, getRedirectUrl } from "@/utils/network";
+import { TranslateResult } from "vue-i18n";
 
 let source = network.CancelToken.source();
 let hls: Hls | undefined;
@@ -39,9 +40,9 @@ let hls: Hls | undefined;
 @Component
 export default class RadMedia extends Vue {
   hasVideo = false;
-  lastTriedUrl = "";
+  triedUrls = [] as string[];
 
-  @Ref() readonly mediaElement!: HTMLVideoElement;
+  @Ref("media-element") readonly mediaElement!: HTMLVideoElement;
 
   @Getter readonly loading!: boolean;
   @Getter("currentStation") readonly station?: Station;
@@ -56,6 +57,14 @@ export default class RadMedia extends Vue {
   @Action stop!: () => Promise<void>;
   @Action toggleFullscreen!: () => Promise<void>;
   @Action toggleStation!: () => Promise<void>;
+
+  get lastTriedUrl(): string {
+    return this.triedUrls[this.triedUrls.length - 1];
+  }
+
+  set lastTriedUrl(lastTriedUrl: string) {
+    this.triedUrls.push(lastTriedUrl);
+  }
 
   get videoShown(): boolean {
     return this.station !== undefined && this.hasVideo;
@@ -80,15 +89,16 @@ export default class RadMedia extends Vue {
     }
 
     this.detachStream();
+    this.triedUrls = [];
 
     if (station !== undefined) {
       try {
-        const data = await fetchPlayableUrl({
+        const playableUrl = await fetchPlayableUrl({
           stationId: station.id,
           cancelToken: source.token,
         });
 
-        this.play(data.ok ? data.url : station.url);
+        this.play(playableUrl.ok ? playableUrl.url : station.url);
       } catch (error) {
         if (!network.isCancel(error)) {
           this.play(station.url);
@@ -126,7 +136,7 @@ export default class RadMedia extends Vue {
     this.allowFullscreen(hasVideo);
   }
 
-  static isNativeStream(streamUrl: string): boolean {
+  isNativeStream(streamUrl: string): boolean {
     let url = streamUrl;
     let index = url.lastIndexOf("/");
 
@@ -153,7 +163,7 @@ export default class RadMedia extends Vue {
   play(url: string): void {
     this.lastTriedUrl = url;
 
-    if (RadMedia.isNativeStream(url)) {
+    if (this.isNativeStream(url)) {
       this.mediaElement.src = getRedirectUrl(url);
     } else {
       this.playHls(url);
@@ -176,13 +186,11 @@ export default class RadMedia extends Vue {
 
       hls.attachMedia(this.mediaElement);
     } else {
-      this.showMessage({
-        title: this.$t("general.error.hlsNotSupported.title") as string,
-        buttons: [this.$t("general.ok") as string],
-        type: ModalType.ERROR,
+      this.showErrorMessage({
+        title: this.$t("general.error.hlsNotSupported.title"),
         message: this.$t("general.error.hlsNotSupported.description", [
           (this.station as Station).name,
-        ]) as string,
+        ]),
       });
 
       this.stop();
@@ -201,7 +209,7 @@ export default class RadMedia extends Vue {
 
   playLastStation(): void {
     if (this.station === undefined) {
-      this.toggleStation();
+      this.toggleStation().catch(() => {});
     }
   }
 
@@ -225,65 +233,71 @@ export default class RadMedia extends Vue {
     if (navigator.onLine) {
       switch (this.mediaElement.error?.code) {
         case MediaError.MEDIA_ERR_NETWORK:
-          this.showMessage({
-            type: ModalType.ERROR,
-            buttons: [this.$t("general.ok") as string],
-            title: this.$t("general.error.networkIssue.title") as string,
+          this.showErrorMessage({
+            title: this.$t("general.error.networkIssue.title"),
             message: this.$t("general.error.networkIssue.description", [
               this.$t("general.tryAgainLater"),
-            ]) as string,
+            ]),
           });
 
           break;
 
         case MediaError.MEDIA_ERR_DECODE:
-          this.showMessage({
-            type: ModalType.ERROR,
-            buttons: [this.$t("general.ok") as string],
-            title: this.$t("general.error.decode.title") as string,
-            message: this.$t("general.error.decode.description") as string,
+          this.showErrorMessage({
+            title: this.$t("general.error.decode.title"),
+            message: this.$t("general.error.decode.description"),
           });
 
           break;
 
-        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-          if (!this.lastTriedUrl.endsWith("/;")) {
+        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED: {
+          if (this.triedUrls.every(url => !url.endsWith("/;"))) {
             this.play(`${this.lastTriedUrl}/;`.replace("//;", "/;"));
             return;
           }
 
-          this.showMessage({
-            type: ModalType.ERROR,
-            buttons: [this.$t("general.ok") as string],
-            title: this.$t("general.error.noSupportedSource.title") as string,
-            message: this.$t(
-              "general.error.noSupportedSource.description"
-            ) as string,
+          const stationUrl = (this.station as Station).url;
+
+          if (!this.triedUrls.includes(stationUrl)) {
+            this.play(stationUrl);
+            return;
+          }
+
+          this.showErrorMessage({
+            title: this.$t("general.error.noSupportedSource.title"),
+            message: this.$t("general.error.noSupportedSource.description"),
           });
 
           break;
+        }
 
         default:
-          this.showMessage({
-            type: ModalType.ERROR,
-            buttons: [this.$t("general.ok") as string],
-            title: this.$t("general.error.noSupportedSource.title") as string,
-            message: this.$t(
-              "general.error.noSupportedSource.description"
-            ) as string,
+          this.showErrorMessage({
+            title: this.$t("general.error.noSupportedSource.title"),
+            message: this.$t("general.error.noSupportedSource.description"),
           });
       }
     } else {
-      this.showMessage({
-        type: ModalType.ERROR,
-        buttons: [this.$t("general.ok") as string],
-        title: this.$t("general.error.networkIssue.title") as string,
-        message: this.$t("general.error.goOnline") as string,
+      this.showErrorMessage({
+        title: this.$t("general.error.networkIssue.title"),
+        message: this.$t("general.error.goOnline"),
       });
     }
 
     this.stop();
     this.detachStream();
+  }
+
+  showErrorMessage(config: {
+    title: TranslateResult;
+    message: TranslateResult;
+  }): void {
+    this.showMessage({
+      type: ModalType.ERROR,
+      buttons: [this.$t("general.ok") as string],
+      title: config.title as string,
+      message: config.message as string,
+    });
   }
 
   handleHlsError(data: Hls.errorData): void {
@@ -297,20 +311,16 @@ export default class RadMedia extends Vue {
         case Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT:
         case Hls.ErrorDetails.FRAG_LOAD_TIMEOUT:
         case Hls.ErrorDetails.LEVEL_LOAD_TIMEOUT:
-          this.showMessage({
-            type: ModalType.ERROR,
-            buttons: [this.$t("general.ok") as string],
-            title: this.$t("general.error.timeout.title") as string,
-            message: this.$t("general.error.timeout.description") as string,
+          this.showErrorMessage({
+            title: this.$t("general.error.timeout.title"),
+            message: this.$t("general.error.timeout.description"),
           });
 
           break;
 
         default:
-          this.showMessage({
-            type: ModalType.ERROR,
-            buttons: [this.$t("general.ok") as string],
-            title: this.$t("general.error.hlsGeneric.title") as string,
+          this.showErrorMessage({
+            title: this.$t("general.error.hlsGeneric.title"),
             message: this.$t("general.error.hlsGeneric.description", [
               (this.station as Station).name,
               this.$t(
@@ -322,7 +332,7 @@ export default class RadMedia extends Vue {
                     : "other"
                 }`
               ),
-            ]) as string,
+            ]),
           });
       }
 
@@ -334,10 +344,20 @@ export default class RadMedia extends Vue {
 </script>
 
 <style scoped>
+#media-container {
+  background-size: contain;
+  background: #000 no-repeat center;
+}
 video {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display: block;
   pointer-events: none;
 }
-
+video::-webkit-media-controls {
+  display: none;
+}
 .spin-container {
   position: absolute;
   display: flex;

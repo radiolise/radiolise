@@ -1,11 +1,6 @@
 <template>
-  <div
-    style="cursor: pointer; display: table; table-layout: fixed; width: 100%"
-    class="result"
-    :class="{ selected }"
-    @click="toggleSelection()"
-  >
-    <div class="checkmark highlighted" style="display: table-cell">
+  <div class="result" :class="{ selected }" @click="toggleSelection()">
+    <div class="check-mark highlighted">
       <font-awesome-icon icon="check" style="margin-left: 10px" />
     </div>
     <div style="padding: 10px; margin-bottom: 10px; display: table-cell">
@@ -31,3 +26,27 @@ export default class RadResult extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.result {
+  cursor: pointer;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  transition: background 0.2s;
+}
+.result:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+.check-mark {
+  display: table-cell;
+  opacity: 0;
+  width: 0;
+  transition-property: opacity, width;
+  transition-duration: 0.2s;
+}
+.selected .check-mark {
+  opacity: 1;
+  width: 25px;
+}
+</style>

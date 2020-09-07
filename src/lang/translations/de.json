@@ -165,7 +165,7 @@
         "description": "Umschalten zu einem anderen Sender je nach seiner Position in der aktuellen Liste."
       }
     },
-    "onScreenHints": {
+    "onScreenToasts": {
       "volume": "Lautstärke: {0}%",
       "noVideoStream": "Kein Video-Stream",
       "playingPrevious": "Spiele vorigen ab: {0}",

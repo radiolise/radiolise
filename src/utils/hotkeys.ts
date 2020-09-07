@@ -23,11 +23,11 @@ const keyBindings: Record<string, KeyBinding> = {
   "-": {
     alias: "–",
     trigger(context) {
-      const { adjustVolume, showHint } = context;
+      const { adjustVolume, showToast } = context;
       adjustVolume(-0.1);
 
-      showHint({
-        message: context.$t("hotkeys.onScreenHints.volume", [
+      showToast({
+        message: context.$t("hotkeys.onScreenToasts.volume", [
           context.volume * 100,
         ]) as string,
       });
@@ -37,11 +37,11 @@ const keyBindings: Record<string, KeyBinding> = {
   "+": {
     alias: "+",
     trigger(context) {
-      const { adjustVolume, showHint } = context;
+      const { adjustVolume, showToast } = context;
       adjustVolume(+0.1);
 
-      showHint({
-        message: context.$t("hotkeys.onScreenHints.volume", [
+      showToast({
+        message: context.$t("hotkeys.onScreenToasts.volume", [
           context.volume * 100,
         ]) as string,
       });
@@ -50,22 +50,29 @@ const keyBindings: Record<string, KeyBinding> = {
 
   " ": {
     alias: " ",
-    trigger({ toggleStation }) {
-      toggleStation();
+    trigger(context) {
+      const { toggleStation, showToast } = context;
+
+      toggleStation().catch(() => {
+        showToast({
+          icon: "exclamation-triangle",
+          message: context.$t("general.listEmpty[0]") as string,
+        });
+      });
     },
   },
 
   f: {
     alias: "F",
     trigger(context) {
-      const { hasVideo, toggleFullscreen, showHint } = context;
+      const { hasVideo, toggleFullscreen, showToast } = context;
 
       if (hasVideo) {
         toggleFullscreen();
       } else {
-        showHint({
+        showToast({
           icon: "exclamation-triangle",
-          message: context.$t("hotkeys.onScreenHints.noVideoStream") as string,
+          message: context.$t("hotkeys.onScreenToasts.noVideoStream") as string,
         });
       }
     },
@@ -86,11 +93,11 @@ const keyBindings: Record<string, KeyBinding> = {
     alias: "P",
     trigger(context) {
       if (context.currentStation !== undefined) {
-        const { playClosestStation, showHint } = context;
+        const { playClosestStation, showToast } = context;
         playClosestStation(false);
 
-        showHint({
-          message: context.$t("hotkeys.onScreenHints.playingPrevious", [
+        showToast({
+          message: context.$t("hotkeys.onScreenToasts.playingPrevious", [
             context.currentStation.name,
           ]) as string,
         });
@@ -102,11 +109,11 @@ const keyBindings: Record<string, KeyBinding> = {
     alias: "N",
     trigger(context) {
       if (context.currentStation !== undefined) {
-        const { playClosestStation, showHint } = context;
+        const { playClosestStation, showToast } = context;
         playClosestStation(true);
 
-        showHint({
-          message: context.$t("hotkeys.onScreenHints.playingNext", [
+        showToast({
+          message: context.$t("hotkeys.onScreenToasts.playingNext", [
             context.currentStation.name,
           ]) as string,
         });

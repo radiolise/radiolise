@@ -1,10 +1,10 @@
 <template>
   <div
-    class="dropdownMenu"
-    :class="{ isList: !isMenu, flexAlign, disabled: !enabled }"
+    class="dropdown-menu"
+    :class="{ 'is-list': !isMenu, 'flex-align': flexAlign, disabled: !enabled }"
   >
-    <div class="wrapper" :class="{ fixedHeight: !isMenu }">
-      <div v-if="!isMenu" class="dropdownLabel covering">
+    <div class="wrapper" :class="{ 'fixed-height': !isMenu }">
+      <div v-if="!isMenu" class="dropdown-label covering">
         <template v-if="loaded">
           {{ currentOption.name }}
           <span
@@ -43,7 +43,7 @@
           {{ action }}
         </option>
       </select>
-      <div v-if="isMenu" class="dropdownLabel"><slot /></div>
+      <div v-if="isMenu" class="dropdown-label"><slot /></div>
     </div>
   </div>
 </template>
@@ -113,27 +113,23 @@ export default class RadDropdown extends Vue {
 </script>
 
 <style scoped>
-.dropdownMenu {
+.dropdown-menu {
   display: inline-block;
   max-width: 200px;
 }
-
-.dropdownMenu.isList,
-.dropdownMenu.flexAlign {
+.dropdown-menu.is-list,
+.dropdown-menu.flex-align {
   font-size: 18px;
 }
-
-.dropdownMenu.flexAlign {
+.dropdown-menu.flex-align {
   width: 42px;
   height: 42px;
 }
-
-.dropdownMenu.flexAlign .dropdownLabel {
+.dropdown-menu.flex-align .dropdown-label {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .wrapper {
   position: relative;
   display: inline-block;
@@ -142,17 +138,14 @@ export default class RadDropdown extends Vue {
   height: 100%;
   overflow: hidden;
 }
-
 .wrapper,
 select {
   cursor: pointer;
 }
-
-.wrapper.fixedHeight {
+.wrapper.fixed-height {
   height: 25px;
 }
-
-.dropdownLabel {
+.dropdown-label {
   white-space: nowrap;
   width: 100%;
   height: 100%;
@@ -160,11 +153,9 @@ select {
   pointer-events: none;
   user-select: none;
 }
-
-.dropdownLabel.covering {
+.dropdown-label.covering {
   border-bottom: 2px solid #aaa;
 }
-
 select {
   font-size: 18px;
   font-family: Fira Sans, sans-serif;
@@ -176,29 +167,23 @@ select {
   border: none;
   appearance: none;
 }
-
 select.covering {
   height: 100%;
 }
-
 select + div path {
   opacity: 0.7;
   transition: opacity 0.2s;
 }
-
 select:hover + div path {
   opacity: 1;
 }
-
 .covering {
   position: absolute;
 }
-
-.dropdownMenu.disabled {
+.dropdown-menu.disabled {
   opacity: 0.5;
 }
-
-.dropdownMenu.disabled select {
+.dropdown-menu.disabled select {
   cursor: not-allowed;
 }
 </style>

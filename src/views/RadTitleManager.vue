@@ -4,7 +4,7 @@
       <font-awesome-icon icon="history" fixed-width />
       {{ $t("titleManager.title") }}
     </h3>
-    <button id="showrecent" @click="showTitles = !showTitles">
+    <button @click="showTitles = !showTitles">
       <font-awesome-icon
         icon="chevron-down"
         fixed-width
@@ -12,7 +12,7 @@
       />
       {{ $t("titleManager.recentTitles") }}
     </button>
-    <div id="recent" v-show-slide="showTitles" style="text-align: left">
+    <div v-show-slide="showTitles" style="text-align: left">
       <div
         v-if="history.length === 0"
         style="padding: 15px 0; text-align: center"
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div style="display: table; width: 100%">
-      <button id="showbookmarks" @click="showBookmarks = !showBookmarks">
+      <button @click="showBookmarks = !showBookmarks">
         <font-awesome-icon
           icon="chevron-down"
           fixed-width
@@ -51,7 +51,7 @@
         /></a>
       </div>
     </div>
-    <div id="favorites" v-show-slide="showBookmarks" style="text-align: left">
+    <div v-show-slide="showBookmarks" style="text-align: left">
       <div
         v-if="Object.keys(bookmarks).length === 0"
         style="padding: 15px 0; text-align: center"
@@ -61,7 +61,7 @@
       <div v-else style="display: flex; flex-direction: column-reverse">
         <div v-for="(titles, month) in bookmarks" :key="month">
           <div
-            class="monthseparator"
+            class="month-separator"
             style="margin: 10px 0; padding: 5px 10px; font-size: 20px; font-weight: bold; opacity: .7"
           >
             {{ month }}
@@ -129,3 +129,9 @@ export default class RadTitleManager extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.fa-chevron-down {
+  transition: transform 0.3s;
+}
+</style>

@@ -60,7 +60,7 @@
         <rad-player>
           <rad-media />
         </rad-player>
-        <div id="maincontrols">
+        <div id="main-controls">
           <div style="text-align: left; padding-top: 40px">
             <rad-list-menu />
             <div v-if="currentList.length === 0">

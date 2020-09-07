@@ -6,11 +6,11 @@
       colorful,
       dialog,
       dragging,
-      fixedPlayer,
+      'fixed-player': fixedPlayer,
       fullscreen,
-      hasVideo,
-      noTransitions: !transitions,
-      noNavbar: !navbarShown,
+      'has-video': hasVideo,
+      'no-transitions': !transitions,
+      'no-navbar': !navbarShown,
     }"
     :style="{
       width: scrollbarWidth,
@@ -126,9 +126,9 @@ export default class App extends Mixins(ColorChanger, Hotkeys, LikeHelper) {
   @Watch("noOverflow", { immediate: true })
   setOverflowAllowed(noOverflow: boolean): void {
     if (noOverflow) {
-      document.body.classList.add("noOverflow");
+      document.body.classList.add("no-overflow");
     } else {
-      document.body.classList.remove("noOverflow");
+      document.body.classList.remove("no-overflow");
     }
   }
 

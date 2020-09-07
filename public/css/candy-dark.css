@@ -1,5 +1,5 @@
 :root {
-  --themecolor: cornflowerblue;
+  --theme-color: cornflowerblue;
 }
 #app,
 .slider {
@@ -8,39 +8,39 @@
 .slider > div {
   background: #c6c6c6;
 }
-.hr {
-  border-bottom-color: rgba(255, 255, 255, 0.333);
+hr {
+  background: rgba(255, 255, 255, 0.333);
 }
 @media screen and (max-width: 820px) {
-  #app:not(.hasVideo) #video:not(.fs) .videobar {
-    border-bottom: 3px solid var(--themecolor);
+  #app:not(.has-video) #video:not(.fs) .media-controls {
+    border-bottom: 3px solid var(--theme-color);
   }
 }
 main > div {
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
   background: #444;
-  border-bottom: 3px solid var(--themecolor);
+  border-bottom: 3px solid var(--theme-color);
   border-radius: 10px 0 10px 0;
 }
 .label {
   background: #555;
 }
 #drawers .label:not(.highlighted),
-.dropzone {
+.drop-zone {
   background: #ddd;
 }
-.videobar,
+.media-controls,
 nav,
 #app.fullscreen {
   background: #444;
 }
 nav,
-nav .videobar {
-  border-bottom: 3px solid var(--themecolor);
+nav .media-controls {
+  border-bottom: 3px solid var(--theme-color);
 }
 nav,
 #video,
-nav .videobar {
+nav .media-controls {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 #video {
@@ -51,24 +51,22 @@ a,
 nav > div > span > span,
 nav > div > div > button,
 input[type="number"],
-.videobar,
-#tomove,
+.media-controls,
 #logo {
   color: #fff;
 }
 #drawers a,
-#learnmore > div:nth-child(3) > div > span,
 #query,
-#findstation {
+#find-station {
   color: #000;
 }
 main > div {
   color: #fff;
 }
 #video {
-  border-top: 3px solid var(--themecolor);
+  border-top: 3px solid var(--theme-color);
 }
-#hint > div {
+#toast > div {
   background: #fff;
   color: #000;
 }
@@ -81,32 +79,27 @@ input,
 #drawers button {
   color: #000;
 }
-.stationRow.dragging {
+.station-row.dragging {
   background: #3d3d3d;
 }
 #drawers,
-#footer,
-#addfooter {
+#bottom-drawer {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   color: #000;
 }
 input:not(#query) {
-  border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
 }
-#search > div > div:nth-child(1),
+#search > :nth-child(4) > :first-child,
 #drawers input:not(#query),
-.monthseparator {
-  border-bottom: 2px solid rgba(0, 0, 0, 0.5) !important;
+.month-separator {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
 }
-#volumeline,
-#volumecircle {
-  background: #eee;
+#progress-bar {
+  background: var(--theme-color);
 }
-#progressbar {
-  background: var(--themecolor);
-}
-.hotkeyTile {
+.hotkey-tile {
   background: rgba(0, 0, 0, 0.1);
 }
 .modal {

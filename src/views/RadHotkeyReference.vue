@@ -1,18 +1,20 @@
 <template>
-  <rad-drawer id="hotkeyRef">
+  <rad-drawer>
     <h3>
       <font-awesome-icon icon="keyboard" fixed-width />
       {{ $t("hotkeys.title") }}
     </h3>
     <div class="content">
-      <div v-for="key in bindingAliases" :key="key" class="hotkeyItem">
+      <div v-for="key in bindingAliases" :key="key" class="hotkey-item">
         <div>
-          <div class="hotkeyTile">
+          <div class="hotkey-tile">
             <span>{{ key }}</span>
           </div>
-          <span v-if="key === ' '" :class="{ spacebarLabel: key === ' ' }">{{
-            $t("hotkeys.space")
-          }}</span>
+          <span
+            v-if="key === ' '"
+            :class="{ 'space-bar-label': key === ' ' }"
+            >{{ $t("hotkeys.space") }}</span
+          >
         </div>
         <div>
           <div class="name">
@@ -50,42 +52,35 @@ export default class RadHotkeyReference extends Vue {
   display: table;
   text-align: left;
 }
-
-.hotkeyItem {
+.hotkey-item {
   display: table-row;
   margin: 10px 0;
 }
-
-.hotkeyItem > :first-child {
+.hotkey-item > :first-child {
   font-size: 20px;
   white-space: nowrap;
   text-align: center;
   vertical-align: top;
   padding: 8px 10px;
 }
-
-.hotkeyTile {
+.hotkey-tile {
   margin: 5px 0 0 auto;
   border-radius: 5px;
   display: table;
   width: 40px;
   height: 35px;
 }
-
-.hotkeyTile span {
+.hotkey-tile span {
   display: table-cell;
   vertical-align: middle;
 }
-
-.spacebarLabel {
+.space-bar-label {
   font-size: 12px;
 }
-
-.hotkeyItem > div {
+.hotkey-item > div {
   display: table-cell;
   padding: 10px 10px 10px 0;
 }
-
 .name {
   font-size: 20px;
   margin-bottom: 5px;

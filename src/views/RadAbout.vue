@@ -1,29 +1,31 @@
 <template>
-  <rad-drawer id="about">
+  <rad-drawer>
     <br />
     <div
       class="logo"
-      @mouseenter="logoHovered = true"
-      @mouseleave="logoHovered = false"
+      @mouseenter="versionShown = true"
+      @mouseleave="versionShown = false"
+      @touchstart="versionShown = !versionShown"
     >
       <div>
-        <img src="@/assets/img/logo.svg" /><span>{{ appTitle }}</span>
+        <img src="@/assets/img/logo.svg" alt="Logo" /><span>{{
+          appTitle
+        }}</span>
       </div>
       <div
-        v-show-slide="logoHovered"
+        v-show-slide="versionShown"
         class="version"
-        :class="{ visible: logoHovered }"
+        :class="{ visible: versionShown }"
       >
         <span><font-awesome-icon icon="code-branch" /> {{ version }}</span>
       </div>
     </div>
     <br />
-    <div id="infotext">
+    <div>
       <p>{{ copyright }}</p>
       <i18n class="text-left" path="about.licenseInfo" tag="p">
         {{ appTitle }}
         <a
-          class="btn-link white"
           href="https://www.gnu.org/philosophy/free-sw.html"
           target="_blank"
           rel="noopener"
@@ -57,7 +59,6 @@
         <font-awesome-icon icon="external-link-alt" fixed-width
       /></a>
     </p>
-    <a href="js/LICENSES.html" rel="jslicense" />
   </rad-drawer>
 </template>
 
@@ -76,7 +77,7 @@ export default class RadAbout extends Vue {
   copyright = process.env.VUE_APP_COPYRIGHT;
   repoUrl = process.env.VUE_APP_REPO;
   issuesUrl = process.env.VUE_APP_ISSUES;
-  logoHovered = false;
+  versionShown = false;
 }
 </script>
 

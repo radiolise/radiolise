@@ -9,10 +9,10 @@ export default class DragHelper extends Vue {
 
   @Prop({ type: Number, required: true }) readonly index!: number;
 
-  @Ref() readonly stationRow!: HTMLTableRowElement;
+  @Ref("station-row") readonly stationRow!: HTMLTableRowElement;
 
   @Getter readonly currentList!: Station[];
-  @Getter readonly sortIndex!: number;
+  @Getter readonly sortIndex!: number | undefined;
 
   @Action moveStation!: (payload: {
     index: number;

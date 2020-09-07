@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="menuButtons">
+    <div class="menu-buttons">
       <router-link v-if="!isMenu" to="/menu">
         <font-awesome-icon icon="bars" fixed-width size="lg" />
       </router-link>
@@ -23,7 +23,7 @@ export default class RadDrawer extends Vue {
 </script>
 
 <style scoped>
-.menuButtons {
+.menu-buttons {
   float: right;
 }
 </style>

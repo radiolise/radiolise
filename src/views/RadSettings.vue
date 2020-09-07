@@ -1,5 +1,5 @@
 <template>
-  <rad-drawer id="settings">
+  <rad-drawer>
     <h3>
       <font-awesome-icon icon="cog" fixed-width /> {{ $t("general.settings") }}
     </h3>
@@ -9,12 +9,11 @@
       @submit.prevent="handleSubmit()"
       @keypress.enter.prevent="handleEnterPressed"
     >
-      <div v-if="settings !== null" id="controlpanel">
+      <div v-if="settings !== null" id="control-panel">
         <div>
           <strong>{{ $tc("settings.theme", 1) }}</strong
           >:
           <rad-dropdown
-            id="theme"
             v-model="settings.theme"
             :label="$tc('settings.theme', 0)"
             :data="[
@@ -23,7 +22,7 @@
             ]"
           />
         </div>
-        <div id="descriptions">
+        <div>
           <span class="description">{{
             $t(`settings.themes.${settings.theme}`)
           }}</span>
@@ -51,10 +50,9 @@
             {{ $t("settings.colorChange.description") }}
           </template>
         </rad-check>
-        <rad-check id="pseudovsl" v-model="settings.visualization">
+        <rad-check id="visualization-setting" v-model="settings.visualization">
           {{ $t("settings.visualization.name") }}
           <font-awesome-icon
-            class="toosmall"
             icon="exclamation-triangle"
             :title="$t('settings.visualization.screenWidthIssue')"
           />
@@ -103,7 +101,6 @@
         <div>
           <strong>{{ $t("settings.volume") }}</strong> (%):
           <input
-            id="defaultvolume"
             v-model.number="settings.volume"
             type="number"
             min="0"
@@ -117,7 +114,6 @@
           <strong>{{ $tc("general.language", 1) }}</strong
           >:
           <rad-dropdown
-            id="locales"
             v-model="settings.language"
             :label="$tc('general.language', 0)"
             :data="locales"
@@ -125,10 +121,10 @@
         </div>
       </div>
       <div class="text-right">
-        <router-link id="discardsettings" class="button" to="/">
+        <router-link class="button" to="/">
           <font-awesome-icon icon="ban" /> {{ $t("settings.discard") }}
         </router-link>
-        <a id="applysettings" class="button" @click="form.submit.click()">
+        <a class="button" @click="form.submit.click()">
           <font-awesome-icon icon="check" />
           {{ $t("general.apply") }}
         </a>
@@ -137,19 +133,19 @@
     </form>
     <div style="display: table; margin: 10px auto">
       <div style="float: left; margin: 5px 10px">
-        <a id="reset" href="#/settings" @click="reset()"
+        <a href="#/settings" @click="reset()"
           ><font-awesome-icon icon="undo" fixed-width />{{
             $t("settings.reset")
           }}</a
         ><br />
       </div>
       <div style="float: right; margin: 5px 10px">
-        <router-link id="import" to="/import-wizard/settings">
+        <router-link to="/import-wizard/settings">
           <font-awesome-icon icon="upload" fixed-width />{{
             $t("settings.import")
           }}</router-link
         ><br />
-        <a id="export" href="#/settings" @click="exportSettings()"
+        <a href="#/settings" @click="exportSettings()"
           ><font-awesome-icon icon="download" fixed-width />{{
             $t("settings.export")
           }}</a
@@ -255,3 +251,23 @@ export default class RadSettings extends Vue {
   }
 }
 </script>
+
+<style scoped>
+#control-panel {
+  text-align: left;
+}
+#control-panel > div {
+  margin: 20px 0 10px 10px;
+}
+#visualization-setting .fa-exclamation-triangle {
+  display: none;
+}
+@media (max-width: 820px) {
+  #visualization-setting {
+    opacity: 0.5;
+  }
+  #visualization-setting .fa-exclamation-triangle {
+    display: initial;
+  }
+}
+</style>

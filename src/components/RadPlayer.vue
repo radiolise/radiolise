@@ -1,6 +1,6 @@
 <template>
   <div
-    :id="main && 'video'"
+    :id="main ? 'video' : ''"
     ref="container"
     :class="{ hidden: controlsHidden }"
     @mousedown="showControls()"
@@ -8,7 +8,7 @@
     @mousemove="showControls()"
   >
     <slot />
-    <div class="videobar" style="display: table; table-layout: fixed">
+    <div class="media-controls" style="display: table; table-layout: fixed">
       <div style="width: 30px">
         <a
           class="button-primary expand"
@@ -27,25 +27,21 @@
           class="player"
           style="display: table-row; height: 41px; width: 100%; vertical-align: middle"
         >
-          <div
-            v-show="compact"
-            class="mainopts"
-            style="white-space: nowrap; display: table-cell; vertical-align: middle; max-width: 100%; transition: max-width .4s"
-          >
+          <div v-show="compact" class="main-options">
             <a
-              class="button-primary prevstation"
+              class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
               ><font-awesome-icon icon="step-backward" fixed-width/></a
             >&nbsp;<a
-              class="button-primary stop"
+              class="button-primary"
               :title="$t('player.playStop')"
               @click="toggleStation()"
               ><font-awesome-icon
                 :icon="station ? 'stop' : 'play'"
                 fixed-width/></a
             >&nbsp;<a
-              class="button-primary nextstation"
+              class="button-primary next-station"
               :title="$t('player.nextStation')"
               @click="playClosestStation(true)"
               ><font-awesome-icon icon="step-forward" fixed-width
@@ -81,11 +77,7 @@
               </transition>
             </div>
           </div>
-          <div
-            v-show="compact"
-            class="advopts"
-            style="display: table-cell; white-space: nowrap; vertical-align: middle"
-          >
+          <div v-show="compact" class="advanced-options">
             <a
               v-if="station"
               class="button-primary like"
@@ -103,7 +95,7 @@
             /></a>
             &nbsp;
             <rad-router-toggle
-              class="button-primary showhistory"
+              class="button-primary"
               :title="$t('general.manageTitles')"
               to="/title-manager"
             >
@@ -123,7 +115,7 @@
                 style="vertical-align: super"
             /></a>
           </div>
-          <div v-if="hasVideo" class="fsdiv">
+          <div v-if="hasVideo" class="fullscreen-button-container">
             {{ "\xa0"
             }}<a
               class="button-primary fullscreen"
@@ -135,8 +127,8 @@
             /></a>
           </div>
         </div>
-        <div v-if="main" id="infobox" v-show-slide="!fullscreen && expanded">
-          <div class="hr" />
+        <div v-if="main" id="info-box" v-show-slide="!fullscreen && expanded">
+          <hr />
           <div id="tags" v-show-slide="!!station" style="margin: 10px 5px 0">
             <div v-if="station" style="padding-bottom: 10px">
               <span class="label">{{ station.country }}</span>
@@ -150,19 +142,19 @@
             style="white-space: nowrap; padding: 10px 0; vertical-align: middle"
           >
             <a
-              class="button-primary prevstation"
+              class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
               ><font-awesome-icon icon="step-backward" fixed-width/></a
             >&nbsp;<a
-              class="button-primary stop"
+              class="button-primary"
               :title="$t('player.playStop')"
               @click="toggleStation()"
               ><font-awesome-icon
                 :icon="station ? 'stop' : 'play'"
                 fixed-width/></a
             >&nbsp;<a
-              class="button-primary nextstation"
+              class="button-primary next-station"
               :title="$t('player.nextStation')"
               @click="playClosestStation(true)"
               ><font-awesome-icon icon="step-forward" fixed-width
@@ -224,7 +216,7 @@
             </div>
             <div>
               <div style="padding-top: 10px">
-                <rad-router-toggle class="showhistory" to="/title-manager">
+                <rad-router-toggle to="/title-manager">
                   <font-awesome-icon
                     icon="history"
                     fixed-width
@@ -297,7 +289,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
   @Action likeStation!: (id: string) => Promise<void>;
   @Action playClosestStation!: (forward: boolean) => Promise<void>;
   @Action toggleFullscreen!: () => Promise<void>;
-  @Action toggleStation!: () => Promise<void>;
+  @Action("toggleStation") _toggleStation!: () => Promise<void>;
 
   get main(): boolean {
     return "default" in this.$slots;
@@ -434,5 +426,130 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
       }, 3000);
     }
   }
+
+  toggleStation(): void {
+    this._toggleStation().catch(() => {
+      this.showToast({
+        icon: "exclamation-triangle",
+        message: this.$t("general.listEmpty[0]") as string,
+      });
+    });
+  }
 }
 </script>
+
+<style scoped>
+#video {
+  width: calc(100% + 120px);
+  max-width: 100vw;
+  transform: translateX(-60px);
+  position: relative;
+  height: 100%;
+}
+.media-controls {
+  padding: 15px 10px;
+  width: calc(100% - 20px);
+  bottom: 0;
+  text-align: left;
+  display: table;
+  height: 41px;
+  visibility: visible;
+  opacity: 1;
+}
+.hidden {
+  cursor: none;
+}
+.hidden .media-controls {
+  visibility: hidden;
+  opacity: 0;
+  transition-property: opacity, visibility;
+  transition-duration: 0.3s;
+}
+.media-controls > div {
+  display: table-cell;
+  vertical-align: middle;
+}
+.station {
+  width: 100%;
+  max-width: 0;
+  padding: 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 18px;
+}
+.broadcaster {
+  font-weight: bold;
+  line-height: 21px;
+}
+.info {
+  font-size: 17px;
+  line-height: 20px;
+}
+.broadcaster,
+.info > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  transition-property: transform, opacity;
+  transition-duration: 0.3s;
+}
+.info > span.slide-fade-enter,
+.info > span.slide-fade-leave-to {
+  transform: translateX(30px);
+}
+.fullscreen-button-container {
+  display: table-cell;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.main-options {
+  white-space: nowrap;
+  display: table-cell;
+  vertical-align: middle;
+  max-width: 100%;
+  transition: max-width 0.4s;
+}
+.advanced-options {
+  display: table-cell;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+hr {
+  margin-top: 10px;
+  height: 2px;
+  border-width: 0;
+}
+#info-box {
+  font-size: 16px;
+  margin-left: 5px;
+}
+#info-box > :last-child a {
+  display: block;
+  width: 100%;
+  max-width: fit-content;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 820px) {
+  #video {
+    border-top-left-radius: 0;
+  }
+}
+@media (max-width: 680px) {
+  .advanced-options {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  #video {
+    width: calc(100% + 40px);
+    transform: translateX(-20px);
+  }
+}
+@media (max-width: 480px) {
+  .main-options .previous-station,
+  .main-options .next-station {
+    display: none;
+  }
+}
+</style>
