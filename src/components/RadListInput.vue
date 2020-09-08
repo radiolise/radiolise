@@ -11,7 +11,7 @@
       spellcheck="false"
       @focus="handleFocus()"
       @blur="handleBlur()"
-      @keydown.enter="input.blur()"
+      @keydown.enter="handleEnterPress()"
     />
     <div style="display: table-cell; white-space: nowrap; text-align: left">
       <a v-show="active"><font-awesome-icon icon="check" fixed-width/></a>
@@ -51,6 +51,7 @@ export default class RadListInput extends Vue {
 
   @Action changeList!: (index: number) => Promise<void>;
   @Action createList!: (list: StationList) => Promise<void>;
+  @Action allowEnterKey!: (allow: boolean) => Promise<void>;
 
   @Action renameList!: (payload: {
     index: number;
@@ -91,6 +92,11 @@ export default class RadListInput extends Vue {
     if (this.isNewList) {
       this.emitBlur();
     }
+  }
+
+  handleEnterPress(): void {
+    this.input.blur();
+    this.allowEnterKey(false);
   }
 
   rename(): void {

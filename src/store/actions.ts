@@ -685,6 +685,10 @@ const actions: ActionTree<StoreState, StoreState> = {
 
     commit("SET_TOAST", toast);
   },
+
+  allowEnterKey({ commit }, allow: boolean): void {
+    commit("SET_ENTER_KEY_ALLOWED", allow);
+  },
 };
 
 export default actions;

@@ -44,31 +44,32 @@ export interface SearchStats {
 }
 
 export interface StoreState {
-  initialized: boolean;
-  ready: boolean;
-  darkMode: boolean;
   active: boolean;
+  bufferFine: boolean;
   currentInfo?: string;
+  darkMode: boolean;
   editing?: Station;
+  enterKeyAllowed: boolean;
   fixedPlayer: boolean;
   fullscreen: boolean;
   hasVideo: boolean;
+  initialized: boolean;
+  likeState?: LikeState;
   memory: Memory;
   messages: ModalOptions[];
-  toast: Toast | null;
   playerExpanded: boolean;
   playing: boolean;
+  ready: boolean;
   relaxed: boolean;
-  bufferFine: boolean;
-  volume: number;
-  undoableEvent?: UndoableEvent;
-  stationBackup?: Station[];
   searchStats: SearchStats;
   sortMode: {
     index?: number;
     newIndex?: number;
   };
-  likeState?: LikeState;
+  stationBackup?: Station[];
+  toast: Toast | null;
+  undoableEvent?: UndoableEvent;
+  volume: number;
 }
 
 const store = new Vuex.Store({
@@ -87,25 +88,23 @@ const store = new Vuex.Store({
   ],
 
   state: {
-    initialized: false,
-    ready: false,
-    darkMode: false,
     active: false,
-    playing: false,
-    relaxed: false,
     bufferFine: true,
-    playerExpanded: false,
-    hasVideo: false,
-    fullscreen: false,
-    fixedPlayer: false,
-    volume: defaultMemory.settings.volume / 100,
-    editing: undefined,
-    memory: defaultMemory,
     currentInfo: undefined,
+    darkMode: false,
+    editing: undefined,
+    enterKeyAllowed: true,
+    fixedPlayer: false,
+    fullscreen: false,
+    hasVideo: false,
+    initialized: false,
+    likeState: undefined,
+    memory: defaultMemory,
     messages: [],
-    toast: null,
-    undoableEvent: undefined,
-    stationBackup: undefined,
+    playerExpanded: false,
+    playing: false,
+    ready: false,
+    relaxed: false,
     searchStats: {
       added: [],
       removed: [],
@@ -115,7 +114,10 @@ const store = new Vuex.Store({
       index: undefined,
       newIndex: undefined,
     },
-    likeState: undefined,
+    stationBackup: undefined,
+    toast: null,
+    undoableEvent: undefined,
+    volume: defaultMemory.settings.volume / 100,
   },
 
   getters,

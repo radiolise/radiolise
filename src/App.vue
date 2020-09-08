@@ -195,7 +195,11 @@ export default class App extends Mixins(ColorChanger, Hotkeys, LikeHelper) {
 
   detectLocale(): string {
     const preferredLocales = [
-      ...new Set(navigator.languages.map(language => language.substring(0, 2))),
+      ...new Set(
+        [navigator.language, ...navigator.languages].map(language =>
+          language.substring(0, 2)
+        )
+      ),
     ];
 
     const detectedLocale = preferredLocales.find(locale => {

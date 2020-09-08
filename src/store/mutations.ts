@@ -162,6 +162,10 @@ const mutations: MutationTree<StoreState> = {
   SET_LIKE_STATE(state, likeState: LikeState): void {
     state.likeState = likeState;
   },
+
+  SET_ENTER_KEY_ALLOWED(state, enterKeyAllowed: boolean): void {
+    state.enterKeyAllowed = enterKeyAllowed;
+  },
 };
 
 export default mutations;

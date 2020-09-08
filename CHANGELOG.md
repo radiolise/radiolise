@@ -1,4 +1,9 @@
-# Changes in 5.0.0-rc.7 (latest – 2020-09-08)
+# Changes in 5.0.0-rc.8 (latest – 2020-09-09)
+
+- This RC fixes UI issues in Webkit-based browsers (such as Epiphany or Safari).
+- Minor adjustments.
+
+# Changes in [5.0.0-rc.7](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/a858d9b4f6d131d36fdc4f5fda904b49e76dbac8) (2020-09-08)
 
 - Improved algorithm for finding supported station URLs.
 - Major refactoring, including:

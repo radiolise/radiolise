@@ -391,6 +391,7 @@ export default class RadSearch extends Vue {
   font-family: inherit;
   padding: 10px;
   background: none;
+  appearance: none;
 }
 #query::-webkit-search-cancel-button {
   display: none;

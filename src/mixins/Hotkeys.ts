@@ -1,5 +1,5 @@
 import { Component, Vue } from "vue-property-decorator";
-import { Getter, Action } from "vuex-class";
+import { Getter, Action, State } from "vuex-class";
 
 import keyBindings from "@/utils/hotkeys";
 import { ModalOptions } from "@/store";
@@ -13,6 +13,8 @@ interface NumberInput {
 export default class Hotkeys extends Vue {
   numberInput: NumberInput = { input: "", timeout: undefined };
 
+  @State readonly enterKeyAllowed!: boolean;
+
   @Getter readonly currentList!: Station[];
   @Getter readonly currentStation?: Station;
   @Getter readonly hasVideo!: boolean;
@@ -20,6 +22,7 @@ export default class Hotkeys extends Vue {
   @Getter readonly volume!: number;
 
   @Action adjustVolume!: (step: number) => Promise<void>;
+  @Action allowEnterKey!: (allow: boolean) => Promise<void>;
   @Action playClosestStation!: (forward: boolean) => Promise<void>;
   @Action showToast!: (toast: Toast) => Promise<void>;
   @Action toggleFullscreen!: () => Promise<void>;
@@ -114,13 +117,13 @@ export default class Hotkeys extends Vue {
     return false;
   }
 
-  handleKeyUp(event: KeyboardEvent): void {
+  triggerHotkeyAction(event: KeyboardEvent): void {
     if (event.key === "Escape") {
       keyBindings.Escape.trigger(this);
       return;
     }
 
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && this.enterKeyAllowed) {
       this.closeModal();
       return;
     }
@@ -135,6 +138,14 @@ export default class Hotkeys extends Vue {
           keyBindings.number.trigger(this, enteredDigit);
         }
       }
+    }
+  }
+
+  handleKeyUp(event: KeyboardEvent): void {
+    this.triggerHotkeyAction(event);
+
+    if (!this.enterKeyAllowed) {
+      this.allowEnterKey(true);
     }
   }
 }

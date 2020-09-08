@@ -116,6 +116,7 @@ nav > div > div {
 }
 input {
   border-radius: 0;
+  margin: 0;
 }
 input[type="number"] {
   background: transparent;
