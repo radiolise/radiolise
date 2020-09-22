@@ -63,7 +63,7 @@
               </div>
             </transition>
             <div
-              v-show-slide="!!info && animationFinished"
+              v-show-slide="info && animationFinished && !loading"
               class="info"
               :style="{ maxHeight: expanded ? 'none' : '20px' }"
               :title="renderedInfo"
@@ -372,15 +372,13 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
     }
   }
 
-  @Watch("playing")
+  @Watch("broadcaster")
   onPlayingChanged(playing: boolean): void {
-    if (playing) {
-      this.animationFinished = false;
+    this.animationFinished = false;
 
-      setTimeout(() => {
-        this.animationFinished = true;
-      }, 600);
-    }
+    setTimeout(() => {
+      this.animationFinished = true;
+    }, 600);
   }
 
   @Watch("station")

@@ -69,7 +69,7 @@
                     v-if="result.lastcheckok === 0"
                     class="label important"
                     style="font-weight: bold; text-transform: uppercase"
-                    >{{ $t("Broken") }}</span
+                    >{{ $t("search.stationBroken") }}</span
                   >
                   &nbsp;<span
                     v-if="options.order !== 'name'"

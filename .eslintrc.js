@@ -1,3 +1,6 @@
+const failInProductionMode =
+  process.env.NODE_ENV === "production" ? "error" : "off";
+
 module.exports = {
   root: true,
   env: {
@@ -14,8 +17,8 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
+    "no-console": failInProductionMode,
+    "no-debugger": failInProductionMode,
     "@typescript-eslint/no-unused-vars": ["warn", { args: "none" }],
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "off",

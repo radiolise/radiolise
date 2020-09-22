@@ -108,7 +108,7 @@ export default class RadDialogLayer extends Vue {
 
   @State readonly toast!: Toast | null;
 
-  @Getter readonly modalOptions: ModalOptions | undefined;
+  @Getter readonly modalOptions: Required<ModalOptions> | undefined;
 
   get modalTitle(): string {
     return this.modalOptions?.title || (this.$t("general.note") as string);

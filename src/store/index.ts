@@ -56,7 +56,7 @@ export interface StoreState {
   initialized: boolean;
   likeState?: LikeState;
   memory: Memory;
-  messages: ModalOptions[];
+  messages: Required<ModalOptions>[];
   playerExpanded: boolean;
   playing: boolean;
   ready: boolean;

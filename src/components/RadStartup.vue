@@ -26,7 +26,7 @@ import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Action } from "vuex-class";
 
 import { memoryUpgradeNeeded, getMemory, defaultMemory } from "@/utils/memory";
-import download from "@/utils/downloader";
+import saveFile from "@/utils/downloader";
 
 @Component
 export default class RadStartup extends Vue {
@@ -73,7 +73,7 @@ export default class RadStartup extends Vue {
   }
 
   download(): void {
-    download({
+    saveFile({
       name: "MemoryDataCopy",
       type: "txt",
       output: localStorage.data,
@@ -81,13 +81,15 @@ export default class RadStartup extends Vue {
   }
 
   reset(): void {
-    const confirmed = confirm(
-      `Important!
+    const warningMessage = `
+Important!
 
-If you continue now, all saved data, including station lists, settings and bookmarks, will be permanently deleted.
+If you proceed now, all saved data – including station lists, settings and bookmarks – will be permanently deleted.
 
-If you cancel, you can download a copy of the (possibly damaged) storage data beforehand.`
-    );
+If you cancel, you can download a copy of the (possibly corrupted) storage data beforehand.
+`.trim();
+
+    const confirmed = confirm(warningMessage);
 
     if (confirmed) {
       this.startup(defaultMemory);

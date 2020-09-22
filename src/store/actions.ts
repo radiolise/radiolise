@@ -349,7 +349,7 @@ const actions: ActionTree<StoreState, StoreState> = {
 
   adjustVolume({ commit, state }, step: number): void {
     const absoluteVolume = Math.min(Math.max(state.volume + step, 0), 1);
-    const roundedVolume = Math.round(absoluteVolume * 100) / 100;
+    const roundedVolume = Math.round(absoluteVolume * 10) / 10;
 
     if (state.volume !== roundedVolume) {
       commit("SET_VOLUME", roundedVolume);

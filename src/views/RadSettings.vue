@@ -159,7 +159,7 @@
 import { Component, Ref, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
-import download from "@/utils/downloader";
+import saveFile from "@/utils/downloader";
 
 import RadCheck from "@/components/RadCheck.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
@@ -239,7 +239,7 @@ export default class RadSettings extends Vue {
       return;
     }
 
-    download({
+    saveFile({
       name: "Settings",
       type: "txt",
       output: {

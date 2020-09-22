@@ -1,4 +1,19 @@
-# Changes in 5.0.0-rc.8 (latest – 2020-09-09)
+# Changes in 5.0.0 (latest – 2020-09-22)
+
+- Improved hotkey detection; fixed unwanted side effects that could be caused by
+  pressing a hotkey.
+- Network errors which can prevent the search filters from being loaded are now
+  handled correctly.
+- Added missing translation to locales.
+- Fixed further display issues in Webkit-based browsers.
+- If the buffer runs out of data (e. g. due to a slow network connection), the
+  "Loading..." text is now displayed properly.
+- Minor bug fixes and improvements.
+- The changes mentioned so far only refer to the final version of Radiolise 5.
+  See the RC notes below for more information. Most of the breaking changes are
+  stated here: _[Changes in 5.0.0-rc.1](#changes-in-rc1)_.
+
+# Changes in [5.0.0-rc.8](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/d36c13b27733f8302eaee49de97ad077b0c31732) (2020-09-09)
 
 - This RC fixes UI issues in Webkit-based browsers (such as Epiphany or Safari).
 - Minor adjustments.
@@ -58,9 +73,62 @@
   `<head>` section of `public/index.html`.
 - Minor adjustments.
 
+<a name="changes-in-rc1"></a>
+
 # Changes in [5.0.0-rc.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/41e9e78bb77daeacc1f43024be738bc29851f6ce) (2020-07-30)
 
-More information coming soon.
+- The "Chic" theme has been revised and renamed to "Candy".
+- In the search dialog, selected stations are now immediately added to the list
+  and an overview of changes is displayed. The changes are saved and can be
+  undone as long as the search dialog is still open. In this way, the search
+  term can be changed without having to confirm the search and without the need
+  to reopen the dialog.
+- In fullscreen mode, the current station list can now be accessed simply by
+  scrolling down.
+- Hotkey reference added and expanded. The H key leads to an overview of all
+  hotkeys, the M key to the menu.
+- Radiolise now uses the new, improved Radio Browser API and thus UUIDs instead
+  of deprecated ID fields.
+- By default, the color scheme now depends on the configuration of your
+  environment. Changes to the global color scheme are detected automatically.
+- The search options can now be used to find stations with specific tags.
+- Station lists can now be exported as Radiolise files so that they may be
+  imported again later as a backup. There is an import wizard which allows you
+  to restore certain stations from the backup.
+- A sleep timeout can now be defined in the settings, which will stop the
+  current stream after a certain number of minutes.
+- (Improved) Validation of input fields in the Settings component and the
+  station editor.
+- Memory data is now validated and versioned. During startup, the version and
+  validity of the memory data are checked. If an error occurs, Radiolise will
+  now go into "Guru Meditation" mode. In that mode, you should be able to
+  inspect the memory data yourself. There is also a button to reset the entire
+  instance, which puts Radiolise back into a valid state.
+- The search can now be started directly via the list manager. The same goes for
+  list backups, so you don't have to select a list beforehand.
+- Since Radiolise has become independent of jQuery, all animations are now
+  CSS-based.
+- Some parts of the UI have been slightly revised. For instance, the player now
+  has new animations and tries to display the song title first, as this is
+  probably the most relevant info on small screens.
+- The toasts have been reimplemented. In addition, a new FIFO and Promise-based
+  solution for modal dialogs has been introduced. Remember that Radiolise does
+  not use any UI frameworks and therefore I needed to be implement it on my own.
+- Radiolise now supports the Media Session API, which can be used to display
+  metadata in your environment and control playback, e. g. via the lock screen
+  of your Android device or under KDE Plasma, provided the Plasma Browser
+  Integration is installed.
+- A loading indicator is now displayed for the respective entry in the station
+  list while a stream is buffering.
+- The locales have been completely rewritten and now use expressive keys instead
+  of being dependent on the original English text.
+- On the technical side: Radiolise is now written in TypeScript and uses the
+  progressive JavaScript framework Vue.js. In addition, it makes use of the
+  native ES6 module system as well as other modern ES6+ language features. The
+  modules (mostly existing as Vue Single File Components) are bundled using
+  Webpack. ESLint and Prettier are now utilized for static code analysis and
+  formatting. Dependencies are managed via the package manager Yarn.
+- Minor adjustments, bug fixes and improvements.
 
 # Changes in [4.0.1.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/22f8198ba6e560f375652efe721f88df84f98a7e) (2020-02-25)
 

@@ -232,6 +232,7 @@
       "allLanguages": "Alle Sprachen",
       "noCountrySelected": "Bitte wählen Sie zunächst ein Land aus."
     },
+    "stationBroken": "Defekt",
     "reverse": "Ergebnisse in umgekehrter Reihenfolge anzeigen",
     "includeBroken": "Als defekt gekennzeichnete Sender einbeziehen",
     "loading": "Ergebnisse werden geladen…",

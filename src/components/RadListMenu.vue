@@ -46,11 +46,11 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import download from "@/utils/downloader";
+import saveFile from "@/utils/downloader";
 import RadDropdown from "./RadDropdown.vue";
 import RadRouterToggle from "./RadRouterToggle.vue";
 
-import { ModalOptions } from "@/store";
+import { ModalOptions, ModalType } from "@/store";
 
 @Component({
   components: {
@@ -80,6 +80,7 @@ export default class RadListMenu extends Vue {
   downloadList(type: string): void {
     if (this.currentList.length === 0) {
       this.showMessage({
+        type: ModalType.WARNING,
         buttons: [this.$t("general.ok") as string],
         message: this.$t("general.listEmpty[0]") as string,
       });
@@ -87,7 +88,7 @@ export default class RadListMenu extends Vue {
       return;
     }
 
-    let output: Record<string, string | Record<string, Station[]>> | string;
+    let output: object | string;
 
     switch (type) {
       case "txt":
@@ -135,7 +136,7 @@ export default class RadListMenu extends Vue {
         throw new Error(`Unknown output type '${type}'.`);
     }
 
-    download({ name: this.listName, type, output });
+    saveFile({ name: this.listName, type, output });
   }
 }
 </script>

@@ -23,16 +23,17 @@
             {{ $t("search.filters.label") }}:{{ "\xa0" }}
           </div>
           <div style="display: table-cell; width: 100%">
-            <div style="display: none">
+            <div v-if="failedToLoadFilters">
               <div style="display: table">
-                <font-awesome-icon
-                  icon="exclamation-triangle"
-                  fixed-width
-                  style="display: table-cell"
-                />
+                <div style="display: table-cell; white-space: nowrap">
+                  <font-awesome-icon
+                    icon="exclamation-triangle"
+                    fixed-width
+                  />{{ "\xa0" }}
+                </div>
                 <div>
-                  {{ $t("search.optionsUnavailable")
-                  }}<a href="#/search"
+                  {{ $t("search.optionsUnavailable") }}
+                  <a href="#/search" @click="loadFilters()"
                     ><font-awesome-icon icon="redo" fixed-width />{{
                       $t("search.tryAgain")
                     }}</a
@@ -41,39 +42,43 @@
               </div>
               <br />
             </div>
-            <rad-dropdown
-              id="country"
-              v-model="syncedOptions.country"
-              style="width: 100%"
-              :label="$tc('general.country')"
-              :data="filterOptions['countries']"
-              :loaded="filters.countries !== null"
-              @change="updateStates()"
-            />
-            <br />
-            <rad-dropdown
-              id="state"
-              v-model="syncedOptions.state"
-              :title="
-                syncedOptions.country === ''
-                  ? this.$t('search.filters.noCountrySelected')
-                  : ''
-              "
-              style="width: 100%"
-              :disabled="syncedOptions.country === ''"
-              :label="`${this.$tc('general.state')} (${syncedOptions.country})`"
-              :data="filterOptions['states']"
-              :loaded="filters.states !== null"
-            />
-            <br />
-            <rad-dropdown
-              id="language"
-              v-model="syncedOptions.language"
-              style="width: 100%"
-              :label="$tc('general.language')"
-              :data="filterOptions['languages']"
-              :loaded="filters.languages !== null"
-            />
+            <template v-else>
+              <rad-dropdown
+                id="country"
+                v-model="syncedOptions.country"
+                style="width: 100%"
+                :label="$tc('general.country')"
+                :data="filterOptions['countries']"
+                :loaded="filters.countries !== null"
+                @change="updateStates()"
+              />
+              <br />
+              <rad-dropdown
+                id="state"
+                v-model="syncedOptions.state"
+                :title="
+                  syncedOptions.country === ''
+                    ? this.$t('search.filters.noCountrySelected')
+                    : ''
+                "
+                style="width: 100%"
+                :disabled="syncedOptions.country === ''"
+                :label="
+                  `${this.$tc('general.state')} (${syncedOptions.country})`
+                "
+                :data="filterOptions['states']"
+                :loaded="filters.states !== null"
+              />
+              <br />
+              <rad-dropdown
+                id="language"
+                v-model="syncedOptions.language"
+                style="width: 100%"
+                :label="$tc('general.language')"
+                :data="filterOptions['languages']"
+                :loaded="filters.languages !== null"
+              />
+            </template>
           </div>
         </div>
         <div style="padding: 5px 0; display: table-row">
@@ -130,6 +135,7 @@ import RadTagInput from "@/components/RadTagInput.vue";
 })
 export default class RadSearchOptions extends Vue {
   showOptions = false;
+  failedToLoadFilters = false;
 
   filters: Record<string, Filter> = {
     countries: null,
@@ -146,7 +152,7 @@ export default class RadSearchOptions extends Vue {
 
       if (currentItems !== null) {
         filterOptions[filterKind] = [
-          { id: "", name: `${this.noFilterLabels[filterKind]}` },
+          { id: "", name: this.noFilterLabels[filterKind] },
           ...currentItems.map(item => ({ id: item.name, name: item.name })),
         ];
       } else {
@@ -166,13 +172,24 @@ export default class RadSearchOptions extends Vue {
   }
 
   created(): void {
-    setTimeout(async () => {
-      const eventualCountries = fetchCountries();
-      const eventualLanguages = fetchLanguages();
+    setTimeout(this.loadFilters, 300);
+  }
 
+  async loadFilters(): Promise<void> {
+    this.failedToLoadFilters = false;
+    this.syncedOptions.country = "";
+    this.syncedOptions.language = "";
+
+    const eventualCountries = fetchCountries();
+    const eventualLanguages = fetchLanguages();
+
+    try {
       this.filters.countries = await eventualCountries;
       this.filters.languages = await eventualLanguages;
-    }, 300);
+      this.updateStates();
+    } catch {
+      this.failedToLoadFilters = true;
+    }
   }
 
   async updateStates(): Promise<void> {
@@ -180,7 +197,11 @@ export default class RadSearchOptions extends Vue {
 
     if (this.syncedOptions.country !== "") {
       this.filters.states = null;
-      this.filters.states = await fetchStates(this.syncedOptions.country);
+      try {
+        this.filters.states = await fetchStates(this.syncedOptions.country);
+      } catch {
+        this.failedToLoadFilters = true;
+      }
     } else {
       this.filters.states = [];
     }

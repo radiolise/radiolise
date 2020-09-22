@@ -24,10 +24,10 @@
         :class="{ covering: isMenu }"
         @change="handleChange()"
       >
-        <option v-if="isMenu" value="" hidden disabled selected>
-          Please select...
-        </option>
         <optgroup :label="label">
+          <option v-if="isMenu" value="" hidden disabled selected>
+            Please select...
+          </option>
           <option v-for="(item, index) in data" :key="index" :value="item.id">
             {{ item.name }}
             <template v-if="item.description !== undefined">

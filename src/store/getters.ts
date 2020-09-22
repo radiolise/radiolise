@@ -81,7 +81,7 @@ const getters: GetterTree<StoreState, StoreState> = {
     return state.editing;
   },
 
-  modalOptions(state): ModalOptions | undefined {
+  modalOptions(state): Required<ModalOptions> | undefined {
     return state.messages[0];
   },
 

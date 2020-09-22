@@ -95,7 +95,7 @@ const mutations: MutationTree<StoreState> = {
     state.volume = volume;
   },
 
-  PUSH_MESSAGE(state, options: ModalOptions): void {
+  PUSH_MESSAGE(state, options: Required<ModalOptions>): void {
     state.messages.push(options);
   },
 

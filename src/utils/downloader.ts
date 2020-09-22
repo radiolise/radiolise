@@ -24,7 +24,7 @@ async function provideFile({ name, type, output }: FileInfo): Promise<void> {
   FileSaver.saveAs(new Blob([output], { type: mimeType }), fileName);
 }
 
-async function download({ name, type, output }: FileInfo): Promise<void> {
+async function saveFile({ name, type, output }: FileInfo): Promise<void> {
   if (typeof output === "string") {
     provideFile({ name, type, output });
   } else {
@@ -33,4 +33,4 @@ async function download({ name, type, output }: FileInfo): Promise<void> {
   }
 }
 
-export default download;
+export default saveFile;

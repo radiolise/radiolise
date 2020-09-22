@@ -232,6 +232,7 @@
       "allLanguages": "Toutes les langues",
       "noCountrySelected": "Veuillez d’abord choisir un pays."
     },
+    "stationBroken": "Non fonctionnelle",
     "reverse": "Afficher les résultats dans l’ordre inverse",
     "includeBroken": "Inclure les stations marquées comme non fonctionnelles",
     "loading": "Chargement des résultats…",

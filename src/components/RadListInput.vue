@@ -34,7 +34,7 @@
 import { Component, Emit, Prop, Ref, Watch, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
-import download from "@/utils/downloader";
+import saveFile from "@/utils/downloader";
 import { ModalOptions, ModalType } from "@/store";
 
 @Component
@@ -138,6 +138,7 @@ export default class RadListInput extends Vue {
   download(): void {
     if (this.content.length === 0) {
       this.showMessage({
+        type: ModalType.WARNING,
         buttons: [this.$t("general.ok") as string],
         message: this.$t("general.listEmpty[0]") as string,
       });
@@ -145,7 +146,7 @@ export default class RadListInput extends Vue {
       return;
     }
 
-    download({
+    saveFile({
       name: this.name,
       type: "txt",
       output: {

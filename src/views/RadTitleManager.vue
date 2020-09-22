@@ -88,7 +88,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import Moment from "moment";
 import { State } from "vuex-class";
-import download from "@/utils/downloader";
+import saveFile from "@/utils/downloader";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadTitleRow from "@/components/RadTitleRow.vue";
 
@@ -125,7 +125,7 @@ export default class RadTitleManager extends Vue {
   }
 
   exportBookmarks(): void {
-    download({ name: "Bookmarks", type: "txt", output: this.bookmarks });
+    saveFile({ name: "Bookmarks", type: "txt", output: this.bookmarks });
   }
 }
 </script>

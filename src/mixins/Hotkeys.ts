@@ -18,7 +18,7 @@ export default class Hotkeys extends Vue {
   @Getter readonly currentList!: Station[];
   @Getter readonly currentStation?: Station;
   @Getter readonly hasVideo!: boolean;
-  @Getter readonly modalOptions: ModalOptions | undefined;
+  @Getter readonly modalOptions: Required<ModalOptions> | undefined;
   @Getter readonly volume!: number;
 
   @Action adjustVolume!: (step: number) => Promise<void>;
@@ -29,8 +29,12 @@ export default class Hotkeys extends Vue {
   @Action toggleStation!: (station?: Station) => Promise<void>;
 
   created(): void {
-    window.addEventListener("keydown", this.handleKeyDown);
-    window.addEventListener("keyup", this.handleKeyUp);
+    document.addEventListener("keydown", event => {
+      this.triggerHotkeyAction(event);
+      if (!this.enterKeyAllowed) {
+        this.allowEnterKey(true);
+      }
+    });
   }
 
   finishNumberInput(index: number): void {
@@ -84,13 +88,10 @@ export default class Hotkeys extends Vue {
     }
   }
 
-  handleKeyDown(event: KeyboardEvent): void {
-    if (event.key === " " && document.activeElement?.tagName !== "INPUT") {
-      event.preventDefault();
-    }
-  }
-
   isHotkeyAllowed(event: KeyboardEvent): boolean {
+    if (event.key === "Escape") {
+      return true;
+    }
     return (
       document.hasFocus &&
       document.activeElement?.tagName !== "INPUT" &&
@@ -104,11 +105,7 @@ export default class Hotkeys extends Vue {
   closeModal(): boolean {
     if (this.modalOptions !== undefined) {
       if (this.modalOptions.closeable) {
-        const handleButtonClicked = this.modalOptions.handleButtonClicked as (
-          button: number
-        ) => void;
-
-        handleButtonClicked(0);
+        this.modalOptions.handleButtonClicked(0);
       }
 
       return true;
@@ -118,34 +115,35 @@ export default class Hotkeys extends Vue {
   }
 
   triggerHotkeyAction(event: KeyboardEvent): void {
-    if (event.key === "Escape") {
-      keyBindings.Escape.trigger(this);
-      return;
-    }
+    switch (event.key) {
+      case " ": {
+        if (document.activeElement?.tagName !== "INPUT") {
+          event.preventDefault();
+          keyBindings[" "].trigger(this);
+        }
+        return;
+      }
+      case "Enter": {
+        if (this.enterKeyAllowed) {
+          this.closeModal();
+        }
+        return;
+      }
+      default: {
+        if (this.isHotkeyAllowed(event)) {
+          if (event.key in keyBindings) {
+            event.preventDefault();
+            keyBindings[event.key].trigger(this);
+            return;
+          }
 
-    if (event.key === "Enter" && this.enterKeyAllowed) {
-      this.closeModal();
-      return;
-    }
+          const enteredDigit = Number(event.key);
 
-    if (this.isHotkeyAllowed(event)) {
-      if (event.key in keyBindings) {
-        keyBindings[event.key].trigger(this);
-      } else {
-        const enteredDigit = Number(event.key);
-
-        if (!Number.isNaN(enteredDigit)) {
-          keyBindings.number.trigger(this, enteredDigit);
+          if (!Number.isNaN(enteredDigit)) {
+            keyBindings.number.trigger(this, enteredDigit);
+          }
         }
       }
-    }
-  }
-
-  handleKeyUp(event: KeyboardEvent): void {
-    this.triggerHotkeyAction(event);
-
-    if (!this.enterKeyAllowed) {
-      this.allowEnterKey(true);
     }
   }
 }

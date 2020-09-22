@@ -53,7 +53,7 @@
       "goOnline": "Please make sure that you are online.",
       "fileNotSupported": {
         "title": "File not supported",
-        "description": "The selected file was not created with this version of {0} or is corrupt."
+        "description": "The selected file was not created with this version of {0} or is corrupted."
       },
       "networkIssue": {
         "title": "Network error",
@@ -232,6 +232,7 @@
       "allLanguages": "All languages",
       "noCountrySelected": "Please select a country first."
     },
+    "stationBroken": "Broken",
     "reverse": "Show results in reverse order",
     "includeBroken": "Include stations marked as broken",
     "loading": "Loading results…",

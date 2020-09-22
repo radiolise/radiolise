@@ -20,6 +20,9 @@
 #app.no-transitions *::after {
   transition: none !important;
 }
+:root {
+  cursor: default;
+}
 body {
   font-family: Fira Sans, sans-serif;
   margin: 0;
@@ -62,6 +65,9 @@ h2 {
 }
 button {
   font-family: inherit;
+}
+input, button {
+  margin: 0;
 }
 a {
   white-space: nowrap;
@@ -116,7 +122,6 @@ nav > div > div {
 }
 input {
   border-radius: 0;
-  margin: 0;
 }
 input[type="number"] {
   background: transparent;

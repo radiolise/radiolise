@@ -43,6 +43,8 @@ import RadRelaxCaption from "./components/RadRelaxCaption.vue";
 import RadStartup from "./components/RadStartup.vue";
 import RadVisualization from "./components/RadVisualization.vue";
 
+const HelperMixins = Mixins(ColorChanger, Hotkeys, LikeHelper);
+
 @Component({
   components: {
     RadDialogLayer,
@@ -52,7 +54,7 @@ import RadVisualization from "./components/RadVisualization.vue";
     RadVisualization,
   },
 })
-export default class App extends Mixins(ColorChanger, Hotkeys, LikeHelper) {
+export default class App extends HelperMixins {
   navbarShown = true;
 
   inputEventTypes: Array<keyof GlobalEventHandlersEventMap> = [
