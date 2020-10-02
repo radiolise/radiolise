@@ -24,6 +24,10 @@ const getters: GetterTree<StoreState, StoreState> = {
     return state.currentInfo;
   },
 
+  dateFnsLocale(state): Locale | undefined {
+    return state.dateFnsLocale ?? undefined;
+  },
+
   settings(state): Settings {
     return { ...state.memory.settings };
   },

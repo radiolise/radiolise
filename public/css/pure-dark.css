@@ -1,5 +1,5 @@
 :root {
-  --theme-color: cornflowerblue;
+  --rad-theme-color: cornflowerblue;
 }
 #app {
   background: #333;
@@ -80,7 +80,7 @@ input:not(#query),
   background: #444;
 }
 #progress-bar {
-  background: var(--theme-color);
+  background: var(--rad-theme-color);
 }
 .media-controls .label {
   background: #ddd;

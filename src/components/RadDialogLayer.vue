@@ -3,7 +3,14 @@
     <div style="height: 100%; overflow: hidden" @click="$router.push('/')">
       <div id="drawers" :class="{ shown: $route.path !== '/' }" @click.stop>
         <transition name="slide-fade" mode="out-in">
-          <keep-alive exclude="RadEditor,RadImportWizard,RadSettings">
+          <keep-alive
+            :exclude="[
+              'RadEditor',
+              'RadImportWizard',
+              'RadSettings',
+              'RadTitleManager',
+            ]"
+          >
             <router-view :key="$route.fullPath" />
           </keep-alive>
         </transition>
@@ -193,7 +200,6 @@ export default class RadDialogLayer extends Vue {
   padding: 20px;
   margin: 0 auto;
   max-width: calc(100% - 40px);
-  pointer-events: auto;
 }
 #toast .button {
   color: inherit;

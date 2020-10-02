@@ -115,6 +115,10 @@ const mutations: MutationTree<StoreState> = {
     state.relaxed = relaxed;
   },
 
+  SET_FELL_ASLEEP(state, fellAsleep: boolean): void {
+    state.fellAsleep = fellAsleep;
+  },
+
   SET_BUFFER_FINE(state, bufferFine: boolean): void {
     state.bufferFine = bufferFine;
   },
@@ -165,6 +169,10 @@ const mutations: MutationTree<StoreState> = {
 
   SET_ENTER_KEY_ALLOWED(state, enterKeyAllowed: boolean): void {
     state.enterKeyAllowed = enterKeyAllowed;
+  },
+
+  SET_DATE_FNS_LOCALE(state, locale: Locale): void {
+    state.dateFnsLocale = locale;
   },
 };
 

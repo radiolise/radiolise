@@ -293,7 +293,7 @@
       "name": "Activer les transitions"
     },
     "sleep": {
-      "name": "Minuterie",
+      "name": "@:sleepTimer.name",
       "description": "Arrête l’écoute du flux automatiquement après un certain temps (en minutes).",
       "timer": "Arrêter l’écoute après"
     },
@@ -303,6 +303,11 @@
     "reset": "Réinitialiser",
     "import": "Importer depuis un fichier",
     "export": "Exporter dans un fichier"
+  },
+  "sleepTimer": {
+    "name": "Minuterie",
+    "timePassed": "{n} est passée | {n} sont passées",
+    "streamStopped": "{timePassed}. Le flux a été arrêté."
   },
   "station": {
     "options": "Options pour « {0} »",

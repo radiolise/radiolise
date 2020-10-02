@@ -31,7 +31,9 @@
 <script lang="ts">
 import { Component, Ref, Watch, Mixins } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
-import Moment from "moment";
+import { formatDuration } from "date-fns";
+
+import { ModalType } from "./store";
 
 import ColorChanger from "./mixins/ColorChanger";
 import Hotkeys from "./mixins/Hotkeys";
@@ -56,6 +58,7 @@ const HelperMixins = Mixins(ColorChanger, Hotkeys, LikeHelper);
 })
 export default class App extends HelperMixins {
   navbarShown = true;
+  scrollbarWidth = "";
 
   inputEventTypes: Array<keyof GlobalEventHandlersEventMap> = [
     "mousemove",
@@ -67,6 +70,7 @@ export default class App extends HelperMixins {
 
   @Ref() readonly app!: HTMLDivElement;
 
+  @State readonly fellAsleep!: boolean;
   @State readonly playing!: boolean;
   @State readonly relaxed!: boolean;
 
@@ -80,10 +84,17 @@ export default class App extends HelperMixins {
   @Getter readonly ready!: boolean;
   @Getter readonly settings!: Settings;
 
+  @Action confirmSleepTimer!: () => Promise<void>;
   @Action createList!: (list: StationList) => Promise<void>;
+
+  @Action determineDateFnsLocale!: (
+    locale: string
+  ) => Promise<Locale | undefined>;
+
   @Action loadStyle!: () => Promise<void>;
   @Action setDarkMode!: (darkMode: boolean) => Promise<void>;
   @Action setRelaxTimer!: () => Promise<void>;
+  @Action unsetDateFnsLocale!: () => Promise<void>;
 
   get darkSchemeQuery(): MediaQueryList {
     return window.matchMedia("(prefers-color-scheme: dark)");
@@ -99,15 +110,6 @@ export default class App extends HelperMixins {
 
   get relaxModeAllowed(): boolean {
     return this.settings.relax && this.playing && !this.hasVideo;
-  }
-
-  get scrollbarWidth(): string {
-    if (this.fullscreen) {
-      const scrollbarWidth = window.innerWidth - document.body.clientWidth;
-      return `calc(100% + ${scrollbarWidth}px)`;
-    }
-
-    return "";
   }
 
   get transitions(): boolean {
@@ -143,6 +145,31 @@ export default class App extends HelperMixins {
     }
   }
 
+  @Watch("fellAsleep")
+  async handleFallenAsleep(fellAsleep: boolean): Promise<void> {
+    if (fellAsleep) {
+      const minutes = this.settings.sleepTimeout;
+      const locale = await this.determineDateFnsLocale(this.$i18n.locale);
+
+      let formattedDuration = formatDuration({ minutes }, { locale });
+      formattedDuration =
+        formattedDuration.charAt(0).toUpperCase() + formattedDuration.slice(1);
+
+      await this.showMessage({
+        buttons: [this.$t("general.ok") as string],
+        type: ModalType.INFO,
+        title: this.$t("sleepTimer.name") as string,
+        message: this.$t("sleepTimer.streamStopped", {
+          timePassed: this.$tc("sleepTimer.timePassed", minutes, {
+            n: formattedDuration,
+          }),
+        }) as string,
+      });
+
+      this.confirmSleepTimer();
+    }
+  }
+
   @Watch("fullscreen")
   handleFullscreenChanged(fullscreen: boolean): void {
     if (fullscreen) {
@@ -151,8 +178,14 @@ export default class App extends HelperMixins {
       if (this.dialog) {
         this.$router.push("/");
       }
+
+      document.documentElement.style.overflowY = "scroll";
+      const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
+      this.scrollbarWidth = `calc(100% + ${scrollbarWidth}px)`;
+      document.documentElement.style.overflowY = "";
     } else {
       this.navbarShown = true;
+      this.scrollbarWidth = "";
     }
 
     this.setBackgroundColor();
@@ -183,7 +216,7 @@ export default class App extends HelperMixins {
 
     this.$i18n.locale = locale;
     document.documentElement.lang = locale;
-    Moment.locale(locale);
+    this.unsetDateFnsLocale();
   }
 
   @Watch("relaxModeAllowed")

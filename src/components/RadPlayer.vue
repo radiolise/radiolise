@@ -49,6 +49,7 @@
           </div>
           <div
             class="station"
+            :title="tooltip"
             style="width: 100%; display: table-cell; vertical-align: middle; padding: 0 10px"
             :style="{
               maxWidth: compact ? 0 : 'none',
@@ -57,7 +58,7 @@
             @click="expand()"
           >
             <transition name="slide-fade" mode="out-in" appear>
-              <div :key="broadcaster" class="broadcaster" :title="broadcaster">
+              <div :key="broadcaster" class="broadcaster">
                 <font-awesome-icon v-if="loading" icon="spinner" spin />
                 {{ broadcaster }}
               </div>
@@ -66,7 +67,6 @@
               v-show-slide="info && animationFinished && !loading"
               class="info"
               :style="{ maxHeight: expanded ? 'none' : '20px' }"
-              :title="renderedInfo"
             >
               <transition name="slide-fade" mode="out-in" appear>
                 <span
@@ -351,6 +351,13 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
     return this.bookmarks.some(
       title => title.station === station.name && title.info === this.info
     );
+  }
+
+  get tooltip(): string {
+    if (!this.loading && this.info !== undefined) {
+      return this.broadcaster + "\n" + this.info;
+    }
+    return this.broadcaster;
   }
 
   get volume(): number {

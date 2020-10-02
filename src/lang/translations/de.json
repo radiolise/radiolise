@@ -293,7 +293,7 @@
       "name": "Übergangseffekte aktivieren"
     },
     "sleep": {
-      "name": "Sleep-Timer",
+      "name": "@:sleepTimer.name",
       "description": "Hält den aktuellen Stream automatisch nach einer bestimmten Minutenzahl an.",
       "timer": "Stream anhalten nach"
     },
@@ -303,6 +303,11 @@
     "reset": "Auf Standardwerte zurücksetzen",
     "import": "Aus Datei importieren",
     "export": "In Datei exportieren"
+  },
+  "sleepTimer": {
+    "name": "Sleep-Timer",
+    "timePassed": "{n} ist vergangen | {n} sind vergangen",
+    "streamStopped": "{timePassed}. Der Stream wurde angehalten."
   },
   "station": {
     "options": "Optionen für „{0}“",

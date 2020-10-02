@@ -48,6 +48,7 @@ export interface StoreState {
   bufferFine: boolean;
   currentInfo?: string;
   darkMode: boolean;
+  dateFnsLocale: Locale | null;
   editing?: Station;
   enterKeyAllowed: boolean;
   fixedPlayer: boolean;
@@ -61,6 +62,7 @@ export interface StoreState {
   playing: boolean;
   ready: boolean;
   relaxed: boolean;
+  fellAsleep: boolean;
   searchStats: SearchStats;
   sortMode: {
     index?: number;
@@ -92,6 +94,7 @@ const store = new Vuex.Store({
     bufferFine: true,
     currentInfo: undefined,
     darkMode: false,
+    dateFnsLocale: null,
     editing: undefined,
     enterKeyAllowed: true,
     fixedPlayer: false,
@@ -105,6 +108,7 @@ const store = new Vuex.Store({
     playing: false,
     ready: false,
     relaxed: false,
+    fellAsleep: false,
     searchStats: {
       added: [],
       removed: [],

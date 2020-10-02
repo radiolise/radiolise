@@ -24,7 +24,7 @@ export default class ColorChanger extends Vue {
   @Watch("backgroundColor")
   handleColorChanged(): void {
     const themeColor = this.colorful ? this.generateHsl(60) : "";
-    document.documentElement.style.setProperty("--theme-color", themeColor);
+    document.documentElement.style.setProperty("--rad-theme-color", themeColor);
   }
 
   @Watch("currentStation")

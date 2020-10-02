@@ -86,8 +86,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Moment from "moment";
-import { State } from "vuex-class";
+import { format } from "date-fns";
+import { State, Getter, Action } from "vuex-class";
 import saveFile from "@/utils/downloader";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadTitleRow from "@/components/RadTitleRow.vue";
@@ -106,13 +106,28 @@ export default class RadTitleManager extends Vue {
 
   @State readonly memory!: Memory;
 
+  @Getter readonly dateFnsLocale?: Locale;
+
+  @Action determineDateFnsLocale!: (
+    locale: string
+  ) => Promise<Locale | undefined>;
+
+  get bookmarks(): Record<string, Title[]> {
+    return this.generateBookmarks(this.dateFnsLocale);
+  }
+
   get history(): Title[] {
     return this.memory.titles.history;
   }
 
-  get bookmarks(): Record<string, Title[]> {
+  formatMonth(time: Date | number): string {
+    this.determineDateFnsLocale(this.$i18n.locale);
+    return format(time, "MMMM yyyy", { locale: this.dateFnsLocale });
+  }
+
+  generateBookmarks(locale?: Locale): Record<string, Title[]> {
     return this.memory.titles.favorites.reduce((bookmarks, item) => {
-      const currentMonth = Moment(item.time * 60).format("MMMM YYYY");
+      const currentMonth = this.formatMonth(item.time * 60);
 
       if (bookmarks[currentMonth] !== undefined) {
         bookmarks[currentMonth].push(item);

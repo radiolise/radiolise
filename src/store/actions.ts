@@ -449,7 +449,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     }
   },
 
-  setSleepTimer({ dispatch, state }): void {
+  setSleepTimer({ commit, dispatch, state }): void {
     const { settings } = state.memory;
 
     if (settings.sleep) {
@@ -457,16 +457,13 @@ const actions: ActionTree<StoreState, StoreState> = {
 
       sleepTimer = setTimeout(() => {
         dispatch("stop");
-
-        dispatch("showMessage", {
-          type: ModalType.INFO,
-          title: "Sleep timer",
-          message: `${minutes.toLocaleString(
-            settings.language
-          )} minutes are over. The stream has been stopped.`,
-        });
+        commit("SET_FELL_ASLEEP", true);
       }, minutes * 60000);
     }
+  },
+
+  confirmSleepTimer({ commit }): void {
+    commit("SET_FELL_ASLEEP", false);
   },
 
   setRelaxTimer({ state, commit }): void {
@@ -688,6 +685,25 @@ const actions: ActionTree<StoreState, StoreState> = {
 
   allowEnterKey({ commit }, allow: boolean): void {
     commit("SET_ENTER_KEY_ALLOWED", allow);
+  },
+
+  async determineDateFnsLocale(
+    { state, commit },
+    locale: string
+  ): Promise<Locale | undefined> {
+    if (state.dateFnsLocale === null && locale !== "en") {
+      const dateFnsLocale = await import(
+        /* webpackChunkName: "date-fns-locale-[index]" */
+        `date-fns/locale/${locale}/index.js`
+      );
+      commit("SET_DATE_FNS_LOCALE", dateFnsLocale);
+    }
+
+    return state.dateFnsLocale ?? undefined;
+  },
+
+  unsetDateFnsLocale({ commit }): void {
+    commit("SET_DATE_FNS_LOCALE", null);
   },
 };
 

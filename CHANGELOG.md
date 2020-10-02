@@ -1,4 +1,11 @@
-# Changes in 5.0.0 (latest – 2020-09-22)
+# Changes in 5.0.1 (latest – 2020-10-03)
+
+- Removed Moment dependency. Dates and times are now formatted using date-fns.
+- Added missing translation to locales.
+- The scrollbar should now always be reliably hidden in fullscreen mode.
+- Minor adjustments.
+
+# Changes in [5.0.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/fa16c62f2b88618b9d37f60340fdc23bd2a10af9) (2020-09-22)
 
 - Improved hotkey detection; fixed unwanted side effects that could be caused by
   pressing a hotkey.
@@ -113,7 +120,7 @@
   probably the most relevant info on small screens.
 - The toasts have been reimplemented. In addition, a new FIFO and Promise-based
   solution for modal dialogs has been introduced. Remember that Radiolise does
-  not use any UI frameworks and therefore I needed to be implement it on my own.
+  not use any UI frameworks and therefore I needed to implement it on my own.
 - Radiolise now supports the Media Session API, which can be used to display
   metadata in your environment and control playback, e. g. via the lock screen
   of your Android device or under KDE Plasma, provided the Plasma Browser

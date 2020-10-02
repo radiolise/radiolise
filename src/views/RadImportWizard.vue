@@ -43,6 +43,8 @@
                 :placeholder="$t('general.newName')"
                 class="list-name"
                 spellcheck="false"
+                @focus="$event.target.select()"
+                @keypress.enter="$event.target.blur()"
               />
             </div>
           </div>

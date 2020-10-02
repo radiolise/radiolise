@@ -1,5 +1,5 @@
 :root {
-  --theme-color: cornflowerblue;
+  --rad-theme-color: cornflowerblue;
 }
 #app,
 .slider {
@@ -13,13 +13,13 @@ hr {
 }
 @media screen and (max-width: 820px) {
   #app:not(.has-video) #video:not(.fs) .media-controls {
-    border-bottom: 3px solid var(--theme-color);
+    border-bottom: 3px solid var(--rad-theme-color);
   }
 }
 main > div {
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
   background: #444;
-  border-bottom: 3px solid var(--theme-color);
+  border-bottom: 3px solid var(--rad-theme-color);
   border-radius: 10px 0 10px 0;
 }
 .label {
@@ -36,7 +36,7 @@ nav,
 }
 nav,
 nav .media-controls {
-  border-bottom: 3px solid var(--theme-color);
+  border-bottom: 3px solid var(--rad-theme-color);
 }
 nav,
 #video,
@@ -64,7 +64,7 @@ main > div {
   color: #fff;
 }
 #video {
-  border-top: 3px solid var(--theme-color);
+  border-top: 3px solid var(--rad-theme-color);
 }
 #toast > div {
   background: #fff;
@@ -97,7 +97,7 @@ input:not(#query) {
   border-bottom: 2px solid rgba(0, 0, 0, 0.5);
 }
 #progress-bar {
-  background: var(--theme-color);
+  background: var(--rad-theme-color);
 }
 .hotkey-tile {
   background: rgba(0, 0, 0, 0.1);

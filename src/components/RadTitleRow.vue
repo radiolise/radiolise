@@ -46,8 +46,8 @@
 
 <script lang="ts">
 import { Component, Prop, Mixins } from "vue-property-decorator";
-import Moment from "moment";
-import { Getter } from "vuex-class";
+import { formatDistanceToNow } from "date-fns";
+import { Getter, Action } from "vuex-class";
 
 import BookmarkHelper from "@/mixins/BookmarkHelper";
 
@@ -61,15 +61,16 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
   @Prop({ type: Boolean, default: false }) readonly isBookmark!: boolean;
 
   @Getter readonly bookmarks!: Title[];
+  @Getter readonly dateFnsLocale?: Locale;
+
+  @Action determineDateFnsLocale!: (
+    locale: string
+  ) => Promise<Locale | undefined>;
 
   async created(): Promise<void> {
-    const update = (): void => {
-      this.timeStamp = Moment(this.title.time * 60).fromNow();
-    };
-
     await this.$nextTick();
-    this.updateInterval = setInterval(update, 1000);
-    update();
+    this.updateInterval = setInterval(this.updateTimestamp, 1000);
+    this.updateTimestamp();
   }
 
   destroyed(): void {
@@ -83,6 +84,14 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
       item =>
         item.station === this.title.station && item.info === this.title.info
     );
+  }
+
+  updateTimestamp(): void {
+    this.determineDateFnsLocale(this.$i18n.locale);
+    this.timeStamp = formatDistanceToNow(this.title.time * 60, {
+      addSuffix: true,
+      locale: this.dateFnsLocale,
+    });
   }
 }
 </script>

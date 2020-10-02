@@ -95,6 +95,7 @@ export default class Hotkeys extends Vue {
     return (
       document.hasFocus &&
       document.activeElement?.tagName !== "INPUT" &&
+      this.modalOptions === undefined &&
       !event.ctrlKey &&
       !event.altKey &&
       !event.shiftKey &&
@@ -119,7 +120,10 @@ export default class Hotkeys extends Vue {
       case " ": {
         if (document.activeElement?.tagName !== "INPUT") {
           event.preventDefault();
-          keyBindings[" "].trigger(this);
+
+          if (this.modalOptions === undefined) {
+            keyBindings[" "].trigger(this);
+          }
         }
         return;
       }

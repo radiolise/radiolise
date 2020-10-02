@@ -184,6 +184,9 @@ select:hover + div path {
   opacity: 0.5;
 }
 .dropdown-menu.disabled select {
+  pointer-events: none;
+}
+.dropdown-menu.disabled .wrapper {
   cursor: not-allowed;
 }
 </style>

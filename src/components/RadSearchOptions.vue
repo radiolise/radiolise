@@ -68,6 +68,7 @@
                 "
                 :data="filterOptions['states']"
                 :loaded="filters.states !== null"
+                @click.native="handleStatesClicked()"
               />
               <br />
               <rad-dropdown
@@ -119,6 +120,8 @@
 
 <script lang="ts">
 import { Component, PropSync, Vue } from "vue-property-decorator";
+import { Action } from "vuex-class";
+import { ModalOptions, ModalType } from "@/store";
 
 import { fetchCountries, fetchStates, fetchLanguages } from "@/utils/network";
 
@@ -145,6 +148,8 @@ export default class RadSearchOptions extends Vue {
 
   @PropSync("options", { type: Object, required: true })
   syncedOptions!: SearchOptions;
+
+  @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   get filterOptions(): Record<string, DropdownOption[]> {
     return Object.keys(this.filters).reduce((filterOptions, filterKind) => {
@@ -204,6 +209,16 @@ export default class RadSearchOptions extends Vue {
       }
     } else {
       this.filters.states = [];
+    }
+  }
+
+  handleStatesClicked(): void {
+    if (this.syncedOptions.country === "") {
+      this.showMessage({
+        buttons: [this.$t("general.ok") as string],
+        type: ModalType.WARNING,
+        message: this.$t("search.filters.noCountrySelected") as string,
+      });
     }
   }
 }

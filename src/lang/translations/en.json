@@ -293,7 +293,7 @@
       "name": "Enable transitions"
     },
     "sleep": {
-      "name": "Sleep timer",
+      "name": "@:sleepTimer.name",
       "description": "Stops the current stream automatically after a certain number of minutes.",
       "timer": "Stop stream after"
     },
@@ -303,6 +303,11 @@
     "reset": "Reset to defaults",
     "import": "Import from file",
     "export": "Export to file"
+  },
+  "sleepTimer": {
+    "name": "Sleep timer",
+    "timePassed": "{n} is over | {n} are over",
+    "streamStopped": "{timePassed}. The stream has been stopped."
   },
   "station": {
     "options": "Options for “{0}”",
