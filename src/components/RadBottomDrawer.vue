@@ -18,11 +18,11 @@
         <span style="white-space: nowrap; float: right"
           ><a class="button" @click="undo()"
             ><font-awesome-icon icon="undo" fixed-width />{{
-              this.$t("general.undo")
+              $t("general.undo")
             }}</a
           ><a class="button" @click="confirm()"
             ><font-awesome-icon icon="check" fixed-width />{{
-              this.$t("general.ok")
+              $t("general.ok")
             }}</a
           ></span
         >

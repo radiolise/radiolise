@@ -63,14 +63,10 @@
         <div id="main-controls">
           <div style="text-align: left; padding-top: 40px">
             <rad-list-menu />
-            <div v-if="currentList.length === 0">
-              {{ $t("general.listEmpty[0]") }}<br />{{
-                $t("general.listEmpty[1]")
-              }}
-            </div>
-            <rad-station-list />
+            <rad-empty-list v-if="listEmpty" />
+            <rad-station-list v-else />
           </div>
-          <p class="text-right">
+          <p v-if="!listEmpty" class="text-right">
             <rad-router-toggle class="button" to="/search">
               <font-awesome-icon icon="search" fixed-width />{{
                 $t("general.findStations")
@@ -88,6 +84,7 @@ import { Component, Watch, Mixins } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
 import ScrollHelper from "@/mixins/ScrollHelper";
+import RadEmptyList from "./RadEmptyList.vue";
 import RadListMenu from "./RadListMenu.vue";
 import RadMedia from "./RadMedia.vue";
 import RadPlayer from "./RadPlayer.vue";
@@ -96,6 +93,7 @@ import RadStationList from "./RadStationList.vue";
 
 @Component({
   components: {
+    RadEmptyList,
     RadListMenu,
     RadMedia,
     RadPlayer,
@@ -125,6 +123,10 @@ export default class RadPage extends Mixins(ScrollHelper) {
     if (station === undefined || oldStation === undefined) {
       this.setSwitchButtons();
     }
+  }
+
+  get listEmpty(): boolean {
+    return this.currentList.length === 0;
   }
 
   setSwitchButtons(): void {
