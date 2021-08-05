@@ -27,7 +27,7 @@ export default class RadStationList extends Vue {
 
   get heights(): number[] {
     const stationRows = [...this.container.childNodes] as HTMLTableRowElement[];
-    return stationRows.map(item => item.offsetHeight);
+    return stationRows.map((item) => item.offsetHeight);
   }
 }
 </script>

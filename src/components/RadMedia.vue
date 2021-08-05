@@ -27,7 +27,7 @@
 import { Component, Ref, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import Hls from "hls.js";
+import Hls, { ErrorData } from "hls.js";
 import Screenfull from "screenfull";
 
 import { ModalOptions, ModalType } from "@/store";
@@ -251,7 +251,7 @@ export default class RadMedia extends Vue {
           break;
 
         case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED: {
-          if (this.triedUrls.every(url => !url.endsWith("/;"))) {
+          if (this.triedUrls.every((url) => !url.endsWith("/;"))) {
             this.play(`${this.lastTriedUrl}/;`.replace("//;", "/;"));
             return;
           }
@@ -300,7 +300,7 @@ export default class RadMedia extends Vue {
     });
   }
 
-  handleHlsError(data: Hls.errorData): void {
+  handleHlsError(data: ErrorData): void {
     if (!navigator.onLine) {
       this.handleError();
       return;

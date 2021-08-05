@@ -29,7 +29,7 @@ export default class Hotkeys extends Vue {
   @Action toggleStation!: (station?: Station) => Promise<void>;
 
   created(): void {
-    document.addEventListener("keydown", event => {
+    document.addEventListener("keydown", (event) => {
       this.triggerHotkeyAction(event);
       if (!this.enterKeyAllowed) {
         this.allowEnterKey(true);

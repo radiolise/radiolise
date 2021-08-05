@@ -78,7 +78,7 @@ const store = new Vuex.Store({
   strict: process.env.NODE_ENV !== "production",
 
   plugins: [
-    store => {
+    (store) => {
       store.subscribe((_, state) => {
         if (state.ready) {
           localStorage.data = JSON.stringify(state.memory);

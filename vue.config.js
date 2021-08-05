@@ -13,7 +13,7 @@ module.exports = {
   publicPath: ".",
   productionSourceMap: false,
 
-  configureWebpack: config => {
+  configureWebpack: (config) => {
     config.plugins.push(
       new ContextReplacementPlugin(
         /date\-fns[\/\\]/,
@@ -22,13 +22,13 @@ module.exports = {
     );
   },
 
-  chainWebpack: config => {
-    config.optimization.minimizer("terser").tap(args => {
+  chainWebpack: (config) => {
+    config.optimization.minimizer("terser").tap((args) => {
       args[0].terserOptions.keep_classnames = true;
       return args;
     });
 
-    config.plugin("prefetch").tap(options => {
+    config.plugin("prefetch").tap((options) => {
       options[0].fileBlacklist = options[0].fileBlacklist || [];
       options[0].fileBlacklist.push(/date-fns-locale-(.)+?\.js$/);
       return options;

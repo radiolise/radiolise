@@ -3,8 +3,8 @@
     style="font-size: 18px; padding: 0 5px; display: inline-block"
     @wheel.prevent="handleScroll"
   >
-    <a @click="setValue(value - 0.1)"><slot name="minusIcon"/></a>
-    &nbsp;
+    <a @click="setValue(value - 0.1)"><slot name="minusIcon" /></a>
+    {{ " " }}
     <div
       ref="slider"
       class="slider"
@@ -17,8 +17,8 @@
         :style="{ width: `${value * 100}%` }"
       />
     </div>
-    &nbsp;
-    <a @click="setValue(value + 0.1)"><slot name="plusIcon"/></a>
+    {{ " " }}
+    <a @click="setValue(value + 0.1)"><slot name="plusIcon" /></a>
   </div>
 </template>
 

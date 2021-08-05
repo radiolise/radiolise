@@ -45,7 +45,7 @@
             <div style="padding: 32px 32px 0 32px">
               <div
                 v-show="modalOptions.closeable"
-                style="position: absolute; right: 26px; top: 26px;"
+                style="position: absolute; right: 26px; top: 26px"
               >
                 <a @click="closeModal()"
                   ><font-awesome-icon icon="times" fixed-width size="lg"
@@ -61,7 +61,7 @@
                   v-if="modalIcon !== ''"
                   style="display: table-cell; padding-right: 5px"
                 >
-                  <font-awesome-icon :icon="modalIcon" style="opacity: .7" />
+                  <font-awesome-icon :icon="modalIcon" style="opacity: 0.7" />
                 </div>
                 <div style="display: table-cell">
                   <template

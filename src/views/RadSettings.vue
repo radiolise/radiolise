@@ -110,7 +110,7 @@
           />
         </div>
         <div>
-          <font-awesome-icon icon="comment-dots" flip="horizontal" />&nbsp;
+          <font-awesome-icon icon="comment-dots" flip="horizontal" />{{ " " }}
           <strong>{{ $tc("general.language", 1) }}</strong
           >:
           <rad-dropdown

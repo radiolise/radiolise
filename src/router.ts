@@ -25,7 +25,10 @@ const router = new VueRouter({
     {
       path: "/editor",
       component: RadEditor,
-      props: route => ({ list: Number(route.query.list), id: route.query.id }),
+      props: (route) => ({
+        list: Number(route.query.list),
+        id: route.query.id,
+      }),
     },
     {
       path: "/hotkeys",

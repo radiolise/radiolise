@@ -23,11 +23,9 @@
       >
       <a
         class="button"
-        :href="
-          `https://musicbrainz.org/search?query=${encodeURIComponent(
-            title.info
-          )}&type=recording`
-        "
+        :href="`https://musicbrainz.org/search?query=${encodeURIComponent(
+          title.info
+        )}&type=recording`"
         target="_blank"
         style="margin-bottom: 0"
         ><font-awesome-icon icon="search" fixed-width />MusicBrainz</a
@@ -81,7 +79,7 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
 
   get bookmarked(): boolean {
     return this.bookmarks.some(
-      item =>
+      (item) =>
         item.station === this.title.station && item.info === this.title.info
     );
   }

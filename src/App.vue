@@ -231,13 +231,13 @@ export default class App extends HelperMixins {
   detectLocale(): string {
     const preferredLocales = [
       ...new Set(
-        [navigator.language, ...navigator.languages].map(language =>
+        [navigator.language, ...navigator.languages].map((language) =>
           language.substring(0, 2)
         )
       ),
     ];
 
-    const detectedLocale = preferredLocales.find(locale => {
+    const detectedLocale = preferredLocales.find((locale) => {
       return Object.keys(this.$i18n.messages).includes(locale);
     });
 
@@ -245,13 +245,13 @@ export default class App extends HelperMixins {
   }
 
   addInputListeners(listener: EventListener): void {
-    this.inputEventTypes.forEach(type => {
+    this.inputEventTypes.forEach((type) => {
       window.addEventListener(type, listener);
     });
   }
 
   removeInputListeners(listener: EventListener): void {
-    this.inputEventTypes.forEach(type => {
+    this.inputEventTypes.forEach((type) => {
       window.removeEventListener(type, listener);
     });
   }

@@ -6,14 +6,14 @@ interface KeyBinding {
 }
 
 const keyBindings: Record<string, KeyBinding> = {
-  h: {
+  "h": {
     alias: "H",
     trigger({ $router, $route }) {
       $router.push($route.path === "/hotkeys" ? "/" : "/hotkeys");
     },
   },
 
-  m: {
+  "m": {
     alias: "M",
     trigger({ $router, $route }) {
       $router.push($route.path === "/menu" ? "/" : "/menu");
@@ -64,7 +64,7 @@ const keyBindings: Record<string, KeyBinding> = {
     },
   },
 
-  f: {
+  "f": {
     alias: "F",
     trigger(context) {
       const { hasVideo, toggleFullscreen, showToast } = context;
@@ -80,7 +80,7 @@ const keyBindings: Record<string, KeyBinding> = {
     },
   },
 
-  Escape: {
+  "Escape": {
     alias: "Esc",
     trigger({ $route, $router, closeModal }) {
       const wasShown = closeModal();
@@ -91,7 +91,7 @@ const keyBindings: Record<string, KeyBinding> = {
     },
   },
 
-  p: {
+  "p": {
     alias: "P",
     trigger(context) {
       if (context.currentStation !== undefined) {
@@ -107,7 +107,7 @@ const keyBindings: Record<string, KeyBinding> = {
     },
   },
 
-  n: {
+  "n": {
     alias: "N",
     trigger(context) {
       if (context.currentStation !== undefined) {
@@ -123,7 +123,7 @@ const keyBindings: Record<string, KeyBinding> = {
     },
   },
 
-  number: {
+  "number": {
     alias: "0-9",
     trigger({ handleNumberInput }, enteredDigit: number) {
       handleNumberInput(enteredDigit);

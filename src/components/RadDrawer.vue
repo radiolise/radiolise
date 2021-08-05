@@ -4,7 +4,7 @@
       <router-link v-if="!isMenu" to="/menu">
         <font-awesome-icon icon="bars" fixed-width size="lg" />
       </router-link>
-      &nbsp;
+      {{ " " }}
       <router-link to="/">
         <font-awesome-icon icon="times-circle" fixed-width size="lg" />
       </router-link>

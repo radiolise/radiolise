@@ -48,7 +48,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     }
 
     const listNameExists = state.memory.lists
-      .map(list => list.name)
+      .map((list) => list.name)
       .includes(listName);
 
     if (listNameExists) {
@@ -202,7 +202,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     }
 
     const oldIndex = currentList
-      .map(station => station.id)
+      .map((station) => station.id)
       .indexOf(lastStation.id);
 
     const index =
@@ -253,7 +253,7 @@ const actions: ActionTree<StoreState, StoreState> = {
   ): void {
     const index =
       payload.name !== undefined
-        ? state.memory.lists.map(list => list.name).indexOf(payload.name)
+        ? state.memory.lists.map((list) => list.name).indexOf(payload.name)
         : state.memory.lastList;
 
     commit("SET_LIST_CONTENT", { index, content: payload.content });
@@ -281,8 +281,8 @@ const actions: ActionTree<StoreState, StoreState> = {
         changeLog.length === 0 &&
         newList.some((station, i) => station.id !== stationBackup[i].id);
 
-      changeLog.forEach(station => {
-        if (newList.map(station => station.id).includes(station.id)) {
+      changeLog.forEach((station) => {
+        if (newList.map((station) => station.id).includes(station.id)) {
           added.push(station.name);
         } else {
           removed.push(station.name);
@@ -418,10 +418,7 @@ const actions: ActionTree<StoreState, StoreState> = {
 
         if (cutStrings.length >= 2) {
           info = [
-            cutStrings
-              .slice(0, 2)
-              .reverse()
-              .join(" / "),
+            cutStrings.slice(0, 2).reverse().join(" / "),
             ...cutStrings.slice(2),
           ].join(delimiter);
         }
@@ -557,7 +554,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     { station, info }: { station: string; info: string }
   ): boolean {
     const titleIndex = state.memory.titles.favorites.findIndex(
-      item => item.station === station && item.info === info
+      (item) => item.station === station && item.info === info
     );
 
     const notExisting = titleIndex === -1;
@@ -593,7 +590,7 @@ const actions: ActionTree<StoreState, StoreState> = {
         commit("SET_READY");
       }
     } catch {
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         setTimeout(resolve, 2000);
       });
 

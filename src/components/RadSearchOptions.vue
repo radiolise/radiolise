@@ -63,9 +63,9 @@
                 "
                 style="width: 100%"
                 :disabled="syncedOptions.country === ''"
-                :label="
-                  `${this.$tc('general.state')} (${syncedOptions.country})`
-                "
+                :label="`${this.$tc('general.state')} (${
+                  syncedOptions.country
+                })`"
                 :data="filterOptions['states']"
                 :loaded="filters.states !== null"
                 @click.native="handleStatesClicked()"
@@ -158,7 +158,7 @@ export default class RadSearchOptions extends Vue {
       if (currentItems !== null) {
         filterOptions[filterKind] = [
           { id: "", name: this.noFilterLabels[filterKind] },
-          ...currentItems.map(item => ({ id: item.name, name: item.name })),
+          ...currentItems.map((item) => ({ id: item.name, name: item.name })),
         ];
       } else {
         filterOptions[filterKind] = [];

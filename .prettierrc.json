@@ -1,0 +1,7 @@
+{
+  "arrowParens": "always",
+  "quoteProps": "consistent",
+  "printWidth": 80,
+  "trailingComma": "es5",
+  "proseWrap": "always"
+}

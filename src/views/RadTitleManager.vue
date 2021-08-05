@@ -44,7 +44,12 @@
       </button>
       <div
         class="download"
-        style="display: table-cell; font-size: 20px; width: 35px; text-align: right"
+        style="
+          display: table-cell;
+          font-size: 20px;
+          width: 35px;
+          text-align: right;
+        "
       >
         <a @click="exportBookmarks()"
           ><font-awesome-icon icon="download" fixed-width
@@ -62,7 +67,13 @@
         <div v-for="(titles, month) in bookmarks" :key="month">
           <div
             class="month-separator"
-            style="margin: 10px 0; padding: 5px 10px; font-size: 20px; font-weight: bold; opacity: .7"
+            style="
+              margin: 10px 0;
+              padding: 5px 10px;
+              font-size: 20px;
+              font-weight: bold;
+              opacity: 0.7;
+            "
           >
             {{ month }}
           </div>

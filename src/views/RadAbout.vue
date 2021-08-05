@@ -47,13 +47,13 @@
     </div>
     <p class="text-center">
       <a class="button" :href="repoUrl" target="_blank" rel="noopener"
-        ><font-awesome-icon :icon="['fab', 'gitlab']" fixed-width/>{{
+        ><font-awesome-icon :icon="['fab', 'gitlab']" fixed-width />{{
           $t("about.code")
         }}
         <font-awesome-icon icon="external-link-alt" fixed-width
       /></a>
       <a class="button" :href="issuesUrl" target="_blank" rel="noopener"
-        ><font-awesome-icon icon="comments" fixed-width/>{{
+        ><font-awesome-icon icon="comments" fixed-width />{{
           $t("about.issues")
         }}
         <font-awesome-icon icon="external-link-alt" fixed-width

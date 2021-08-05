@@ -63,9 +63,9 @@ export default class DragHelper extends Vue {
       this.newIndex = this.currentList.length - 1;
     }
 
-    const rows = document.querySelectorAll("#stations > div") as NodeListOf<
-      HTMLTableRowElement
-    >;
+    const rows = document.querySelectorAll(
+      "#stations > div"
+    ) as NodeListOf<HTMLTableRowElement>;
 
     rows.forEach((row, i) => {
       if (i === this.index) {
@@ -92,7 +92,7 @@ export default class DragHelper extends Vue {
         ...document.querySelectorAll("#stations > div"),
       ] as HTMLTableRowElement[];
 
-      rows.forEach(row => {
+      rows.forEach((row) => {
         row.style.transform = "";
       });
 

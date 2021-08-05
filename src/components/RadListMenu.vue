@@ -6,21 +6,21 @@
       id="lists"
       :value="selectedList"
       :actions="[$t('general.manage')]"
-      :actions-enabled="this.$route.path !== '/list-manager'"
+      :actions-enabled="$route.path !== '/list-manager'"
       :label="$t('general.stationLists')"
       :data="dropdownOptions"
       :aria-label="$t('general.stationLists')"
       @change="changeList"
       @actionSelect="$router.push('/list-manager')"
     />
-    &nbsp;
+    {{ " " }}
     <rad-router-toggle
       :title="$t('general.importBackup')"
       to="/import-wizard/list"
     >
       <font-awesome-icon icon="upload" fixed-width />
     </rad-router-toggle>
-    &nbsp;
+    {{ " " }}
     <rad-dropdown
       :actions="[$t('general.cancel')]"
       :label="$t('general.downloadAs')"
@@ -35,7 +35,7 @@
     >
       <font-awesome-icon icon="download" fixed-width />
     </rad-dropdown>
-    &nbsp;
+    {{ " " }}
     <rad-router-toggle :title="$t('general.manageLists')" to="/list-manager">
       <font-awesome-icon icon="wrench" fixed-width />
     </rad-router-toggle>
@@ -88,7 +88,7 @@ export default class RadListMenu extends Vue {
       return;
     }
 
-    let output: object | string;
+    let output: Record<string, any> | string;
 
     switch (type) {
       case "txt":
@@ -115,7 +115,7 @@ export default class RadListMenu extends Vue {
       case "m3u":
         output = "#EXTM3U\n";
 
-        this.currentList.forEach(item => {
+        this.currentList.forEach((item) => {
           output += `#EXTINF:-1,${item.name}\n${item.url}\n`;
         });
 
@@ -125,7 +125,7 @@ export default class RadListMenu extends Vue {
         output =
           '<?xml version="1.0" encoding="UTF-8"?>\n<playlist version="1" xmlns="http://xspf.org/ns/0/">\n  <trackList>\n';
 
-        this.currentList.forEach(item => {
+        this.currentList.forEach((item) => {
           output += `    <track>\n      <title>${item.name}</title>\n      <location>${item.url}</location>\n    </track>\n`;
         });
 

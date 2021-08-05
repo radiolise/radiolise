@@ -16,30 +16,35 @@
           @click="expand()"
           ><font-awesome-icon
             icon="chevron-down"
-            style="transition: transform .4s"
+            style="transition: transform 0.4s"
             :style="{
               transform: 'rotate(' + (compact ? 0 : -180) + 'deg)',
-            }"/></a
+            }" /></a
         >&nbsp;
       </div>
       <div>
         <div
           class="player"
-          style="display: table-row; height: 41px; width: 100%; vertical-align: middle"
+          style="
+            display: table-row;
+            height: 41px;
+            width: 100%;
+            vertical-align: middle;
+          "
         >
           <div v-show="compact" class="main-options">
             <a
               class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
-              ><font-awesome-icon icon="step-backward" fixed-width/></a
+              ><font-awesome-icon icon="step-backward" fixed-width /></a
             >&nbsp;<a
               class="button-primary"
               :title="$t('player.playStop')"
               @click="toggleStation()"
               ><font-awesome-icon
                 :icon="station ? 'stop' : 'play'"
-                fixed-width/></a
+                fixed-width /></a
             >&nbsp;<a
               class="button-primary next-station"
               :title="$t('player.nextStation')"
@@ -50,7 +55,12 @@
           <div
             class="station"
             :title="tooltip"
-            style="width: 100%; display: table-cell; vertical-align: middle; padding: 0 10px"
+            style="
+              width: 100%;
+              display: table-cell;
+              vertical-align: middle;
+              padding: 0 10px;
+            "
             :style="{
               maxWidth: compact ? 0 : 'none',
               whiteSpace: compact ? 'nowrap' : 'normal',
@@ -84,7 +94,7 @@
               :class="{ active: liked }"
               :title="likeInfo"
               @click="like()"
-              ><font-awesome-icon icon="thumbs-up" fixed-width/></a
+              ><font-awesome-icon icon="thumbs-up" fixed-width /></a
             >&nbsp;<a
               v-if="station !== undefined"
               class="button-primary homepage"
@@ -93,7 +103,7 @@
               :href="station.homepage"
               ><font-awesome-icon icon="home" fixed-width
             /></a>
-            &nbsp;
+            {{ " " }}
             <rad-router-toggle
               class="button-primary"
               :title="$t('general.manageTitles')"
@@ -101,14 +111,14 @@
             >
               <font-awesome-icon icon="history" fixed-width />
             </rad-router-toggle>
-            &nbsp;
+            {{ " " }}
             <a
               v-if="info"
               class="button-primary"
               :title="$t('player.addBookmark')"
               :class="{ active: bookmarked }"
               @click="toggleBookmark({ station: station.name, info })"
-              ><font-awesome-icon icon="music"/><font-awesome-icon
+              ><font-awesome-icon icon="music" /><font-awesome-icon
                 icon="plus"
                 fixed-width
                 size="xs"
@@ -132,9 +142,9 @@
           <div id="tags" v-show-slide="!!station" style="margin: 10px 5px 0">
             <div v-if="station" style="padding-bottom: 10px">
               <span class="label">{{ station.country }}</span>
-              &nbsp;<span class="label">{{ station.state }}</span
+              {{ " " }}<span class="label">{{ station.state }}</span
               ><template v-for="(item, i) in station.tags.split(',')">
-                &nbsp;<span :key="i" class="label">{{ item }}</span>
+                {{ " " }}<span :key="i" class="label">{{ item }}</span>
               </template>
             </div>
           </div>
@@ -145,21 +155,21 @@
               class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
-              ><font-awesome-icon icon="step-backward" fixed-width/></a
+              ><font-awesome-icon icon="step-backward" fixed-width /></a
             >&nbsp;<a
               class="button-primary"
               :title="$t('player.playStop')"
               @click="toggleStation()"
               ><font-awesome-icon
                 :icon="station ? 'stop' : 'play'"
-                fixed-width/></a
+                fixed-width /></a
             >&nbsp;<a
               class="button-primary next-station"
               :title="$t('player.nextStation')"
               @click="playClosestStation(true)"
               ><font-awesome-icon icon="step-forward" fixed-width
             /></a>
-            &nbsp;
+            {{ " " }}
             <rad-slider v-model="volume">
               <template #minusIcon>
                 <font-awesome-icon icon="volume-off" fixed-width />
@@ -349,7 +359,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
     }
 
     return this.bookmarks.some(
-      title => title.station === station.name && title.info === this.info
+      (title) => title.station === station.name && title.info === this.info
     );
   }
 

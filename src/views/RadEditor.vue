@@ -144,7 +144,7 @@ export default class RadEditor extends Vue {
 
   created(): void {
     const station = this.lists[this.list]?.content.find(
-      station => station.id === this.id
+      (station) => station.id === this.id
     );
 
     if (station !== undefined) {

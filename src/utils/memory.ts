@@ -2,15 +2,15 @@ import { defaultMemory, defaultSettings } from "@/store/default-data";
 import { convertOldIds } from "./network";
 
 interface OldSettings {
-  theme: number;
-  visualization: boolean;
-  relax: boolean;
+  "theme": number;
+  "visualization": boolean;
+  "relax": boolean;
   "relax-timeout": number;
-  changecolor: boolean;
-  volume: number;
-  transitions: boolean;
-  loadpolicy: boolean;
-  language: string;
+  "changecolor": boolean;
+  "volume": number;
+  "transitions": boolean;
+  "loadpolicy": boolean;
+  "language": string;
 }
 
 interface OldTitle extends Title {
@@ -31,7 +31,7 @@ interface OldMemory {
 
 function convertIds(memory: OldMemory): Promise<Record<string, string>> {
   const oldStationIds = Object.values(memory.lists)
-    .flatMap(list => list.map(station => station.id))
+    .flatMap((list) => list.map((station) => station.id))
     .reduce((oldStationIds, id) => {
       if (!oldStationIds.includes(id)) {
         oldStationIds.push(id);
@@ -51,7 +51,7 @@ async function migrateData(memory: OldMemory): Promise<Memory> {
     version: "2",
     lists: Object.entries(lists).map(([name, content]) => ({
       name,
-      content: content.map(station => ({
+      content: content.map((station) => ({
         ...station,
         id: convertedIds[station.id],
       })),
@@ -93,7 +93,7 @@ async function unregisterServiceWorkers(): Promise<void> {
   if (navigator.serviceWorker !== undefined) {
     const registrations = await navigator.serviceWorker.getRegistrations();
 
-    registrations.forEach(registration => {
+    registrations.forEach((registration) => {
       registration.unregister();
     });
   }

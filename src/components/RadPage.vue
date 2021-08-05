@@ -139,7 +139,7 @@ export default class RadPage extends Mixins(ScrollHelper) {
     const provideHandlers =
       currentStation !== undefined &&
       this.currentList.length >= 2 &&
-      this.currentList.some(station => station.id === currentStation.id);
+      this.currentList.some((station) => station.id === currentStation.id);
 
     if (this.provideMediaSession === provideHandlers) {
       return;

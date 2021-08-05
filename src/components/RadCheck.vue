@@ -10,7 +10,7 @@
       <strong v-if="strongHeading"><slot /></strong>
       <slot v-else />
       <template v-if="hasDescription">
-        <br /><span class="description"><slot name="description"/></span>
+        <br /><span class="description"><slot name="description" /></span>
       </template>
     </div>
   </div>

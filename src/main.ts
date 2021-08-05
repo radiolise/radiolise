@@ -17,7 +17,7 @@ const app = new Vue({
   router,
   store,
   i18n,
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount("#app");
 
 if (process.env.NODE_ENV !== "production") {

@@ -19,6 +19,7 @@ module.exports = {
   rules: {
     "no-console": failInProductionMode,
     "no-debugger": failInProductionMode,
+    "no-undef": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { args: "none" }],
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "off",

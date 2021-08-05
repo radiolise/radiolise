@@ -14,14 +14,14 @@
       @keydown.enter="handleEnterPress()"
     />
     <div style="display: table-cell; white-space: nowrap; text-align: left">
-      <a v-show="active"><font-awesome-icon icon="check" fixed-width/></a>
+      <a v-show="active"><font-awesome-icon icon="check" fixed-width /></a>
       <a v-show="!active" @click="input.focus()"
-        ><font-awesome-icon icon="edit" fixed-width/></a
+        ><font-awesome-icon icon="edit" fixed-width /></a
       ><template v-if="!isNewList">
         <a @click="download()"
-          ><font-awesome-icon icon="download" fixed-width/></a
+          ><font-awesome-icon icon="download" fixed-width /></a
         ><router-link to="/search" @click.native="change()"
-          ><font-awesome-icon icon="search" fixed-width/></router-link
+          ><font-awesome-icon icon="search" fixed-width /></router-link
         ><a v-show="removable" @click="remove()"
           ><font-awesome-icon icon="trash" fixed-width
         /></a>

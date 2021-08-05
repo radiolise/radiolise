@@ -10,7 +10,7 @@
         target="_blank"
         rel="noopener"
         >{{ $t("search.credit.free") }}
-        <font-awesome-icon icon="external-link-alt" fixed-width/></a
+        <font-awesome-icon icon="external-link-alt" fixed-width /></a
       ><a href="http://www.radio-browser.info" target="_blank" rel="noopener"
         >Community Radio Browser
         <font-awesome-icon icon="external-link-alt" fixed-width
@@ -71,13 +71,14 @@
                     style="font-weight: bold; text-transform: uppercase"
                     >{{ $t("search.stationBroken") }}</span
                   >
-                  &nbsp;<span
+                  {{ " "
+                  }}<span
                     v-if="options.order !== 'name'"
                     class="label highlighted"
                     style="font-weight: bold"
                   >
                     <font-awesome-icon :icon="sortIcon" />
-                    &nbsp;
+                    {{ " " }}
                     <template v-if="result[options.order] !== ''">{{
                       numericalOrder
                         ? result[options.order].toLocaleString($i18n.locale)
@@ -92,10 +93,10 @@
           <p
             v-if="
               !active ||
-                showSpinner ||
-                empty ||
-                moreAvailable ||
-                scrollOnceLoaded
+              showSpinner ||
+              empty ||
+              moreAvailable ||
+              scrollOnceLoaded
             "
             id="load-more"
           >
@@ -340,7 +341,7 @@ export default class RadSearch extends Vue {
   }
 
   toggleResult(result: Record<string, string>): void {
-    const currentIndex = this.ids.findIndex(id => id === result.stationuuid);
+    const currentIndex = this.ids.findIndex((id) => id === result.stationuuid);
     const added = currentIndex === -1;
 
     this.updateList({
@@ -359,7 +360,7 @@ export default class RadSearch extends Vue {
               id: result.stationuuid,
             },
           ]
-        : this.currentList.filter(item => item.id !== result.stationuuid),
+        : this.currentList.filter((item) => item.id !== result.stationuuid),
     });
   }
 

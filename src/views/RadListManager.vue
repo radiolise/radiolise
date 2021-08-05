@@ -7,7 +7,12 @@
     <p class="description">{{ $t("listManager.description") }}</p>
     <div>
       <div
-        style="display: table; margin: 0 auto; padding-bottom: 10px; font-size: 20px"
+        style="
+          display: table;
+          margin: 0 auto;
+          padding-bottom: 10px;
+          font-size: 20px;
+        "
       >
         <rad-list-input
           v-for="(list, index) in lists"

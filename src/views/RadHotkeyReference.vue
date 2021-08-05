@@ -42,7 +42,7 @@ import keyBindings from "@/utils/hotkeys";
 })
 export default class RadHotkeyReference extends Vue {
   get bindingAliases(): string[] {
-    return Object.values(keyBindings).map(keybinding => keybinding.alias);
+    return Object.values(keyBindings).map((keybinding) => keybinding.alias);
   }
 }
 </script>

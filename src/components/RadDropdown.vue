@@ -1,7 +1,11 @@
 <template>
   <div
     class="dropdown-menu"
-    :class="{ 'is-list': !isMenu, 'flex-align': flexAlign, disabled: !enabled }"
+    :class="{
+      'is-list': !isMenu,
+      'flex-align': flexAlign,
+      'disabled': !enabled,
+    }"
   >
     <div class="wrapper" :class="{ 'fixed-height': !isMenu }">
       <div v-if="!isMenu" class="dropdown-label covering">
@@ -67,7 +71,7 @@ export default class RadDropdown extends Vue {
   @Ref() readonly select!: HTMLSelectElement;
 
   get currentOption(): DropdownOption | undefined {
-    return this.data.find(item => item.id === this.value);
+    return this.data.find((item) => item.id === this.value);
   }
 
   get enabled(): boolean {
