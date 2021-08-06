@@ -31,7 +31,7 @@ import Hls, { ErrorData } from "hls.js";
 import Screenfull from "screenfull";
 
 import { ModalOptions, ModalType } from "@/store";
-import network, { fetchPlayableUrl, getRedirectUrl } from "@/utils/network";
+import network, { fetchPlayableUrl } from "@/utils/network";
 import { TranslateResult } from "vue-i18n";
 
 let source = network.CancelToken.source();
@@ -164,7 +164,7 @@ export default class RadMedia extends Vue {
     this.lastTriedUrl = url;
 
     if (this.isNativeStream(url)) {
-      this.mediaElement.src = getRedirectUrl(url);
+      this.mediaElement.src = url;
     } else {
       this.playHls(url);
     }

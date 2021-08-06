@@ -79,10 +79,6 @@ export function fetchPlayableUrl(options: {
   return fetchFromRadioBrowser("/url/" + stationId, { cancelToken });
 }
 
-export function getRedirectUrl(url: string): string {
-  return serviceUrl + "?" + qs.stringify({ url, play: 1 });
-}
-
 export function findStations(options: {
   searchEntries: Record<string, any>;
   cancelToken: CancelToken;
