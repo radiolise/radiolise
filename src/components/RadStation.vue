@@ -19,7 +19,10 @@
         </div>
       </div>
       <div style="overflow: hidden; height: 30px">
-        <div style="overflow: scroll hidden; width: 100%">
+        <div
+          class="avoid-scrollbar"
+          style="overflow: scroll hidden; width: 100%"
+        >
           <div style="white-space: nowrap; height: 30px">
             <rad-tags :labels="labels" />
           </div>
@@ -216,5 +219,11 @@ export default class RadStation extends Mixins(DragHelper) {
 }
 .transition {
   transition: transform 0.3s;
+}
+.avoid-scrollbar {
+  scrollbar-width: none;
+}
+.avoid-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 </style>
