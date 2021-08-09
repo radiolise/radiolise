@@ -123,7 +123,7 @@ import { Component, PropSync, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
 import { ModalOptions, ModalType } from "@/store";
 
-import { fetchCountries, fetchStates, fetchLanguages } from "@/utils/network";
+import { fetchCountries, fetchStates, fetchLanguages } from "@/common/network";
 
 import RadCheck from "@/components/RadCheck.vue";
 import RadDropdown from "@/components/RadDropdown.vue";

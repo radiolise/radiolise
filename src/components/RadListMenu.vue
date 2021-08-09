@@ -46,7 +46,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import saveFile from "@/utils/downloader";
+import saveFile from "@/common/downloader";
 import RadDropdown from "./RadDropdown.vue";
 import RadRouterToggle from "./RadRouterToggle.vue";
 

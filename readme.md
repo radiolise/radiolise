@@ -8,7 +8,7 @@ browser.
 
 **[Try Radiolise](https://radiolise.com/)**
 
-(C) 2017-2020 Marco Bauer
+(C) 2017-2021 Marco Bauer
 
 Radiolise is free software: you can redistribute it and/or modify it under the
 terms of the GNU Affero General Public License as published by the Free Software
@@ -21,4 +21,4 @@ PARTICULAR PURPOSE. See http://www.gnu.org/licenses/ for more details.
 
 ---
 
-**[See also: Project setup](SETUP.md)**
+**[See also: Project setup](setup.md)**

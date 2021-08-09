@@ -31,7 +31,7 @@ import Hls, { ErrorData } from "hls.js";
 import Screenfull from "screenfull";
 
 import { ModalOptions, ModalType } from "@/store";
-import network, { fetchPlayableUrl } from "@/utils/network";
+import network, { fetchPlayableUrl } from "@/common/network";
 import { TranslateResult } from "vue-i18n";
 
 let source = network.CancelToken.source();

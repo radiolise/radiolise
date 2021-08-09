@@ -99,7 +99,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { format } from "date-fns";
 import { State, Getter, Action } from "vuex-class";
-import saveFile from "@/utils/downloader";
+import saveFile from "@/common/downloader";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadTitleRow from "@/components/RadTitleRow.vue";
 

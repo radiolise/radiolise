@@ -33,7 +33,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import RadDrawer from "@/components/RadDrawer.vue";
-import keyBindings from "@/utils/hotkeys";
+import keyBindings from "@/common/hotkeys";
 
 @Component({
   components: {

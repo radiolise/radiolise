@@ -1,7 +1,11 @@
 <template>
   <div id="dialog-layer">
     <div style="height: 100%; overflow: hidden" @click="$router.push('/')">
-      <div id="drawers" :class="{ shown: $route.path !== '/' }" @click.stop>
+      <div
+        id="drawers"
+        :class="['overscroll-contain', { shown: $route.path !== '/' }]"
+        @click.stop
+      >
         <transition name="slide-fade" mode="out-in">
           <keep-alive
             :exclude="[
@@ -224,6 +228,9 @@ export default class RadDialogLayer extends Vue {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+.overscroll-contain {
+  overscroll-behavior: contain;
 }
 #drawers,
 #toast {

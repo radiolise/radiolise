@@ -1,4 +1,16 @@
-# Changes in 5.0.1 (latest – 2020-10-03)
+# Changes in 5.1.0 (latest – 2021-08-09)
+
+- Update dependencies and correct whitespaces
+- Add new illustration for empty lists
+- Stream URLs are no longer redirected via the web service
+- Avoid unnecessary scrollbars for tags
+- Replace font files with their WOFF2 equivalents
+- Disable caching for the list manager component
+- Inject themes lazily using `style-loader`
+- Use the new `v-slot` syntax for custom router links
+- Refactoring and minor adjustments
+
+# Changes in [5.0.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/commit/3dc3b27799ed3f32d994456d87caebc648d2cc18) (2020-10-03)
 
 - Removed Moment dependency. Dates and times are now formatted using date-fns.
 - Added missing translation to locales.

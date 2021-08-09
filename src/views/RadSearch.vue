@@ -139,7 +139,7 @@
 import { Component, Ref, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import network, { findStations } from "@/utils/network";
+import network, { findStations } from "@/common/network";
 
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadTags from "@/components/RadTags.vue";

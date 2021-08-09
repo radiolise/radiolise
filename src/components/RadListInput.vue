@@ -34,7 +34,7 @@
 import { Component, Emit, Prop, Ref, Watch, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
-import saveFile from "@/utils/downloader";
+import saveFile from "@/common/downloader";
 import { ModalOptions, ModalType } from "@/store";
 
 @Component

@@ -1,7 +1,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Getter, Action, State } from "vuex-class";
 
-import keyBindings from "@/utils/hotkeys";
+import keyBindings from "@/common/hotkeys";
 import { ModalOptions } from "@/store";
 
 interface NumberInput {
@@ -93,7 +93,7 @@ export default class Hotkeys extends Vue {
       return true;
     }
     return (
-      document.hasFocus &&
+      document.hasFocus() &&
       document.activeElement?.tagName !== "INPUT" &&
       this.modalOptions === undefined &&
       !event.ctrlKey &&

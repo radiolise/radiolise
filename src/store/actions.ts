@@ -11,7 +11,7 @@ import network, {
   fetchNowPlayingInfo,
   voteForStation,
   fetchVoteNumber,
-} from "@/utils/network";
+} from "@/common/network";
 
 let source = network.CancelToken.source();
 let updateTimer: number;
@@ -423,7 +423,7 @@ const actions: ActionTree<StoreState, StoreState> = {
             ...cutStrings.slice(2),
           ].join(delimiter);
         }
-      } else {
+      } else if (!state.currentInfo) {
         const description = nowPlayingInfo.description;
 
         if (description !== "Unspecified description") {
