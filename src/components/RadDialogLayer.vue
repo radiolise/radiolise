@@ -7,6 +7,7 @@
             :exclude="[
               'RadEditor',
               'RadImportWizard',
+              'RadListManager',
               'RadSettings',
               'RadTitleManager',
             ]"
