@@ -106,10 +106,6 @@ export function fetchNowPlayingInfo(options: {
   });
 }
 
-export function fetchTheme(themeName: string): Promise<string> {
-  return fetch({ url: "css/" + themeName + ".css" });
-}
-
 export function voteForStation(
   stationId: string
 ): Promise<Record<string, any>> {

@@ -8,6 +8,7 @@ process.env.VUE_APP_REPO = homepage;
 process.env.VUE_APP_ISSUES = bugs.url;
 
 const dateFnsLocales = ["de", "fr" /*, "be", "ru" */];
+const themePattern = /\.lazy\.css$/;
 
 module.exports = {
   publicPath: ".",
@@ -30,8 +31,26 @@ module.exports = {
 
     config.plugin("prefetch").tap((options) => {
       options[0].fileBlacklist = options[0].fileBlacklist || [];
-      options[0].fileBlacklist.push(/date-fns-locale-(.)+?\.js$/);
+      options[0].fileBlacklist.push(
+        /date-fns-locale-(.)+?\.js$/,
+        /-lazy-css(.)*?\.js$/
+      );
       return options;
     });
+
+    config.module.rule("css").exclude.store = [themePattern];
+
+    config.module
+      .rule("lazy-css")
+      .test(themePattern)
+      .use("style-loader")
+      .loader("style-loader")
+      .tap((options) => ({
+        ...options,
+        injectType: "lazyStyleTag",
+      }))
+      .end()
+      .use("css-loader")
+      .loader("css-loader");
   },
 };

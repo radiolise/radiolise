@@ -49,6 +49,9 @@ h1,
 h2 {
   font-weight: normal;
 }
+.bg-dim {
+  background-color: var(--rad-dim-color);
+}
 .important {
   color: #f00;
 }
@@ -282,7 +285,7 @@ main > div {
   display: none;
 }
 a.active {
-  color: var(--rad-theme-color) !important;
+  color: var(--rad-primary-color) !important;
   font-weight: bold;
 }
 a.active svg path {
@@ -332,7 +335,7 @@ nav > div > div > button,
 .button:hover,
 nav > div > div > button:hover,
 #load-more button:hover {
-  color: var(--rad-theme-color);
+  color: var(--rad-primary-color);
 }
 #menu button:active,
 #title-manager button:active,
@@ -340,7 +343,7 @@ nav > div > div > button:hover,
 nav > div > div > button:active,
 #load-more button:active,
 button.active {
-  background: var(--rad-theme-color) !important;
+  background: var(--rad-primary-color) !important;
   color: #fff !important;
 }
 button.active svg path {
@@ -349,7 +352,7 @@ button.active svg path {
 input:not(#query):focus,
 .typing {
   background: rgba(0, 0, 0, 0.1);
-  border-bottom: 2px solid var(--rad-theme-color) !important;
+  border-bottom: 2px solid var(--rad-primary-color) !important;
 }
 a {
   cursor: pointer;

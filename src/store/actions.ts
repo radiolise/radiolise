@@ -1,6 +1,7 @@
 import { ActionTree } from "vuex";
 import XorWith from "lodash.xorwith";
 
+import "date-fns";
 import Screenfull from "screenfull";
 
 import { StoreState, ModalOptions, ModalType, ChangeKinds } from ".";
@@ -8,7 +9,6 @@ import { defaultSettings } from "./default-data";
 
 import network, {
   fetchNowPlayingInfo,
-  fetchTheme,
   voteForStation,
   fetchVoteNumber,
 } from "@/utils/network";
@@ -18,6 +18,7 @@ let updateTimer: number;
 let sleepTimer: number;
 let relaxTimer: number;
 let toastTimer: number;
+let importedTheme: { use: () => void; unuse: () => void } | undefined;
 
 const actions: ActionTree<StoreState, StoreState> = {
   init({ commit }, memory: Memory): void {
@@ -571,20 +572,16 @@ const actions: ActionTree<StoreState, StoreState> = {
   async loadStyle({ state, commit, dispatch }): Promise<void> {
     const { theme } = state.memory.settings;
     const colorScheme = state.darkMode ? "dark" : "light";
-    const styleSheetName = theme + "-" + colorScheme;
+    const styleSheetName = `${theme}-${colorScheme}`;
 
     try {
-      const styleSheet = await fetchTheme(styleSheetName);
-      const styleId = "theme";
-      let themeElement = document.getElementById(styleId);
+      const theme = await import(
+        /* webpackChunkName: "[request]" */ `@/assets/css/${styleSheetName}.lazy.css`
+      ).then((module) => module.default);
 
-      if (themeElement === null) {
-        themeElement = document.createElement("style");
-        themeElement.id = styleId;
-        document.head.appendChild(themeElement);
-      }
-
-      themeElement.textContent = styleSheet;
+      importedTheme?.unuse();
+      theme.use();
+      importedTheme = theme;
 
       if (!state.ready) {
         commit("SET_READY");
