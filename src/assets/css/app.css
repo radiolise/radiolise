@@ -2,14 +2,14 @@
   font-family: "Fira Sans";
   font-style: normal;
   font-weight: normal;
-  src: url(../fonts/FiraSans-Regular.ttf);
+  src: url(../fonts/FiraSans-Regular.woff2) format("woff2");
   font-display: swap;
 }
 @font-face {
   font-family: "Fira Sans";
   font-style: normal;
   font-weight: bold;
-  src: url(../fonts/FiraSans-Medium.ttf);
+  src: url(../fonts/FiraSans-Medium.woff2) format("woff2");
   font-display: swap;
 }
 * {
