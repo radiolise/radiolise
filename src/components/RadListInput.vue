@@ -18,7 +18,7 @@
       <a v-show="!active" @click="input.focus()"
         ><font-awesome-icon icon="edit" fixed-width /></a
       ><template v-if="!isNewList">
-        <a @click="download()"
+        <a @click="exportList()"
           ><font-awesome-icon icon="download" fixed-width /></a
         ><router-link to="/search" @click.native="change()"
           ><font-awesome-icon icon="search" fixed-width /></router-link
@@ -31,14 +31,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Ref, Watch, Vue } from "vue-property-decorator";
+import {
+  Component,
+  Emit,
+  Mixins,
+  Prop,
+  Ref,
+  Watch,
+} from "vue-property-decorator";
 import { Action } from "vuex-class";
 
-import saveFile from "@/common/downloader";
-import { ModalOptions, ModalType } from "@/store";
+import { ModalType } from "@/store";
+import ListHelper from "@/mixins/ListHelper";
 
 @Component
-export default class RadListInput extends Vue {
+export default class RadListInput extends Mixins(ListHelper) {
   active = false;
 
   @Prop({ type: String, default: "" }) readonly name!: string;
@@ -49,7 +56,6 @@ export default class RadListInput extends Vue {
 
   @Ref() readonly input!: HTMLInputElement;
 
-  @Action changeList!: (index: number) => Promise<void>;
   @Action createList!: (list: StationList) => Promise<void>;
   @Action allowEnterKey!: (allow: boolean) => Promise<void>;
 
@@ -59,7 +65,6 @@ export default class RadListInput extends Vue {
   }) => Promise<void>;
 
   @Action removeList!: (index: number) => Promise<void>;
-  @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   get isNewList(): boolean {
     return this.name === "";
@@ -135,25 +140,11 @@ export default class RadListInput extends Vue {
     this.removeList(this.index);
   }
 
-  download(): void {
-    if (this.content.length === 0) {
-      this.showMessage({
-        type: ModalType.WARNING,
-        buttons: [this.$t("general.ok") as string],
-        message: this.$t("general.listEmpty[0]") as string,
-      });
-
-      return;
-    }
-
-    saveFile({
+  exportList(): void {
+    this.download({
       name: this.name,
       type: "txt",
-      output: {
-        version: "2",
-        type: "list",
-        data: { [this.name]: this.content },
-      },
+      content: this.content,
     });
   }
 

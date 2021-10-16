@@ -1,36 +1,36 @@
-const mimeTypes = {
-  txt: "application/x-yaml",
-  pls: "audio/x-scpls",
-  m3u: "audio/mpegurl",
-  xspf: "application/xspf+xml",
-};
-
-type OutputType = keyof typeof mimeTypes;
-
 interface FileInfo {
   name: string;
-  type: OutputType;
-  output: any;
+  type: string;
+  output: string;
 }
 
-async function provideFile({ name, type, output }: FileInfo): Promise<void> {
-  const mimeType = mimeTypes[type];
+function resolveMimeType(type: string) {
+  switch (type) {
+    case "txt":
+      return "application/x-yaml";
+    case "pls":
+      return "audio/x-scpls";
+    case "m3u":
+      return "audio/mpegurl";
+    case "xspf":
+      return "application/xspf+xml";
+    default:
+      throw new Error("MIME type resolution failed: Unknown type");
+  }
+}
+
+export async function convertToYaml(value: any) {
+  const YAML = await import("yaml");
+  return YAML.stringify(value);
+}
+
+export async function saveFile({ name, type, output }: FileInfo) {
+  const mimeType = resolveMimeType(type);
   const fileName = `${name.replace(/ /g, "_")}_${new Date().getTime()}.${type}`;
 
-  const FileSaver = await import(
-    /* webpackChunkName: "file-saver" */ "file-saver"
+  const FileSaver = await import("file-saver").then(
+    (FileSaver) => FileSaver.default
   );
 
   FileSaver.saveAs(new Blob([output], { type: mimeType }), fileName);
 }
-
-async function saveFile({ name, type, output }: FileInfo): Promise<void> {
-  if (typeof output === "string") {
-    provideFile({ name, type, output });
-  } else {
-    const YAML = await import(/* webpackChunkName: "yaml" */ "yaml");
-    provideFile({ name, type, output: YAML.stringify(output) });
-  }
-}
-
-export default saveFile;

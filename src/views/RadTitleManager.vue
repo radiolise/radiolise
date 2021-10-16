@@ -99,7 +99,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { format } from "date-fns";
 import { State, Getter, Action } from "vuex-class";
-import saveFile from "@/common/downloader";
+import { convertToYaml, saveFile } from "@/common/downloader";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadTitleRow from "@/components/RadTitleRow.vue";
 
@@ -124,7 +124,7 @@ export default class RadTitleManager extends Vue {
   ) => Promise<Locale | undefined>;
 
   get bookmarks(): Record<string, Title[]> {
-    return this.generateBookmarks(this.dateFnsLocale);
+    return this.generateBookmarks();
   }
 
   get history(): Title[] {
@@ -136,7 +136,7 @@ export default class RadTitleManager extends Vue {
     return format(time, "MMMM yyyy", { locale: this.dateFnsLocale });
   }
 
-  generateBookmarks(locale?: Locale): Record<string, Title[]> {
+  generateBookmarks(): Record<string, Title[]> {
     return this.memory.titles.favorites.reduce((bookmarks, item) => {
       const currentMonth = this.formatMonth(item.time * 60);
 
@@ -150,8 +150,12 @@ export default class RadTitleManager extends Vue {
     }, {} as Record<string, Title[]>);
   }
 
-  exportBookmarks(): void {
-    saveFile({ name: "Bookmarks", type: "txt", output: this.bookmarks });
+  async exportBookmarks(): Promise<void> {
+    saveFile({
+      name: "Bookmarks",
+      type: "txt",
+      output: await convertToYaml(this.bookmarks),
+    });
   }
 }
 </script>

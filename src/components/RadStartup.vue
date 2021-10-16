@@ -26,7 +26,7 @@ import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Action } from "vuex-class";
 
 import { memoryUpgradeNeeded, getMemory, defaultMemory } from "@/common/memory";
-import saveFile from "@/common/downloader";
+import { saveFile } from "@/common/downloader";
 
 @Component
 export default class RadStartup extends Vue {

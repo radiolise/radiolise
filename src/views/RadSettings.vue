@@ -159,7 +159,7 @@
 import { Component, Ref, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
-import saveFile from "@/common/downloader";
+import { saveFile, convertToYaml } from "@/common/downloader";
 
 import RadCheck from "@/components/RadCheck.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
@@ -234,7 +234,7 @@ export default class RadSettings extends Vue {
     }
   }
 
-  exportSettings(): void {
+  async exportSettings(): Promise<void> {
     if (this.settings === null) {
       return;
     }
@@ -242,11 +242,11 @@ export default class RadSettings extends Vue {
     saveFile({
       name: "Settings",
       type: "txt",
-      output: {
+      output: await convertToYaml({
         version: "2",
         type: "settings",
         data: this.settings,
-      },
+      }),
     });
   }
 }

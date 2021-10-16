@@ -24,14 +24,9 @@
     <rad-dropdown
       :actions="[$t('general.cancel')]"
       :label="$t('general.downloadAs')"
-      :data="[
-        { id: 'txt', name: $t('general.yamlFile', [appTitle]) },
-        { id: 'pls', name: 'PLS' },
-        { id: 'm3u', name: 'M3U' },
-        { id: 'xspf', name: 'XSPF' },
-      ]"
+      :data="downloadOptions"
       :title="$t('general.downloadPlaylist')"
-      @change="downloadList"
+      @change="exportList"
     >
       <font-awesome-icon icon="download" fixed-width />
     </rad-dropdown>
@@ -43,14 +38,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { Getter, Action } from "vuex-class";
+import { Component, Mixins } from "vue-property-decorator";
+import { Getter } from "vuex-class";
 
-import saveFile from "@/common/downloader";
 import RadDropdown from "./RadDropdown.vue";
 import RadRouterToggle from "./RadRouterToggle.vue";
-
-import { ModalOptions, ModalType } from "@/store";
+import ListHelper from "@/mixins/ListHelper";
 
 @Component({
   components: {
@@ -58,16 +51,13 @@ import { ModalOptions, ModalType } from "@/store";
     RadRouterToggle,
   },
 })
-export default class RadListMenu extends Vue {
+export default class RadListMenu extends Mixins(ListHelper) {
   appTitle = process.env.VUE_APP_TITLE;
 
   @Getter readonly currentList!: Station[];
   @Getter readonly listName!: string;
   @Getter readonly lists!: StationList[];
   @Getter readonly selectedList!: number;
-
-  @Action changeList!: (index: number) => Promise<void>;
-  @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   get dropdownOptions(): DropdownOption[] {
     return this.lists.map((list, index) => ({
@@ -77,66 +67,23 @@ export default class RadListMenu extends Vue {
     }));
   }
 
-  downloadList(type: string): void {
-    if (this.currentList.length === 0) {
-      this.showMessage({
-        type: ModalType.WARNING,
-        buttons: [this.$t("general.ok") as string],
-        message: this.$t("general.listEmpty[0]") as string,
-      });
+  get downloadOptions(): DropdownOption[] {
+    const yamlLabel = this.$t("general.yamlFile", [this.appTitle]) as string;
 
-      return;
-    }
+    return [
+      { id: "txt", name: yamlLabel },
+      { id: "xspf", name: "XSPF" },
+      { id: "pls", name: "PLS" },
+      { id: "m3u", name: "M3U" },
+    ];
+  }
 
-    let output: Record<string, any> | string;
-
-    switch (type) {
-      case "txt":
-        output = {
-          version: "2",
-          type: "list",
-          data: { [this.listName]: this.currentList },
-        };
-
-        break;
-
-      case "pls":
-        output = "[playlist]\n";
-
-        this.currentList.forEach((item, index) => {
-          output += `File${index + 1}=${item.url}\nTitle${index + 1}=${
-            item.name
-          }\n`;
-        });
-
-        output += "Version=2\n";
-        break;
-
-      case "m3u":
-        output = "#EXTM3U\n";
-
-        this.currentList.forEach((item) => {
-          output += `#EXTINF:-1,${item.name}\n${item.url}\n`;
-        });
-
-        break;
-
-      case "xspf":
-        output =
-          '<?xml version="1.0" encoding="UTF-8"?>\n<playlist version="1" xmlns="http://xspf.org/ns/0/">\n  <trackList>\n';
-
-        this.currentList.forEach((item) => {
-          output += `    <track>\n      <title>${item.name}</title>\n      <location>${item.url}</location>\n    </track>\n`;
-        });
-
-        output += "  </trackList>\n</playlist>\n";
-        break;
-
-      default:
-        throw new Error(`Unknown output type '${type}'.`);
-    }
-
-    saveFile({ name: this.listName, type, output });
+  exportList(type: string): void {
+    this.download({
+      name: this.listName,
+      type,
+      content: this.currentList,
+    });
   }
 }
 </script>
