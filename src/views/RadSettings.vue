@@ -121,9 +121,11 @@
         </div>
       </div>
       <div class="text-right">
-        <router-link class="button" to="/">
-          <font-awesome-icon icon="ban" /> {{ $t("settings.discard") }}
-        </router-link>
+        <rad-link v-slot="{ navigate }" :to="null">
+          <a class="button" @click="navigate">
+            <font-awesome-icon icon="ban" /> {{ $t("settings.discard") }}
+          </a>
+        </rad-link>
         <a class="button" @click="form.submit.click()">
           <font-awesome-icon icon="check" />
           {{ $t("general.apply") }}
@@ -133,23 +135,30 @@
     </form>
     <div style="display: table; margin: 10px auto">
       <div style="float: left; margin: 5px 10px">
-        <a href="#/settings" @click="reset()"
+        <a @click="reset()"
           ><font-awesome-icon icon="undo" fixed-width />{{
             $t("settings.reset")
           }}</a
         ><br />
       </div>
       <div style="float: right; margin: 5px 10px">
-        <router-link to="/import-wizard/settings">
-          <font-awesome-icon icon="upload" fixed-width />{{
-            $t("settings.import")
-          }}</router-link
-        ><br />
-        <a href="#/settings" @click="exportSettings()"
-          ><font-awesome-icon icon="download" fixed-width />{{
-            $t("settings.export")
-          }}</a
+        <rad-link
+          v-slot="{ navigate }"
+          to="import-wizard"
+          :props="{ type: 'settings' }"
         >
+          <a @click="navigate">
+            <font-awesome-icon icon="upload" fixed-width />{{
+              $t("settings.import")
+            }}
+          </a>
+        </rad-link>
+        <br />
+        <a @click="exportSettings()">
+          <font-awesome-icon icon="download" fixed-width />{{
+            $t("settings.export")
+          }}
+        </a>
       </div>
     </div>
   </rad-drawer>
@@ -160,16 +169,19 @@ import { Component, Ref, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
 import { saveFile, convertToYaml } from "@/common/downloader";
+import { navigate } from "@/common/routing";
 
 import RadCheck from "@/components/RadCheck.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadDropdown from "@/components/RadDropdown.vue";
+import RadLink from "@/components/RadLink.vue";
 
 @Component({
   components: {
     RadCheck,
     RadDrawer,
     RadDropdown,
+    RadLink,
   },
 })
 export default class RadSettings extends Vue {
@@ -223,7 +235,7 @@ export default class RadSettings extends Vue {
 
   handleSubmit(): void {
     this.applySettings(this.settings);
-    this.$router.push("/");
+    navigate(null);
   }
 
   handleEnterPressed(event: KeyboardEvent): void {

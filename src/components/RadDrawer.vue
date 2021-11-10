@@ -1,13 +1,17 @@
 <template>
   <div>
     <div class="menu-buttons">
-      <router-link v-if="!isMenu" to="/menu">
-        <font-awesome-icon icon="bars" fixed-width size="lg" />
-      </router-link>
+      <rad-link v-if="!isMenu" v-slot="{ navigate }" to="menu">
+        <a @click="navigate">
+          <font-awesome-icon icon="bars" fixed-width size="lg" />
+        </a>
+      </rad-link>
       {{ " " }}
-      <router-link to="/">
-        <font-awesome-icon icon="times-circle" fixed-width size="lg" />
-      </router-link>
+      <rad-link v-slot="{ navigate }" :to="null">
+        <a @click="navigate">
+          <font-awesome-icon icon="times-circle" fixed-width size="lg" />
+        </a>
+      </rad-link>
     </div>
     <slot />
   </div>
@@ -15,8 +19,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import RadLink from "./RadLink.vue";
 
-@Component
+@Component({
+  components: {
+    RadLink,
+  },
+})
 export default class RadDrawer extends Vue {
   @Prop({ type: Boolean, default: false }) readonly isMenu!: boolean;
 }

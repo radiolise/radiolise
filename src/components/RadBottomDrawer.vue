@@ -35,6 +35,7 @@
 import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 import { SearchStats, UndoableEvent } from "@/store";
+import { navigate } from "@/common/routing";
 
 @Component
 export default class RadBottomDrawer extends Vue {
@@ -88,7 +89,7 @@ export default class RadBottomDrawer extends Vue {
     if (this.itemRemoved) {
       this.discardUndoableEvent();
     } else {
-      this.$router.push("/");
+      navigate(null);
     }
   }
 

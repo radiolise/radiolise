@@ -174,6 +174,10 @@ const mutations: MutationTree<StoreState> = {
   SET_DATE_FNS_LOCALE(state, locale: Locale): void {
     state.dateFnsLocale = locale;
   },
+
+  SET_DIALOG(state, dialog: DialogState | null) {
+    state.currentDialog = dialog;
+  },
 };
 
 export default mutations;

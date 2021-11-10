@@ -2,13 +2,13 @@
   <div id="page">
     <nav>
       <div>
-        <rad-router-toggle v-slot="{ navigate }" to="/menu" custom>
+        <rad-link v-slot="{ navigate }" to="menu" toggle>
           <span @click="navigate">
             <rad-logo /><span>{{ appTitle }}</span>
           </span>
-        </rad-router-toggle>
+        </rad-link>
         <div>
-          <rad-router-toggle v-slot="{ navigate, active }" to="/search" custom>
+          <rad-link v-slot="{ active, navigate }" to="search" toggle>
             <button
               :aria-label="$t('general.findStations')"
               :class="{ active }"
@@ -18,12 +18,8 @@
                 {{ $t("general.findStations") }}</span
               >
             </button>
-          </rad-router-toggle>
-          <rad-router-toggle
-            v-slot="{ navigate, active }"
-            to="/settings"
-            custom
-          >
+          </rad-link>
+          <rad-link v-slot="{ active, navigate }" to="settings" toggle>
             <button
               :aria-label="$t('general.settings')"
               :class="{ active }"
@@ -33,8 +29,8 @@
                 {{ $t("general.settings") }}</span
               >
             </button>
-          </rad-router-toggle>
-          <rad-router-toggle v-slot="{ navigate, active }" to="/menu" custom>
+          </rad-link>
+          <rad-link v-slot="{ active, navigate }" to="menu" toggle>
             <button
               :aria-label="$t('general.more')"
               :class="{ active }"
@@ -44,7 +40,7 @@
                 {{ $t("general.more") }}</span
               >
             </button>
-          </rad-router-toggle>
+          </rad-link>
         </div>
         <rad-player />
       </div>
@@ -61,11 +57,13 @@
             <rad-station-list v-else />
           </div>
           <p v-if="!listEmpty" class="text-right">
-            <rad-router-toggle class="button" to="/search">
-              <font-awesome-icon icon="search" fixed-width />{{
-                $t("general.findStations")
-              }}
-            </rad-router-toggle>
+            <rad-link v-slot="{ active, navigate }" to="search" toggle>
+              <a :class="['button', { active }]" @click="navigate">
+                <font-awesome-icon icon="search" fixed-width />{{
+                  $t("general.findStations")
+                }}
+              </a>
+            </rad-link>
           </p>
         </div>
       </div>
@@ -79,21 +77,21 @@ import { Getter, Action } from "vuex-class";
 
 import ScrollHelper from "@/mixins/ScrollHelper";
 import RadEmptyList from "./RadEmptyList.vue";
+import RadLink from "./RadLink.vue";
 import RadListMenu from "./RadListMenu.vue";
 import RadLogo from "./RadLogo.vue";
 import RadMedia from "./RadMedia.vue";
 import RadPlayer from "./RadPlayer.vue";
-import RadRouterToggle from "./RadRouterToggle.vue";
 import RadStationList from "./RadStationList.vue";
 
 @Component({
   components: {
     RadEmptyList,
+    RadLink,
     RadListMenu,
     RadLogo,
     RadMedia,
     RadPlayer,
-    RadRouterToggle,
     RadStationList,
   },
 })

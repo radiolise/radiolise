@@ -1,26 +1,33 @@
 <template>
   <div id="dialog-layer">
-    <div style="height: 100%; overflow: hidden" @click="$router.push('/')">
-      <div
-        id="drawers"
-        :class="['overscroll-contain', { shown: $route.path !== '/' }]"
-        @click.stop
-      >
-        <transition name="slide-fade" mode="out-in">
-          <keep-alive
-            :exclude="[
-              'RadEditor',
-              'RadImportWizard',
-              'RadListManager',
-              'RadSettings',
-              'RadTitleManager',
-            ]"
-          >
-            <router-view :key="$route.fullPath" />
-          </keep-alive>
-        </transition>
+    <rad-link v-slot="{ navigate }" :to="null">
+      <div style="height: 100%; overflow: hidden" @click="navigate">
+        <div
+          id="drawers"
+          :class="['overscroll-contain', { shown: currentDialog !== null }]"
+          @click.stop
+        >
+          <transition name="slide-fade" mode="out-in">
+            <keep-alive
+              :exclude="[
+                'RadEditor',
+                'RadImportWizard',
+                'RadListManager',
+                'RadSettings',
+                'RadTitleManager',
+              ]"
+            >
+              <component
+                :is="currentView"
+                v-if="currentDialog"
+                :key="viewIndex"
+                v-bind="dialogProps"
+              />
+            </keep-alive>
+          </transition>
+        </div>
       </div>
-    </div>
+    </rad-link>
     <rad-bottom-drawer />
     <transition name="fade">
       <div v-if="toast !== null" id="toast">
@@ -103,24 +110,68 @@
 </template>
 
 <script lang="ts">
+import { Component as IComponent } from "vue";
 import { Component, Watch, Vue } from "vue-property-decorator";
-import { State, Getter } from "vuex-class";
+import { State, Getter, Action } from "vuex-class";
 
 import RadBottomDrawer from "./RadBottomDrawer.vue";
+import RadLink from "./RadLink.vue";
 
 import { ModalOptions, ModalType } from "@/store";
+
+import RadAbout from "@/views/RadAbout.vue";
+import RadEditor from "@/views/RadEditor.vue";
+import RadHotkeyReference from "@/views/RadHotkeyReference.vue";
+import RadImportWizard from "@/views/RadImportWizard.vue";
+import RadListManager from "@/views/RadListManager.vue";
+import RadMenu from "@/views/RadMenu.vue";
+import RadSearch from "@/views/RadSearch.vue";
+import RadSettings from "@/views/RadSettings.vue";
+import RadTitleManager from "@/views/RadTitleManager.vue";
 
 @Component({
   components: {
     RadBottomDrawer,
+    RadLink,
   },
 })
 export default class RadDialogLayer extends Vue {
   animationTrigger = false;
+  viewIndex = 0;
+  currentView: IComponent | null = null;
 
+  static get views(): Record<string, IComponent> {
+    return {
+      "about": RadAbout,
+      "editor": RadEditor,
+      "hotkeys": RadHotkeyReference,
+      "import-wizard": RadImportWizard,
+      "list-manager": RadListManager,
+      "menu": RadMenu,
+      "search": RadSearch,
+      "settings": RadSettings,
+      "title-manager": RadTitleManager,
+    };
+  }
+
+  @State readonly currentDialog!: DialogState | null;
   @State readonly toast!: Toast | null;
 
   @Getter readonly modalOptions: Required<ModalOptions> | undefined;
+
+  @Action updateDialog!: (dialog: DialogState | null) => void;
+
+  created() {
+    window.addEventListener("popstate", this.syncHistoryStack);
+
+    if (window.history.state !== null) {
+      this.syncHistoryStack();
+    }
+  }
+
+  get dialogProps() {
+    return this.currentDialog?.props;
+  }
 
   get modalTitle(): string {
     return this.modalOptions?.title || (this.$t("general.note") as string);
@@ -144,6 +195,18 @@ export default class RadDialogLayer extends Vue {
   @Watch("modalOptions.message")
   onModalOptionsChanged(): void {
     this.animationTrigger = !this.animationTrigger;
+  }
+
+  @Watch("currentDialog")
+  onDialogChanged(dialog: DialogState | null) {
+    if (dialog !== null) {
+      this.currentView = RadDialogLayer.views[dialog.viewId];
+    }
+    this.viewIndex++;
+  }
+
+  syncHistoryStack() {
+    this.updateDialog(window.history.state);
   }
 
   isPositiveButton(button: string): boolean {

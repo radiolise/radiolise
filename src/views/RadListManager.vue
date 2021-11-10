@@ -25,13 +25,19 @@
         <rad-list-input :adding="adding" @blur="adding = false" />
       </div>
       <div style="text-align: right">
-        <router-link class="button" to="/import-wizard/list"
-          ><font-awesome-icon icon="file-import" />
-          {{ $t("general.importBackup") }}</router-link
+        <rad-link
+          v-slot="{ navigate }"
+          to="import-wizard"
+          :props="{ type: 'list' }"
         >
-        <a class="button" @click="adding = true"
-          ><font-awesome-icon icon="plus" /> {{ $t("listManager.newList") }}</a
-        >
+          <a class="button" @click="navigate">
+            <font-awesome-icon icon="file-import" />
+            {{ $t("general.importBackup") }}
+          </a>
+        </rad-link>
+        <a class="button" @click="adding = true">
+          <font-awesome-icon icon="plus" /> {{ $t("listManager.newList") }}
+        </a>
       </div>
     </div>
   </rad-drawer>
@@ -42,11 +48,13 @@ import { Component, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
 import RadDrawer from "@/components/RadDrawer.vue";
+import RadLink from "@/components/RadLink.vue";
 import RadListInput from "@/components/RadListInput.vue";
 
 @Component({
   components: {
     RadDrawer,
+    RadLink,
     RadListInput,
   },
 })

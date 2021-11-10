@@ -46,6 +46,7 @@ export interface SearchStats {
 export interface StoreState {
   active: boolean;
   bufferFine: boolean;
+  currentDialog: DialogState | null;
   currentInfo?: string;
   darkMode: boolean;
   dateFnsLocale: Locale | null;
@@ -92,6 +93,7 @@ const store = new Vuex.Store({
   state: {
     active: false,
     bufferFine: true,
+    currentDialog: null,
     currentInfo: undefined,
     darkMode: false,
     dateFnsLocale: null,

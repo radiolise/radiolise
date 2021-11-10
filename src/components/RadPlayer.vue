@@ -104,13 +104,15 @@
               ><font-awesome-icon icon="home" fixed-width
             /></a>
             {{ " " }}
-            <rad-router-toggle
-              class="button-primary"
-              :title="$t('general.manageTitles')"
-              to="/title-manager"
-            >
-              <font-awesome-icon icon="history" fixed-width />
-            </rad-router-toggle>
+            <rad-link v-slot="{ active, navigate }" to="title-manager" toggle>
+              <a
+                :class="['button-primary', { active }]"
+                :title="$t('general.manageTitles')"
+                @click="navigate"
+              >
+                <font-awesome-icon icon="history" fixed-width />
+              </a>
+            </rad-link>
             {{ " " }}
             <a
               v-if="info"
@@ -226,13 +228,19 @@
             </div>
             <div>
               <div style="padding-top: 10px">
-                <rad-router-toggle to="/title-manager">
-                  <font-awesome-icon
-                    icon="history"
-                    fixed-width
-                    style="width: 31px"
-                  />{{ $t("general.manageTitles") }}
-                </rad-router-toggle>
+                <rad-link
+                  v-slot="{ active, navigate }"
+                  to="title-manager"
+                  toggle
+                >
+                  <a :class="{ active }" @click="navigate">
+                    <font-awesome-icon
+                      icon="history"
+                      fixed-width
+                      style="width: 31px"
+                    />{{ $t("general.manageTitles") }}
+                  </a>
+                </rad-link>
               </div>
             </div>
             <div v-show-slide="!!info">
@@ -263,13 +271,14 @@
 <script lang="ts">
 import { Component, Watch, Mixins } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
-import RadRouterToggle from "./RadRouterToggle.vue";
+
+import RadLink from "./RadLink.vue";
 import RadSlider from "./RadSlider.vue";
 import BookmarkHelper from "@/mixins/BookmarkHelper";
 
 @Component({
   components: {
-    RadRouterToggle,
+    RadLink,
     RadSlider,
   },
 })

@@ -699,6 +699,10 @@ const actions: ActionTree<StoreState, StoreState> = {
   unsetDateFnsLocale({ commit }): void {
     commit("SET_DATE_FNS_LOCALE", null);
   },
+
+  updateDialog({ commit }, dialog: DialogState | null): void {
+    commit("SET_DIALOG", dialog);
+  },
 };
 
 export default actions;

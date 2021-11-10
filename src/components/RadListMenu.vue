@@ -2,24 +2,37 @@
   <div class="list-menu">
     <strong>{{ $t("general.list") }}</strong
     >:
-    <rad-dropdown
-      id="lists"
-      :value="selectedList"
-      :actions="[$t('general.manage')]"
-      :actions-enabled="$route.path !== '/list-manager'"
-      :label="$t('general.stationLists')"
-      :data="dropdownOptions"
-      :aria-label="$t('general.stationLists')"
-      @change="changeList"
-      @actionSelect="$router.push('/list-manager')"
-    />
-    {{ " " }}
-    <rad-router-toggle
-      :title="$t('general.importBackup')"
-      to="/import-wizard/list"
+    <rad-link
+      v-slot="{ active: listManagerShown, navigate: openListManager }"
+      to="list-manager"
     >
-      <font-awesome-icon icon="upload" fixed-width />
-    </rad-router-toggle>
+      <rad-dropdown
+        id="lists"
+        :value="selectedList"
+        :actions="[$t('general.manage')]"
+        :actions-enabled="!listManagerShown"
+        :label="$t('general.stationLists')"
+        :data="dropdownOptions"
+        :aria-label="$t('general.stationLists')"
+        @change="changeList"
+        @actionSelect="openListManager"
+      />
+    </rad-link>
+    {{ " " }}
+    <rad-link
+      v-slot="{ active, navigate }"
+      to="import-wizard"
+      :props="{ type: 'list' }"
+      toggle
+    >
+      <a
+        :class="{ active }"
+        :title="$t('general.importBackup')"
+        @click="navigate"
+      >
+        <font-awesome-icon icon="upload" fixed-width />
+      </a>
+    </rad-link>
     {{ " " }}
     <rad-dropdown
       :actions="[$t('general.cancel')]"
@@ -31,9 +44,15 @@
       <font-awesome-icon icon="download" fixed-width />
     </rad-dropdown>
     {{ " " }}
-    <rad-router-toggle :title="$t('general.manageLists')" to="/list-manager">
-      <font-awesome-icon icon="wrench" fixed-width />
-    </rad-router-toggle>
+    <rad-link v-slot="{ active, navigate }" to="list-manager" toggle>
+      <a
+        :class="{ active }"
+        :title="$t('general.manageLists')"
+        @click="navigate"
+      >
+        <font-awesome-icon icon="wrench" fixed-width />
+      </a>
+    </rad-link>
   </div>
 </template>
 
@@ -42,13 +61,14 @@ import { Component, Mixins } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
 import RadDropdown from "./RadDropdown.vue";
-import RadRouterToggle from "./RadRouterToggle.vue";
+import RadLink from "./RadLink.vue";
+
 import ListHelper from "@/mixins/ListHelper";
 
 @Component({
   components: {
     RadDropdown,
-    RadRouterToggle,
+    RadLink,
   },
 })
 export default class RadListMenu extends Mixins(ListHelper) {

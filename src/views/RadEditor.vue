@@ -117,6 +117,7 @@ import RadInput from "@/components/RadInput.vue";
 import RadTagInput from "@/components/RadTagInput.vue";
 
 import { ModalOptions, ModalType } from "@/store";
+import { navigate } from "@/common/routing";
 
 @Component({
   components: {
@@ -158,7 +159,7 @@ export default class RadEditor extends Vue {
         message: this.$t("editor.notExisting") as string,
       });
 
-      this.$router.replace("/");
+      navigate(null, { replace: true });
     }
   }
 
@@ -185,7 +186,7 @@ export default class RadEditor extends Vue {
     this.closing = false;
 
     if (this.form.checkValidity()) {
-      this.$router.push("/");
+      navigate(null);
     }
   }
 }

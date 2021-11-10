@@ -124,7 +124,7 @@
         <p v-if="failed" style="font-size: 18px">
           <font-awesome-icon icon="exclamation-triangle" fixed-width />
           {{ $t("search.error") }}
-          <a href="#/search" @click="reset"
+          <a @click="reset"
             ><font-awesome-icon icon="redo" fixed-width />{{
               $t("search.tryAgain")
             }}</a

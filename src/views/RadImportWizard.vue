@@ -77,9 +77,14 @@
           <br />
         </template>
         <div style="text-align: right">
-          <router-link class="button" :to="type === 'list' ? '/' : '/settings'">
-            <font-awesome-icon icon="ban" /> {{ $t("general.cancel") }}
-          </router-link>
+          <rad-link
+            v-slot="{ navigate }"
+            :to="type === 'list' ? null : 'settings'"
+          >
+            <a class="button" @click="navigate">
+              <font-awesome-icon icon="ban" /> {{ $t("general.cancel") }}
+            </a>
+          </rad-link>
           <a class="button" @click="importItems()">
             <font-awesome-icon icon="arrow-right" /> {{ $t("general.apply") }}
           </a>
@@ -93,11 +98,13 @@
 import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
 import { ModalOptions, ModalType } from "@/store";
+import { navigate } from "@/common/routing";
 
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadDropZone from "@/components/RadDropZone.vue";
-import RadTags from "@/components/RadTags.vue";
+import RadLink from "@/components/RadLink.vue";
 import RadResult from "@/components/RadResult.vue";
+import RadTags from "@/components/RadTags.vue";
 
 type BackupKind = Record<string, Station[]> | Settings;
 type Backup = Record<string, string | BackupKind>;
@@ -106,8 +113,9 @@ type Backup = Record<string, string | BackupKind>;
   components: {
     RadDrawer,
     RadDropZone,
-    RadTags,
+    RadLink,
     RadResult,
+    RadTags,
   },
 })
 export default class RadImportWizard extends Vue {
@@ -169,7 +177,7 @@ export default class RadImportWizard extends Vue {
   async importItems(): Promise<void> {
     if (this.type === "settings") {
       this.applySettings(this.backup as Settings);
-      this.$router.push("/settings");
+      window.history.back();
       return;
     }
 
@@ -188,8 +196,8 @@ export default class RadImportWizard extends Vue {
       this.createList({ name, content });
       await this.$nextTick();
       this.changeList(-1);
-      this.$router.push("/");
-    } catch (error) {
+      navigate(null);
+    } catch (error: any) {
       if (error.message.includes("empty")) {
         this.showMessage({
           type: ModalType.WARNING,
@@ -210,7 +218,7 @@ export default class RadImportWizard extends Vue {
         });
 
         if (buttonId === 0) {
-          this.$router.push("/");
+          navigate(null);
           this.updateList({ name, content });
         }
       }

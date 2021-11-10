@@ -99,6 +99,16 @@ interface Toast {
   icon?: string;
 }
 
+interface DialogProps {
+  type?: string;
+  [key: string]: any;
+}
+
+interface DialogState {
+  viewId: string;
+  props?: DialogProps;
+}
+
 interface Window {
   app?: Vue;
 }

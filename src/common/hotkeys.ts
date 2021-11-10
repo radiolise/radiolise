@@ -1,4 +1,5 @@
 import HotkeyMixin from "@/mixins/Hotkeys";
+import { navigate } from "./routing";
 
 interface KeyBinding {
   alias: string;
@@ -8,15 +9,15 @@ interface KeyBinding {
 const keyBindings: Record<string, KeyBinding> = {
   "h": {
     alias: "H",
-    trigger({ $router, $route }) {
-      $router.push($route.path === "/hotkeys" ? "/" : "/hotkeys");
+    trigger() {
+      navigate("hotkeys", { toggle: true });
     },
   },
 
   "m": {
     alias: "M",
-    trigger({ $router, $route }) {
-      $router.push($route.path === "/menu" ? "/" : "/menu");
+    trigger() {
+      navigate("menu", { toggle: true });
     },
   },
 
@@ -82,11 +83,11 @@ const keyBindings: Record<string, KeyBinding> = {
 
   "Escape": {
     alias: "Esc",
-    trigger({ $route, $router, closeModal }) {
+    trigger({ closeModal }) {
       const wasShown = closeModal();
 
-      if (!wasShown && $route.path !== "/") {
-        $router.push("/");
+      if (!wasShown) {
+        navigate(null);
       }
     },
   },

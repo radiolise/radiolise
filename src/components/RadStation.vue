@@ -50,7 +50,9 @@ import { State, Getter, Action } from "vuex-class";
 import RadDropdown from "./RadDropdown.vue";
 import RadIcon from "./RadIcon.vue";
 import RadTags from "./RadTags.vue";
+
 import DragHelper from "@/mixins/DragHelper";
+import { navigate } from "@/common/routing";
 
 @Component({
   components: {
@@ -125,21 +127,20 @@ export default class RadStation extends Mixins(DragHelper) {
   }
 
   edit(): void {
-    const newLocation = {
-      path: "/editor",
-      query: {
-        list: String(this.selectedList),
-        id: this.station.id,
-      },
+    const props = {
+      list: this.selectedList,
+      id: this.station.id,
     };
 
+    const historyState = window.history.state;
+
     const otherRouteActive =
-      this.$route.path !== "/editor" ||
-      this.$route.query.list !== newLocation.query.list ||
-      this.$route.query.id !== newLocation.query.id;
+      historyState?.viewId !== "editor" ||
+      historyState?.props.list !== props.list ||
+      historyState?.props.id !== props.id;
 
     if (otherRouteActive) {
-      this.$router.push(newLocation);
+      navigate("editor", { props, force: true });
     }
   }
 
@@ -153,7 +154,7 @@ export default class RadStation extends Mixins(DragHelper) {
 
   delete(index = this.index): void {
     if (this.editing === this.station) {
-      this.$router.replace("/");
+      navigate(null, { replace: true });
     }
 
     this.handleDelete(index);

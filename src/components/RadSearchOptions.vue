@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="more-options">
-      <a href="#/search" @click="showOptions = !showOptions"
+      <a @click="showOptions = !showOptions"
         ><font-awesome-icon
           icon="chevron-down"
           fixed-width
@@ -25,6 +25,7 @@
           <div style="display: table-cell; width: 100%">
             <div v-if="failedToLoadFilters">
               <div style="display: table">
+                1
                 <div style="display: table-cell; white-space: nowrap">
                   <font-awesome-icon
                     icon="exclamation-triangle"
@@ -33,7 +34,7 @@
                 </div>
                 <div>
                   {{ $t("search.optionsUnavailable") }}
-                  <a href="#/search" @click="loadFilters()"
+                  <a @click="loadFilters()"
                     ><font-awesome-icon icon="redo" fixed-width />{{
                       $t("search.tryAgain")
                     }}</a

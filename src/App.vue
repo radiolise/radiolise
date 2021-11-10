@@ -34,6 +34,7 @@ import { State, Getter, Action } from "vuex-class";
 import { formatDuration } from "date-fns";
 
 import { ModalType } from "./store";
+import { navigate } from "./common/routing";
 
 import ColorChanger from "./mixins/ColorChanger";
 import Hotkeys from "./mixins/Hotkeys";
@@ -70,6 +71,7 @@ export default class App extends HelperMixins {
 
   @Ref() readonly app!: HTMLDivElement;
 
+  @State readonly currentDialog!: DialogState | null;
   @State readonly fellAsleep!: boolean;
   @State readonly playing!: boolean;
   @State readonly relaxed!: boolean;
@@ -101,7 +103,7 @@ export default class App extends HelperMixins {
   }
 
   get dialog(): boolean {
-    return this.$route.path !== "/";
+    return this.currentDialog !== null;
   }
 
   get noOverflow(): boolean {
@@ -176,7 +178,7 @@ export default class App extends HelperMixins {
       this.navbarShown = false;
 
       if (this.dialog) {
-        this.$router.push("/");
+        navigate(null);
       }
 
       document.documentElement.style.overflowY = "scroll";

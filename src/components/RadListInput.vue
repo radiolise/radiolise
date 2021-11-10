@@ -15,16 +15,19 @@
     />
     <div style="display: table-cell; white-space: nowrap; text-align: left">
       <a v-show="active"><font-awesome-icon icon="check" fixed-width /></a>
-      <a v-show="!active" @click="input.focus()"
-        ><font-awesome-icon icon="edit" fixed-width /></a
-      ><template v-if="!isNewList">
-        <a @click="exportList()"
-          ><font-awesome-icon icon="download" fixed-width /></a
-        ><router-link to="/search" @click.native="change()"
-          ><font-awesome-icon icon="search" fixed-width /></router-link
-        ><a v-show="removable" @click="remove()"
-          ><font-awesome-icon icon="trash" fixed-width
-        /></a>
+      <a v-show="!active" @click="input.focus()">
+        <font-awesome-icon icon="edit" fixed-width />
+      </a>
+      <template v-if="!isNewList">
+        <a @click="exportList()">
+          <font-awesome-icon icon="download" fixed-width />
+        </a>
+        <a @click="change()">
+          <font-awesome-icon icon="search" fixed-width />
+        </a>
+        <a v-show="removable" @click="remove()">
+          <font-awesome-icon icon="trash" fixed-width />
+        </a>
       </template>
     </div>
   </div>
@@ -41,8 +44,9 @@ import {
 } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
-import { ModalType } from "@/store";
+import { navigate } from "@/common/routing";
 import ListHelper from "@/mixins/ListHelper";
+import { ModalType } from "@/store";
 
 @Component
 export default class RadListInput extends Mixins(ListHelper) {
@@ -150,6 +154,7 @@ export default class RadListInput extends Mixins(ListHelper) {
 
   change(): void {
     this.changeList(this.index);
+    navigate("search");
   }
 }
 </script>
