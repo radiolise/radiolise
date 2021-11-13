@@ -36,9 +36,7 @@
         <font-awesome-icon
           icon="chevron-down"
           fixed-width
-          :style="{
-            transform: 'rotate(' + (showBookmarks ? -180 : 0) + 'deg)',
-          }"
+          :style="{ transform: `rotate(${showBookmarks ? -180 : 0}deg)` }"
         />
         {{ $tc("titleManager.bookmark", 0) }}
       </button>

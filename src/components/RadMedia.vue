@@ -108,7 +108,7 @@ export default class RadMedia extends Vue {
   }
 
   @Watch("volume", { immediate: true })
-  async onVolumeChanged(volume: number, oldVolume: number): Promise<void> {
+  async onVolumeChanged(volume: number): Promise<void> {
     await this.$nextTick();
     this.mediaElement.volume = volume;
   }
@@ -137,27 +137,11 @@ export default class RadMedia extends Vue {
   }
 
   isNativeStream(streamUrl: string): boolean {
-    let url = streamUrl;
-    let index = url.lastIndexOf("/");
-
-    if (index !== -1) {
-      url = url.substring(index + 1);
+    try {
+      return !new URL(streamUrl).pathname.endsWith(".m3u8");
+    } catch (err) {
+      return true;
     }
-
-    index = url.indexOf("?");
-
-    if (index !== -1) {
-      url = url.substring(0, index);
-    }
-
-    index = url.indexOf("#");
-
-    if (index !== -1) {
-      url = url.substring(0, index);
-    }
-
-    index = url.lastIndexOf(".");
-    return index === -1 || url.substring(index + 1) !== "m3u8";
   }
 
   play(url: string): void {

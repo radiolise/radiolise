@@ -6,7 +6,7 @@ import { isViewActive, navigate as setRoute } from "@/common/routing";
 
 @Component
 export default class RadLink extends Vue {
-  @Prop({ type: Object }) props?: DialogProps;
+  @Prop({ type: Object, required: false }) props?: DialogProps;
   @Prop({ type: String, default: null }) to!: string | null;
   @Prop({ type: Boolean, default: false }) toggle!: boolean;
   @Prop({ type: Boolean, default: false }) replace!: boolean;

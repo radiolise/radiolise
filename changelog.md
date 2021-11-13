@@ -1,4 +1,12 @@
-# Changes in 5.1.0 (latest – 2021-08-09)
+# Changes in 5.2.0 (latest – 2021-11-13)
+
+- Improve list exports and refactor download logic
+- Add dark mode support for native UI elements
+- Replace Vue Router with own routing mechanism
+- Update .gitlab-ci.yml
+- Minor adjustments
+
+# Changes in [5.1.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.1.0) (2021-08-09)
 
 - Update dependencies and correct whitespaces
 - Add new illustration for empty lists
