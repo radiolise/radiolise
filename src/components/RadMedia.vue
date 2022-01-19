@@ -14,7 +14,7 @@
       @play="playLastStation()"
       @pause="stop()"
       @waiting="handleBufferWaiting(true)"
-      @canplay="handleBufferWaiting(false)"
+      @playing="handleBufferWaiting(false)"
       @error="handleError()"
     />
     <div v-if="hasVideo && loading" class="spin-container">
@@ -116,12 +116,12 @@ export default class RadMedia extends Vue {
   @Watch("hasVideo")
   onVideoToggled(hasVideo: boolean): void {
     if (hasVideo) {
-      window.screen.orientation.addEventListener(
+      window.screen.orientation?.addEventListener(
         "change",
         this.handleOrientationChange
       );
     } else {
-      window.screen.orientation.removeEventListener(
+      window.screen.orientation?.removeEventListener(
         "change",
         this.handleOrientationChange
       );
@@ -186,6 +186,7 @@ export default class RadMedia extends Vue {
     this.mediaElement.load();
 
     if (hls !== undefined) {
+      this.hasVideo = false;
       hls.destroy();
       hls = undefined;
     }
