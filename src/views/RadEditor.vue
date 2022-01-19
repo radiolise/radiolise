@@ -1,7 +1,7 @@
 <template>
   <rad-drawer id="editor">
     <h3>
-      <font-awesome-icon icon="edit" fixed-width />
+      <fa-icon icon="edit" fixed-width />
       {{ stationReference ? stationReference.name : $t("editor.newStation") }} –
       {{ $t("editor.title") }}
     </h3>
@@ -89,13 +89,13 @@
         />
         <rad-tag-input :tags.sync="stationClone.tags" />
         <br />
-        <div class="important" style="text-align: left">
+        <div class="text-left important">
           &lowast; {{ $t("editor.field.required") }}
         </div>
       </div>
-      <div class="button-group" style="text-align: right">
+      <div class="button-group text-right">
         <a class="button" @click="finish()">
-          <font-awesome-icon icon="check" fixed-width />{{ $t("general.done") }}
+          <fa-icon icon="check" fixed-width />{{ $t("general.done") }}
         </a>
         <input
           ref="submit-button"

@@ -1,4 +1,17 @@
-# Changes in 5.2.0 (latest – 2021-11-13)
+# Changes in [5.3.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.3.0) (2022-01-19)
+
+- Improve the text generated for bookmark files
+- Use click count as default for search result order
+- Improve modal window animations
+- Fix video playback issues with Webkit
+- network.ts: use `URLSearchParams` instead of `qs`
+- Disable auto-capitalization of search strings
+- Add bitrate filter to search options (#25)
+- Add compact mode for station lists (#21)
+- Introduce new CSS component '.button-group'
+- Refactoring and minor improvements
+
+# Changes in [5.2.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.2.0) (2021-11-13)
 
 - Improve list exports and refactor download logic
 - Add dark mode support for native UI elements

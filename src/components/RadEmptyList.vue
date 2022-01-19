@@ -8,7 +8,7 @@
       <div class="button-group">
         <rad-link v-slot="{ active, navigate }" to="search" toggle>
           <a :class="['button', { active }]" @click="navigate">
-            <font-awesome-icon icon="search" fixed-width />
+            <fa-icon icon="search" fixed-width />
             {{ $t("general.findStations") }}
           </a>
         </rad-link>
@@ -19,7 +19,7 @@
           toggle
         >
           <a :class="['button', { active }]" @click="navigate">
-            <font-awesome-icon icon="file-import" fixed-width />
+            <fa-icon icon="file-import" fixed-width />
             {{ $t("general.importBackup") }}
           </a>
         </rad-link>

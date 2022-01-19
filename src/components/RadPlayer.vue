@@ -1,7 +1,7 @@
 <template>
   <div
-    :id="main ? 'video' : ''"
     ref="container"
+    v-bind="main ? { id: 'video' } : {}"
     :class="{ hidden: controlsHidden }"
     @mousedown="showControls()"
     @mouseup="showControls()"
@@ -14,11 +14,11 @@
           class="button-primary expand"
           :title="$t('player.advancedView')"
           @click="expand()"
-          ><font-awesome-icon
+          ><fa-icon
             icon="chevron-down"
-            style="transition: transform 0.4s"
             :style="{
-              transform: 'rotate(' + (compact ? 0 : -180) + 'deg)',
+              transition: 'transform 0.4s',
+              transform: `rotate(${compact ? 0 : -180}deg)`,
             }" /></a
         >&nbsp;
       </div>
@@ -37,19 +37,17 @@
               class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
-              ><font-awesome-icon icon="step-backward" fixed-width /></a
+              ><fa-icon icon="step-backward" fixed-width /></a
             >&nbsp;<a
               class="button-primary"
               :title="$t('player.playStop')"
               @click="toggleStation()"
-              ><font-awesome-icon
-                :icon="station ? 'stop' : 'play'"
-                fixed-width /></a
+              ><fa-icon :icon="station ? 'stop' : 'play'" fixed-width /></a
             >&nbsp;<a
               class="button-primary next-station"
               :title="$t('player.nextStation')"
               @click="playClosestStation(true)"
-              ><font-awesome-icon icon="step-forward" fixed-width
+              ><fa-icon icon="step-forward" fixed-width
             /></a>
           </div>
           <div
@@ -69,7 +67,7 @@
           >
             <transition name="slide-fade" mode="out-in" appear>
               <div :key="broadcaster" class="broadcaster">
-                <font-awesome-icon v-if="loading" icon="spinner" spin />
+                <fa-icon v-if="loading" icon="spinner" spin />
                 {{ broadcaster }}
               </div>
             </transition>
@@ -94,14 +92,14 @@
               :class="{ active: liked }"
               :title="likeInfo"
               @click="like()"
-              ><font-awesome-icon icon="thumbs-up" fixed-width /></a
+              ><fa-icon icon="thumbs-up" fixed-width /></a
             >&nbsp;<a
               v-if="station !== undefined"
               class="button-primary homepage"
               target="blank"
               :title="homepageInfo"
               :href="station.homepage"
-              ><font-awesome-icon icon="home" fixed-width
+              ><fa-icon icon="home" fixed-width
             /></a>
             {{ " " }}
             <rad-link v-slot="{ active, navigate }" to="title-manager" toggle>
@@ -110,7 +108,7 @@
                 :title="$t('general.manageTitles')"
                 @click="navigate"
               >
-                <font-awesome-icon icon="history" fixed-width />
+                <fa-icon icon="history" fixed-width />
               </a>
             </rad-link>
             {{ " " }}
@@ -120,7 +118,7 @@
               :title="$t('player.addBookmark')"
               :class="{ active: bookmarked }"
               @click="toggleBookmark({ station: station.name, info })"
-              ><font-awesome-icon icon="music" /><font-awesome-icon
+              ><fa-icon icon="music" /><fa-icon
                 icon="plus"
                 fixed-width
                 size="xs"
@@ -133,9 +131,7 @@
               class="button-primary fullscreen"
               :title="$t('player.toggleFullscreen')"
               @click="toggleFullscreen()"
-              ><font-awesome-icon
-                :icon="fullscreen ? 'compress' : 'expand'"
-                fixed-width
+              ><fa-icon :icon="fullscreen ? 'compress' : 'expand'" fixed-width
             /></a>
           </div>
         </div>
@@ -157,27 +153,25 @@
               class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
-              ><font-awesome-icon icon="step-backward" fixed-width /></a
+              ><fa-icon icon="step-backward" fixed-width /></a
             >&nbsp;<a
               class="button-primary"
               :title="$t('player.playStop')"
               @click="toggleStation()"
-              ><font-awesome-icon
-                :icon="station ? 'stop' : 'play'"
-                fixed-width /></a
+              ><fa-icon :icon="station ? 'stop' : 'play'" fixed-width /></a
             >&nbsp;<a
               class="button-primary next-station"
               :title="$t('player.nextStation')"
               @click="playClosestStation(true)"
-              ><font-awesome-icon icon="step-forward" fixed-width
+              ><fa-icon icon="step-forward" fixed-width
             /></a>
             {{ " " }}
             <rad-slider v-model="volume">
               <template #minusIcon>
-                <font-awesome-icon icon="volume-off" fixed-width />
+                <fa-icon icon="volume-off" fixed-width />
               </template>
               <template #plusIcon>
-                <font-awesome-icon icon="volume-up" fixed-width />
+                <fa-icon icon="volume-up" fixed-width />
               </template>
             </rad-slider>
           </div>
@@ -191,11 +185,7 @@
                   :title="likeInfo"
                   @click="like()"
                 >
-                  <font-awesome-icon
-                    icon="thumbs-up"
-                    fixed-width
-                    style="width: 31px"
-                  />
+                  <fa-icon icon="thumbs-up" fixed-width style="width: 31px" />
                   <template v-if="likeCount !== undefined"
                     >{{ formattedlikeCount }} |
                   </template>
@@ -215,14 +205,9 @@
                   :title="homepageInfo"
                   :href="station.homepage"
                 >
-                  <font-awesome-icon
-                    icon="home"
-                    fixed-width
-                    style="width: 31px"
-                  />{{ $t("general.visitHomepage") }}&nbsp;<font-awesome-icon
-                    icon="external-link-alt"
-                    fixed-width
-                  />
+                  <fa-icon icon="home" fixed-width style="width: 31px" />{{
+                    $t("general.visitHomepage")
+                  }}&nbsp;<fa-icon icon="external-link-alt" fixed-width />
                 </a>
               </div>
             </div>
@@ -234,11 +219,9 @@
                   toggle
                 >
                   <a :class="{ active }" @click="navigate">
-                    <font-awesome-icon
-                      icon="history"
-                      fixed-width
-                      style="width: 31px"
-                    />{{ $t("general.manageTitles") }}
+                    <fa-icon icon="history" fixed-width style="width: 31px" />{{
+                      $t("general.manageTitles")
+                    }}
                   </a>
                 </rad-link>
               </div>
@@ -250,7 +233,7 @@
                   :class="{ active: bookmarked }"
                   @click="toggleBookmark({ station: station.name, info })"
                 >
-                  <font-awesome-icon icon="music" /><font-awesome-icon
+                  <fa-icon icon="music" /><fa-icon
                     icon="plus"
                     fixed-width
                     size="xs"
@@ -374,7 +357,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
 
   get tooltip(): string {
     if (!this.loading && this.info !== undefined) {
-      return this.broadcaster + "\n" + this.info;
+      return `${this.broadcaster}\n${this.info}`;
     }
     return this.broadcaster;
   }

@@ -1,7 +1,7 @@
 <template>
   <rad-drawer>
     <h3>
-      <font-awesome-icon icon="file-import" fixed-width />
+      <fa-icon icon="file-import" fixed-width />
       {{ $t("general.importBackup") }}
     </h3>
     <p class="description">
@@ -76,17 +76,17 @@
           </div>
           <br />
         </template>
-        <div class="button-group" style="text-align: right">
+        <div class="button-group text-right">
           <rad-link
             v-slot="{ navigate }"
             :to="type === 'list' ? null : 'settings'"
           >
             <a class="button" @click="navigate">
-              <font-awesome-icon icon="ban" /> {{ $t("general.cancel") }}
+              <fa-icon icon="ban" /> {{ $t("general.cancel") }}
             </a>
           </rad-link>
           <a class="button" @click="importItems()">
-            <font-awesome-icon icon="arrow-right" /> {{ $t("general.apply") }}
+            <fa-icon icon="arrow-right" /> {{ $t("general.apply") }}
           </a>
         </div>
       </template>

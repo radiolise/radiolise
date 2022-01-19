@@ -41,7 +41,7 @@
         flex-align
         @change="trigger"
       >
-        <font-awesome-icon icon="ellipsis-v" fixed-width />
+        <fa-icon icon="ellipsis-v" fixed-width />
       </rad-dropdown>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <template>
   <div id="page">
     <nav>
-      <div>
+      <div class="navbar-content">
         <rad-link v-slot="{ navigate }" to="menu" toggle>
           <span @click="navigate">
             <rad-logo /><span>{{ appTitle }}</span>
@@ -14,7 +14,7 @@
               :class="{ active }"
               @click="navigate"
             >
-              <font-awesome-icon icon="search" /><span>
+              <fa-icon icon="search" /><span>
                 {{ $t("general.findStations") }}</span
               >
             </button>
@@ -25,9 +25,7 @@
               :class="{ active }"
               @click="navigate"
             >
-              <font-awesome-icon icon="cog" /><span>
-                {{ $t("general.settings") }}</span
-              >
+              <fa-icon icon="cog" /><span> {{ $t("general.settings") }}</span>
             </button>
           </rad-link>
           <rad-link v-slot="{ active, navigate }" to="menu" toggle>
@@ -36,9 +34,7 @@
               :class="{ active }"
               @click="navigate"
             >
-              <font-awesome-icon icon="bars" /><span>
-                {{ $t("general.more") }}</span
-              >
+              <fa-icon icon="bars" /><span> {{ $t("general.more") }}</span>
             </button>
           </rad-link>
         </div>
@@ -51,7 +47,7 @@
           <rad-media />
         </rad-player>
         <div id="main-controls">
-          <div style="text-align: left; padding-top: 40px">
+          <div class="text-left" style="padding-top: 40px">
             <rad-list-menu />
             <rad-empty-list v-if="listEmpty" />
             <rad-station-list v-else />
@@ -59,7 +55,7 @@
           <p v-if="!listEmpty" class="text-right">
             <rad-link v-slot="{ active, navigate }" to="search" toggle>
               <a :class="['button', { active }]" @click="navigate">
-                <font-awesome-icon icon="search" fixed-width />{{
+                <fa-icon icon="search" fixed-width />{{
                   $t("general.findStations")
                 }}
               </a>
@@ -111,7 +107,7 @@ export default class RadPage extends Mixins(ScrollHelper) {
 
   @Watch("currentStation", { immediate: true })
   handleStationChanged(station?: Station, oldStation?: Station): void {
-    const titlePrefix = station !== undefined ? station.name + " - " : "";
+    const titlePrefix = station !== undefined ? `${station.name} - ` : "";
     document.title = titlePrefix + this.appTitle;
 
     if (station === undefined || oldStation === undefined) {

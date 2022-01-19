@@ -17,7 +17,7 @@
         class="version"
         :class="{ visible: versionShown }"
       >
-        <span><font-awesome-icon icon="code-branch" /> {{ version }}</span>
+        <span><fa-icon icon="code-branch" /> {{ version }}</span>
       </div>
     </div>
     <br />
@@ -25,12 +25,9 @@
       <p>{{ copyright }}</p>
       <i18n class="text-left" path="about.licenseInfo" tag="p">
         {{ appTitle }}
-        <a
-          href="https://www.gnu.org/philosophy/free-sw.html"
-          target="_blank"
-          rel="noopener"
+        <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
           >{{ $t("about.freeSoftware")
-          }}<font-awesome-icon icon="external-link-alt" fixed-width
+          }}<fa-icon icon="external-link-alt" fixed-width
         /></a>
       </i18n>
       <p class="text-left">
@@ -39,7 +36,7 @@
       <i18n class="text-left" path="about.licenseCopy" tag="p">
         {{ appTitle
         }}<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener"
-          >http://www.gnu.org/licenses/<font-awesome-icon
+          >http://www.gnu.org/licenses/<fa-icon
             icon="external-link-alt"
             fixed-width
         /></a>
@@ -47,16 +44,14 @@
     </div>
     <p class="button-group">
       <a class="button" :href="repoUrl" target="_blank" rel="noopener"
-        ><font-awesome-icon :icon="['fab', 'gitlab']" fixed-width />{{
+        ><fa-icon :icon="['fab', 'gitlab']" fixed-width />{{
           $t("about.code")
         }}
-        <font-awesome-icon icon="external-link-alt" fixed-width
+        <fa-icon icon="external-link-alt" fixed-width
       /></a>
       <a class="button" :href="issuesUrl" target="_blank" rel="noopener"
-        ><font-awesome-icon icon="comments" fixed-width />{{
-          $t("about.issues")
-        }}
-        <font-awesome-icon icon="external-link-alt" fixed-width
+        ><fa-icon icon="comments" fixed-width />{{ $t("about.issues") }}
+        <fa-icon icon="external-link-alt" fixed-width
       /></a>
     </p>
   </rad-drawer>

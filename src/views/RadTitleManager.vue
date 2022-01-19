@@ -1,21 +1,22 @@
 <template>
   <rad-drawer id="title-manager">
     <h3>
-      <font-awesome-icon icon="history" fixed-width />
+      <fa-icon icon="history" fixed-width />
       {{ $t("titleManager.title") }}
     </h3>
     <button @click="showTitles = !showTitles">
-      <font-awesome-icon
+      <fa-icon
         icon="chevron-down"
         fixed-width
         :style="{ transform: `rotate(${showTitles ? -180 : 0}deg)` }"
       />
       {{ $t("titleManager.recentTitles") }}
     </button>
-    <div v-show-slide="showTitles" style="text-align: left">
+    <div v-show-slide="showTitles" class="text-left">
       <div
         v-if="history.length === 0"
-        style="padding: 15px 0; text-align: center"
+        class="text-center"
+        style="padding: 15px 0"
       >
         {{ $t("titleManager.listEmpty") }}
       </div>
@@ -33,7 +34,7 @@
     </div>
     <div style="display: table; width: 100%">
       <button @click="showBookmarks = !showBookmarks">
-        <font-awesome-icon
+        <fa-icon
           icon="chevron-down"
           fixed-width
           :style="{ transform: `rotate(${showBookmarks ? -180 : 0}deg)` }"
@@ -42,21 +43,16 @@
       </button>
       <div
         v-if="!bookmarksEmpty"
-        class="download"
-        style="
-          display: table-cell;
-          font-size: 20px;
-          width: 35px;
-          text-align: right;
-        "
+        class="download text-right"
+        style="display: table-cell; font-size: 20px; width: 35px"
       >
         <a @click="exportBookmarks()"
-          ><font-awesome-icon icon="download" fixed-width
+          ><fa-icon icon="download" fixed-width
         /></a>
       </div>
     </div>
-    <div v-show-slide="showBookmarks" style="text-align: left">
-      <div v-if="bookmarksEmpty" style="padding: 15px 0; text-align: center">
+    <div v-show-slide="showBookmarks" class="text-left">
+      <div v-if="bookmarksEmpty" class="text-center" style="padding: 15px 0">
         {{ $t("titleManager.listEmpty") }}
       </div>
       <div v-else style="display: flex; flex-direction: column-reverse">

@@ -5,6 +5,7 @@
     spellcheck="false"
     @input="emitInput()"
     @change="emitChange()"
+    @focus="onFocus()"
     @keydown.enter="input.blur()"
   />
 </template>
@@ -17,6 +18,8 @@ export default class RadInput extends Vue {
   @Prop({ type: [String, Number], default: "" })
   readonly value!: string | number;
 
+  @Prop({ type: Boolean, default: false }) readonly selectOnFocus!: boolean;
+
   @Ref() readonly input!: HTMLInputElement;
 
   @Emit("input")
@@ -27,6 +30,12 @@ export default class RadInput extends Vue {
   @Emit("change")
   emitChange(): string {
     return this.input.value;
+  }
+
+  onFocus() {
+    if (this.selectOnFocus) {
+      this.input.select();
+    }
   }
 }
 </script>

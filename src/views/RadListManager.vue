@@ -1,7 +1,7 @@
 <template>
   <rad-drawer>
     <h3>
-      <font-awesome-icon icon="list-alt" fixed-width />
+      <fa-icon icon="list-alt" fixed-width />
       {{ $t("general.stationLists") }}
     </h3>
     <p class="description">{{ $t("listManager.description") }}</p>
@@ -24,19 +24,19 @@
         />
         <rad-list-input :adding="adding" @blur="adding = false" />
       </div>
-      <div class="button-group" style="text-align: right">
+      <div class="button-group text-right">
         <rad-link
           v-slot="{ navigate }"
           to="import-wizard"
           :props="{ type: 'list' }"
         >
           <a class="button" @click="navigate">
-            <font-awesome-icon icon="file-import" />
+            <fa-icon icon="file-import" />
             {{ $t("general.importBackup") }}
           </a>
         </rad-link>
         <a class="button" @click="adding = true">
-          <font-awesome-icon icon="plus" /> {{ $t("listManager.newList") }}
+          <fa-icon icon="plus" /> {{ $t("listManager.newList") }}
         </a>
       </div>
     </div>

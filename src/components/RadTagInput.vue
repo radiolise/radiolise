@@ -9,7 +9,7 @@
       @input="renderedTags = $event"
       @change="syncedTags = $event"
     />
-    <div style="text-align: left; display: table">
+    <div class="text-left" style="display: table">
       <div style="display: table-cell">
         {{ $t("tagInput.preview") }}:{{ "\xa0" }}
       </div>

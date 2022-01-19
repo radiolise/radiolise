@@ -13,20 +13,20 @@
       @blur="handleBlur()"
       @keydown.enter="handleEnterPress()"
     />
-    <div style="display: table-cell; white-space: nowrap; text-align: left">
-      <a v-show="active"><font-awesome-icon icon="check" fixed-width /></a>
+    <div class="text-left" style="display: table-cell; white-space: nowrap">
+      <a v-show="active"><fa-icon icon="check" fixed-width /></a>
       <a v-show="!active" @click="input.focus()">
-        <font-awesome-icon icon="edit" fixed-width />
+        <fa-icon icon="edit" fixed-width />
       </a>
       <template v-if="!isNewList">
         <a @click="exportList()">
-          <font-awesome-icon icon="download" fixed-width />
+          <fa-icon icon="download" fixed-width />
         </a>
         <a @click="change()">
-          <font-awesome-icon icon="search" fixed-width />
+          <fa-icon icon="search" fixed-width />
         </a>
         <a v-show="removable" @click="remove()">
-          <font-awesome-icon icon="trash" fixed-width />
+          <fa-icon icon="trash" fixed-width />
         </a>
       </template>
     </div>

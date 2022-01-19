@@ -2,11 +2,7 @@
   <div>
     <div class="play-button">
       <div>
-        <font-awesome-icon
-          :icon="overlay"
-          fixed-width
-          :spin="overlay === 'spinner'"
-        />
+        <fa-icon :icon="overlay" fixed-width :spin="overlay === 'spinner'" />
       </div>
     </div>
     <div class="icon-container">

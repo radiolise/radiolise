@@ -122,4 +122,4 @@ library.add(
   faGitlab
 );
 
-Vue.component("font-awesome-icon", FontAwesomeIcon);
+Vue.component("FaIcon", FontAwesomeIcon);

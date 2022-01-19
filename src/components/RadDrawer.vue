@@ -3,13 +3,13 @@
     <div class="menu-buttons">
       <rad-link v-if="!isMenu" v-slot="{ navigate }" to="menu">
         <a @click="navigate">
-          <font-awesome-icon icon="bars" fixed-width size="lg" />
+          <fa-icon icon="bars" fixed-width size="lg" />
         </a>
       </rad-link>
       {{ " " }}
       <rad-link v-slot="{ navigate }" :to="null">
         <a @click="navigate">
-          <font-awesome-icon icon="times-circle" fixed-width size="lg" />
+          <fa-icon icon="times-circle" fixed-width size="lg" />
         </a>
       </rad-link>
     </div>

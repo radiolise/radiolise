@@ -1,5 +1,5 @@
 <template>
-  <div id="relax-caption" :style="{ fontSize: fontSize + 'pt' }">
+  <div id="relax-caption" :style="{ fontSize: `${fontSize}pt` }">
     <div class="station">
       <div class="broadcaster">{{ name }}</div>
       <div class="info">{{ info }}</div>

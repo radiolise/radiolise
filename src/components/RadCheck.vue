@@ -1,9 +1,9 @@
 <template>
-  <div class="check-box" :class="{ checked }" @click="toggleChecked()">
+  <div class="checkbox" :class="{ checked }" @click="toggleChecked()">
     <div>
       <transition name="fade" mode="out-in">
-        <font-awesome-icon v-if="checked" key="checked" icon="check-square" />
-        <font-awesome-icon v-else key="notChecked" :icon="['far', 'square']" />
+        <fa-icon v-if="checked" key="checked" icon="check-square" />
+        <fa-icon v-else key="notChecked" :icon="['far', 'square']" />
       </transition>
     </div>
     <div>
@@ -42,18 +42,18 @@ export default class RadCheck extends Vue {
 </script>
 
 <style scoped>
-.check-box {
+.checkbox {
   cursor: pointer;
 }
-.check-box > div {
+.checkbox > div {
   vertical-align: top;
   display: table-cell;
 }
-.check-box > :first-child {
+.checkbox > :first-child {
   width: 25px;
   font-size: 20px;
 }
-.check-box > :last-child {
+.checkbox > :last-child {
   padding-top: 3px;
 }
 .fa-square {

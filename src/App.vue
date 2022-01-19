@@ -3,11 +3,11 @@
     id="app"
     ref="app"
     :class="{
-      colorful,
-      dialog,
-      dragging,
+      'colorful': colorful,
+      'dialog': dialog,
+      'dragging': dragging,
       'fixed-player': fixedPlayer,
-      fullscreen,
+      'fullscreen': fullscreen,
       'has-video': hasVideo,
       'no-transitions': !transitions,
       'no-navbar': !navbarShown,
@@ -131,20 +131,12 @@ export default class App extends HelperMixins {
 
   @Watch("noOverflow", { immediate: true })
   setOverflowAllowed(noOverflow: boolean): void {
-    if (noOverflow) {
-      document.body.classList.add("no-overflow");
-    } else {
-      document.body.classList.remove("no-overflow");
-    }
+    document.body.classList.toggle("no-overflow", noOverflow);
   }
 
   @Watch("relaxed")
   onRelaxedChanged(relaxed: boolean): void {
-    if (relaxed) {
-      document.body.classList.add("relaxed");
-    } else {
-      document.body.classList.remove("relaxed");
-    }
+    document.body.classList.toggle("relaxed", relaxed);
   }
 
   @Watch("fellAsleep")

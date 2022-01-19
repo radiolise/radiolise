@@ -13,8 +13,8 @@
       @touchstart.prevent="handleTouchStart"
     >
       <div
-        style="width: 100%; height: 100%; text-align: left"
-        :style="{ width: `${value * 100}%` }"
+        class="text-left"
+        :style="{ width: `${value * 100}%`, height: '100%' }"
       />
     </div>
     {{ " " }}

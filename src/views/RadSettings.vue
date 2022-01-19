@@ -1,8 +1,6 @@
 <template>
   <rad-drawer>
-    <h3>
-      <font-awesome-icon icon="cog" fixed-width /> {{ $t("general.settings") }}
-    </h3>
+    <h3><fa-icon icon="cog" fixed-width /> {{ $t("general.settings") }}</h3>
     <p class="description">{{ $t("settings.description", [appTitle]) }}</p>
     <form ref="form" @submit.prevent="onSubmit()">
       <div v-if="settings !== null" id="control-panel">
@@ -54,7 +52,7 @@
         </rad-check>
         <rad-check id="visualization-setting" v-model="settings.visualization">
           {{ $t("settings.visualization.name") }}
-          <font-awesome-icon
+          <fa-icon
             icon="exclamation-triangle"
             :title="$t('settings.visualization.screenWidthIssue')"
           />
@@ -69,10 +67,14 @@
           </template>
         </rad-check>
         <div v-if="settings.relax">
-          <strong>{{ $t("settings.relaxMode.timer") }}</strong> (sec):
-          <input
+          <strong>{{ $t("settings.relaxMode.timer") }}</strong>
+          {{ " " }}
+          <span style="opacity: 0.7">(sec):</span>
+          {{ " " }}
+          <rad-input
             v-model.number="settings.relaxTimeout"
             type="number"
+            select-on-focus
             min="1"
             step="1"
             required
@@ -85,10 +87,14 @@
           </template>
         </rad-check>
         <div v-if="settings.sleep">
-          <strong>{{ $t("settings.sleep.timer") }}</strong> (min):
-          <input
+          <strong>{{ $t("settings.sleep.timer") }}</strong>
+          {{ " " }}
+          <span style="opacity: 0.7">(min):</span>
+          {{ " " }}
+          <rad-input
             v-model.number="settings.sleepTimeout"
             type="number"
+            select-on-focus
             min="1"
             step="1"
             required
@@ -101,10 +107,14 @@
           {{ $t("settings.transitions.name") }}
         </rad-check>
         <div>
-          <strong>{{ $t("settings.volume") }}</strong> (%):
-          <input
+          <strong>{{ $t("settings.volume") }}</strong>
+          {{ " " }}
+          <span style="opacity: 0.7">(%):</span>
+          {{ " " }}
+          <rad-input
             v-model.number="settings.volume"
             type="number"
+            select-on-focus
             min="0"
             max="100"
             step="1"
@@ -112,7 +122,7 @@
           />
         </div>
         <div>
-          <font-awesome-icon icon="comment-dots" flip="horizontal" />{{ " " }}
+          <fa-icon icon="comment-dots" flip="horizontal" />{{ " " }}
           <strong>{{ $tc("general.language", 1) }}</strong
           >:
           <rad-dropdown
@@ -125,11 +135,11 @@
       <div class="button-group text-right">
         <rad-link v-slot="{ navigate }" :to="null">
           <a class="button" @click="navigate">
-            <font-awesome-icon icon="ban" /> {{ $t("settings.discard") }}
+            <fa-icon icon="ban" /> {{ $t("settings.discard") }}
           </a>
         </rad-link>
         <a class="button" @click="form.submit.click()">
-          <font-awesome-icon icon="check" />
+          <fa-icon icon="check" />
           {{ $t("general.apply") }}
         </a>
         <input type="submit" name="submit" style="display: none" />
@@ -138,9 +148,7 @@
     <div style="display: table; margin: 10px auto">
       <div style="float: left; margin: 5px 10px">
         <a @click="reset()"
-          ><font-awesome-icon icon="undo" fixed-width />{{
-            $t("settings.reset")
-          }}</a
+          ><fa-icon icon="undo" fixed-width />{{ $t("settings.reset") }}</a
         ><br />
       </div>
       <div style="float: right; margin: 5px 10px">
@@ -150,16 +158,12 @@
           :props="{ type: 'settings' }"
         >
           <a @click="navigate">
-            <font-awesome-icon icon="upload" fixed-width />{{
-              $t("settings.import")
-            }}
+            <fa-icon icon="upload" fixed-width />{{ $t("settings.import") }}
           </a>
         </rad-link>
         <br />
         <a @click="exportSettings()">
-          <font-awesome-icon icon="download" fixed-width />{{
-            $t("settings.export")
-          }}
+          <fa-icon icon="download" fixed-width />{{ $t("settings.export") }}
         </a>
       </div>
     </div>
@@ -176,6 +180,7 @@ import { navigate } from "@/common/routing";
 import RadCheck from "@/components/RadCheck.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadDropdown from "@/components/RadDropdown.vue";
+import RadInput from "@/components/RadInput.vue";
 import RadLink from "@/components/RadLink.vue";
 
 @Component({
@@ -183,6 +188,7 @@ import RadLink from "@/components/RadLink.vue";
     RadCheck,
     RadDrawer,
     RadDropdown,
+    RadInput,
     RadLink,
   },
 })

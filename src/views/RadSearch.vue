@@ -1,25 +1,20 @@
 <template>
   <rad-drawer id="search">
     <h3>
-      <font-awesome-icon icon="search" fixed-width />
+      <fa-icon icon="search" fixed-width />
       {{ $t("general.findStations") }}
     </h3>
     <i18n path="search.credit.radioBrowser" tag="p">
-      <a
-        href="https://www.gnu.org/philosophy/free-sw.html"
-        target="_blank"
-        rel="noopener"
+      <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
         >{{ $t("search.credit.free") }}
-        <font-awesome-icon icon="external-link-alt" fixed-width /></a
+        <fa-icon icon="external-link-alt" fixed-width /></a
       ><a href="http://www.radio-browser.info" target="_blank" rel="noopener"
-        >Community Radio Browser
-        <font-awesome-icon icon="external-link-alt" fixed-width
+        >Community Radio Browser <fa-icon icon="external-link-alt" fixed-width
       /></a>
     </i18n>
     <div>
-      <div :class="{ typing }">
+      <div id="search-field">
         <input
-          id="query"
           ref="query"
           :value="searchTerm"
           autocomplete="off"
@@ -29,17 +24,13 @@
           spellcheck="false"
           @input="searchTerm = $event.target.value"
           @change="searchTerm = $event.target.value"
-          @focus="
-            typing = true;
-            query.select();
-          "
-          @blur="typing = false"
+          @focus="query.select()"
           @keypress.enter="
             query.blur();
             scrollDownIfLoaded();
           "
         /><button id="find-station" @click="scrollDownIfLoaded()">
-          <font-awesome-icon icon="search" />
+          <fa-icon icon="search" />
         </button>
       </div>
       <rad-search-options :options.sync="options" />
@@ -78,57 +69,43 @@
                     class="label highlighted"
                     style="font-weight: bold"
                   >
-                    <font-awesome-icon :icon="sortIcon" />
+                    <fa-icon :icon="sortIcon" />
                     {{ " " }}
                     <template v-if="result[options.order] !== ''">{{
                       numericalOrder
                         ? result[options.order].toLocaleString($i18n.locale)
                         : result[options.order]
                     }}</template>
-                    <font-awesome-icon v-else icon="question" />
+                    <fa-icon v-else icon="question" />
                   </span>
                 </rad-tags>
               </template>
             </rad-result>
           </div>
-          <p
-            v-if="
-              !active ||
-              showSpinner ||
-              empty ||
-              moreAvailable ||
-              scrollOnceLoaded
-            "
-            id="load-more"
-          >
-            <span
-              v-if="!active || showSpinner || empty || scrollOnceLoaded"
-              style="margin: auto"
-            >
-              <template v-if="!active || showSpinner || scrollOnceLoaded">
-                <font-awesome-icon icon="spinner" fixed-width spin />{{
-                  $t("search.loading")
+          <p v-if="moreExpected || moreAvailable" id="load-more">
+            <span v-if="moreExpected" style="margin: auto">
+              <template v-if="empty">
+                <fa-icon :icon="['far', 'meh']" fixed-width />{{
+                  $t("search.noMatches")
                 }}
               </template>
               <template v-else>
-                <font-awesome-icon :icon="['far', 'meh']" fixed-width />{{
-                  $t("search.noMatches")
+                <fa-icon icon="spinner" fixed-width spin />{{
+                  $t("search.loading")
                 }}
               </template>
             </span>
             <button v-else @click="loadMore">
-              <font-awesome-icon icon="search" fixed-width />
+              <fa-icon icon="search" fixed-width />
               {{ $t("search.loadMore") }}
             </button>
           </p>
         </template>
         <p v-if="failed" style="font-size: 18px">
-          <font-awesome-icon icon="exclamation-triangle" fixed-width />
+          <fa-icon icon="exclamation-triangle" fixed-width />
           {{ $t("search.error") }}
           <a @click="reset"
-            ><font-awesome-icon icon="redo" fixed-width />{{
-              $t("search.tryAgain")
-            }}</a
+            ><fa-icon icon="redo" fixed-width />{{ $t("search.tryAgain") }}</a
           >
         </p>
       </div>
@@ -161,7 +138,6 @@ export default class RadSearch extends Vue {
   searchTerm = "";
   active = false;
   results: Record<string, string | number>[] = [];
-  typing = false;
   transition = "";
   moreAvailable = true;
   failed = false;
@@ -205,6 +181,12 @@ export default class RadSearch extends Vue {
 
   get descendingOrder(): boolean {
     return this.options.reverse !== this.numericalOrder;
+  }
+
+  get moreExpected(): boolean {
+    return (
+      !this.active || this.showSpinner || this.empty || this.scrollOnceLoaded
+    );
   }
 
   get numericalOrder(): boolean {
@@ -377,7 +359,7 @@ export default class RadSearch extends Vue {
   }
 
   scrollDown(): void {
-    this.$scrollTo("#query", 300, {
+    this.$scrollTo(this.query, 300, {
       container: "#drawers",
       cancelable: false,
     });
@@ -389,7 +371,7 @@ export default class RadSearch extends Vue {
 #search > :nth-child(4) > :first-child {
   margin-bottom: 20px;
 }
-#query {
+#search-field input {
   width: calc(100% - 60px);
   border: none;
   font-size: 24px;
@@ -398,7 +380,7 @@ export default class RadSearch extends Vue {
   background: none;
   appearance: none;
 }
-#query::-webkit-search-cancel-button {
+#search-field input::-webkit-search-cancel-button {
   display: none;
 }
 #find-station {

@@ -98,8 +98,7 @@ nav {
 #app.no-navbar nav {
   transform: translateY(-100%);
 }
-nav > div {
-  top: 0;
+.navbar-content {
   max-width: 800px;
   width: calc(100% - 120px);
   padding: 0 10px;
@@ -110,17 +109,17 @@ nav > div {
   vertical-align: middle;
   padding: 7px 0 7px 4px;
 }
-nav > div > span {
+.navbar-content > span {
   float: left;
   font-size: 22px;
   cursor: pointer;
   white-space: nowrap;
   width: 0;
 }
-nav > div > span > span {
+.navbar-content > span > span {
   vertical-align: middle;
 }
-nav > div > div {
+.navbar-content > div {
   float: right;
   white-space: nowrap;
 }
@@ -194,7 +193,7 @@ main > div {
   font-size: 27px;
   color: #fff;
 }
-nav > div > :last-child {
+.navbar-content > :last-child {
   transform: translateX(30px);
   width: calc(100% + 20px);
   opacity: 0;
@@ -300,6 +299,9 @@ a.active svg path {
 .text-left {
   text-align: left;
 }
+.text-center {
+  text-align: center;
+}
 .text-right {
   text-align: right;
 }
@@ -314,7 +316,7 @@ a.active svg path {
 }
 #menu button,
 #title-manager button,
-nav > div > div > button,
+.navbar-content > div > button,
 #load-more button {
   height: 50px;
   font-size: 20px;
@@ -339,14 +341,14 @@ nav > div > div > button,
 #menu button:hover,
 #title-manager button:hover,
 .button:hover,
-nav > div > div > button:hover,
+.navbar-content > div > button:hover,
 #load-more button:hover {
   color: var(--rad-primary-color);
 }
 #menu button:active,
 #title-manager button:active,
 .button:active,
-nav > div > div > button:active,
+.navbar-content > div > button:active,
 #load-more button:active,
 button.active {
   background: var(--rad-primary-color) !important;
@@ -355,8 +357,8 @@ button.active {
 button.active svg path {
   opacity: 1;
 }
-input:not(#query):focus,
-.typing {
+input:not(#search-field input):focus,
+#search-field:focus-within {
   background: rgba(0, 0, 0, 0.1);
   border-bottom: 2px solid var(--rad-primary-color) !important;
 }
@@ -388,7 +390,7 @@ input {
 #app.fixed-player nav {
   border-bottom: none;
 }
-#app.fixed-player nav > div > :last-child {
+#app.fixed-player .navbar-content > :last-child {
   opacity: 1;
   pointer-events: all;
 }
@@ -399,7 +401,7 @@ input {
   box-shadow: none;
 }
 main,
-nav > div {
+.navbar-content {
   transition: all 0.3s;
 }
 #page,
@@ -421,12 +423,12 @@ nav::before {
   min-width: calc(50% - 460px);
   transition: all 0.3s;
 }
-nav > div {
+.navbar-content {
   flex: 1;
   overflow: visible;
   padding: 0 60px;
 }
-nav > div > :last-child {
+.navbar-content > :last-child {
   padding: 0 0 20px 0;
   margin: 0 20px;
 }
@@ -508,7 +510,7 @@ nav > div > :last-child {
   #app:not(.has-video) nav {
     border-bottom: none !important;
   }
-  nav > div {
+  .navbar-content {
     padding: 0 10px;
   }
   main > div {
@@ -520,7 +522,7 @@ nav > div > :last-child {
   }
 }
 @media (max-width: 680px) {
-  nav > div > div > button > span {
+  .navbar-content > div > button > span {
     display: none !important;
   }
 }

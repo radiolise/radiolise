@@ -19,7 +19,7 @@ async function fetchRadioBrowserUrls() {
     url: "/servers",
   });
 
-  return serverInfo.map((server) => "https://" + server.name + "/json");
+  return serverInfo.map((server) => `https://${server.name}/json`);
 }
 
 async function fetchRandomRadioBrowserUrl() {
@@ -58,7 +58,7 @@ export function fetchCountries() {
 }
 
 export function fetchStates(countryFilter: string) {
-  return fetchFromRadioBrowser<Filter>("/states/" + countryFilter + "/");
+  return fetchFromRadioBrowser<Filter>(`/states/${countryFilter}/`);
 }
 
 export function fetchLanguages() {
@@ -70,7 +70,7 @@ export function fetchPlayableUrl(options: {
   cancelToken: CancelToken;
 }) {
   const { stationId, cancelToken } = options;
-  return fetchFromRadioBrowser("/url/" + stationId, { cancelToken });
+  return fetchFromRadioBrowser(`/url/${stationId}`, { cancelToken });
 }
 
 export function findStations(options: {
@@ -101,11 +101,11 @@ export function fetchNowPlayingInfo(options: {
 }
 
 export function voteForStation(stationId: string) {
-  return fetchFromRadioBrowser<Record<string, any>>("/vote/" + stationId);
+  return fetchFromRadioBrowser<Record<string, any>>(`/vote/${stationId}`);
 }
 
 export async function fetchVoteNumber(stationId: string) {
-  const results = await fetchFromRadioBrowser("/stations/byuuid/" + stationId);
+  const results = await fetchFromRadioBrowser(`/stations/byuuid/${stationId}`);
 
   if (results.length === 0) {
     throw new Error("Unable to fetch vote number: Station not found.");

@@ -50,15 +50,15 @@ nav .media-controls {
   overflow: hidden;
 }
 a,
-nav > div > span > span,
-nav > div > div > button,
+.navbar-content > span > span,
+.navbar-content > div > button,
 input[type="number"],
 .media-controls,
 #logo {
   color: #fff;
 }
 #drawers a,
-#query,
+#search-field input,
 #find-station {
   color: #000;
 }
@@ -89,12 +89,13 @@ input,
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   color: #000;
+  color-scheme: light;
 }
-input:not(#query) {
+input:not(#search-field input) {
   border-bottom: 2px solid rgba(255, 255, 255, 0.5);
 }
 #search > :nth-child(4) > :first-child,
-#drawers input:not(#query),
+#drawers input:not(#search-field input),
 .month-separator {
   border-bottom: 2px solid rgba(0, 0, 0, 0.5);
 }

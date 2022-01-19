@@ -30,7 +30,7 @@
         :title="$t('general.importBackup')"
         @click="navigate"
       >
-        <font-awesome-icon icon="upload" fixed-width />
+        <fa-icon icon="upload" fixed-width />
       </a>
     </rad-link>
     {{ " " }}
@@ -41,7 +41,7 @@
       :title="$t('general.downloadPlaylist')"
       @change="exportList"
     >
-      <font-awesome-icon icon="download" fixed-width />
+      <fa-icon icon="download" fixed-width />
     </rad-dropdown>
     {{ " " }}
     <rad-link v-slot="{ active, navigate }" to="list-manager" toggle>
@@ -50,7 +50,7 @@
         :title="$t('general.manageLists')"
         @click="navigate"
       >
-        <font-awesome-icon icon="wrench" fixed-width />
+        <fa-icon icon="wrench" fixed-width />
       </a>
     </rad-link>
   </div>

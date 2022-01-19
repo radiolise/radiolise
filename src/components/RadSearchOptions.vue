@@ -2,12 +2,10 @@
   <div>
     <div id="more-options">
       <a @click="showOptions = !showOptions"
-        ><font-awesome-icon
+        ><fa-icon
           icon="chevron-down"
           fixed-width
-          :style="{
-            transform: 'rotate(' + (showOptions ? -180 : 0) + 'deg)',
-          }"
+          :style="{ transform: `rotate(${showOptions ? -180 : 0}deg)` }"
         />{{ $t(`search.${showOptions ? "hideOptions" : "showOptions"}`) }}</a
       >
     </div>
@@ -16,10 +14,10 @@
         style="padding-bottom: 10px"
         :tags.sync="syncedOptions.tags"
       />
-      <div style="text-align: left; display: table; width: 100%">
+      <div class="text-left" style="display: table; width: 100%">
         <div style="padding: 5px 0; display: table-row; overflow: hidden">
           <div style="display: table-cell; white-space: nowrap">
-            <font-awesome-icon icon="filter" />
+            <fa-icon icon="filter" style="opacity: 0.5" />
             {{ $t("search.filters.label") }}:{{ "\xa0" }}
           </div>
           <div style="display: table-cell; width: 100%">
@@ -27,15 +25,14 @@
               <div style="display: table">
                 1
                 <div style="display: table-cell; white-space: nowrap">
-                  <font-awesome-icon
-                    icon="exclamation-triangle"
-                    fixed-width
-                  />{{ "\xa0" }}
+                  <fa-icon icon="exclamation-triangle" fixed-width />{{
+                    "\xa0"
+                  }}
                 </div>
                 <div>
                   {{ $t("search.optionsUnavailable") }}
                   <a @click="loadFilters()"
-                    ><font-awesome-icon icon="redo" fixed-width />{{
+                    ><fa-icon icon="redo" fixed-width />{{
                       $t("search.tryAgain")
                     }}</a
                   >
@@ -59,14 +56,12 @@
                 v-model="syncedOptions.state"
                 :title="
                   syncedOptions.country === ''
-                    ? this.$t('search.filters.noCountrySelected')
+                    ? $t('search.filters.noCountrySelected')
                     : ''
                 "
                 style="width: 100%"
                 :disabled="syncedOptions.country === ''"
-                :label="`${this.$tc('general.state')} (${
-                  syncedOptions.country
-                })`"
+                :label="`${$tc('general.state')} (${syncedOptions.country})`"
                 :data="filterOptions['states']"
                 :loaded="filters.states !== null"
                 @click.native="handleStatesClicked()"
@@ -85,7 +80,7 @@
         </div>
         <div style="padding: 5px 0; display: table-row">
           <div style="display: table-cell; white-space: nowrap">
-            <font-awesome-icon icon="sort" />
+            <fa-icon icon="sort" style="opacity: 0.5" />
             {{ $t("search.order.sortBy") }}{{ "\xa0" }}
           </div>
           <div style="display: table-cell; width: 100%">
@@ -109,7 +104,7 @@
       </div>
       <div class="text-left" style="padding-top: 10px">
         <span style="cursor: help" :title="$t('search.bitrate.description')"
-          ><font-awesome-icon icon="wave-square" />
+          ><fa-icon icon="wave-square" style="opacity: 0.5" />
           {{ $t("search.bitrate.label") }}</span
         >:
         <rad-range-input
@@ -118,7 +113,7 @@
           :max.sync="syncedOptions.bitrate.max"
         />
       </div>
-      <div style="text-align: left; padding: 10px 0">
+      <div class="text-left" style="padding: 10px 0">
         <rad-check v-model="syncedOptions.reverse">
           {{ $t("search.reverse") }}
         </rad-check>

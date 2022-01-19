@@ -1,7 +1,7 @@
 <template>
   <rad-drawer>
     <h3>
-      <font-awesome-icon icon="keyboard" fixed-width />
+      <fa-icon icon="keyboard" fixed-width />
       {{ $t("hotkeys.title") }}
     </h3>
     <div class="content">

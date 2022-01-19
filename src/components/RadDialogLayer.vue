@@ -32,7 +32,7 @@
     <transition name="fade">
       <div v-if="toast !== null" id="toast">
         <div>
-          <font-awesome-icon
+          <fa-icon
             v-if="toast.icon !== undefined"
             :icon="toast.icon"
             fixed-width
@@ -60,7 +60,7 @@
                 style="position: absolute; right: 26px; top: 26px"
               >
                 <a @click="closeModal()"
-                  ><font-awesome-icon icon="times" fixed-width size="lg"
+                  ><fa-icon icon="times" fixed-width size="lg"
                 /></a>
               </div>
               <div
@@ -73,7 +73,7 @@
                   v-if="modalIcon !== ''"
                   style="display: table-cell; padding-right: 5px"
                 >
-                  <font-awesome-icon :icon="modalIcon" style="opacity: 0.7" />
+                  <fa-icon :icon="modalIcon" style="opacity: 0.7" />
                 </div>
                 <div style="display: table-cell">
                   <template
@@ -92,10 +92,7 @@
                 :key="button"
                 class="button"
                 @click="modalOptions.handleButtonClicked(i)"
-                ><font-awesome-icon
-                  v-if="isNegativeButton(button)"
-                  icon="ban"
-                /><font-awesome-icon
+                ><fa-icon v-if="isNegativeButton(button)" icon="ban" /><fa-icon
                   v-if="isPositiveButton(button)"
                   icon="check"
                 />
