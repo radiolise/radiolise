@@ -4,11 +4,7 @@
       <font-awesome-icon icon="cog" fixed-width /> {{ $t("general.settings") }}
     </h3>
     <p class="description">{{ $t("settings.description", [appTitle]) }}</p>
-    <form
-      ref="form"
-      @submit.prevent="handleSubmit()"
-      @keypress.enter.prevent="handleEnterPressed"
-    >
+    <form ref="form" @submit.prevent="onSubmit()">
       <div v-if="settings !== null" id="control-panel">
         <div>
           <strong>{{ $tc("settings.theme", 1) }}</strong
@@ -44,6 +40,12 @@
             ]"
           />
         </div>
+        <rad-check v-model="settings.compactMode">
+          {{ $t("settings.compactMode.name") }}
+          <template #description>
+            {{ $t("settings.compactMode.description") }}
+          </template>
+        </rad-check>
         <rad-check v-model="settings.changecolor">
           {{ $t("settings.colorChange.name") }}
           <template #description>
@@ -165,7 +167,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from "vue-property-decorator";
+import { Component, Ref, Watch, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
 import { saveFile, convertToYaml } from "@/common/downloader";
@@ -195,7 +197,7 @@ export default class RadSettings extends Vue {
   @Getter("settings") readonly globalSettings!: Settings;
 
   @Action applySettings!: (settings: Settings | null) => Promise<void>;
-  @Action("reset") handleReset!: () => Promise<void>;
+  @Action("reset") onReset!: () => Promise<void>;
 
   get detectedTheme(): string | undefined {
     return this.globalSettings.colorScheme === "auto"
@@ -229,21 +231,18 @@ export default class RadSettings extends Vue {
   }
 
   reset(): void {
-    this.handleReset();
+    this.onReset();
     this.initialize();
   }
 
-  handleSubmit(): void {
-    this.applySettings(this.settings);
-    navigate(null);
+  @Watch("globalSettings.compactMode")
+  onCompactModeToggled(compact: boolean) {
+    (this.settings as Settings).compactMode = compact;
   }
 
-  handleEnterPressed(event: KeyboardEvent): void {
-    const activeElement = event.target as HTMLElement | null;
-
-    if (activeElement?.tagName === "INPUT") {
-      activeElement.blur();
-    }
+  onSubmit(): void {
+    this.applySettings(this.settings);
+    navigate(null);
   }
 
   async exportSettings(): Promise<void> {

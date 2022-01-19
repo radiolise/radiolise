@@ -24,6 +24,7 @@ interface Title {
 interface Settings {
   theme: string;
   colorScheme: string;
+  compactMode?: boolean;
   visualization: boolean;
   relax: boolean;
   relaxTimeout: number;

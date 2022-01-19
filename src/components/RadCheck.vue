@@ -21,7 +21,7 @@ import { Component, Emit, Model, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class RadCheck extends Vue {
-  @Model("change", { type: Boolean, required: true })
+  @Model("change", { type: Boolean, default: false })
   readonly checked!: boolean;
 
   @Prop({ type: Boolean, default: false }) readonly setting!: boolean;

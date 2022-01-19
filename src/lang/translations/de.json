@@ -144,6 +144,10 @@
         "name": "@:player.playStop",
         "description": "Starten oder Stoppen der Wiedergabe des zuletzt ausgewählten Senders."
       },
+      "C": {
+        "name": "@:settings.compactMode.name",
+        "description": "@:settings.compactMode.description"
+      },
       "F": {
         "name": "@:player.toggleFullscreen",
         "description": "Starten oder Beenden des Vollbildmodus bei Video-Streams."
@@ -280,6 +284,10 @@
       "auto": "Auto",
       "light": "Hell",
       "dark": "Dunkel"
+    },
+    "compactMode": {
+      "name": "Kompakter Modus",
+      "description": "Die Anzeigegröße von Sendereinträgen verringern."
     },
     "colorChange": {
       "name": "Farbwechsel",

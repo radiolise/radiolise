@@ -65,6 +65,19 @@ const keyBindings: Record<string, KeyBinding> = {
     },
   },
 
+  "c": {
+    alias: "C",
+    trigger(context) {
+      const { applySettings, settings, showToast } = context;
+      const compact = !settings.compactMode;
+      applySettings({ ...settings, compactMode: compact });
+      showToast({
+        message: context.$t("settings.compactMode.name") as string,
+        icon: compact ? "toggle-on" : "toggle-off",
+      });
+    },
+  },
+
   "f": {
     alias: "F",
     trigger(context) {

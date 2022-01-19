@@ -93,7 +93,6 @@ export default class RadIcon extends Vue {
   color: #ffffff;
   text-align: center;
   border-radius: 50%;
-  margin: 0 20px;
   width: 35px;
   height: 35px;
   background: rgba(0, 0, 0, 0.5);
@@ -106,7 +105,6 @@ export default class RadIcon extends Vue {
   vertical-align: middle;
 }
 .icon-container {
-  margin: 0 20px;
   border-radius: 50%;
   height: 35px;
   width: 35px;

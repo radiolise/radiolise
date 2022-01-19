@@ -144,6 +144,10 @@
         "name": "@:player.playStop",
         "description": "Start or stop playing the most recently selected station."
       },
+      "C": {
+        "name": "@:settings.compactMode.name",
+        "description": "@:settings.compactMode.description"
+      },
       "F": {
         "name": "@:player.toggleFullscreen",
         "description": "Enter or exit fullscreen mode during video streams."
@@ -280,6 +284,10 @@
       "auto": "Auto",
       "light": "Light",
       "dark": "Dark"
+    },
+    "compactMode": {
+      "name": "Compact mode",
+      "description": "Reduce the display size of station entries."
     },
     "colorChange": {
       "name": "Color change",

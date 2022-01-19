@@ -11,25 +11,29 @@
       <rad-icon :station="station" />
     </div>
     <div>
-      <div style="display: block; padding-bottom: 20px">
+      <div
+        style="display: block; padding-bottom: var(--rad-station-padding-inner)"
+      >
         <div>
           <h4 style="font-weight: bold; display: inline">
             {{ station.name }}
           </h4>
         </div>
       </div>
-      <div style="overflow: hidden; height: 30px">
+      <div style="overflow: hidden; height: var(--rad-station-tags-height)">
         <div
           class="avoid-scrollbar"
           style="overflow: scroll hidden; width: 100%"
         >
-          <div style="white-space: nowrap; height: 30px">
+          <div
+            style="white-space: nowrap; height: var(--rad-station-tags-height)"
+          >
             <rad-tags :labels="labels" />
           </div>
         </div>
       </div>
     </div>
-    <div style="padding: 0 15px 0 0" @click.stop @mousedown.stop>
+    <div @click.stop @mousedown.stop>
       <rad-dropdown
         :actions="[$t('general.cancel')]"
         :label="$t('station.options', [station.name])"
@@ -189,29 +193,41 @@ export default class RadStation extends Mixins(DragHelper) {
 
 <style scoped>
 .station-row {
+  --rad-station-padding-standard: 20px;
+  --rad-station-padding-small: 15px;
+  --rad-station-padding-inner: 20px;
+  --rad-station-tags-height: 30px;
   cursor: pointer;
   display: table;
   transition: background 0.2s;
+}
+.compact-mode .station-row {
+  --rad-station-padding-standard: 15px;
+  --rad-station-padding-small: 10px;
+  --rad-station-padding-inner: 5px;
+  --rad-station-tags-height: auto;
 }
 .station-row:hover {
   background: rgba(0, 0, 0, 0.1);
 }
 .station-row > div {
   display: table-cell;
+  padding-top: var(--rad-station-padding-standard);
+  padding-bottom: var(--rad-station-padding-standard);
 }
 .station-row > :first-child {
-  padding: 20px 0;
+  padding: var(--rad-station-padding-standard);
   vertical-align: top;
 }
 .station-row > :nth-child(2) {
   text-align: left;
   width: 100%;
   max-width: 0;
-  padding: 20px 0;
 }
 .station-row > :last-child {
   cursor: auto;
   vertical-align: middle;
+  padding: 0 var(--rad-station-padding-small) 0 0;
 }
 .dragging {
   position: relative;

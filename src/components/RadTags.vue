@@ -24,6 +24,15 @@ export default class RadTags extends Vue {
 </script>
 
 <style scoped>
+.compact-mode .label {
+  background-color: transparent;
+  opacity: 0.7;
+  padding: 0;
+  margin-right: 2px;
+}
+.compact-mode .label:not(:last-child)::after {
+  content: ",";
+}
 .tags::-webkit-scrollbar {
   display: none;
 }

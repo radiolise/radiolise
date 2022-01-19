@@ -1,5 +1,9 @@
 <template>
-  <div id="stations" ref="container">
+  <div
+    id="stations"
+    ref="container"
+    :class="{ 'compact-mode': settings.compactMode }"
+  >
     <rad-station
       v-for="(station, index) in currentList"
       :key="station.id"
@@ -24,6 +28,7 @@ export default class RadStationList extends Vue {
   @Ref() readonly container!: HTMLTableSectionElement;
 
   @Getter readonly currentList!: Station[];
+  @Getter readonly settings!: Settings;
 
   get heights(): number[] {
     const stationRows = [...this.container.childNodes] as HTMLTableRowElement[];

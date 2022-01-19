@@ -1,5 +1,6 @@
 export const defaultSettings: Settings = {
   theme: "candy",
+  compactMode: true,
   colorScheme: "auto",
   visualization: false,
   relax: false,

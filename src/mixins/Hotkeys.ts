@@ -19,9 +19,11 @@ export default class Hotkeys extends Vue {
   @Getter readonly currentStation?: Station;
   @Getter readonly hasVideo!: boolean;
   @Getter readonly modalOptions: Required<ModalOptions> | undefined;
+  @Getter readonly settings!: Settings;
   @Getter readonly volume!: number;
 
   @Action adjustVolume!: (step: number) => Promise<void>;
+  @Action applySettings!: (settings: Settings) => Promise<void>;
   @Action allowEnterKey!: (allow: boolean) => Promise<void>;
   @Action playClosestStation!: (forward: boolean) => Promise<void>;
   @Action showToast!: (toast: Toast) => Promise<void>;
