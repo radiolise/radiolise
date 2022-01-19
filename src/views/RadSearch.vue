@@ -23,8 +23,9 @@
           ref="query"
           :value="searchTerm"
           autocomplete="off"
+          autocapitalize="off"
           :placeholder="$t('search.byName')"
-          type="search"
+          type="text"
           spellcheck="false"
           @input="searchTerm = $event.target.value"
           @change="searchTerm = $event.target.value"
@@ -386,7 +387,7 @@ export default class RadSearch extends Vue {
   margin-bottom: 20px;
 }
 #query {
-  width: calc(100% - 40px);
+  width: calc(100% - 60px);
   border: none;
   font-size: 24px;
   font-family: inherit;
