@@ -1,8 +1,7 @@
 import axios, { AxiosRequestConfig, CancelToken } from "axios";
-import qs from "qs";
 
-const serviceUrl = "https://service.radiolise.com";
-const fallbackRadioBrowserUrl = "https://fr1.api.radio-browser.info/json";
+const SERVICE_URL = "https://service.radiolise.com";
+const RADIO_BROWSER_FALLBACK_URL = "https://fr1.api.radio-browser.info/json";
 let eventualRadioBrowserUrl: Promise<string> | undefined;
 
 async function request<T = any>(config: AxiosRequestConfig) {
@@ -11,12 +10,12 @@ async function request<T = any>(config: AxiosRequestConfig) {
 }
 
 function fetchFromService<T = any>(url: string, config?: AxiosRequestConfig) {
-  return request<T>({ baseURL: serviceUrl, url, ...config });
+  return request<T>({ baseURL: SERVICE_URL, url, ...config });
 }
 
 async function fetchRadioBrowserUrls() {
   const serverInfo = await request<any[]>({
-    baseURL: fallbackRadioBrowserUrl,
+    baseURL: RADIO_BROWSER_FALLBACK_URL,
     url: "/servers",
   });
 
@@ -37,7 +36,7 @@ async function getRadioBrowserUrl() {
     return await eventualRadioBrowserUrl;
   } catch {
     eventualRadioBrowserUrl = undefined;
-    return fallbackRadioBrowserUrl;
+    return RADIO_BROWSER_FALLBACK_URL;
   }
 }
 
@@ -82,7 +81,7 @@ export function findStations(options: {
   return fetchFromRadioBrowser<Record<string, any>[]>("/stations/search", {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
-    data: qs.stringify(searchEntries),
+    data: new URLSearchParams(searchEntries).toString(),
     cancelToken,
   });
 }
@@ -95,7 +94,7 @@ export function fetchNowPlayingInfo(options: {
   return fetchFromService<Record<string, string>>("/", {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
-    data: qs.stringify({ url }),
+    data: new URLSearchParams({ url }).toString(),
     cancelToken,
     timeout: 50000,
   });
