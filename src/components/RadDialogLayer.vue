@@ -324,12 +324,13 @@ export default class RadDialogLayer extends Vue {
 .scale-fade-leave-active {
   transition: opacity 0.3s;
 }
-.scale-fade-enter-active,
-.scale-fade-leave-active {
-  transition-property: opacity, transform;
+.modal {
+  transition: transform 0.3s;
 }
-.scale-fade-enter,
-.scale-fade-leave-to {
+.scale-fade-enter .modal {
   transform: scale(1.25);
+}
+.scale-fade-leave-to .modal {
+  transform: scale(0.8);
 }
 </style>
