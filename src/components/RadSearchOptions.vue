@@ -95,8 +95,8 @@
               style="width: 100%"
               :label="$t('search.order.sortBy')"
               :data="[
-                { id: 'votes', name: $t('search.order.votes') },
                 { id: 'clickcount', name: $t('search.order.clicks') },
+                { id: 'votes', name: $t('search.order.votes') },
                 { id: 'name', name: $t('search.order.names') },
                 { id: 'country', name: $t('search.order.countries') },
                 { id: 'state', name: $t('search.order.states') },

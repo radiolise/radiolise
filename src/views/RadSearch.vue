@@ -175,7 +175,7 @@ export default class RadSearch extends Vue {
     country: "",
     state: "",
     language: "",
-    order: "votes",
+    order: "clickcount",
     reverse: false,
     includeBroken: false,
   };
