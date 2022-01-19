@@ -5,7 +5,7 @@
       <h3 style="margin-bottom: 0">
         {{ $t("general.listEmpty[0]") }}
       </h3>
-      <div class="stacked-buttons">
+      <div class="button-group">
         <rad-link v-slot="{ active, navigate }" to="search" toggle>
           <a :class="['button', { active }]" @click="navigate">
             <font-awesome-icon icon="search" fixed-width />
@@ -58,11 +58,7 @@ export default class RadEmptyList extends Vue {}
   max-width: 100%;
   margin-top: 20px;
 }
-.stacked-buttons {
-  margin: 10px 0;
-}
-.stacked-buttons > .button {
-  margin: 0;
+.button {
   font-size: 18px;
 }
 </style>

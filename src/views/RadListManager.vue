@@ -24,7 +24,7 @@
         />
         <rad-list-input :adding="adding" @blur="adding = false" />
       </div>
-      <div style="text-align: right">
+      <div class="button-group" style="text-align: right">
         <rad-link
           v-slot="{ navigate }"
           to="import-wizard"

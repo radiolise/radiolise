@@ -160,6 +160,12 @@ main > div {
   border-bottom: 2px solid transparent;
   border-radius: 3px;
 }
+.button-group {
+  padding: 10px 0;
+}
+.button-group > .button {
+  margin: 0;
+}
 .button > svg[role="img"] {
   margin-left: -5px;
 }

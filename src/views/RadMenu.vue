@@ -49,7 +49,7 @@
         {{ $t("general.learnMore") }}
       </button>
     </rad-link>
-    <div class="text-right">
+    <div class="button-group text-right">
       <rad-link v-slot="{ navigate }" :to="null">
         <a class="button" @click="navigate">
           <font-awesome-icon icon="times" fixed-width /> {{ $t("menu.close") }}

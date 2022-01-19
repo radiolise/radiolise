@@ -93,7 +93,7 @@
           &lowast; {{ $t("editor.field.required") }}
         </div>
       </div>
-      <div style="text-align: right">
+      <div class="button-group" style="text-align: right">
         <a class="button" @click="finish()">
           <font-awesome-icon icon="check" fixed-width />{{ $t("general.done") }}
         </a>

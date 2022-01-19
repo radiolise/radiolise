@@ -122,7 +122,7 @@
           />
         </div>
       </div>
-      <div class="text-right">
+      <div class="button-group text-right">
         <rad-link v-slot="{ navigate }" :to="null">
           <a class="button" @click="navigate">
             <font-awesome-icon icon="ban" /> {{ $t("settings.discard") }}

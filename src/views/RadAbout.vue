@@ -45,7 +45,7 @@
         /></a>
       </i18n>
     </div>
-    <p class="text-center">
+    <p class="button-group">
       <a class="button" :href="repoUrl" target="_blank" rel="noopener"
         ><font-awesome-icon :icon="['fab', 'gitlab']" fixed-width />{{
           $t("about.code")
@@ -101,5 +101,9 @@ export default class RadAbout extends Vue {
 }
 .version.visible > :only-child {
   opacity: 0.5;
+}
+.button-group {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 </style>
