@@ -41,6 +41,7 @@
         {{ $tc("titleManager.bookmark", 0) }}
       </button>
       <div
+        v-if="!bookmarksEmpty"
         class="download"
         style="
           display: table-cell;
@@ -55,10 +56,7 @@
       </div>
     </div>
     <div v-show-slide="showBookmarks" style="text-align: left">
-      <div
-        v-if="Object.keys(bookmarks).length === 0"
-        style="padding: 15px 0; text-align: center"
-      >
+      <div v-if="bookmarksEmpty" style="padding: 15px 0; text-align: center">
         {{ $t("titleManager.listEmpty") }}
       </div>
       <div v-else style="display: flex; flex-direction: column-reverse">
@@ -97,7 +95,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { format } from "date-fns";
 import { State, Getter, Action } from "vuex-class";
-import { convertToYaml, saveFile } from "@/common/downloader";
+import { downloadBookmarks } from "@/common/list-converter";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadTitleRow from "@/components/RadTitleRow.vue";
 
@@ -120,6 +118,10 @@ export default class RadTitleManager extends Vue {
   @Action determineDateFnsLocale!: (
     locale: string
   ) => Promise<Locale | undefined>;
+
+  get bookmarksEmpty() {
+    return this.memory.titles.favorites.length === 0;
+  }
 
   get bookmarks(): Record<string, Title[]> {
     return this.generateBookmarks();
@@ -148,12 +150,8 @@ export default class RadTitleManager extends Vue {
     }, {} as Record<string, Title[]>);
   }
 
-  async exportBookmarks(): Promise<void> {
-    saveFile({
-      name: "Bookmarks",
-      type: "txt",
-      output: await convertToYaml(this.bookmarks),
-    });
+  exportBookmarks(): void {
+    downloadBookmarks(this.memory.titles.favorites);
   }
 }
 </script>

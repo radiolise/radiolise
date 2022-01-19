@@ -1,4 +1,8 @@
+import { format } from "date-fns";
+
 import { saveFile, convertToYaml } from "./downloader";
+import store from "@/store";
+import i18n from "@/lang";
 
 export interface ListDownloadPayload {
   name: string;
@@ -6,13 +10,13 @@ export interface ListDownloadPayload {
   content: Station[];
 }
 
-interface OutputFormat {
+interface OutputFormat<T> {
   start: string;
-  getEntry: (item: Station, index: number) => string;
+  getEntry: (item: T, index: number) => string;
   end: string;
 }
 
-function generateOutput(list: Station[], format: OutputFormat) {
+function generateOutput<T>(list: T[], format: OutputFormat<T>) {
   const { start, getEntry, end } = format;
   return [start, ...list.map(getEntry), end].join("\n");
 }
@@ -85,10 +89,26 @@ async function convertList({ type, name, content }: ListDownloadPayload) {
   }
 }
 
-async function downloadList(payload: ListDownloadPayload) {
+export async function downloadList(payload: ListDownloadPayload) {
   const output = await convertList(payload);
   const { name, type } = payload;
-  saveFile({ name, type, output });
+  return saveFile({ name, type, output });
 }
 
-export default downloadList;
+export async function downloadBookmarks(bookmarks: Title[]) {
+  const name = "Bookmarks";
+  const type = "txt";
+  const locale = await store.dispatch("determineDateFnsLocale", i18n.locale);
+
+  const output = generateOutput(bookmarks, {
+    start:
+      `# RADIOLISE BOOKMARKS\n` +
+      `# As of: ${format(new Date(), "Pp", { locale })}\n`,
+    getEntry: ({ time, info, station }) => {
+      return `- ${format(time * 60, "Pp", { locale })} | ${info} (${station})`;
+    },
+    end: "",
+  });
+
+  return saveFile({ name, type, output });
+}
