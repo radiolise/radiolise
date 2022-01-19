@@ -52,6 +52,7 @@ import {
   faVolumeMute,
   faVolumeOff,
   faVolumeUp,
+  faWaveSquare,
   faWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import { faMeh, faSquare } from "@fortawesome/free-regular-svg-icons";
@@ -110,6 +111,7 @@ library.add(
   faVolumeMute,
   faVolumeOff,
   faVolumeUp,
+  faWaveSquare,
   faWrench,
   faMeh,
   faSquare,

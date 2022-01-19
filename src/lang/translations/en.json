@@ -214,6 +214,11 @@
     "toggleFullscreen": "Toggle fullscreen",
     "noHomepage": "No homepage registered"
   },
+  "rangeInput": {
+    "minimumShort": "min",
+    "to": "to",
+    "maximumShort": "max"
+  },
   "search": {
     "credit": {
       "free": "free",
@@ -231,6 +236,10 @@
       "allStates": "All states",
       "allLanguages": "All languages",
       "noCountrySelected": "Please select a country first."
+    },
+    "bitrate": {
+      "label": "Bitrate",
+      "description": "Only include stations with a certain bitrate (kbit/s) in the results."
     },
     "stationBroken": "Broken",
     "reverse": "Show results in reverse order",

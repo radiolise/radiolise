@@ -70,12 +70,15 @@ type Filter = Array<{
   country?: string;
 }> | null;
 
+type NumberLike = number | `${number}` | "";
+
 interface SearchOptions {
   tags: string;
   country: string;
   state: string;
   language: string;
   order: string;
+  bitrate: { min?: NumberLike; max?: NumberLike };
   reverse: boolean;
   includeBroken: boolean;
 }

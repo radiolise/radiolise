@@ -107,6 +107,17 @@
           </div>
         </div>
       </div>
+      <div class="text-left" style="padding-top: 10px">
+        <span style="cursor: help" :title="$t('search.bitrate.description')"
+          ><font-awesome-icon icon="wave-square" />
+          {{ $t("search.bitrate.label") }}</span
+        >:
+        <rad-range-input
+          style="display: inline-block; white-space: nowrap"
+          :min.sync="syncedOptions.bitrate.min"
+          :max.sync="syncedOptions.bitrate.max"
+        />
+      </div>
       <div style="text-align: left; padding: 10px 0">
         <rad-check v-model="syncedOptions.reverse">
           {{ $t("search.reverse") }}
@@ -128,12 +139,14 @@ import { fetchCountries, fetchStates, fetchLanguages } from "@/common/network";
 
 import RadCheck from "@/components/RadCheck.vue";
 import RadDropdown from "@/components/RadDropdown.vue";
+import RadRangeInput from "@/components/RadRangeInput.vue";
 import RadTagInput from "@/components/RadTagInput.vue";
 
 @Component({
   components: {
     RadCheck,
     RadDropdown,
+    RadRangeInput,
     RadTagInput,
   },
 })

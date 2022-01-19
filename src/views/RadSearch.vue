@@ -177,6 +177,7 @@ export default class RadSearch extends Vue {
     state: "",
     language: "",
     order: "clickcount",
+    bitrate: { min: 0, max: "" },
     reverse: false,
     includeBroken: false,
   };
@@ -298,6 +299,8 @@ export default class RadSearch extends Vue {
           offset: this.offset,
           limit: 20,
           order: this.options.order,
+          bitrateMin: this.options.bitrate.min,
+          bitrateMax: this.options.bitrate.max,
           reverse: this.descendingOrder,
           hidebroken: !this.options.includeBroken,
         },

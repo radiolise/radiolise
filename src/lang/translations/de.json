@@ -214,6 +214,11 @@
     "toggleFullscreen": "Vollbild umschalten",
     "noHomepage": "Keine Homepage hinterlegt"
   },
+  "rangeInput": {
+    "minimumShort": "min",
+    "to": "bis",
+    "maximumShort": "max"
+  },
   "search": {
     "credit": {
       "free": "freien",
@@ -231,6 +236,10 @@
       "allStates": "Alle Regionen",
       "allLanguages": "Alle Sprachen",
       "noCountrySelected": "Bitte wählen Sie zunächst ein Land aus."
+    },
+    "bitrate": {
+      "label": "Bitrate",
+      "description": "Nur Sender mit einer bestimmten Bitrate (kbit/s) in die Ergebnisse aufnehmen."
     },
     "stationBroken": "Defekt",
     "reverse": "Ergebnisse in umgekehrter Reihenfolge anzeigen",

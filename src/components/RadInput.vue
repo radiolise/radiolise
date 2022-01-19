@@ -14,7 +14,8 @@ import { Component, Emit, Prop, Ref, Vue } from "vue-property-decorator";
 
 @Component
 export default class RadInput extends Vue {
-  @Prop({ type: String, default: "" }) readonly value!: string;
+  @Prop({ type: [String, Number], default: "" })
+  readonly value!: string | number;
 
   @Ref() readonly input!: HTMLInputElement;
 
