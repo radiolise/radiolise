@@ -12,6 +12,11 @@
   src: url(../fonts/FiraSans-Medium.woff2) format("woff2");
   font-display: swap;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   outline: 0;
 }
