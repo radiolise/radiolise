@@ -40,30 +40,31 @@ export default class Hotkeys extends Vue {
   }
 
   finishNumberInput(index: number): void {
+    this.numberInput.input = "";
+    this.numberInput.timeout = undefined;
+
     const station = this.currentList[index - 1];
 
-    if (station !== undefined) {
-      if (this.currentStation?.id !== station.id) {
-        this.toggleStation(station);
-
-        this.showToast({
-          message: this.$t("hotkeys.onScreenToasts.playingIndex", [
-            index,
-            station.name,
-          ]) as string,
-        });
-      }
-    } else {
+    if (station === undefined) {
       this.showToast({
         icon: "exclamation-triangle",
         message: this.$t("hotkeys.onScreenToasts.notExisting", [
           index,
         ]) as string,
       });
+      return;
     }
 
-    this.numberInput.input = "";
-    this.numberInput.timeout = undefined;
+    if (this.currentStation?.id !== station.id) {
+      this.toggleStation(station);
+    }
+
+    this.showToast({
+      message: this.$t("hotkeys.onScreenToasts.playingIndex", [
+        index,
+        station.name,
+      ]) as string,
+    });
   }
 
   handleNumberInput(enteredDigit: number): void {
