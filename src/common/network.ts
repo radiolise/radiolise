@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, CancelToken } from "axios";
 
 const SERVICE_URL = "https://service.radiolise.com";
-const RADIO_BROWSER_FALLBACK_URL = "https://fr1.api.radio-browser.info/json";
+const RADIO_BROWSER_FALLBACK_URL = "https://de1.api.radio-browser.info/json";
 let eventualRadioBrowserUrl: Promise<string> | undefined;
 
 async function request<T = any>(config: AxiosRequestConfig) {
