@@ -1,10 +1,9 @@
 # Radiolise Web Client
 
-Radiolise is a free
-([as in ‘freedom’](https://www.gnu.org/philosophy/free-sw.html)) web application
-that allows you to play your favorite TV and radio streams. You can easily
-access the user interface and receive and play streams via your favorite web
-browser.
+Radiolise is a free ([as in ‘freedom’](https://fsfe.org/freesoftware/)) web
+application that allows you to play your favorite TV and radio streams. You can
+easily access the user interface and receive and play streams via your favorite
+web browser.
 
 **[Try Radiolise](https://radiolise.com/)**
 
