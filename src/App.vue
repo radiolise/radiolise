@@ -20,9 +20,9 @@
   >
     <template v-if="ready">
       <RadPage />
-      <RadRelaxCaption />
       <RadDialogLayer />
-      <RadVisualization />
+      <RadRelaxCaption v-if="relaxed" />
+      <RadVisualization v-if="visualizationActive" />
     </template>
     <RadStartup v-else />
   </div>
@@ -81,6 +81,7 @@ export default class App extends HelperMixins {
   @Getter readonly language!: string;
   @Getter readonly lists!: StationList[];
   @Getter readonly ready!: boolean;
+  @Getter readonly visualizationActive!: boolean;
 
   @Action confirmSleepTimer!: () => Promise<void>;
   @Action createList!: (list: StationList) => Promise<void>;

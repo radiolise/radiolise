@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
 @Component
@@ -23,22 +23,16 @@ export default class RadRelaxCaption extends Vue {
     this.resizeFont();
   }
 
+  beforeDestroy(): void {
+    window.removeEventListener("resize", this.resizeFont);
+  }
+
   get name(): string {
     return this.currentStation?.name ?? "";
   }
 
   get info(): string {
     return this.currentInfo ?? "";
-  }
-
-  @Watch("relaxed")
-  onRelaxedChanged(relaxed: boolean): void {
-    if (relaxed) {
-      window.addEventListener("resize", this.resizeFont);
-      this.resizeFont();
-    } else {
-      window.removeEventListener("resize", this.resizeFont);
-    }
   }
 
   resizeFont(): void {
