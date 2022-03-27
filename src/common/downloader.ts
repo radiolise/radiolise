@@ -28,7 +28,7 @@ export async function saveFile({ name, type, output }: FileInfo) {
   const mimeType = resolveMimeType(type);
   const fileName = `${name.replace(/ /g, "_")}_${new Date().getTime()}.${type}`;
 
-  const FileSaver = await import(
+  const { default: FileSaver } = await import(
     /* webpackChunkName: "file-saver" */ "file-saver"
   );
 

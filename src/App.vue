@@ -73,18 +73,14 @@ export default class App extends HelperMixins {
 
   @State readonly currentDialog!: DialogState | null;
   @State readonly fellAsleep!: boolean;
-  @State readonly playing!: boolean;
   @State readonly relaxed!: boolean;
 
   @Getter readonly colorScheme!: string | null;
   @Getter readonly dragging!: boolean;
   @Getter readonly fixedPlayer!: boolean;
-  @Getter readonly fullscreen!: boolean;
-  @Getter readonly hasVideo!: boolean;
   @Getter readonly language!: string;
   @Getter readonly lists!: StationList[];
   @Getter readonly ready!: boolean;
-  @Getter readonly settings!: Settings;
 
   @Action confirmSleepTimer!: () => Promise<void>;
   @Action createList!: (list: StationList) => Promise<void>;
@@ -263,4 +259,6 @@ export default class App extends HelperMixins {
 }
 </script>
 
-<style src="@/assets/css/app.css" />
+<style>
+@import url("@/assets/css/app.css");
+</style>

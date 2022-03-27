@@ -205,13 +205,9 @@ export default class RadMedia extends Vue {
   }
 
   onLoadedMetadata(): void {
-    const playPromise = this.mediaElement.play();
-
-    if (playPromise instanceof Promise) {
-      playPromise.catch(() => {
-        // Errors are handled by the @error listener.
-      });
-    }
+    this.mediaElement.play().catch(() => {
+      // Errors are handled by the @error listener.
+    });
   }
 
   handleError(): void {

@@ -1,3 +1,4 @@
+const { defineConfig } = require("@vue/cli-service");
 const { ContextReplacementPlugin } = require("webpack");
 const { version, author, homepage, bugs } = require("./package.json");
 
@@ -7,50 +8,44 @@ process.env.VUE_APP_COPYRIGHT = `© 2017-${new Date().getUTCFullYear()} ${author
 process.env.VUE_APP_REPO = homepage;
 process.env.VUE_APP_ISSUES = bugs.url;
 
-const dateFnsLocales = ["de", "fr" /*, "be", "ru" */];
-const themePattern = /\.lazy\.css$/;
+const DATE_FNS_LOCALES = ["de", "fr"];
+const THEME_PATTERN = /\.lazy\.css$/;
 
-module.exports = {
+module.exports = defineConfig({
   publicPath: ".",
   productionSourceMap: false,
-
-  configureWebpack: (config) => {
-    config.plugins.push(
+  terser: {
+    terserOptions: {
+      keep_classnames: true,
+    },
+  },
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: THEME_PATTERN,
+          use: [
+            {
+              loader: "style-loader",
+              options: {
+                injectType: "lazyStyleTag",
+              },
+            },
+            "css-loader",
+          ],
+        },
+      ],
+    },
+    plugins: [
       new ContextReplacementPlugin(
-        /date\-fns[\/\\]/,
-        new RegExp(`[/\\\\\](${dateFnsLocales.join("|")})[/\\\\\]index\.js$`)
-      )
-    );
+        /^date-fns[/\\]locale$/,
+        new RegExp(
+          `\\.[/\\\\](${DATE_FNS_LOCALES.join("|")})[/\\\\]index\\.js$`
+        )
+      ),
+    ],
   },
-
   chainWebpack: (config) => {
-    config.optimization.minimizer("terser").tap((args) => {
-      args[0].terserOptions.keep_classnames = true;
-      return args;
-    });
-
-    config.plugin("prefetch").tap((options) => {
-      options[0].fileBlacklist = options[0].fileBlacklist || [];
-      options[0].fileBlacklist.push(
-        /date-fns-locale-(.)+?\.js$/,
-        /-lazy-css(.)*?\.js$/
-      );
-      return options;
-    });
-
-    config.module.rule("css").exclude.store = [themePattern];
-
-    config.module
-      .rule("lazy-css")
-      .test(themePattern)
-      .use("style-loader")
-      .loader("style-loader")
-      .tap((options) => ({
-        ...options,
-        injectType: "lazyStyleTag",
-      }))
-      .end()
-      .use("css-loader")
-      .loader("css-loader");
+    config.module.rule("css").exclude.store = [THEME_PATTERN];
   },
-};
+});
