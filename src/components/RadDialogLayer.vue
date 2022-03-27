@@ -1,6 +1,6 @@
 <template>
   <div id="dialog-layer">
-    <rad-link v-slot="{ navigate }" :to="null">
+    <RadLink v-slot="{ navigate }" :to="null">
       <div style="height: 100%; overflow: hidden" @click="navigate">
         <div
           id="drawers"
@@ -27,12 +27,12 @@
           </transition>
         </div>
       </div>
-    </rad-link>
-    <rad-bottom-drawer />
+    </RadLink>
+    <RadBottomDrawer />
     <transition name="fade">
       <div v-if="toast !== null" id="toast">
         <div>
-          <fa-icon
+          <FaIcon
             v-if="toast.icon !== undefined"
             :icon="toast.icon"
             fixed-width
@@ -60,7 +60,7 @@
                 style="position: absolute; right: 26px; top: 26px"
               >
                 <a @click="closeModal()"
-                  ><fa-icon icon="times" fixed-width size="lg"
+                  ><FaIcon icon="times" fixed-width size="lg"
                 /></a>
               </div>
               <div
@@ -73,7 +73,7 @@
                   v-if="modalIcon !== ''"
                   style="display: table-cell; padding-right: 5px"
                 >
-                  <fa-icon :icon="modalIcon" style="opacity: 0.7" />
+                  <FaIcon :icon="modalIcon" style="opacity: 0.7" />
                 </div>
                 <div style="display: table-cell">
                   <template
@@ -92,7 +92,7 @@
                 :key="button"
                 class="button"
                 @click="modalOptions.handleButtonClicked(i)"
-                ><fa-icon v-if="isNegativeButton(button)" icon="ban" /><fa-icon
+                ><FaIcon v-if="isNegativeButton(button)" icon="ban" /><FaIcon
                   v-if="isPositiveButton(button)"
                   icon="check"
                 />

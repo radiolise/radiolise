@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="menu-buttons">
-      <rad-link v-if="!isMenu" v-slot="{ navigate }" to="menu">
+      <RadLink v-if="!isMenu" v-slot="{ navigate }" to="menu">
         <a @click="navigate">
-          <fa-icon icon="bars" fixed-width size="lg" />
+          <FaIcon icon="bars" fixed-width size="lg" />
         </a>
-      </rad-link>
+      </RadLink>
       {{ " " }}
-      <rad-link v-slot="{ navigate }" :to="null">
+      <RadLink v-slot="{ navigate }" :to="null">
         <a @click="navigate">
-          <fa-icon icon="times-circle" fixed-width size="lg" />
+          <FaIcon icon="times-circle" fixed-width size="lg" />
         </a>
-      </rad-link>
+      </RadLink>
     </div>
     <slot />
   </div>

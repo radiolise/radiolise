@@ -1,13 +1,13 @@
 <template>
-  <rad-drawer>
-    <h3><fa-icon icon="cog" fixed-width /> {{ $t("general.settings") }}</h3>
+  <RadDrawer>
+    <h3><FaIcon icon="cog" fixed-width /> {{ $t("general.settings") }}</h3>
     <p class="description">{{ $t("settings.description", [appTitle]) }}</p>
     <form ref="form" @submit.prevent="onSubmit()">
       <div v-if="settings !== null" id="control-panel">
         <div>
           <strong>{{ $tc("settings.theme", 1) }}</strong
           >:
-          <rad-dropdown
+          <RadDropdown
             v-model="settings.theme"
             :label="$tc('settings.theme', 0)"
             :data="[
@@ -24,7 +24,7 @@
         <div>
           <strong>{{ $tc("settings.colorScheme.name") }}</strong
           >:
-          <rad-dropdown
+          <RadDropdown
             v-model="settings.colorScheme"
             :label="$tc('settings.colorScheme.name', 3)"
             :data="[
@@ -38,40 +38,40 @@
             ]"
           />
         </div>
-        <rad-check v-model="settings.compactMode">
+        <RadCheck v-model="settings.compactMode">
           {{ $t("settings.compactMode.name") }}
           <template #description>
             {{ $t("settings.compactMode.description") }}
           </template>
-        </rad-check>
-        <rad-check v-model="settings.changecolor">
+        </RadCheck>
+        <RadCheck v-model="settings.changecolor">
           {{ $t("settings.colorChange.name") }}
           <template #description>
             {{ $t("settings.colorChange.description") }}
           </template>
-        </rad-check>
-        <rad-check id="visualization-setting" v-model="settings.visualization">
+        </RadCheck>
+        <RadCheck id="visualization-setting" v-model="settings.visualization">
           {{ $t("settings.visualization.name") }}
-          <fa-icon
+          <FaIcon
             icon="exclamation-triangle"
             :title="$t('settings.visualization.screenWidthIssue')"
           />
           <template #description>
             {{ $t("settings.visualization.description") }}
           </template>
-        </rad-check>
-        <rad-check v-model="settings.relax">
+        </RadCheck>
+        <RadCheck v-model="settings.relax">
           {{ $t("settings.relaxMode.name") }}
           <template #description>
             {{ $t("settings.relaxMode.description") }}
           </template>
-        </rad-check>
+        </RadCheck>
         <div v-if="settings.relax">
           <strong>{{ $t("settings.relaxMode.timer") }}</strong>
           {{ " " }}
           <span style="opacity: 0.7">(sec):</span>
           {{ " " }}
-          <rad-input
+          <RadInput
             v-model.number="settings.relaxTimeout"
             type="number"
             select-on-focus
@@ -80,18 +80,18 @@
             required
           />
         </div>
-        <rad-check v-model="settings.sleep">
+        <RadCheck v-model="settings.sleep">
           {{ $t("settings.sleep.name") }}
           <template #description>
             {{ $t("settings.sleep.description") }}
           </template>
-        </rad-check>
+        </RadCheck>
         <div v-if="settings.sleep">
           <strong>{{ $t("settings.sleep.timer") }}</strong>
           {{ " " }}
           <span style="opacity: 0.7">(min):</span>
           {{ " " }}
-          <rad-input
+          <RadInput
             v-model.number="settings.sleepTimeout"
             type="number"
             select-on-focus
@@ -100,18 +100,18 @@
             required
           />
         </div>
-        <rad-check v-model="settings.loadpolicy" setting>
+        <RadCheck v-model="settings.loadpolicy" setting>
           {{ $t("settings.loadIcons.name") }}
-        </rad-check>
-        <rad-check v-model="settings.transitions" setting>
+        </RadCheck>
+        <RadCheck v-model="settings.transitions" setting>
           {{ $t("settings.transitions.name") }}
-        </rad-check>
+        </RadCheck>
         <div>
           <strong>{{ $t("settings.volume") }}</strong>
           {{ " " }}
           <span style="opacity: 0.7">(%):</span>
           {{ " " }}
-          <rad-input
+          <RadInput
             v-model.number="settings.volume"
             type="number"
             select-on-focus
@@ -122,10 +122,10 @@
           />
         </div>
         <div>
-          <fa-icon icon="comment-dots" flip="horizontal" />{{ " " }}
+          <FaIcon icon="comment-dots" flip="horizontal" />{{ " " }}
           <strong>{{ $tc("general.language", 1) }}</strong
           >:
-          <rad-dropdown
+          <RadDropdown
             v-model="settings.language"
             :label="$tc('general.language', 0)"
             :data="locales"
@@ -133,13 +133,13 @@
         </div>
       </div>
       <div class="button-group text-right">
-        <rad-link v-slot="{ navigate }" :to="null">
+        <RadLink v-slot="{ navigate }" :to="null">
           <a class="button" @click="navigate">
-            <fa-icon icon="ban" /> {{ $t("settings.discard") }}
+            <FaIcon icon="ban" /> {{ $t("settings.discard") }}
           </a>
-        </rad-link>
+        </RadLink>
         <a class="button" @click="form.submit.click()">
-          <fa-icon icon="check" />
+          <FaIcon icon="check" />
           {{ $t("general.apply") }}
         </a>
         <input type="submit" name="submit" style="display: none" />
@@ -148,26 +148,26 @@
     <div style="display: table; margin: 10px auto">
       <div style="float: left; margin: 5px 10px">
         <a @click="reset()"
-          ><fa-icon icon="undo" fixed-width />{{ $t("settings.reset") }}</a
+          ><FaIcon icon="undo" fixed-width />{{ $t("settings.reset") }}</a
         ><br />
       </div>
       <div style="float: right; margin: 5px 10px">
-        <rad-link
+        <RadLink
           v-slot="{ navigate }"
           to="import-wizard"
           :props="{ type: 'settings' }"
         >
           <a @click="navigate">
-            <fa-icon icon="upload" fixed-width />{{ $t("settings.import") }}
+            <FaIcon icon="upload" fixed-width />{{ $t("settings.import") }}
           </a>
-        </rad-link>
+        </RadLink>
         <br />
         <a @click="exportSettings()">
-          <fa-icon icon="download" fixed-width />{{ $t("settings.export") }}
+          <FaIcon icon="download" fixed-width />{{ $t("settings.export") }}
         </a>
       </div>
     </div>
-  </rad-drawer>
+  </RadDrawer>
 </template>
 
 <script lang="ts">

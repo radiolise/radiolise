@@ -12,13 +12,13 @@
         style="display: table; padding: 10px; margin: 0 auto; max-width: 800px"
       >
         <span style="padding: 14px 20px; float: left"
-          ><fa-icon icon="info-circle" fixed-width /> {{ message }}</span
+          ><FaIcon icon="info-circle" fixed-width /> {{ message }}</span
         >
         <span style="white-space: nowrap; float: right"
           ><a class="button" @click="undo()"
-            ><fa-icon icon="undo" fixed-width />{{ $t("general.undo") }}</a
+            ><FaIcon icon="undo" fixed-width />{{ $t("general.undo") }}</a
           ><a class="button" @click="confirm()"
-            ><fa-icon icon="check" fixed-width />{{ $t("general.ok") }}</a
+            ><FaIcon icon="check" fixed-width />{{ $t("general.ok") }}</a
           ></span
         >
       </div>

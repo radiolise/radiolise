@@ -4,7 +4,7 @@
     ref="container"
     :class="{ 'compact-mode': settings.compactMode }"
   >
-    <rad-station
+    <RadStation
       v-for="(station, index) in currentList"
       :key="station.id"
       :index="index"

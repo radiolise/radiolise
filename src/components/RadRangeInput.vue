@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <rad-input
+    <RadInput
       v-model.number="_min"
       type="number"
       select-on-focus
@@ -10,7 +10,7 @@
       @change="submitButton.click()"
     />
     <span style="padding: 0 10px">{{ $t("rangeInput.to") }}</span>
-    <rad-input
+    <RadInput
       v-model.number="_max"
       type="number"
       select-on-focus

@@ -18,7 +18,7 @@
       @error="handleError()"
     />
     <div v-if="hasVideo && loading" class="spin-container">
-      <fa-icon icon="spinner" spin size="4x" />
+      <FaIcon icon="spinner" spin size="4x" />
     </div>
   </div>
 </template>

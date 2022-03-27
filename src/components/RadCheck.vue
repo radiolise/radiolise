@@ -2,8 +2,8 @@
   <div class="checkbox" :class="{ checked }" @click="toggleChecked()">
     <div>
       <transition name="fade" mode="out-in">
-        <fa-icon v-if="checked" key="checked" icon="check-square" />
-        <fa-icon v-else key="notChecked" :icon="['far', 'square']" />
+        <FaIcon v-if="checked" key="checked" icon="check-square" />
+        <FaIcon v-else key="notChecked" :icon="['far', 'square']" />
       </transition>
     </div>
     <div>

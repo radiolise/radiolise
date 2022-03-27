@@ -2,7 +2,7 @@
   <div>
     <div id="more-options">
       <a @click="showOptions = !showOptions"
-        ><fa-icon
+        ><FaIcon
           icon="chevron-down"
           fixed-width
           :style="{ transform: `rotate(${showOptions ? -180 : 0}deg)` }"
@@ -10,14 +10,14 @@
       >
     </div>
     <div id="filters" v-show-slide="showOptions">
-      <rad-tag-input
+      <RadTagInput
         style="padding-bottom: 10px"
         :tags.sync="syncedOptions.tags"
       />
       <div class="text-left" style="display: table; width: 100%">
         <div style="padding: 5px 0; display: table-row; overflow: hidden">
           <div style="display: table-cell; white-space: nowrap">
-            <fa-icon icon="filter" style="opacity: 0.5" />
+            <FaIcon icon="filter" style="opacity: 0.5" />
             {{ $t("search.filters.label") }}:{{ "\xa0" }}
           </div>
           <div style="display: table-cell; width: 100%">
@@ -25,14 +25,12 @@
               <div style="display: table">
                 1
                 <div style="display: table-cell; white-space: nowrap">
-                  <fa-icon icon="exclamation-triangle" fixed-width />{{
-                    "\xa0"
-                  }}
+                  <FaIcon icon="exclamation-triangle" fixed-width />{{ "\xa0" }}
                 </div>
                 <div>
                   {{ $t("search.optionsUnavailable") }}
                   <a @click="loadFilters()"
-                    ><fa-icon icon="redo" fixed-width />{{
+                    ><FaIcon icon="redo" fixed-width />{{
                       $t("search.tryAgain")
                     }}</a
                   >
@@ -41,7 +39,7 @@
               <br />
             </div>
             <template v-else>
-              <rad-dropdown
+              <RadDropdown
                 id="country"
                 v-model="syncedOptions.country"
                 style="width: 100%"
@@ -51,7 +49,7 @@
                 @change="updateStates()"
               />
               <br />
-              <rad-dropdown
+              <RadDropdown
                 id="state"
                 v-model="syncedOptions.state"
                 :title="
@@ -67,7 +65,7 @@
                 @click.native="handleStatesClicked()"
               />
               <br />
-              <rad-dropdown
+              <RadDropdown
                 id="language"
                 v-model="syncedOptions.language"
                 style="width: 100%"
@@ -80,11 +78,11 @@
         </div>
         <div style="padding: 5px 0; display: table-row">
           <div style="display: table-cell; white-space: nowrap">
-            <fa-icon icon="sort" style="opacity: 0.5" />
+            <FaIcon icon="sort" style="opacity: 0.5" />
             {{ $t("search.order.sortBy") }}{{ "\xa0" }}
           </div>
           <div style="display: table-cell; width: 100%">
-            <rad-dropdown
+            <RadDropdown
               id="order"
               v-model="syncedOptions.order"
               style="width: 100%"
@@ -104,22 +102,22 @@
       </div>
       <div class="text-left" style="padding-top: 10px">
         <span style="cursor: help" :title="$t('search.bitrate.description')"
-          ><fa-icon icon="wave-square" style="opacity: 0.5" />
+          ><FaIcon icon="wave-square" style="opacity: 0.5" />
           {{ $t("search.bitrate.label") }}</span
         >:
-        <rad-range-input
+        <RadRangeInput
           style="display: inline-block; white-space: nowrap"
           :min.sync="syncedOptions.bitrate.min"
           :max.sync="syncedOptions.bitrate.max"
         />
       </div>
       <div class="text-left" style="padding: 10px 0">
-        <rad-check v-model="syncedOptions.reverse">
+        <RadCheck v-model="syncedOptions.reverse">
           {{ $t("search.reverse") }}
-        </rad-check>
-        <rad-check v-model="syncedOptions.includeBroken">
+        </RadCheck>
+        <RadCheck v-model="syncedOptions.includeBroken">
           {{ $t("search.includeBroken") }}
-        </rad-check>
+        </RadCheck>
       </div>
     </div>
   </div>

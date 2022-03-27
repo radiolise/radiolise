@@ -1,7 +1,7 @@
 <template>
   <div class="tag-input">
     <span style="display: table-cell">{{ $t("tagInput.label") }}: </span
-    ><rad-input
+    ><RadInput
       :value="renderedTags"
       style="display: table-cell; width: 100%"
       :placeholder="$t('general.tags')"
@@ -14,7 +14,7 @@
         {{ $t("tagInput.preview") }}:{{ "\xa0" }}
       </div>
       <div style="display: table-cell">
-        <rad-tags :labels="renderedTags.split(',')" />
+        <RadTags :labels="renderedTags.split(',')" />
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <template>
-  <rad-drawer id="editor">
+  <RadDrawer id="editor">
     <h3>
-      <fa-icon icon="edit" fixed-width />
+      <FaIcon icon="edit" fixed-width />
       {{ stationReference ? stationReference.name : $t("editor.newStation") }} –
       {{ $t("editor.title") }}
     </h3>
@@ -15,7 +15,7 @@
             >&lowast;</sup
           >
           {{ $t("editor.field.name") }}: </span
-        ><rad-input
+        ><RadInput
           :value="stationClone.name"
           style="display: table-cell; width: 100%"
           :placeholder="$t('editor.field.name')"
@@ -31,7 +31,7 @@
             >&lowast;</sup
           >
           {{ $t("editor.field.url") }}: </span
-        ><rad-input
+        ><RadInput
           :value="stationClone.url"
           style="display: table-cell; width: 100%"
           :placeholder="$t('editor.field.url')"
@@ -47,7 +47,7 @@
             >&lowast;</sup
           >
           {{ $t("editor.field.homepage") }}: </span
-        ><rad-input
+        ><RadInput
           :value="stationClone.homepage"
           style="display: table-cell; width: 100%"
           :placeholder="$t('editor.field.homepage')"
@@ -56,7 +56,7 @@
           @change="stationClone.homepage = $event"
         />
         <span style="display: table-cell">{{ $t("editor.field.icon") }}: </span
-        ><rad-input
+        ><RadInput
           :value="stationClone.icon"
           style="display: table-cell; width: 100%"
           :placeholder="$t('editor.field.icon')"
@@ -64,7 +64,7 @@
           @change="stationClone.icon = $event"
         />
         <span style="display: table-cell">{{ $tc("general.country") }}: </span
-        ><rad-input
+        ><RadInput
           :value="stationClone.country"
           style="display: table-cell; width: 100%"
           :placeholder="$tc('general.country')"
@@ -72,7 +72,7 @@
           @change="stationClone.country = $event"
         />
         <span style="display: table-cell">{{ $tc("general.state") }}: </span
-        ><rad-input
+        ><RadInput
           :value="stationClone.state"
           style="display: table-cell; width: 100%"
           :placeholder="$tc('general.state')"
@@ -80,14 +80,14 @@
           @change="stationClone.state = $event"
         />
         <span style="display: table-cell">{{ $tc("general.language") }}: </span
-        ><rad-input
+        ><RadInput
           :value="stationClone.language"
           style="display: table-cell; width: 100%"
           :placeholder="$tc('general.language')"
           type="text"
           @change="stationClone.language = $event"
         />
-        <rad-tag-input :tags.sync="stationClone.tags" />
+        <RadTagInput :tags.sync="stationClone.tags" />
         <br />
         <div class="text-left important">
           &lowast; {{ $t("editor.field.required") }}
@@ -95,7 +95,7 @@
       </div>
       <div class="button-group text-right">
         <a class="button" @click="finish()">
-          <fa-icon icon="check" fixed-width />{{ $t("general.done") }}
+          <FaIcon icon="check" fixed-width />{{ $t("general.done") }}
         </a>
         <input
           ref="submit-button"
@@ -105,7 +105,7 @@
         />
       </div>
     </form>
-  </rad-drawer>
+  </RadDrawer>
 </template>
 
 <script lang="ts">

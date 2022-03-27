@@ -14,19 +14,19 @@
       @keydown.enter="handleEnterPress()"
     />
     <div class="text-left" style="display: table-cell; white-space: nowrap">
-      <a v-show="active"><fa-icon icon="check" fixed-width /></a>
+      <a v-show="active"><FaIcon icon="check" fixed-width /></a>
       <a v-show="!active" @click="input.focus()">
-        <fa-icon icon="edit" fixed-width />
+        <FaIcon icon="edit" fixed-width />
       </a>
       <template v-if="!isNewList">
         <a @click="exportList()">
-          <fa-icon icon="download" fixed-width />
+          <FaIcon icon="download" fixed-width />
         </a>
         <a @click="change()">
-          <fa-icon icon="search" fixed-width />
+          <FaIcon icon="search" fixed-width />
         </a>
         <a v-show="removable" @click="remove()">
-          <fa-icon icon="trash" fixed-width />
+          <FaIcon icon="trash" fixed-width />
         </a>
       </template>
     </div>

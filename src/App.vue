@@ -19,12 +19,12 @@
     @scroll="handleFullscreenScroll()"
   >
     <template v-if="ready">
-      <rad-page />
-      <rad-relax-caption />
-      <rad-dialog-layer />
-      <rad-visualization />
+      <RadPage />
+      <RadRelaxCaption />
+      <RadDialogLayer />
+      <RadVisualization />
     </template>
-    <rad-startup v-else />
+    <RadStartup v-else />
   </div>
 </template>
 

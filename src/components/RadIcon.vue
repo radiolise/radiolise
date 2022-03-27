@@ -2,7 +2,7 @@
   <div>
     <div class="play-button">
       <div>
-        <fa-icon :icon="overlay" fixed-width :spin="overlay === 'spinner'" />
+        <FaIcon :icon="overlay" fixed-width :spin="overlay === 'spinner'" />
       </div>
     </div>
     <div class="icon-container">

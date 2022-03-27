@@ -1,7 +1,7 @@
 <template>
-  <rad-drawer>
+  <RadDrawer>
     <h3>
-      <fa-icon icon="list-alt" fixed-width />
+      <FaIcon icon="list-alt" fixed-width />
       {{ $t("general.stationLists") }}
     </h3>
     <p class="description">{{ $t("listManager.description") }}</p>
@@ -14,7 +14,7 @@
           font-size: 20px;
         "
       >
-        <rad-list-input
+        <RadListInput
           v-for="(list, index) in lists"
           :key="index"
           :index="index"
@@ -22,25 +22,25 @@
           :content="list.content"
           :removable="makeRemovable"
         />
-        <rad-list-input :adding="adding" @blur="adding = false" />
+        <RadListInput :adding="adding" @blur="adding = false" />
       </div>
       <div class="button-group text-right">
-        <rad-link
+        <RadLink
           v-slot="{ navigate }"
           to="import-wizard"
           :props="{ type: 'list' }"
         >
           <a class="button" @click="navigate">
-            <fa-icon icon="file-import" />
+            <FaIcon icon="file-import" />
             {{ $t("general.importBackup") }}
           </a>
-        </rad-link>
+        </RadLink>
         <a class="button" @click="adding = true">
-          <fa-icon icon="plus" /> {{ $t("listManager.newList") }}
+          <FaIcon icon="plus" /> {{ $t("listManager.newList") }}
         </a>
       </div>
     </div>
-  </rad-drawer>
+  </RadDrawer>
 </template>
 
 <script lang="ts">

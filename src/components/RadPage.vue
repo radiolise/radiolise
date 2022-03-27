@@ -2,64 +2,64 @@
   <div id="page">
     <nav>
       <div class="navbar-content">
-        <rad-link v-slot="{ navigate }" to="menu" toggle>
+        <RadLink v-slot="{ navigate }" to="menu" toggle>
           <span @click="navigate">
-            <rad-logo /><span>{{ appTitle }}</span>
+            <RadLogo /><span>{{ appTitle }}</span>
           </span>
-        </rad-link>
+        </RadLink>
         <div>
-          <rad-link v-slot="{ active, navigate }" to="search" toggle>
+          <RadLink v-slot="{ active, navigate }" to="search" toggle>
             <button
               :aria-label="$t('general.findStations')"
               :class="{ active }"
               @click="navigate"
             >
-              <fa-icon icon="search" /><span>
+              <FaIcon icon="search" /><span>
                 {{ $t("general.findStations") }}</span
               >
             </button>
-          </rad-link>
-          <rad-link v-slot="{ active, navigate }" to="settings" toggle>
+          </RadLink>
+          <RadLink v-slot="{ active, navigate }" to="settings" toggle>
             <button
               :aria-label="$t('general.settings')"
               :class="{ active }"
               @click="navigate"
             >
-              <fa-icon icon="cog" /><span> {{ $t("general.settings") }}</span>
+              <FaIcon icon="cog" /><span> {{ $t("general.settings") }}</span>
             </button>
-          </rad-link>
-          <rad-link v-slot="{ active, navigate }" to="menu" toggle>
+          </RadLink>
+          <RadLink v-slot="{ active, navigate }" to="menu" toggle>
             <button
               :aria-label="$t('general.more')"
               :class="{ active }"
               @click="navigate"
             >
-              <fa-icon icon="bars" /><span> {{ $t("general.more") }}</span>
+              <FaIcon icon="bars" /><span> {{ $t("general.more") }}</span>
             </button>
-          </rad-link>
+          </RadLink>
         </div>
-        <rad-player />
+        <RadPlayer />
       </div>
     </nav>
     <main>
       <div>
-        <rad-player>
-          <rad-media />
-        </rad-player>
+        <RadPlayer>
+          <RadMedia />
+        </RadPlayer>
         <div id="main-controls">
           <div class="text-left" style="padding-top: 40px">
-            <rad-list-menu />
-            <rad-empty-list v-if="listEmpty" />
-            <rad-station-list v-else />
+            <RadListMenu />
+            <RadEmptyList v-if="listEmpty" />
+            <RadStationList v-else />
           </div>
           <p v-if="!listEmpty" class="text-right">
-            <rad-link v-slot="{ active, navigate }" to="search" toggle>
+            <RadLink v-slot="{ active, navigate }" to="search" toggle>
               <a :class="['button', { active }]" @click="navigate">
-                <fa-icon icon="search" fixed-width />{{
+                <FaIcon icon="search" fixed-width />{{
                   $t("general.findStations")
                 }}
               </a>
-            </rad-link>
+            </RadLink>
           </p>
         </div>
       </div>

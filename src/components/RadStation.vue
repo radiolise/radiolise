@@ -8,7 +8,7 @@
     @mousedown.left="handleMouseDown"
   >
     <div>
-      <rad-icon :station="station" />
+      <RadIcon :station="station" />
     </div>
     <div>
       <div
@@ -28,21 +28,21 @@
           <div
             style="white-space: nowrap; height: var(--rad-station-tags-height)"
           >
-            <rad-tags :labels="labels" />
+            <RadTags :labels="labels" />
           </div>
         </div>
       </div>
     </div>
     <div @click.stop @mousedown.stop>
-      <rad-dropdown
+      <RadDropdown
         :actions="[$t('general.cancel')]"
         :label="$t('station.options', [station.name])"
         :data="menuOptions"
         flex-align
         @change="trigger"
       >
-        <fa-icon icon="ellipsis-v" fixed-width />
-      </rad-dropdown>
+        <FaIcon icon="ellipsis-v" fixed-width />
+      </RadDropdown>
     </div>
   </div>
 </template>

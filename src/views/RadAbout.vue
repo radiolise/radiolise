@@ -1,5 +1,5 @@
 <template>
-  <rad-drawer>
+  <RadDrawer>
     <br />
     <div
       class="logo"
@@ -17,7 +17,7 @@
         class="version"
         :class="{ visible: versionShown }"
       >
-        <span><fa-icon icon="code-branch" /> {{ version }}</span>
+        <span><FaIcon icon="code-branch" /> {{ version }}</span>
       </div>
     </div>
     <br />
@@ -27,7 +27,7 @@
         {{ appTitle }}
         <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
           >{{ $t("about.freeSoftware")
-          }}<fa-icon icon="external-link-alt" fixed-width
+          }}<FaIcon icon="external-link-alt" fixed-width
         /></a>
       </i18n>
       <p class="text-left">
@@ -36,7 +36,7 @@
       <i18n class="text-left" path="about.licenseCopy" tag="p">
         {{ appTitle
         }}<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener"
-          >http://www.gnu.org/licenses/<fa-icon
+          >http://www.gnu.org/licenses/<FaIcon
             icon="external-link-alt"
             fixed-width
         /></a>
@@ -44,17 +44,15 @@
     </div>
     <p class="button-group">
       <a class="button" :href="repoUrl" target="_blank" rel="noopener"
-        ><fa-icon :icon="['fab', 'gitlab']" fixed-width />{{
-          $t("about.code")
-        }}
-        <fa-icon icon="external-link-alt" fixed-width
+        ><FaIcon :icon="['fab', 'gitlab']" fixed-width />{{ $t("about.code") }}
+        <FaIcon icon="external-link-alt" fixed-width
       /></a>
       <a class="button" :href="issuesUrl" target="_blank" rel="noopener"
-        ><fa-icon icon="comments" fixed-width />{{ $t("about.issues") }}
-        <fa-icon icon="external-link-alt" fixed-width
+        ><FaIcon icon="comments" fixed-width />{{ $t("about.issues") }}
+        <FaIcon icon="external-link-alt" fixed-width
       /></a>
     </p>
-  </rad-drawer>
+  </RadDrawer>
 </template>
 
 <script lang="ts">

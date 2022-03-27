@@ -1,7 +1,7 @@
 <template>
-  <rad-drawer>
+  <RadDrawer>
     <h3>
-      <fa-icon icon="file-import" fixed-width />
+      <FaIcon icon="file-import" fixed-width />
       {{ $t("general.importBackup") }}
     </h3>
     <p class="description">
@@ -21,7 +21,7 @@
             {{ $t("importWizard.chooseFile") }}
           </template>
         </h4>
-        <rad-drop-zone
+        <RadDropZone
           ref="drop-zone"
           @change="setBackup"
           @error="handleError()"
@@ -56,42 +56,42 @@
               }}
             </h4>
             <div v-if="backup">
-              <rad-result
+              <RadResult
                 v-for="(station, index) in backup"
                 :key="index"
                 v-model="station.selected"
               >
                 {{ station.name }}
                 <template #tags>
-                  <rad-tags
+                  <RadTags
                     :labels="[
                       station.country,
                       station.state,
                       ...station.tags.split(','),
                     ]"
-                  ></rad-tags>
+                  ></RadTags>
                 </template>
-              </rad-result>
+              </RadResult>
             </div>
           </div>
           <br />
         </template>
         <div class="button-group text-right">
-          <rad-link
+          <RadLink
             v-slot="{ navigate }"
             :to="type === 'list' ? null : 'settings'"
           >
             <a class="button" @click="navigate">
-              <fa-icon icon="ban" /> {{ $t("general.cancel") }}
+              <FaIcon icon="ban" /> {{ $t("general.cancel") }}
             </a>
-          </rad-link>
+          </RadLink>
           <a class="button" @click="importItems()">
-            <fa-icon icon="arrow-right" /> {{ $t("general.apply") }}
+            <FaIcon icon="arrow-right" /> {{ $t("general.apply") }}
           </a>
         </div>
       </template>
     </div>
-  </rad-drawer>
+  </RadDrawer>
 </template>
 
 <script lang="ts">

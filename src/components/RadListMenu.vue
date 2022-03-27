@@ -2,11 +2,11 @@
   <div class="list-menu">
     <strong>{{ $t("general.list") }}</strong
     >:
-    <rad-link
+    <RadLink
       v-slot="{ active: listManagerShown, navigate: openListManager }"
       to="list-manager"
     >
-      <rad-dropdown
+      <RadDropdown
         id="lists"
         :value="selectedList"
         :actions="[$t('general.manage')]"
@@ -17,9 +17,9 @@
         @change="changeList"
         @actionSelect="openListManager"
       />
-    </rad-link>
+    </RadLink>
     {{ " " }}
-    <rad-link
+    <RadLink
       v-slot="{ active, navigate }"
       to="import-wizard"
       :props="{ type: 'list' }"
@@ -30,29 +30,29 @@
         :title="$t('general.importBackup')"
         @click="navigate"
       >
-        <fa-icon icon="upload" fixed-width />
+        <FaIcon icon="upload" fixed-width />
       </a>
-    </rad-link>
+    </RadLink>
     {{ " " }}
-    <rad-dropdown
+    <RadDropdown
       :actions="[$t('general.cancel')]"
       :label="$t('general.downloadAs')"
       :data="downloadOptions"
       :title="$t('general.downloadPlaylist')"
       @change="exportList"
     >
-      <fa-icon icon="download" fixed-width />
-    </rad-dropdown>
+      <FaIcon icon="download" fixed-width />
+    </RadDropdown>
     {{ " " }}
-    <rad-link v-slot="{ active, navigate }" to="list-manager" toggle>
+    <RadLink v-slot="{ active, navigate }" to="list-manager" toggle>
       <a
         :class="{ active }"
         :title="$t('general.manageLists')"
         @click="navigate"
       >
-        <fa-icon icon="wrench" fixed-width />
+        <FaIcon icon="wrench" fixed-width />
       </a>
-    </rad-link>
+    </RadLink>
   </div>
 </template>
 

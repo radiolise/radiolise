@@ -14,7 +14,7 @@
           class="button-primary expand"
           :title="$t('player.advancedView')"
           @click="expand()"
-          ><fa-icon
+          ><FaIcon
             icon="chevron-down"
             :style="{
               transition: 'transform 0.4s',
@@ -37,17 +37,17 @@
               class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
-              ><fa-icon icon="step-backward" fixed-width /></a
+              ><FaIcon icon="step-backward" fixed-width /></a
             >&nbsp;<a
               class="button-primary"
               :title="$t('player.playStop')"
               @click="toggleStation()"
-              ><fa-icon :icon="station ? 'stop' : 'play'" fixed-width /></a
+              ><FaIcon :icon="station ? 'stop' : 'play'" fixed-width /></a
             >&nbsp;<a
               class="button-primary next-station"
               :title="$t('player.nextStation')"
               @click="playClosestStation(true)"
-              ><fa-icon icon="step-forward" fixed-width
+              ><FaIcon icon="step-forward" fixed-width
             /></a>
           </div>
           <div
@@ -67,7 +67,7 @@
           >
             <transition name="slide-fade" mode="out-in" appear>
               <div :key="broadcaster" class="broadcaster">
-                <fa-icon v-if="loading" icon="spinner" spin />
+                <FaIcon v-if="loading" icon="spinner" spin />
                 {{ broadcaster }}
               </div>
             </transition>
@@ -92,25 +92,25 @@
               :class="{ active: liked }"
               :title="likeInfo"
               @click="like()"
-              ><fa-icon icon="thumbs-up" fixed-width /></a
+              ><FaIcon icon="thumbs-up" fixed-width /></a
             >&nbsp;<a
               v-if="station !== undefined"
               class="button-primary homepage"
               target="blank"
               :title="homepageInfo"
               :href="station.homepage"
-              ><fa-icon icon="home" fixed-width
+              ><FaIcon icon="home" fixed-width
             /></a>
             {{ " " }}
-            <rad-link v-slot="{ active, navigate }" to="title-manager" toggle>
+            <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
               <a
                 :class="['button-primary', { active }]"
                 :title="$t('general.manageTitles')"
                 @click="navigate"
               >
-                <fa-icon icon="history" fixed-width />
+                <FaIcon icon="history" fixed-width />
               </a>
-            </rad-link>
+            </RadLink>
             {{ " " }}
             <a
               v-if="info"
@@ -118,7 +118,7 @@
               :title="$t('player.addBookmark')"
               :class="{ active: bookmarked }"
               @click="toggleBookmark({ station: station.name, info })"
-              ><fa-icon icon="music" /><fa-icon
+              ><FaIcon icon="music" /><FaIcon
                 icon="plus"
                 fixed-width
                 size="xs"
@@ -131,7 +131,7 @@
               class="button-primary fullscreen"
               :title="$t('player.toggleFullscreen')"
               @click="toggleFullscreen()"
-              ><fa-icon :icon="fullscreen ? 'compress' : 'expand'" fixed-width
+              ><FaIcon :icon="fullscreen ? 'compress' : 'expand'" fixed-width
             /></a>
           </div>
         </div>
@@ -153,27 +153,27 @@
               class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
-              ><fa-icon icon="step-backward" fixed-width /></a
+              ><FaIcon icon="step-backward" fixed-width /></a
             >&nbsp;<a
               class="button-primary"
               :title="$t('player.playStop')"
               @click="toggleStation()"
-              ><fa-icon :icon="station ? 'stop' : 'play'" fixed-width /></a
+              ><FaIcon :icon="station ? 'stop' : 'play'" fixed-width /></a
             >&nbsp;<a
               class="button-primary next-station"
               :title="$t('player.nextStation')"
               @click="playClosestStation(true)"
-              ><fa-icon icon="step-forward" fixed-width
+              ><FaIcon icon="step-forward" fixed-width
             /></a>
             {{ " " }}
-            <rad-slider v-model="volume">
+            <RadSlider v-model="volume">
               <template #minusIcon>
-                <fa-icon icon="volume-off" fixed-width />
+                <FaIcon icon="volume-off" fixed-width />
               </template>
               <template #plusIcon>
-                <fa-icon icon="volume-up" fixed-width />
+                <FaIcon icon="volume-up" fixed-width />
               </template>
-            </rad-slider>
+            </RadSlider>
           </div>
           <div style="padding-bottom: 5px">
             <div v-show-slide="station !== undefined">
@@ -185,7 +185,7 @@
                   :title="likeInfo"
                   @click="like()"
                 >
-                  <fa-icon icon="thumbs-up" fixed-width style="width: 31px" />
+                  <FaIcon icon="thumbs-up" fixed-width style="width: 31px" />
                   <template v-if="likeCount !== undefined"
                     >{{ formattedlikeCount }} |
                   </template>
@@ -205,25 +205,25 @@
                   :title="homepageInfo"
                   :href="station.homepage"
                 >
-                  <fa-icon icon="home" fixed-width style="width: 31px" />{{
+                  <FaIcon icon="home" fixed-width style="width: 31px" />{{
                     $t("general.visitHomepage")
-                  }}&nbsp;<fa-icon icon="external-link-alt" fixed-width />
+                  }}&nbsp;<FaIcon icon="external-link-alt" fixed-width />
                 </a>
               </div>
             </div>
             <div>
               <div style="padding-top: 10px">
-                <rad-link
+                <RadLink
                   v-slot="{ active, navigate }"
                   to="title-manager"
                   toggle
                 >
                   <a :class="{ active }" @click="navigate">
-                    <fa-icon icon="history" fixed-width style="width: 31px" />{{
+                    <FaIcon icon="history" fixed-width style="width: 31px" />{{
                       $t("general.manageTitles")
                     }}
                   </a>
-                </rad-link>
+                </RadLink>
               </div>
             </div>
             <div v-show-slide="!!info">
@@ -233,7 +233,7 @@
                   :class="{ active: bookmarked }"
                   @click="toggleBookmark({ station: station.name, info })"
                 >
-                  <fa-icon icon="music" /><fa-icon
+                  <FaIcon icon="music" /><FaIcon
                     icon="plus"
                     fixed-width
                     size="xs"

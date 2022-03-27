@@ -14,7 +14,7 @@
         style="margin-bottom: 0"
         :class="{ active: bookmarked }"
         @click="toggleBookmark({ station: title.station, info: title.info })"
-        ><fa-icon icon="music" /><fa-icon
+        ><FaIcon icon="music" /><FaIcon
           icon="plus"
           fixed-width
           size="xs"
@@ -28,13 +28,13 @@
         )}&type=recording`"
         target="_blank"
         style="margin-bottom: 0"
-        ><fa-icon icon="search" fixed-width />MusicBrainz</a
+        ><FaIcon icon="search" fixed-width />MusicBrainz</a
       ><a
         v-if="isBookmark"
         class="button"
         style="margin-bottom: 0"
         @click="toggleBookmark({ station: title.station, info: title.info })"
-        ><fa-icon icon="times" fixed-width /><span>{{
+        ><FaIcon icon="times" fixed-width /><span>{{
           $t("titleManager.remove")
         }}</span></a
       >

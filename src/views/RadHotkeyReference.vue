@@ -1,7 +1,7 @@
 <template>
-  <rad-drawer>
+  <RadDrawer>
     <h3>
-      <fa-icon icon="keyboard" fixed-width />
+      <FaIcon icon="keyboard" fixed-width />
       {{ $t("hotkeys.title") }}
     </h3>
     <div class="content">
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-  </rad-drawer>
+  </RadDrawer>
 </template>
 
 <script lang="ts">

@@ -1,28 +1,28 @@
 <template>
   <div style="display: flex; justify-content: center">
     <div id="empty-list" class="bg-dim">
-      <rad-happy-bird />
+      <RadHappyBird />
       <h3 style="margin-bottom: 0">
         {{ $t("general.listEmpty[0]") }}
       </h3>
       <div class="button-group">
-        <rad-link v-slot="{ active, navigate }" to="search" toggle>
+        <RadLink v-slot="{ active, navigate }" to="search" toggle>
           <a :class="['button', { active }]" @click="navigate">
-            <fa-icon icon="search" fixed-width />
+            <FaIcon icon="search" fixed-width />
             {{ $t("general.findStations") }}
           </a>
-        </rad-link>
-        <rad-link
+        </RadLink>
+        <RadLink
           v-slot="{ active, navigate }"
           to="import-wizard"
           :props="{ type: 'list' }"
           toggle
         >
           <a :class="['button', { active }]" @click="navigate">
-            <fa-icon icon="file-import" fixed-width />
+            <FaIcon icon="file-import" fixed-width />
             {{ $t("general.importBackup") }}
           </a>
-        </rad-link>
+        </RadLink>
       </div>
     </div>
   </div>

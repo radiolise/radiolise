@@ -1,11 +1,11 @@
 <template>
-  <rad-drawer id="title-manager">
+  <RadDrawer id="title-manager">
     <h3>
-      <fa-icon icon="history" fixed-width />
+      <FaIcon icon="history" fixed-width />
       {{ $t("titleManager.title") }}
     </h3>
     <button @click="showTitles = !showTitles">
-      <fa-icon
+      <FaIcon
         icon="chevron-down"
         fixed-width
         :style="{ transform: `rotate(${showTitles ? -180 : 0}deg)` }"
@@ -21,7 +21,7 @@
         {{ $t("titleManager.listEmpty") }}
       </div>
       <div v-else style="display: flex; flex-direction: column-reverse">
-        <rad-title-row
+        <RadTitleRow
           v-for="title in history"
           :key="title.time"
           :title="title"
@@ -34,7 +34,7 @@
     </div>
     <div style="display: table; width: 100%">
       <button @click="showBookmarks = !showBookmarks">
-        <fa-icon
+        <FaIcon
           icon="chevron-down"
           fixed-width
           :style="{ transform: `rotate(${showBookmarks ? -180 : 0}deg)` }"
@@ -46,9 +46,7 @@
         class="download text-right"
         style="display: table-cell; font-size: 20px; width: 35px"
       >
-        <a @click="exportBookmarks()"
-          ><fa-icon icon="download" fixed-width
-        /></a>
+        <a @click="exportBookmarks()"><FaIcon icon="download" fixed-width /></a>
       </div>
     </div>
     <div v-show-slide="showBookmarks" class="text-left">
@@ -70,7 +68,7 @@
             {{ month }}
           </div>
           <div style="display: flex; flex-direction: column-reverse">
-            <rad-title-row
+            <RadTitleRow
               v-for="title in titles"
               :key="title.time"
               :title="title"
@@ -84,7 +82,7 @@
         </div>
       </div>
     </div>
-  </rad-drawer>
+  </RadDrawer>
 </template>
 
 <script lang="ts">

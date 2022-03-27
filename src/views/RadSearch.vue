@@ -1,15 +1,15 @@
 <template>
-  <rad-drawer id="search">
+  <RadDrawer id="search">
     <h3>
-      <fa-icon icon="search" fixed-width />
+      <FaIcon icon="search" fixed-width />
       {{ $t("general.findStations") }}
     </h3>
     <i18n path="search.credit.radioBrowser" tag="p">
       <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
         >{{ $t("search.credit.free") }}
-        <fa-icon icon="external-link-alt" fixed-width /></a
+        <FaIcon icon="external-link-alt" fixed-width /></a
       ><a href="http://www.radio-browser.info" target="_blank" rel="noopener"
-        >Community Radio Browser <fa-icon icon="external-link-alt" fixed-width
+        >Community Radio Browser <FaIcon icon="external-link-alt" fixed-width
       /></a>
     </i18n>
     <div>
@@ -30,10 +30,10 @@
             scrollDownIfLoaded();
           "
         /><button id="find-station" @click="scrollDownIfLoaded()">
-          <fa-icon icon="search" />
+          <FaIcon icon="search" />
         </button>
       </div>
-      <rad-search-options :options.sync="options" />
+      <RadSearchOptions :options.sync="options" />
       <div>
         <template v-if="!failed">
           <div
@@ -41,7 +41,7 @@
             id="results"
             style="width: 100%; display: block !important"
           >
-            <rad-result
+            <RadResult
               v-for="result in results"
               :key="result.stationuuid"
               :selected="ids.includes(result.stationuuid)"
@@ -49,7 +49,7 @@
             >
               {{ result.name }}
               <template #tags>
-                <rad-tags
+                <RadTags
                   :labels="[
                     ...(result.bitrate > 0 ? [`${result.bitrate} kBit/s`] : []),
                     result.country,
@@ -69,48 +69,48 @@
                     class="label highlighted"
                     style="font-weight: bold"
                   >
-                    <fa-icon :icon="sortIcon" />
+                    <FaIcon :icon="sortIcon" />
                     {{ " " }}
                     <template v-if="result[options.order] !== ''">{{
                       numericalOrder
                         ? result[options.order].toLocaleString($i18n.locale)
                         : result[options.order]
                     }}</template>
-                    <fa-icon v-else icon="question" />
+                    <FaIcon v-else icon="question" />
                   </span>
-                </rad-tags>
+                </RadTags>
               </template>
-            </rad-result>
+            </RadResult>
           </div>
           <p v-if="moreExpected || moreAvailable" id="load-more">
             <span v-if="moreExpected" style="margin: auto">
               <template v-if="empty">
-                <fa-icon :icon="['far', 'meh']" fixed-width />{{
+                <FaIcon :icon="['far', 'meh']" fixed-width />{{
                   $t("search.noMatches")
                 }}
               </template>
               <template v-else>
-                <fa-icon icon="spinner" fixed-width spin />{{
+                <FaIcon icon="spinner" fixed-width spin />{{
                   $t("search.loading")
                 }}
               </template>
             </span>
             <button v-else @click="loadMore">
-              <fa-icon icon="search" fixed-width />
+              <FaIcon icon="search" fixed-width />
               {{ $t("search.loadMore") }}
             </button>
           </p>
         </template>
         <p v-if="failed" style="font-size: 18px">
-          <fa-icon icon="exclamation-triangle" fixed-width />
+          <FaIcon icon="exclamation-triangle" fixed-width />
           {{ $t("search.error") }}
           <a @click="reset"
-            ><fa-icon icon="redo" fixed-width />{{ $t("search.tryAgain") }}</a
+            ><FaIcon icon="redo" fixed-width />{{ $t("search.tryAgain") }}</a
           >
         </p>
       </div>
     </div>
-  </rad-drawer>
+  </RadDrawer>
 </template>
 
 <script lang="ts">

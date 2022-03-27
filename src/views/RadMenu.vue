@@ -1,60 +1,56 @@
 <template>
-  <rad-drawer id="menu" is-menu>
-    <h3><fa-icon icon="bars" fixed-width /> {{ $t("general.menu") }}</h3>
-    <rad-link v-slot="{ navigate }" to="search">
+  <RadDrawer id="menu" is-menu>
+    <h3><FaIcon icon="bars" fixed-width /> {{ $t("general.menu") }}</h3>
+    <RadLink v-slot="{ navigate }" to="search">
       <button @click="navigate">
-        <fa-icon icon="search" fixed-width />
+        <FaIcon icon="search" fixed-width />
         {{ $t("general.findStations") }}
       </button>
-    </rad-link>
-    <rad-link v-slot="{ navigate }" to="list-manager">
+    </RadLink>
+    <RadLink v-slot="{ navigate }" to="list-manager">
       <button @click="navigate">
-        <fa-icon icon="list-alt" fixed-width />
+        <FaIcon icon="list-alt" fixed-width />
         {{ $t("general.manageLists") }}
       </button>
-    </rad-link>
-    <rad-link v-slot="{ navigate }" to="title-manager">
+    </RadLink>
+    <RadLink v-slot="{ navigate }" to="title-manager">
       <button @click="navigate">
-        <fa-icon icon="history" fixed-width />
+        <FaIcon icon="history" fixed-width />
         {{ $t("general.manageTitles") }}
       </button>
-    </rad-link>
-    <rad-link
-      v-slot="{ navigate }"
-      to="import-wizard"
-      :props="{ type: 'list' }"
-    >
+    </RadLink>
+    <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'list' }">
       <button @click="navigate">
-        <fa-icon icon="file-import" fixed-width />
+        <FaIcon icon="file-import" fixed-width />
         {{ $t("general.importBackup") }}
       </button>
-    </rad-link>
-    <rad-link v-slot="{ navigate }" to="hotkeys">
+    </RadLink>
+    <RadLink v-slot="{ navigate }" to="hotkeys">
       <button @click="navigate">
-        <fa-icon icon="keyboard" fixed-width />
+        <FaIcon icon="keyboard" fixed-width />
         {{ $t("general.hotkeys") }}
       </button>
-    </rad-link>
-    <rad-link v-slot="{ navigate }" to="settings">
+    </RadLink>
+    <RadLink v-slot="{ navigate }" to="settings">
       <button @click="navigate">
-        <fa-icon icon="cog" fixed-width />
+        <FaIcon icon="cog" fixed-width />
         {{ $t("general.settings") }}
       </button>
-    </rad-link>
-    <rad-link v-slot="{ navigate }" to="about">
+    </RadLink>
+    <RadLink v-slot="{ navigate }" to="about">
       <button @click="navigate">
-        <fa-icon icon="info-circle" fixed-width />
+        <FaIcon icon="info-circle" fixed-width />
         {{ $t("general.learnMore") }}
       </button>
-    </rad-link>
+    </RadLink>
     <div class="button-group text-right">
-      <rad-link v-slot="{ navigate }" :to="null">
+      <RadLink v-slot="{ navigate }" :to="null">
         <a class="button" @click="navigate">
-          <fa-icon icon="times" fixed-width /> {{ $t("menu.close") }}
+          <FaIcon icon="times" fixed-width /> {{ $t("menu.close") }}
         </a>
-      </rad-link>
+      </RadLink>
     </div>
-  </rad-drawer>
+  </RadDrawer>
 </template>
 
 <script lang="ts">

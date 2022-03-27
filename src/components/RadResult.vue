@@ -1,7 +1,7 @@
 <template>
   <div class="result" :class="{ selected }" @click="toggleSelection()">
     <div class="check-mark highlighted">
-      <fa-icon icon="check" style="margin-left: 10px" />
+      <FaIcon icon="check" style="margin-left: 10px" />
     </div>
     <div style="padding: 10px; margin-bottom: 10px; display: table-cell">
       <h4 style="margin: 0">

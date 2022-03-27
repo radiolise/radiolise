@@ -3,7 +3,7 @@
     <div>
       <div v-show-slide="imported">
         <div class="highlighted">
-          <fa-icon icon="check" /> {{ $t("dropZone.fileAdded") }}
+          <FaIcon icon="check" /> {{ $t("dropZone.fileAdded") }}
         </div>
         <br />
       </div>
