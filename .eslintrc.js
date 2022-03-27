@@ -21,6 +21,7 @@ module.exports = {
     "no-undef": "off",
     "prefer-template": "warn",
     "vue/prefer-template": "warn",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { args: "none" }],
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "off",
