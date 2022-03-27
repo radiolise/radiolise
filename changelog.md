@@ -1,3 +1,9 @@
+# Changes in [5.3.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.3.1) (2022-03-27)
+
+- Replace the fallback URL for API calls (fr1.api.radio-browser.info stopped
+  working for some reason)
+- Station selection: make toasts appear regardless of current index
+
 # Changes in [5.3.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.3.0) (2022-01-19)
 
 - Improve the text generated for bookmark files
