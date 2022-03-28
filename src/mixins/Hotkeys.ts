@@ -48,9 +48,7 @@ export default class Hotkeys extends Vue {
     if (station === undefined) {
       this.showToast({
         icon: "exclamation-triangle",
-        message: this.$t("hotkeys.onScreenToasts.notExisting", [
-          index,
-        ]) as string,
+        message: this.$t("hotkeys.onScreenToasts.notExisting", [index]) as string,
       });
       return;
     }
@@ -60,10 +58,7 @@ export default class Hotkeys extends Vue {
     }
 
     this.showToast({
-      message: this.$t("hotkeys.onScreenToasts.playingIndex", [
-        index,
-        station.name,
-      ]) as string,
+      message: this.$t("hotkeys.onScreenToasts.playingIndex", [index, station.name]) as string,
     });
   }
 
@@ -75,8 +70,7 @@ export default class Hotkeys extends Vue {
     this.numberInput.input += String(enteredDigit);
     const index = Number(this.numberInput.input);
 
-    const digitsLeft =
-      String(this.currentList.length).length - this.numberInput.input.length;
+    const digitsLeft = String(this.currentList.length).length - this.numberInput.input.length;
 
     if (digitsLeft > 0) {
       this.showToast({

@@ -32,11 +32,7 @@
     <transition name="fade">
       <div v-if="toast !== null" id="toast">
         <div>
-          <FaIcon
-            v-if="toast.icon !== undefined"
-            :icon="toast.icon"
-            fixed-width
-          />
+          <FaIcon v-if="toast.icon !== undefined" :icon="toast.icon" fixed-width />
           {{ toast.message }}
         </div>
       </div>
@@ -59,34 +55,23 @@
                 v-show="modalOptions.closeable"
                 style="position: absolute; right: 26px; top: 26px"
               >
-                <a @click="closeModal()"
-                  ><FaIcon icon="times" fixed-width size="lg"
-                /></a>
+                <a @click="closeModal()"><FaIcon icon="times" fixed-width size="lg" /></a>
               </div>
-              <div
-                style="font-size: 20px; font-weight: bold; margin-bottom: 22px"
-              >
+              <div style="font-size: 20px; font-weight: bold; margin-bottom: 22px">
                 {{ modalTitle }}
               </div>
               <div style="display: table">
-                <div
-                  v-if="modalIcon !== ''"
-                  style="display: table-cell; padding-right: 5px"
-                >
+                <div v-if="modalIcon !== ''" style="display: table-cell; padding-right: 5px">
                   <FaIcon :icon="modalIcon" style="opacity: 0.7" />
                 </div>
                 <div style="display: table-cell">
-                  <template
-                    v-for="(line, index) in modalOptions.message.split('\n')"
-                  >
+                  <template v-for="(line, index) in modalOptions.message.split('\n')">
                     {{ line }}<br :key="index" />
                   </template>
                 </div>
               </div>
             </div>
-            <div
-              style="display: flex; flex-direction: row-reverse; padding: 20px"
-            >
+            <div style="display: flex; flex-direction: row-reverse; padding: 20px">
               <a
                 v-for="(button, i) in modalOptions.buttons"
                 :key="button"
@@ -216,9 +201,7 @@ export default class RadDialogLayer extends Vue {
 
   closeModal(): void {
     if (this.modalOptions !== undefined && this.modalOptions.closeable) {
-      const handleButtonClicked = this.modalOptions.handleButtonClicked as (
-        button: number
-      ) => void;
+      const handleButtonClicked = this.modalOptions.handleButtonClicked as (button: number) => void;
 
       handleButtonClicked(0);
     }

@@ -4,9 +4,7 @@
       ref="input"
       type="text"
       class="list-name"
-      :placeholder="
-        $t(isNewList ? 'listManager.specifyName' : 'general.newName')
-      "
+      :placeholder="$t(isNewList ? 'listManager.specifyName' : 'general.newName')"
       :value="name"
       spellcheck="false"
       @focus="handleFocus()"
@@ -34,14 +32,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Emit,
-  Mixins,
-  Prop,
-  Ref,
-  Watch,
-} from "vue-property-decorator";
+import { Component, Emit, Mixins, Prop, Ref, Watch } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
 import { navigate } from "@/common/routing";
@@ -63,10 +54,7 @@ export default class RadListInput extends Mixins(ListHelper) {
   @Action createList!: (list: StationList) => Promise<void>;
   @Action allowEnterKey!: (allow: boolean) => Promise<void>;
 
-  @Action renameList!: (payload: {
-    index: number;
-    name: string;
-  }) => Promise<void>;
+  @Action renameList!: (payload: { index: number; name: string }) => Promise<void>;
 
   @Action removeList!: (index: number) => Promise<void>;
 

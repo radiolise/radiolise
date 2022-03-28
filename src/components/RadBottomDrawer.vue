@@ -2,15 +2,9 @@
   <div style="pointer-events: all">
     <div id="bottom-drawer" v-show-slide="shown">
       <transition name="progress" appear>
-        <div
-          id="progress-bar"
-          :key="animationTrigger"
-          :class="{ active: autoHide }"
-        />
+        <div id="progress-bar" :key="animationTrigger" :class="{ active: autoHide }" />
       </transition>
-      <div
-        style="display: table; padding: 10px; margin: 0 auto; max-width: 800px"
-      >
+      <div style="display: table; padding: 10px; margin: 0 auto; max-width: 800px">
         <span style="padding: 14px 20px; float: left"
           ><FaIcon icon="info-circle" fixed-width /> {{ message }}</span
         >
@@ -48,10 +42,7 @@ export default class RadBottomDrawer extends Vue {
 
   @Action discardUndoableEvent!: () => Promise<void>;
 
-  @Action updateList!: (payload: {
-    name?: string;
-    content: Station[];
-  }) => Promise<void>;
+  @Action updateList!: (payload: { name?: string; content: Station[] }) => Promise<void>;
 
   get itemRemoved(): boolean {
     return this.undoableEvent !== undefined;
@@ -95,8 +86,7 @@ export default class RadBottomDrawer extends Vue {
       return;
     }
 
-    const numberOfChanges =
-      searchStats.added.length + searchStats.removed.length;
+    const numberOfChanges = searchStats.added.length + searchStats.removed.length;
 
     if (numberOfChanges === 0) {
       return;
@@ -107,10 +97,7 @@ export default class RadBottomDrawer extends Vue {
 
       this.message = this.$t("search.comparison.oneChange", {
         name: added ? searchStats.added[0] : searchStats.removed[0],
-        modified: this.$tc(
-          `search.comparison.${added ? "added" : "removed"}`,
-          1
-        ),
+        modified: this.$tc(`search.comparison.${added ? "added" : "removed"}`, 1),
       }) as string;
 
       return;
@@ -127,15 +114,9 @@ export default class RadBottomDrawer extends Vue {
       {
         plus: searchStats.added.length,
         minus: searchStats.removed.length,
-        station: this.$tc(
-          "search.comparison.station",
-          searchStats.added.length
-        ),
+        station: this.$tc("search.comparison.station", searchStats.added.length),
         added: this.$tc("search.comparison.added", searchStats.added.length),
-        removed: this.$tc(
-          "search.comparison.removed",
-          searchStats.removed.length
-        ),
+        removed: this.$tc("search.comparison.removed", searchStats.removed.length),
       }
     ) as string;
   }
@@ -151,10 +132,7 @@ export default class RadBottomDrawer extends Vue {
       this.autoHide = true;
       this.animationTrigger = !this.animationTrigger;
 
-      this.message = this.$t(
-        `general.undoableEvent.${event.kind}`,
-        event.affected
-      ) as string;
+      this.message = this.$t(`general.undoableEvent.${event.kind}`, event.affected) as string;
 
       this.timer = setTimeout(this.discardUndoableEvent, 10000);
     } else {

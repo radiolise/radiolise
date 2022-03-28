@@ -7,65 +7,35 @@
       :fill="accentColor"
     />
     <circle cx="171.2269" cy="688.52637" r="15.25711" fill="#6495ed" />
-    <rect
-      x="168.74434"
-      y="714.21843"
-      width="4.30672"
-      height="30.14703"
-      :fill="accentColor"
-    />
+    <rect x="168.74434" y="714.21843" width="4.30672" height="30.14703" :fill="accentColor" />
     <path
       d="M838.40061,802.34205s1.487-31.15874,31.97119-27.537"
       transform="translate(-156.11386 -63.58465)"
       :fill="accentColor"
     />
     <circle cx="673.67331" cy="693.8489" r="15.25711" fill="#6495ed" />
-    <rect
-      x="671.19075"
-      y="719.54095"
-      width="4.30672"
-      height="30.14703"
-      :fill="accentColor"
-    />
+    <rect x="671.19075" y="719.54095" width="4.30672" height="30.14703" :fill="accentColor" />
     <path
       d="M911.85146,807.66458s1.487-31.15874,31.9712-27.537"
       transform="translate(-156.11386 -63.58465)"
       :fill="accentColor"
     />
     <circle cx="747.12416" cy="699.17142" r="15.25711" fill="#6495ed" />
-    <rect
-      x="744.64161"
-      y="724.86348"
-      width="4.30672"
-      height="30.14703"
-      :fill="accentColor"
-    />
+    <rect x="744.64161" y="724.86348" width="4.30672" height="30.14703" :fill="accentColor" />
     <path
       d="M456.24328,782.11645s1.487-31.15874,31.97119-27.53695"
       transform="translate(-156.11386 -63.58465)"
       :fill="accentColor"
     />
     <circle cx="291.51598" cy="673.6233" r="15.25711" fill="#6495ed" />
-    <rect
-      x="289.03342"
-      y="699.31536"
-      width="4.30672"
-      height="30.14703"
-      :fill="accentColor"
-    />
+    <rect x="289.03342" y="699.31536" width="4.30672" height="30.14703" :fill="accentColor" />
     <path
       d="M229.50369,787.439s1.487-31.15874,31.97119-27.537"
       transform="translate(-156.11386 -63.58465)"
       :fill="accentColor"
     />
     <circle cx="64.77639" cy="678.94583" r="15.25711" fill="#6495ed" />
-    <rect
-      x="62.29383"
-      y="704.63788"
-      width="4.30672"
-      height="30.14703"
-      :fill="accentColor"
-    />
+    <rect x="62.29383" y="704.63788" width="4.30672" height="30.14703" :fill="accentColor" />
     <circle cx="442.27688" cy="503.48191" r="166.22823" fill="#3f3d56" />
     <path
       d="M493.73979,580.41025a43.98767,43.98767,0,0,1,67.51907,0,48.89067,48.89067,0,1,0-67.51907,0Z"

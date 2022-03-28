@@ -10,9 +10,7 @@
       @change="syncedTags = $event"
     />
     <div class="text-left" style="display: table">
-      <div style="display: table-cell">
-        {{ $t("tagInput.preview") }}:{{ "\xa0" }}
-      </div>
+      <div style="display: table-cell">{{ $t("tagInput.preview") }}:{{ "\xa0" }}</div>
       <div style="display: table-cell">
         <RadTags :labels="renderedTags.split(',')" />
       </div>

@@ -6,8 +6,7 @@
     </h3>
     <i18n path="search.credit.radioBrowser" tag="p">
       <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
-        >{{ $t("search.credit.free") }}
-        <FaIcon icon="external-link-alt" fixed-width /></a
+        >{{ $t("search.credit.free") }} <FaIcon icon="external-link-alt" fixed-width /></a
       ><a href="http://www.radio-browser.info" target="_blank" rel="noopener"
         >Community Radio Browser <FaIcon icon="external-link-alt" fixed-width
       /></a>
@@ -85,14 +84,10 @@
           <p v-if="moreExpected || moreAvailable" id="load-more">
             <span v-if="moreExpected" style="margin: auto">
               <template v-if="empty">
-                <FaIcon :icon="['far', 'meh']" fixed-width />{{
-                  $t("search.noMatches")
-                }}
+                <FaIcon :icon="['far', 'meh']" fixed-width />{{ $t("search.noMatches") }}
               </template>
               <template v-else>
-                <FaIcon icon="spinner" fixed-width spin />{{
-                  $t("search.loading")
-                }}
+                <FaIcon icon="spinner" fixed-width spin />{{ $t("search.loading") }}
               </template>
             </span>
             <button v-else @click="loadMore">
@@ -104,9 +99,7 @@
         <p v-if="failed" style="font-size: 18px">
           <FaIcon icon="exclamation-triangle" fixed-width />
           {{ $t("search.error") }}
-          <a @click="reset"
-            ><FaIcon icon="redo" fixed-width />{{ $t("search.tryAgain") }}</a
-          >
+          <a @click="reset"><FaIcon icon="redo" fixed-width />{{ $t("search.tryAgain") }}</a>
         </p>
       </div>
     </div>
@@ -166,14 +159,9 @@ export default class RadSearch extends Vue {
 
   @Action resetSearchStats!: () => Promise<void>;
 
-  @Action setStationBackup!: (
-    stationBackup: Station[] | undefined
-  ) => Promise<void>;
+  @Action setStationBackup!: (stationBackup: Station[] | undefined) => Promise<void>;
 
-  @Action updateList!: (payload: {
-    name?: string;
-    content: Station[];
-  }) => Promise<void>;
+  @Action updateList!: (payload: { name?: string; content: Station[] }) => Promise<void>;
 
   get ids(): string[] {
     return this.currentList.map((station: Station) => station.id);
@@ -184,15 +172,11 @@ export default class RadSearch extends Vue {
   }
 
   get moreExpected(): boolean {
-    return (
-      !this.active || this.showSpinner || this.empty || this.scrollOnceLoaded
-    );
+    return !this.active || this.showSpinner || this.empty || this.scrollOnceLoaded;
   }
 
   get numericalOrder(): boolean {
-    return (
-      this.options.order === "clickcount" || this.options.order === "votes"
-    );
+    return this.options.order === "clickcount" || this.options.order === "votes";
   }
 
   get sortIcon(): string | undefined {
@@ -301,8 +285,7 @@ export default class RadSearch extends Vue {
         this.results.push(Object.freeze(result));
       });
 
-      this.moreAvailable =
-        this.results.length % 20 === 0 && searchResults.length > 0;
+      this.moreAvailable = this.results.length % 20 === 0 && searchResults.length > 0;
 
       this.empty = !this.moreAvailable && this.results.length === 0;
     } catch (error) {

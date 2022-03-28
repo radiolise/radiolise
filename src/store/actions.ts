@@ -7,11 +7,7 @@ import Screenfull from "screenfull";
 import { StoreState, ModalOptions, ModalType, ChangeKinds } from ".";
 import { defaultSettings } from "./default-data";
 
-import network, {
-  fetchNowPlayingInfo,
-  voteForStation,
-  fetchVoteNumber,
-} from "@/common/network";
+import network, { fetchNowPlayingInfo, voteForStation, fetchVoteNumber } from "@/common/network";
 
 let source = network.CancelToken.source();
 let updateTimer: number;
@@ -48,9 +44,7 @@ const actions: ActionTree<StoreState, StoreState> = {
       throw new Error("List name must not be empty.");
     }
 
-    const listNameExists = state.memory.lists
-      .map((list) => list.name)
-      .includes(listName);
+    const listNameExists = state.memory.lists.map((list) => list.name).includes(listName);
 
     if (listNameExists) {
       throw new Error("List name already taken.");
@@ -62,10 +56,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     commit("PUSH_LIST", list);
   },
 
-  renameList(
-    { commit, dispatch },
-    payload: { index: number; name: string }
-  ): void {
+  renameList({ commit, dispatch }, payload: { index: number; name: string }): void {
     dispatch("validateListName", payload.name);
     commit("SET_LIST_NAME", payload);
   },
@@ -118,10 +109,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     commit("SET_SORT_INDEX", index);
   },
 
-  moveStation(
-    { dispatch, state },
-    { index, newIndex }: { index: number; newIndex: number }
-  ): void {
+  moveStation({ dispatch, state }, { index, newIndex }: { index: number; newIndex: number }): void {
     const listContent = [...state.memory.lists[state.memory.lastList].content];
     listContent.splice(newIndex, 0, ...listContent.splice(index, 1));
     dispatch("updateList", { content: listContent });
@@ -202,12 +190,9 @@ const actions: ActionTree<StoreState, StoreState> = {
       return;
     }
 
-    const oldIndex = currentList
-      .map((station) => station.id)
-      .indexOf(lastStation.id);
+    const oldIndex = currentList.map((station) => station.id).indexOf(lastStation.id);
 
-    const index =
-      (currentList.length + oldIndex + (forward ? 1 : -1)) % currentList.length;
+    const index = (currentList.length + oldIndex + (forward ? 1 : -1)) % currentList.length;
 
     dispatch("play", currentList[index]);
   },
@@ -279,8 +264,7 @@ const actions: ActionTree<StoreState, StoreState> = {
       const removed: string[] = [];
 
       const orderChanged =
-        changeLog.length === 0 &&
-        newList.some((station, i) => station.id !== stationBackup[i].id);
+        changeLog.length === 0 && newList.some((station, i) => station.id !== stationBackup[i].id);
 
       changeLog.forEach((station) => {
         if (newList.map((station) => station.id).includes(station.id)) {
@@ -418,10 +402,9 @@ const actions: ActionTree<StoreState, StoreState> = {
         const cutStrings = info.split(delimiter);
 
         if (cutStrings.length >= 2) {
-          info = [
-            cutStrings.slice(0, 2).reverse().join(" / "),
-            ...cutStrings.slice(2),
-          ].join(delimiter);
+          info = [cutStrings.slice(0, 2).reverse().join(" / "), ...cutStrings.slice(2)].join(
+            delimiter
+          );
         }
       } else if (!state.currentInfo) {
         const description = nowPlayingInfo.description;
@@ -511,10 +494,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     commit("SET_HAS_VIDEO", allow);
   },
 
-  addBookmark(
-    { commit, state },
-    { station, info }: { station: string; info: string }
-  ): void {
+  addBookmark({ commit, state }, { station, info }: { station: string; info: string }): void {
     commit("PUSH_BOOKMARK", {
       station,
       info,
@@ -523,10 +503,7 @@ const actions: ActionTree<StoreState, StoreState> = {
 
     const { undoableEvent } = state;
 
-    if (
-      undoableEvent !== undefined &&
-      undoableEvent.kind === ChangeKinds.BOOKMARK
-    ) {
+    if (undoableEvent !== undefined && undoableEvent.kind === ChangeKinds.BOOKMARK) {
       const [originalInfo, originalStation] = undoableEvent.affected;
 
       if (station === originalStation && info === originalInfo) {
@@ -681,10 +658,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     commit("SET_ENTER_KEY_ALLOWED", allow);
   },
 
-  async determineDateFnsLocale(
-    { state, commit },
-    locale: string
-  ): Promise<Locale | undefined> {
+  async determineDateFnsLocale({ state, commit }, locale: string): Promise<Locale | undefined> {
     if (state.dateFnsLocale === null && locale !== "en") {
       const dateFnsLocale = await import(
         /* webpackChunkName: "date-fns-locale-[index]" */

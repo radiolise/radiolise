@@ -17,9 +17,7 @@
           />
         </div>
         <div>
-          <span class="description">{{
-            $t(`settings.themes.${settings.theme}`)
-          }}</span>
+          <span class="description">{{ $t(`settings.themes.${settings.theme}`) }}</span>
         </div>
         <div>
           <strong>{{ $tc("settings.colorScheme.name") }}</strong
@@ -147,19 +145,12 @@
     </form>
     <div style="display: table; margin: 10px auto">
       <div style="float: left; margin: 5px 10px">
-        <a @click="reset()"
-          ><FaIcon icon="undo" fixed-width />{{ $t("settings.reset") }}</a
+        <a @click="reset()"><FaIcon icon="undo" fixed-width />{{ $t("settings.reset") }}</a
         ><br />
       </div>
       <div style="float: right; margin: 5px 10px">
-        <RadLink
-          v-slot="{ navigate }"
-          to="import-wizard"
-          :props="{ type: 'settings' }"
-        >
-          <a @click="navigate">
-            <FaIcon icon="upload" fixed-width />{{ $t("settings.import") }}
-          </a>
+        <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'settings' }">
+          <a @click="navigate"> <FaIcon icon="upload" fixed-width />{{ $t("settings.import") }} </a>
         </RadLink>
         <br />
         <a @click="exportSettings()">
@@ -218,9 +209,7 @@ export default class RadSettings extends Vue {
       {
         id: "auto",
         name: this.$t("settings.detect") as string,
-        ...(this.globalSettings.language === "auto"
-          ? { description: this.$i18n.locale }
-          : {}),
+        ...(this.globalSettings.language === "auto" ? { description: this.$i18n.locale } : {}),
       },
       { id: "en", name: "English" },
       { id: "de", name: "Deutsch" },

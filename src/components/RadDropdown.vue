@@ -11,9 +11,7 @@
       <div v-if="!isMenu" class="dropdown-label covering">
         <template v-if="loaded">
           {{ currentOption.name }}
-          <span
-            v-if="currentOption.description !== undefined"
-            style="opacity: 0.5"
+          <span v-if="currentOption.description !== undefined" style="opacity: 0.5"
             >({{ currentOption.description }})</span
           >
         </template>
@@ -29,21 +27,13 @@
         @change="handleChange()"
       >
         <optgroup :label="label">
-          <option v-if="isMenu" value="" hidden disabled selected>
-            Please select...
-          </option>
+          <option v-if="isMenu" value="" hidden disabled selected>Please select...</option>
           <option v-for="(item, index) in data" :key="index" :value="item.id">
             {{ item.name }}
-            <template v-if="item.description !== undefined">
-              ({{ item.description }})
-            </template>
+            <template v-if="item.description !== undefined"> ({{ item.description }}) </template>
           </option>
         </optgroup>
-        <option
-          v-for="(action, index) in actions"
-          :key="index"
-          :disabled="!actionsEnabled"
-        >
+        <option v-for="(action, index) in actions" :key="index" :disabled="!actionsEnabled">
           {{ action }}
         </option>
       </select>

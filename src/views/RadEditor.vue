@@ -89,20 +89,13 @@
         />
         <RadTagInput :tags.sync="stationClone.tags" />
         <br />
-        <div class="text-left important">
-          &lowast; {{ $t("editor.field.required") }}
-        </div>
+        <div class="important text-left">&lowast; {{ $t("editor.field.required") }}</div>
       </div>
       <div class="button-group text-right">
         <a class="button" @click="finish()">
           <FaIcon icon="check" fixed-width />{{ $t("general.done") }}
         </a>
-        <input
-          ref="submit-button"
-          type="submit"
-          name="submit"
-          style="display: none"
-        />
+        <input ref="submit-button" type="submit" name="submit" style="display: none" />
       </div>
     </form>
   </RadDrawer>
@@ -144,9 +137,7 @@ export default class RadEditor extends Vue {
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   created(): void {
-    const station = this.lists[this.list]?.content.find(
-      (station) => station.id === this.id
-    );
+    const station = this.lists[this.list]?.content.find((station) => station.id === this.id);
 
     if (station !== undefined) {
       this.stationReference = station;

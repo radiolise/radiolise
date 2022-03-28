@@ -116,15 +116,9 @@ export default class RadMedia extends Vue {
   @Watch("hasVideo")
   onVideoToggled(hasVideo: boolean): void {
     if (hasVideo) {
-      window.screen.orientation?.addEventListener(
-        "change",
-        this.handleOrientationChange
-      );
+      window.screen.orientation?.addEventListener("change", this.handleOrientationChange);
     } else {
-      window.screen.orientation?.removeEventListener(
-        "change",
-        this.handleOrientationChange
-      );
+      window.screen.orientation?.removeEventListener("change", this.handleOrientationChange);
 
       const fullscreen = Screenfull;
 
@@ -162,11 +156,7 @@ export default class RadMedia extends Vue {
         this.handleHlsError(data);
       });
 
-      hls.loadSource(
-        window.location.protocol === "https:"
-          ? url.replace("http:", "https:")
-          : url
-      );
+      hls.loadSource(window.location.protocol === "https:" ? url.replace("http:", "https:") : url);
 
       hls.attachMedia(this.mediaElement);
     } else {
@@ -269,10 +259,7 @@ export default class RadMedia extends Vue {
     this.detachStream();
   }
 
-  showErrorMessage(config: {
-    title: TranslateResult;
-    message: TranslateResult;
-  }): void {
+  showErrorMessage(config: { title: TranslateResult; message: TranslateResult }): void {
     this.showMessage({
       type: ModalType.ERROR,
       buttons: [this.$t("general.ok") as string],

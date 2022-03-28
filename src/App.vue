@@ -86,9 +86,7 @@ export default class App extends HelperMixins {
   @Action confirmSleepTimer!: () => Promise<void>;
   @Action createList!: (list: StationList) => Promise<void>;
 
-  @Action determineDateFnsLocale!: (
-    locale: string
-  ) => Promise<Locale | undefined>;
+  @Action determineDateFnsLocale!: (locale: string) => Promise<Locale | undefined>;
 
   @Action loadStyle!: () => Promise<void>;
   @Action setDarkMode!: (darkMode: boolean) => Promise<void>;
@@ -143,8 +141,7 @@ export default class App extends HelperMixins {
       const locale = await this.determineDateFnsLocale(this.$i18n.locale);
 
       let formattedDuration = formatDuration({ minutes }, { locale });
-      formattedDuration =
-        formattedDuration.charAt(0).toUpperCase() + formattedDuration.slice(1);
+      formattedDuration = formattedDuration.charAt(0).toUpperCase() + formattedDuration.slice(1);
 
       await this.showMessage({
         buttons: [this.$t("general.ok") as string],
@@ -222,9 +219,7 @@ export default class App extends HelperMixins {
   detectLocale(): string {
     const preferredLocales = [
       ...new Set(
-        [navigator.language, ...navigator.languages].map((language) =>
-          language.substring(0, 2)
-        )
+        [navigator.language, ...navigator.languages].map((language) => language.substring(0, 2))
       ),
     ];
 

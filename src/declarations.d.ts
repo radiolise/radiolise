@@ -134,10 +134,7 @@ type MediaSessionAction =
 interface MediaSession {
   playbackState: MediaSessionPlaybackState;
   metadata: MediaMetadata | null;
-  setActionHandler(
-    action: MediaSessionAction,
-    listener: (() => void) | null
-  ): void;
+  setActionHandler(action: MediaSessionAction, listener: (() => void) | null): void;
 }
 
 interface MediaImage {

@@ -29,10 +29,7 @@ const mutations: MutationTree<StoreState> = {
     state.memory.lists[index].name = name;
   },
 
-  SET_LIST_CONTENT(
-    state,
-    { index, content }: { index: number; content: Station[] }
-  ): void {
+  SET_LIST_CONTENT(state, { index, content }: { index: number; content: Station[] }): void {
     state.memory.lists[index].content = content;
   },
 
@@ -64,10 +61,7 @@ const mutations: MutationTree<StoreState> = {
     state.memory.titles.favorites = bookmarks;
   },
 
-  SET_STATION_HUE(
-    _,
-    { station, hue }: { station: Station; hue: number }
-  ): void {
+  SET_STATION_HUE(_, { station, hue }: { station: Station; hue: number }): void {
     Object.assign(station, { hue });
   },
 

@@ -1,11 +1,5 @@
 <template>
-  <svg
-    id="logo"
-    width="30"
-    height="30"
-    preserveAspectRatio="xMidYMid"
-    viewBox="0 0 512 512"
-  >
+  <svg id="logo" width="30" height="30" preserveAspectRatio="xMidYMid" viewBox="0 0 512 512">
     <g transform="matrix(1.3889 0 0 1.3889 -99.562 -99.556)">
       <path
         d="m130.22 128c139.4 0 253.78 114.4 253.78 252.84 0 0.985-0.062 1.969-0.078 2.969h-47.579c0.016-1 0.078-1.984 0.078-2.969 0-112.4-93.045-205.58-206.2-205.58-0.649 0-1.316 0.056-1.968 0.056v-47.259c0.652 0 1.319-0.054 1.968-0.054z"

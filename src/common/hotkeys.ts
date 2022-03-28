@@ -29,9 +29,7 @@ const keyBindings: Record<string, KeyBinding> = {
 
       showToast({
         icon: context.volume === 0 ? "volume-mute" : "volume-up",
-        message: context.$t("hotkeys.onScreenToasts.volume", [
-          context.volume * 100,
-        ]) as string,
+        message: context.$t("hotkeys.onScreenToasts.volume", [context.volume * 100]) as string,
       });
     },
   },
@@ -44,9 +42,7 @@ const keyBindings: Record<string, KeyBinding> = {
 
       showToast({
         icon: "volume-up",
-        message: context.$t("hotkeys.onScreenToasts.volume", [
-          context.volume * 100,
-        ]) as string,
+        message: context.$t("hotkeys.onScreenToasts.volume", [context.volume * 100]) as string,
       });
     },
   },

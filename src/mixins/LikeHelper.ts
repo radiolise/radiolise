@@ -24,9 +24,7 @@ export default class LikeHelper extends Vue {
           type: ModalType.ERROR,
           buttons: [this.$t("general.ok") as string],
           title: this.$t("general.like.unableToVote.title") as string,
-          message: this.$t("general.like.unableToVote.description", [
-            data.message,
-          ]) as string,
+          message: this.$t("general.like.unableToVote.description", [data.message]) as string,
         });
       }
     } catch (alreadyVoted) {
@@ -66,9 +64,7 @@ export default class LikeHelper extends Vue {
         type: ModalType.WARNING,
         buttons: [this.$t("general.ok") as string],
         title: this.$t("general.error.networkIssue.title") as string,
-        message: this.$t("general.error.networkIssue.description", [
-          message,
-        ]) as string,
+        message: this.$t("general.error.networkIssue.description", [message]) as string,
       });
     }
   }

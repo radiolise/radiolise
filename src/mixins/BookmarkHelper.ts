@@ -10,10 +10,7 @@ export default class BookmarkHelper extends Vue {
     info: string;
   }) => Promise<boolean>;
 
-  async toggleBookmark(bookmark: {
-    station: string;
-    info: string;
-  }): Promise<void> {
+  async toggleBookmark(bookmark: { station: string; info: string }): Promise<void> {
     const added = await this._toggleBookmark(bookmark);
 
     if (added) {

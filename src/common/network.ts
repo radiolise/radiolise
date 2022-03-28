@@ -40,10 +40,7 @@ async function getRadioBrowserUrl() {
   }
 }
 
-async function fetchFromRadioBrowser<T = any>(
-  url: string,
-  config?: AxiosRequestConfig
-) {
+async function fetchFromRadioBrowser<T = any>(url: string, config?: AxiosRequestConfig) {
   return request<T>({ baseURL: await getRadioBrowserUrl(), url, ...config });
 }
 
@@ -65,10 +62,7 @@ export function fetchLanguages() {
   return fetchFromRadioBrowser<Filter>("/languages");
 }
 
-export function fetchPlayableUrl(options: {
-  stationId: string;
-  cancelToken: CancelToken;
-}) {
+export function fetchPlayableUrl(options: { stationId: string; cancelToken: CancelToken }) {
   const { stationId, cancelToken } = options;
   return fetchFromRadioBrowser(`/url/${stationId}`, { cancelToken });
 }
@@ -86,10 +80,7 @@ export function findStations(options: {
   });
 }
 
-export function fetchNowPlayingInfo(options: {
-  url: string;
-  cancelToken: CancelToken;
-}) {
+export function fetchNowPlayingInfo(options: { url: string; cancelToken: CancelToken }) {
   const { url, cancelToken } = options;
   return fetchFromService<Record<string, string>>("/", {
     method: "POST",

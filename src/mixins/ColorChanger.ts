@@ -16,18 +16,13 @@ export default class ColorChanger extends Vue {
   }
 
   get colorizationAllowed(): boolean {
-    return (
-      this.changeColor && this.currentStation !== undefined && !this.fullscreen
-    );
+    return this.changeColor && this.currentStation !== undefined && !this.fullscreen;
   }
 
   @Watch("backgroundColor")
   handleColorChanged(): void {
     const themeColor = this.colorful ? this.generateHsl(60) : "";
-    document.documentElement.style.setProperty(
-      "--rad-primary-color",
-      themeColor
-    );
+    document.documentElement.style.setProperty("--rad-primary-color", themeColor);
   }
 
   @Watch("currentStation")

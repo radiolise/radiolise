@@ -36,9 +36,7 @@ export default class ScrollHelper extends Vue {
   @Watch("isPlayerExpanded")
   onPlayerExpanded(playerExpanded: boolean): void {
     const playerLocked =
-      playerExpanded &&
-      this.fixedPlayer &&
-      document.documentElement.scrollTop === 0;
+      playerExpanded && this.fixedPlayer && document.documentElement.scrollTop === 0;
 
     if (playerLocked) {
       this.fixPlayer(false);
@@ -46,9 +44,7 @@ export default class ScrollHelper extends Vue {
   }
 
   getPlayerBarHeight(): number {
-    const playerBar = document.querySelector(
-      "#video .media-controls"
-    ) as HTMLDivElement;
+    const playerBar = document.querySelector("#video .media-controls") as HTMLDivElement;
 
     return playerBar.offsetHeight;
   }
@@ -57,8 +53,7 @@ export default class ScrollHelper extends Vue {
     const player = document.querySelector("#video") as HTMLDivElement;
     const playerRect = player.getBoundingClientRect();
 
-    const fixedPlayer =
-      playerRect.top + playerRect.height <= this.playerBarHeight + 50;
+    const fixedPlayer = playerRect.top + playerRect.height <= this.playerBarHeight + 50;
 
     if (this.fixedPlayer !== fixedPlayer) {
       this.fixPlayer(fixedPlayer);

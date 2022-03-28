@@ -13,11 +13,7 @@
       {{ $t("titleManager.recentTitles") }}
     </button>
     <div v-show-slide="showTitles" class="text-left">
-      <div
-        v-if="history.length === 0"
-        class="text-center"
-        style="padding: 15px 0"
-      >
+      <div v-if="history.length === 0" class="text-center" style="padding: 15px 0">
         {{ $t("titleManager.listEmpty") }}
       </div>
       <div v-else style="display: flex; flex-direction: column-reverse">
@@ -26,9 +22,7 @@
           :key="title.time"
           :title="title"
           :active="activeTitle === title.time"
-          @click.native="
-            activeTitle = activeTitle !== title.time ? title.time : -1
-          "
+          @click.native="activeTitle = activeTitle !== title.time ? title.time : -1"
         />
       </div>
     </div>
@@ -74,9 +68,7 @@
               :title="title"
               :active="activeBookmark === title.time"
               is-bookmark
-              @click.native="
-                activeBookmark = activeBookmark !== title.time ? title.time : -1
-              "
+              @click.native="activeBookmark = activeBookmark !== title.time ? title.time : -1"
             />
           </div>
         </div>
@@ -109,9 +101,7 @@ export default class RadTitleManager extends Vue {
 
   @Getter readonly dateFnsLocale?: Locale;
 
-  @Action determineDateFnsLocale!: (
-    locale: string
-  ) => Promise<Locale | undefined>;
+  @Action determineDateFnsLocale!: (locale: string) => Promise<Locale | undefined>;
 
   get bookmarksEmpty() {
     return this.memory.titles.favorites.length === 0;

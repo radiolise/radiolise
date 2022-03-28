@@ -1,10 +1,6 @@
 <template>
   <div id="visualization" ref="visualization">
-    <div
-      v-for="(position, i) in positions"
-      :key="i"
-      :style="{ top: position }"
-    />
+    <div v-for="(position, i) in positions" :key="i" :style="{ top: position }" />
   </div>
 </template>
 

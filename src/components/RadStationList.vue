@@ -1,9 +1,5 @@
 <template>
-  <div
-    id="stations"
-    ref="container"
-    :class="{ 'compact-mode': settings.compactMode }"
-  >
+  <div id="stations" ref="container" :class="{ 'compact-mode': settings.compactMode }">
     <RadStation
       v-for="(station, index) in currentList"
       :key="station.id"

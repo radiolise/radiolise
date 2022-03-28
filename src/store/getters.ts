@@ -11,9 +11,7 @@ const getters: GetterTree<StoreState, StoreState> = {
   },
 
   currentStation(state): Station | undefined {
-    return state.memory.lastStation !== null && state.active
-      ? state.memory.lastStation
-      : undefined;
+    return state.memory.lastStation !== null && state.active ? state.memory.lastStation : undefined;
   },
 
   selectedList(state): number {
@@ -70,10 +68,7 @@ const getters: GetterTree<StoreState, StoreState> = {
 
   visualizationActive(state): boolean {
     return (
-      (state.memory.settings.visualization &&
-        state.playing &&
-        !state.hasVideo) ||
-      state.relaxed
+      (state.memory.settings.visualization && state.playing && !state.hasVideo) || state.relaxed
     );
   },
 

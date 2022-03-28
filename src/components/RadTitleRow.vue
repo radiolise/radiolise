@@ -34,9 +34,7 @@
         class="button"
         style="margin-bottom: 0"
         @click="toggleBookmark({ station: title.station, info: title.info })"
-        ><FaIcon icon="times" fixed-width /><span>{{
-          $t("titleManager.remove")
-        }}</span></a
+        ><FaIcon icon="times" fixed-width /><span>{{ $t("titleManager.remove") }}</span></a
       >
     </div>
   </div>
@@ -61,9 +59,7 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
   @Getter readonly bookmarks!: Title[];
   @Getter readonly dateFnsLocale?: Locale;
 
-  @Action determineDateFnsLocale!: (
-    locale: string
-  ) => Promise<Locale | undefined>;
+  @Action determineDateFnsLocale!: (locale: string) => Promise<Locale | undefined>;
 
   async created(): Promise<void> {
     await this.$nextTick();
@@ -79,8 +75,7 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
 
   get bookmarked(): boolean {
     return this.bookmarks.some(
-      (item) =>
-        item.station === this.title.station && item.info === this.title.info
+      (item) => item.station === this.title.station && item.info === this.title.info
     );
   }
 

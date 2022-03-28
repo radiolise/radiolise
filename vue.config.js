@@ -39,9 +39,7 @@ module.exports = defineConfig({
     plugins: [
       new ContextReplacementPlugin(
         /^date-fns[/\\]locale$/,
-        new RegExp(
-          `\\.[/\\\\](${DATE_FNS_LOCALES.join("|")})[/\\\\]index\\.js$`
-        )
+        new RegExp(`\\.[/\\\\](${DATE_FNS_LOCALES.join("|")})[/\\\\]index\\.js$`)
       ),
     ],
   },

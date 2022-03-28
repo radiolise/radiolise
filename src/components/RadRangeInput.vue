@@ -19,12 +19,7 @@
       :placeholder="$t('rangeInput.maximumShort')"
       @change="submitButton.click()"
     />
-    <input
-      ref="submit-button"
-      type="submit"
-      name="submit"
-      style="display: none"
-    />
+    <input ref="submit-button" type="submit" name="submit" style="display: none" />
   </form>
 </template>
 

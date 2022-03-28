@@ -14,10 +14,7 @@ export default class DragHelper extends Vue {
   @Getter readonly currentList!: Station[];
   @Getter readonly sortIndex!: number | undefined;
 
-  @Action moveStation!: (payload: {
-    index: number;
-    newIndex: number;
-  }) => Promise<void>;
+  @Action moveStation!: (payload: { index: number; newIndex: number }) => Promise<void>;
 
   @Action startSorting!: (index?: number) => Promise<void>;
 
@@ -51,9 +48,7 @@ export default class DragHelper extends Vue {
     this.currentTranslate = currentTranslate;
 
     this.newIndex = Math.floor(
-      (event.pageY -
-        document.documentElement.scrollTop -
-        container.getBoundingClientRect().top) /
+      (event.pageY - document.documentElement.scrollTop - container.getBoundingClientRect().top) /
         this.stationRow.offsetHeight
     );
 
@@ -63,9 +58,7 @@ export default class DragHelper extends Vue {
       this.newIndex = this.currentList.length - 1;
     }
 
-    const rows = document.querySelectorAll(
-      "#stations > div"
-    ) as NodeListOf<HTMLTableRowElement>;
+    const rows = document.querySelectorAll("#stations > div") as NodeListOf<HTMLTableRowElement>;
 
     rows.forEach((row, i) => {
       if (i === this.index) {
@@ -88,9 +81,7 @@ export default class DragHelper extends Vue {
 
   handleMouseUp(): void {
     if (this.dragging) {
-      const rows = [
-        ...document.querySelectorAll("#stations > div"),
-      ] as HTMLTableRowElement[];
+      const rows = [...document.querySelectorAll("#stations > div")] as HTMLTableRowElement[];
 
       rows.forEach((row) => {
         row.style.transform = "";

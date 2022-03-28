@@ -10,11 +10,9 @@
           <div class="hotkey-tile">
             <span>{{ key }}</span>
           </div>
-          <span
-            v-if="key === ' '"
-            :class="{ 'space-bar-label': key === ' ' }"
-            >{{ $t("hotkeys.space") }}</span
-          >
+          <span v-if="key === ' '" :class="{ 'space-bar-label': key === ' ' }">{{
+            $t("hotkeys.space")
+          }}</span>
         </div>
         <div>
           <div class="name">

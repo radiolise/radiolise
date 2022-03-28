@@ -1,8 +1,5 @@
 <template>
-  <div
-    style="font-size: 18px; padding: 0 5px; display: inline-block"
-    @wheel.prevent="handleScroll"
-  >
+  <div style="font-size: 18px; padding: 0 5px; display: inline-block" @wheel.prevent="handleScroll">
     <a @click="setValue(value - 0.1)"><slot name="minusIcon" /></a>
     {{ " " }}
     <div
@@ -12,10 +9,7 @@
       @mousedown.left="handleMouseDown"
       @touchstart.prevent="handleTouchStart"
     >
-      <div
-        class="text-left"
-        :style="{ width: `${value * 100}%`, height: '100%' }"
-      />
+      <div class="text-left" :style="{ width: `${value * 100}%`, height: '100%' }" />
     </div>
     {{ " " }}
     <a @click="setValue(value + 0.1)"><slot name="plusIcon" /></a>

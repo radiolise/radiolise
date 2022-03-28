@@ -101,9 +101,7 @@ export async function downloadBookmarks(bookmarks: Title[]) {
   const locale = await store.dispatch("determineDateFnsLocale", i18n.locale);
 
   const output = generateOutput(bookmarks, {
-    start:
-      `# RADIOLISE BOOKMARKS\n` +
-      `# As of: ${format(new Date(), "Pp", { locale })}\n`,
+    start: `# RADIOLISE BOOKMARKS\n` + `# As of: ${format(new Date(), "Pp", { locale })}\n`,
     getEntry: ({ time, info, station }) => {
       return `- ${format(time * 60, "Pp", { locale })} | ${info} (${station})`;
     },

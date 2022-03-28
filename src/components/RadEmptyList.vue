@@ -12,12 +12,7 @@
             {{ $t("general.findStations") }}
           </a>
         </RadLink>
-        <RadLink
-          v-slot="{ active, navigate }"
-          to="import-wizard"
-          :props="{ type: 'list' }"
-          toggle
-        >
+        <RadLink v-slot="{ active, navigate }" to="import-wizard" :props="{ type: 'list' }" toggle>
           <a :class="['button', { active }]" @click="navigate">
             <FaIcon icon="file-import" fixed-width />
             {{ $t("general.importBackup") }}

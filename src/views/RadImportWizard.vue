@@ -21,11 +21,7 @@
             {{ $t("importWizard.chooseFile") }}
           </template>
         </h4>
-        <RadDropZone
-          ref="drop-zone"
-          @change="setBackup"
-          @error="handleError()"
-        />
+        <RadDropZone ref="drop-zone" @change="setBackup" @error="handleError()" />
       </div>
       <template v-if="backup">
         <br />
@@ -51,24 +47,14 @@
           <br /><br />
           <div>
             <h4>
-              {{
-                $t("importWizard.step", [3, $t("importWizard.selectStations")])
-              }}
+              {{ $t("importWizard.step", [3, $t("importWizard.selectStations")]) }}
             </h4>
             <div v-if="backup">
-              <RadResult
-                v-for="(station, index) in backup"
-                :key="index"
-                v-model="station.selected"
-              >
+              <RadResult v-for="(station, index) in backup" :key="index" v-model="station.selected">
                 {{ station.name }}
                 <template #tags>
                   <RadTags
-                    :labels="[
-                      station.country,
-                      station.state,
-                      ...station.tags.split(','),
-                    ]"
+                    :labels="[station.country, station.state, ...station.tags.split(',')]"
                   ></RadTags>
                 </template>
               </RadResult>
@@ -77,10 +63,7 @@
           <br />
         </template>
         <div class="button-group text-right">
-          <RadLink
-            v-slot="{ navigate }"
-            :to="type === 'list' ? null : 'settings'"
-          >
+          <RadLink v-slot="{ navigate }" :to="type === 'list' ? null : 'settings'">
             <a class="button" @click="navigate">
               <FaIcon icon="ban" /> {{ $t("general.cancel") }}
             </a>
@@ -132,10 +115,7 @@ export default class RadImportWizard extends Vue {
   @Action createList!: (list: StationList) => Promise<void>;
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
-  @Action updateList!: (payload: {
-    name?: string;
-    content: Station[];
-  }) => Promise<void>;
+  @Action updateList!: (payload: { name?: string; content: Station[] }) => Promise<void>;
 
   setBackup(rawBackup: Backup): void {
     if (rawBackup.version !== "2" || this.type !== rawBackup.type) {
@@ -164,9 +144,7 @@ export default class RadImportWizard extends Vue {
       type: ModalType.ERROR,
       buttons: [this.$t("general.ok") as string],
       title: this.$t("general.error.fileNotSupported.title") as string,
-      message: this.$t("general.error.fileNotSupported.description", [
-        this.appTitle,
-      ]) as string,
+      message: this.$t("general.error.fileNotSupported.description", [this.appTitle]) as string,
     });
 
     if (this.backup === null) {
@@ -183,10 +161,7 @@ export default class RadImportWizard extends Vue {
 
     const name = this.listName as string;
 
-    const removeSelected = ({
-      selected,
-      ...station
-    }: SelectableStation): Station => station;
+    const removeSelected = ({ selected, ...station }: SelectableStation): Station => station;
 
     const content = (this.backup as SelectableStation[])
       .filter((station: SelectableStation) => station.selected)
@@ -210,10 +185,7 @@ export default class RadImportWizard extends Vue {
           type: ModalType.QUESTION,
           title: this.$t("importWizard.nameTaken.title") as string,
           message: this.$t("importWizard.nameTaken.description") as string,
-          buttons: [
-            this.$t("general.yes") as string,
-            this.$t("general.no") as string,
-          ],
+          buttons: [this.$t("general.yes") as string, this.$t("general.no") as string],
           closeable: false,
         });
 

@@ -2,10 +2,7 @@
   <div class="list-menu">
     <strong>{{ $t("general.list") }}</strong
     >:
-    <RadLink
-      v-slot="{ active: listManagerShown, navigate: openListManager }"
-      to="list-manager"
-    >
+    <RadLink v-slot="{ active: listManagerShown, navigate: openListManager }" to="list-manager">
       <RadDropdown
         id="lists"
         :value="selectedList"
@@ -19,17 +16,8 @@
       />
     </RadLink>
     {{ " " }}
-    <RadLink
-      v-slot="{ active, navigate }"
-      to="import-wizard"
-      :props="{ type: 'list' }"
-      toggle
-    >
-      <a
-        :class="{ active }"
-        :title="$t('general.importBackup')"
-        @click="navigate"
-      >
+    <RadLink v-slot="{ active, navigate }" to="import-wizard" :props="{ type: 'list' }" toggle>
+      <a :class="{ active }" :title="$t('general.importBackup')" @click="navigate">
         <FaIcon icon="upload" fixed-width />
       </a>
     </RadLink>
@@ -45,11 +33,7 @@
     </RadDropdown>
     {{ " " }}
     <RadLink v-slot="{ active, navigate }" to="list-manager" toggle>
-      <a
-        :class="{ active }"
-        :title="$t('general.manageLists')"
-        @click="navigate"
-      >
+      <a :class="{ active }" :title="$t('general.manageLists')" @click="navigate">
         <FaIcon icon="wrench" fixed-width />
       </a>
     </RadLink>

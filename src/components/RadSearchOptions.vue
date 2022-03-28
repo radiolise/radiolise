@@ -10,10 +10,7 @@
       >
     </div>
     <div id="filters" v-show-slide="showOptions">
-      <RadTagInput
-        style="padding-bottom: 10px"
-        :tags.sync="syncedOptions.tags"
-      />
+      <RadTagInput style="padding-bottom: 10px" :tags.sync="syncedOptions.tags" />
       <div class="text-left" style="display: table; width: 100%">
         <div style="padding: 5px 0; display: table-row; overflow: hidden">
           <div style="display: table-cell; white-space: nowrap">
@@ -30,9 +27,7 @@
                 <div>
                   {{ $t("search.optionsUnavailable") }}
                   <a @click="loadFilters()"
-                    ><FaIcon icon="redo" fixed-width />{{
-                      $t("search.tryAgain")
-                    }}</a
+                    ><FaIcon icon="redo" fixed-width />{{ $t("search.tryAgain") }}</a
                   >
                 </div>
               </div>
@@ -52,11 +47,7 @@
               <RadDropdown
                 id="state"
                 v-model="syncedOptions.state"
-                :title="
-                  syncedOptions.country === ''
-                    ? $t('search.filters.noCountrySelected')
-                    : ''
-                "
+                :title="syncedOptions.country === '' ? $t('search.filters.noCountrySelected') : ''"
                 style="width: 100%"
                 :disabled="syncedOptions.country === ''"
                 :label="`${$tc('general.state')} (${syncedOptions.country})`"
@@ -102,8 +93,7 @@
       </div>
       <div class="text-left" style="padding-top: 10px">
         <span style="cursor: help" :title="$t('search.bitrate.description')"
-          ><FaIcon icon="wave-square" style="opacity: 0.5" />
-          {{ $t("search.bitrate.label") }}</span
+          ><FaIcon icon="wave-square" style="opacity: 0.5" /> {{ $t("search.bitrate.label") }}</span
         >:
         <RadRangeInput
           style="display: inline-block; white-space: nowrap"

@@ -11,9 +11,7 @@
       <RadIcon :station="station" />
     </div>
     <div>
-      <div
-        style="display: block; padding-bottom: var(--rad-station-padding-inner)"
-      >
+      <div style="display: block; padding-bottom: var(--rad-station-padding-inner)">
         <div>
           <h4 style="font-weight: bold; display: inline">
             {{ station.name }}
@@ -21,13 +19,8 @@
         </div>
       </div>
       <div style="overflow: hidden; height: var(--rad-station-tags-height)">
-        <div
-          class="avoid-scrollbar"
-          style="overflow: scroll hidden; width: 100%"
-        >
-          <div
-            style="white-space: nowrap; height: var(--rad-station-tags-height)"
-          >
+        <div class="avoid-scrollbar" style="overflow: scroll hidden; width: 100%">
+          <div style="white-space: nowrap; height: var(--rad-station-tags-height)">
             <RadTags :labels="labels" />
           </div>
         </div>
@@ -84,11 +77,7 @@ export default class RadStation extends Mixins(DragHelper) {
   }
 
   get labels(): string[] {
-    return [
-      this.station.country,
-      this.station.state,
-      ...this.station.tags.split(","),
-    ];
+    return [this.station.country, this.station.state, ...this.station.tags.split(",")];
   }
 
   get menuOptions(): DropdownOption[] {

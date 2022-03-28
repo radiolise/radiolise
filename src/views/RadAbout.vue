@@ -8,15 +8,9 @@
       @touchstart="versionShown = !versionShown"
     >
       <div>
-        <img src="@/assets/img/logo.svg" alt="Logo" /><span>{{
-          appTitle
-        }}</span>
+        <img src="@/assets/img/logo.svg" alt="Logo" /><span>{{ appTitle }}</span>
       </div>
-      <div
-        v-show-slide="versionShown"
-        class="version"
-        :class="{ visible: versionShown }"
-      >
+      <div v-show-slide="versionShown" class="version" :class="{ visible: versionShown }">
         <span><FaIcon icon="code-branch" /> {{ version }}</span>
       </div>
     </div>
@@ -26,8 +20,7 @@
       <i18n class="text-left" path="about.licenseInfo" tag="p">
         {{ appTitle }}
         <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
-          >{{ $t("about.freeSoftware")
-          }}<FaIcon icon="external-link-alt" fixed-width
+          >{{ $t("about.freeSoftware") }}<FaIcon icon="external-link-alt" fixed-width
         /></a>
       </i18n>
       <p class="text-left">
@@ -36,9 +29,7 @@
       <i18n class="text-left" path="about.licenseCopy" tag="p">
         {{ appTitle
         }}<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener"
-          >http://www.gnu.org/licenses/<FaIcon
-            icon="external-link-alt"
-            fixed-width
+          >http://www.gnu.org/licenses/<FaIcon icon="external-link-alt" fixed-width
         /></a>
       </i18n>
     </div>

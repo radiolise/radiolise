@@ -10,10 +10,7 @@
     <slot />
     <div class="media-controls" style="display: table; table-layout: fixed">
       <div style="width: 30px">
-        <a
-          class="button-primary expand"
-          :title="$t('player.advancedView')"
-          @click="expand()"
+        <a class="button-primary expand" :title="$t('player.advancedView')" @click="expand()"
           ><FaIcon
             icon="chevron-down"
             :style="{
@@ -25,12 +22,7 @@
       <div>
         <div
           class="player"
-          style="
-            display: table-row;
-            height: 41px;
-            width: 100%;
-            vertical-align: middle;
-          "
+          style="display: table-row; height: 41px; width: 100%; vertical-align: middle"
         >
           <div v-show="compact" class="main-options">
             <a
@@ -38,10 +30,7 @@
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
               ><FaIcon icon="step-backward" fixed-width /></a
-            >&nbsp;<a
-              class="button-primary"
-              :title="$t('player.playStop')"
-              @click="toggleStation()"
+            >&nbsp;<a class="button-primary" :title="$t('player.playStop')" @click="toggleStation()"
               ><FaIcon :icon="station ? 'stop' : 'play'" fixed-width /></a
             >&nbsp;<a
               class="button-primary next-station"
@@ -53,12 +42,7 @@
           <div
             class="station"
             :title="tooltip"
-            style="
-              width: 100%;
-              display: table-cell;
-              vertical-align: middle;
-              padding: 0 10px;
-            "
+            style="width: 100%; display: table-cell; vertical-align: middle; padding: 0 10px"
             :style="{
               maxWidth: compact ? 0 : 'none',
               whiteSpace: compact ? 'nowrap' : 'normal',
@@ -146,18 +130,13 @@
               </template>
             </div>
           </div>
-          <div
-            style="white-space: nowrap; padding: 10px 0; vertical-align: middle"
-          >
+          <div style="white-space: nowrap; padding: 10px 0; vertical-align: middle">
             <a
               class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
               ><FaIcon icon="step-backward" fixed-width /></a
-            >&nbsp;<a
-              class="button-primary"
-              :title="$t('player.playStop')"
-              @click="toggleStation()"
+            >&nbsp;<a class="button-primary" :title="$t('player.playStop')" @click="toggleStation()"
               ><FaIcon :icon="station ? 'stop' : 'play'" fixed-width /></a
             >&nbsp;<a
               class="button-primary next-station"
@@ -186,12 +165,8 @@
                   @click="like()"
                 >
                   <FaIcon icon="thumbs-up" fixed-width style="width: 31px" />
-                  <template v-if="likeCount !== undefined"
-                    >{{ formattedlikeCount }} |
-                  </template>
-                  <template v-if="liked">{{
-                    $t("player.alreadyVoted")
-                  }}</template>
+                  <template v-if="likeCount !== undefined">{{ formattedlikeCount }} | </template>
+                  <template v-if="liked">{{ $t("player.alreadyVoted") }}</template>
                   <template v-else>{{ $t("general.like.submit") }}</template>
                 </a>
               </div>
@@ -213,11 +188,7 @@
             </div>
             <div>
               <div style="padding-top: 10px">
-                <RadLink
-                  v-slot="{ active, navigate }"
-                  to="title-manager"
-                  toggle
-                >
+                <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
                   <a :class="{ active }" @click="navigate">
                     <FaIcon icon="history" fixed-width style="width: 31px" />{{
                       $t("general.manageTitles")
@@ -238,9 +209,7 @@
                     fixed-width
                     size="xs"
                     style="vertical-align: super"
-                  />{{
-                    $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`)
-                  }}
+                  />{{ $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`) }}
                 </a>
               </div>
             </div>
@@ -319,9 +288,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
     }
 
     return this.station.homepage !== ""
-      ? `${this.$t("general.visitHomepage")}\n${
-          new URL(this.station.homepage).hostname
-        }`
+      ? `${this.$t("general.visitHomepage")}\n${new URL(this.station.homepage).hostname}`
       : "player.noHomepage";
   }
 

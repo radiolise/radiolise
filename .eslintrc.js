@@ -1,5 +1,4 @@
-const failInProductionMode =
-  process.env.NODE_ENV === "production" ? "error" : "off";
+const failInProductionMode = process.env.NODE_ENV === "production" ? "error" : "off";
 
 module.exports = {
   root: true,
@@ -26,11 +25,7 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "lines-between-class-members": [
-      "warn",
-      "always",
-      { exceptAfterSingleLine: true },
-    ],
+    "lines-between-class-members": ["warn", "always", { exceptAfterSingleLine: true }],
     "@typescript-eslint/no-var-requires": "off",
   },
 };

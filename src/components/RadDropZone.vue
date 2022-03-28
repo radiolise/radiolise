@@ -2,9 +2,7 @@
   <label class="drop-zone" @drop.prevent="handleDrop" @dragover.prevent>
     <div>
       <div v-show-slide="imported">
-        <div class="highlighted">
-          <FaIcon icon="check" /> {{ $t("dropZone.fileAdded") }}
-        </div>
+        <div class="highlighted"><FaIcon icon="check" /> {{ $t("dropZone.fileAdded") }}</div>
         <br />
       </div>
       {{ $t("dropZone.usage") }}

@@ -9,11 +9,7 @@
       <div v-show="loaded" v-if="settings.loadpolicy" class="icon">
         <img ref="image" :src="url" alt="Logo" @load="hidePlaceholder()" />
       </div>
-      <div
-        v-if="!loaded"
-        class="icon"
-        :style="{ background: `hsl(${station.hue}, 50%, 50%)` }"
-      >
+      <div v-if="!loaded" class="icon" :style="{ background: `hsl(${station.hue}, 50%, 50%)` }">
         <span>{{ station.name[0].toUpperCase() }}</span>
       </div>
     </div>
@@ -34,10 +30,7 @@ export default class RadIcon extends Vue {
   @Getter readonly currentStation?: Station;
   @Getter readonly loading!: boolean;
 
-  @Action updateColor!: (payload: {
-    station: Station;
-    hue: number;
-  }) => Promise<void>;
+  @Action updateColor!: (payload: { station: Station; hue: number }) => Promise<void>;
 
   created(): void {
     if (this.station.hue === undefined) {
