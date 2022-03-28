@@ -1,3 +1,5 @@
-defaults
-not ie 11
-not ie_mob 11
+defaults and supports css-focus-within
+not opera > 0
+not op_mob > 0
+not samsung > 0
+not and_qq > 0
