@@ -2,7 +2,6 @@ import Vue from "vue";
 import VShowSlide from "v-show-slide";
 
 import App from "./App.vue";
-import "./font-awesome";
 import store from "./store";
 import i18n from "./lang";
 

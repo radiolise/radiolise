@@ -1,6 +1,6 @@
 <template>
   <RadDrawer>
-    <h3><FaIcon icon="cog" fixed-width /> {{ $t("general.settings") }}</h3>
+    <h3><FasCog class="w-fixed" /> {{ $t("general.settings") }}</h3>
     <p class="description">{{ $t("settings.description", [appTitle]) }}</p>
     <form ref="form" @submit.prevent="onSubmit()">
       <div v-if="settings !== null" id="control-panel">
@@ -50,10 +50,9 @@
         </RadCheck>
         <RadCheck id="visualization-setting" v-model="settings.visualization">
           {{ $t("settings.visualization.name") }}
-          <FaIcon
-            icon="exclamation-triangle"
-            :title="$t('settings.visualization.screenWidthIssue')"
-          />
+          <span :title="$t('settings.visualization.screenWidthIssue')">
+            <FasExclamationTriangle />
+          </span>
           <template #description>
             {{ $t("settings.visualization.description") }}
           </template>
@@ -120,7 +119,7 @@
           />
         </div>
         <div>
-          <FaIcon icon="comment-dots" flip="horizontal" />{{ " " }}
+          <FasCommentDots class="-scale-x-100" />{{ " " }}
           <strong>{{ $tc("general.language", 1) }}</strong
           >:
           <RadDropdown
@@ -132,12 +131,10 @@
       </div>
       <div class="button-group text-right">
         <RadLink v-slot="{ navigate }" :to="null">
-          <a class="button" @click="navigate">
-            <FaIcon icon="ban" /> {{ $t("settings.discard") }}
-          </a>
+          <a class="button" @click="navigate"><FasBan /> {{ $t("settings.discard") }}</a>
         </RadLink>
         <a class="button" @click="form.submit.click()">
-          <FaIcon icon="check" />
+          <FasCheck />
           {{ $t("general.apply") }}
         </a>
         <input type="submit" name="submit" style="display: none" />
@@ -145,16 +142,16 @@
     </form>
     <div style="display: table; margin: 10px auto">
       <div style="float: left; margin: 5px 10px">
-        <a @click="reset()"><FaIcon icon="undo" fixed-width />{{ $t("settings.reset") }}</a
+        <a @click="reset()"><FasUndo class="w-fixed" />{{ $t("settings.reset") }}</a
         ><br />
       </div>
       <div style="float: right; margin: 5px 10px">
         <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'settings' }">
-          <a @click="navigate"> <FaIcon icon="upload" fixed-width />{{ $t("settings.import") }} </a>
+          <a @click="navigate"><FasUpload class="w-fixed" />{{ $t("settings.import") }}</a>
         </RadLink>
         <br />
         <a @click="exportSettings()">
-          <FaIcon icon="download" fixed-width />{{ $t("settings.export") }}
+          <FasDownload class="w-fixed" />{{ $t("settings.export") }}
         </a>
       </div>
     </div>
@@ -181,6 +178,14 @@ import RadLink from "@/components/RadLink.vue";
     RadDropdown,
     RadInput,
     RadLink,
+    FasCog,
+    FasExclamationTriangle,
+    FasCommentDots,
+    FasBan,
+    FasCheck,
+    FasUndo,
+    FasUpload,
+    FasDownload,
   },
 })
 export default class RadSettings extends Vue {
@@ -265,14 +270,14 @@ export default class RadSettings extends Vue {
 #control-panel > div {
   margin: 20px 0 10px 10px;
 }
-#visualization-setting .fa-exclamation-triangle {
+#visualization-setting span {
   display: none;
 }
 @media (max-width: 820px) {
   #visualization-setting {
     opacity: 0.5;
   }
-  #visualization-setting .fa-exclamation-triangle {
+  #visualization-setting span {
     display: initial;
   }
 }

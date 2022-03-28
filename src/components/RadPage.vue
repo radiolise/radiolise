@@ -10,17 +10,17 @@
         <div>
           <RadLink v-slot="{ active, navigate }" to="search" toggle>
             <button :aria-label="$t('general.findStations')" :class="{ active }" @click="navigate">
-              <FaIcon icon="search" /><span> {{ $t("general.findStations") }}</span>
+              <FasSearch /><span> {{ $t("general.findStations") }}</span>
             </button>
           </RadLink>
           <RadLink v-slot="{ active, navigate }" to="settings" toggle>
             <button :aria-label="$t('general.settings')" :class="{ active }" @click="navigate">
-              <FaIcon icon="cog" /><span> {{ $t("general.settings") }}</span>
+              <FasCog /><span> {{ $t("general.settings") }}</span>
             </button>
           </RadLink>
           <RadLink v-slot="{ active, navigate }" to="menu" toggle>
             <button :aria-label="$t('general.more')" :class="{ active }" @click="navigate">
-              <FaIcon icon="bars" /><span> {{ $t("general.more") }}</span>
+              <FasBars /><span> {{ $t("general.more") }}</span>
             </button>
           </RadLink>
         </div>
@@ -41,7 +41,7 @@
           <p v-if="!listEmpty" class="text-right">
             <RadLink v-slot="{ active, navigate }" to="search" toggle>
               <a :class="['button', { active }]" @click="navigate">
-                <FaIcon icon="search" fixed-width />{{ $t("general.findStations") }}
+                <FasSearch class="w-fixed" />{{ $t("general.findStations") }}
               </a>
             </RadLink>
           </p>
@@ -73,6 +73,9 @@ import RadStationList from "./RadStationList.vue";
     RadMedia,
     RadPlayer,
     RadStationList,
+    FasSearch,
+    FasCog,
+    FasBars,
   },
 })
 export default class RadPage extends Mixins(ScrollHelper) {

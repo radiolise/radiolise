@@ -23,7 +23,7 @@
         ref="select"
         :value="value"
         :disabled="!enabled"
-        :class="{ covering: isMenu }"
+        :class="['peer', { covering: isMenu }]"
         @change="handleChange()"
       >
         <optgroup :label="label">
@@ -37,7 +37,12 @@
           {{ action }}
         </option>
       </select>
-      <div v-if="isMenu" class="dropdown-label"><slot /></div>
+      <div
+        v-if="isMenu"
+        class="dropdown-label icons:opacity-70 icons:transition-opacity icons:duration-200 icons:peer-hover:opacity-100"
+      >
+        <slot />
+      </div>
     </div>
   </div>
 </template>

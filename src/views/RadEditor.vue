@@ -1,7 +1,7 @@
 <template>
   <RadDrawer id="editor">
     <h3>
-      <FaIcon icon="edit" fixed-width />
+      <FasEdit class="w-fixed" />
       {{ stationReference ? stationReference.name : $t("editor.newStation") }} –
       {{ $t("editor.title") }}
     </h3>
@@ -93,7 +93,7 @@
       </div>
       <div class="button-group text-right">
         <a class="button" @click="finish()">
-          <FaIcon icon="check" fixed-width />{{ $t("general.done") }}
+          <FasCheck class="w-fixed" />{{ $t("general.done") }}
         </a>
         <input ref="submit-button" type="submit" name="submit" style="display: none" />
       </div>
@@ -117,6 +117,8 @@ import { navigate } from "@/common/routing";
     RadDrawer,
     RadInput,
     RadTagInput,
+    FasEdit,
+    FasCheck,
   },
 })
 export default class RadEditor extends Vue {

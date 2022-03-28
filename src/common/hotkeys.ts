@@ -28,7 +28,7 @@ const keyBindings: Record<string, KeyBinding> = {
       adjustVolume(-0.1);
 
       showToast({
-        icon: context.volume === 0 ? "volume-mute" : "volume-up",
+        icon: context.volume === 0 ? FasVolumeMute : FasVolumeUp,
         message: context.$t("hotkeys.onScreenToasts.volume", [context.volume * 100]) as string,
       });
     },
@@ -41,7 +41,7 @@ const keyBindings: Record<string, KeyBinding> = {
       adjustVolume(+0.1);
 
       showToast({
-        icon: "volume-up",
+        icon: FasVolumeUp,
         message: context.$t("hotkeys.onScreenToasts.volume", [context.volume * 100]) as string,
       });
     },
@@ -54,7 +54,7 @@ const keyBindings: Record<string, KeyBinding> = {
 
       toggleStation().catch(() => {
         showToast({
-          icon: "exclamation-triangle",
+          icon: FasExclamationTriangle,
           message: context.$t("general.listEmpty[0]") as string,
         });
       });
@@ -69,7 +69,7 @@ const keyBindings: Record<string, KeyBinding> = {
       applySettings({ ...settings, compactMode: compact });
       showToast({
         message: context.$t("settings.compactMode.name") as string,
-        icon: compact ? "toggle-on" : "toggle-off",
+        icon: compact ? FasToggleOn : FasToggleOff,
       });
     },
   },
@@ -83,7 +83,7 @@ const keyBindings: Record<string, KeyBinding> = {
         toggleFullscreen();
       } else {
         showToast({
-          icon: "exclamation-triangle",
+          icon: FasExclamationTriangle,
           message: context.$t("hotkeys.onScreenToasts.noVideoStream") as string,
         });
       }

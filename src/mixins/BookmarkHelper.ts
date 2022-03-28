@@ -15,7 +15,7 @@ export default class BookmarkHelper extends Vue {
 
     if (added) {
       this.showToast({
-        icon: "check",
+        icon: FasCheck,
         message: this.$t("player.bookmarked") as string,
       });
     }

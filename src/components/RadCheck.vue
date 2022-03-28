@@ -2,8 +2,8 @@
   <div class="checkbox" :class="{ checked }" @click="toggleChecked()">
     <div>
       <transition name="fade" mode="out-in">
-        <FaIcon v-if="checked" key="checked" icon="check-square" />
-        <FaIcon v-else key="notChecked" :icon="['far', 'square']" />
+        <FasCheckSquare v-if="checked" key="checked" />
+        <FarSquare v-else key="notChecked" class="opacity-70" />
       </transition>
     </div>
     <div>
@@ -19,7 +19,12 @@
 <script lang="ts">
 import { Component, Emit, Model, Prop, Vue } from "vue-property-decorator";
 
-@Component
+@Component({
+  components: {
+    FasCheckSquare,
+    FarSquare,
+  },
+})
 export default class RadCheck extends Vue {
   @Model("change", { type: Boolean, default: false })
   readonly checked!: boolean;
@@ -55,9 +60,6 @@ export default class RadCheck extends Vue {
 }
 .checkbox > :last-child {
   padding-top: 3px;
-}
-.fa-square {
-  opacity: 0.7;
 }
 .fade-enter-active,
 .fade-leave-active {

@@ -1,53 +1,51 @@
 <template>
-  <RadDrawer id="menu" is-menu>
-    <h3><FaIcon icon="bars" fixed-width /> {{ $t("general.menu") }}</h3>
+  <RadDrawer id="menu" class="icons:w-fixed" is-menu>
+    <h3><FasBars /> {{ $t("general.menu") }}</h3>
     <RadLink v-slot="{ navigate }" to="search">
       <button @click="navigate">
-        <FaIcon icon="search" fixed-width />
+        <FasSearch />
         {{ $t("general.findStations") }}
       </button>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="list-manager">
       <button @click="navigate">
-        <FaIcon icon="list-alt" fixed-width />
+        <FasListAlt />
         {{ $t("general.manageLists") }}
       </button>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="title-manager">
       <button @click="navigate">
-        <FaIcon icon="history" fixed-width />
+        <FasHistory />
         {{ $t("general.manageTitles") }}
       </button>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'list' }">
       <button @click="navigate">
-        <FaIcon icon="file-import" fixed-width />
+        <FasFileImport />
         {{ $t("general.importBackup") }}
       </button>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="hotkeys">
       <button @click="navigate">
-        <FaIcon icon="keyboard" fixed-width />
+        <FasKeyboard />
         {{ $t("general.hotkeys") }}
       </button>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="settings">
       <button @click="navigate">
-        <FaIcon icon="cog" fixed-width />
+        <FasCog />
         {{ $t("general.settings") }}
       </button>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="about">
       <button @click="navigate">
-        <FaIcon icon="info-circle" fixed-width />
+        <FasInfoCircle />
         {{ $t("general.learnMore") }}
       </button>
     </RadLink>
     <div class="button-group text-right">
       <RadLink v-slot="{ navigate }" :to="null">
-        <a class="button" @click="navigate">
-          <FaIcon icon="times" fixed-width /> {{ $t("menu.close") }}
-        </a>
+        <a class="button" @click="navigate"><FasTimes /> {{ $t("menu.close") }}</a>
       </RadLink>
     </div>
   </RadDrawer>
@@ -62,6 +60,15 @@ import RadLink from "@/components/RadLink.vue";
   components: {
     RadDrawer,
     RadLink,
+    FasBars,
+    FasSearch,
+    FasListAlt,
+    FasHistory,
+    FasFileImport,
+    FasKeyboard,
+    FasCog,
+    FasInfoCircle,
+    FasTimes,
   },
 })
 export default class RadMenu extends Vue {}

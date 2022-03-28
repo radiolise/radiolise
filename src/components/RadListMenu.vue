@@ -17,8 +17,12 @@
     </RadLink>
     {{ " " }}
     <RadLink v-slot="{ active, navigate }" to="import-wizard" :props="{ type: 'list' }" toggle>
-      <a :class="{ active }" :title="$t('general.importBackup')" @click="navigate">
-        <FaIcon icon="upload" fixed-width />
+      <a
+        :class="{ 'active icons:opacity-100': active }"
+        :title="$t('general.importBackup')"
+        @click="navigate"
+      >
+        <FasUpload class="w-fixed" />
       </a>
     </RadLink>
     {{ " " }}
@@ -29,12 +33,16 @@
       :title="$t('general.downloadPlaylist')"
       @change="exportList"
     >
-      <FaIcon icon="download" fixed-width />
+      <FasDownload class="w-fixed" />
     </RadDropdown>
     {{ " " }}
     <RadLink v-slot="{ active, navigate }" to="list-manager" toggle>
-      <a :class="{ active }" :title="$t('general.manageLists')" @click="navigate">
-        <FaIcon icon="wrench" fixed-width />
+      <a
+        :class="{ 'active icons:opacity-100': active }"
+        :title="$t('general.manageLists')"
+        @click="navigate"
+      >
+        <FasWrench class="w-fixed" />
       </a>
     </RadLink>
   </div>
@@ -53,6 +61,9 @@ import ListHelper from "@/mixins/ListHelper";
   components: {
     RadDropdown,
     RadLink,
+    FasUpload,
+    FasDownload,
+    FasWrench,
   },
 })
 export default class RadListMenu extends Mixins(ListHelper) {

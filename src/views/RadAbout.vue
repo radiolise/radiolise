@@ -11,7 +11,7 @@
         <img src="@/assets/img/logo.svg" alt="Logo" /><span>{{ appTitle }}</span>
       </div>
       <div v-show-slide="versionShown" class="version" :class="{ visible: versionShown }">
-        <span><FaIcon icon="code-branch" /> {{ version }}</span>
+        <span><FasCodeBranch /> {{ version }}</span>
       </div>
     </div>
     <br />
@@ -20,7 +20,7 @@
       <i18n class="text-left" path="about.licenseInfo" tag="p">
         {{ appTitle }}
         <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
-          >{{ $t("about.freeSoftware") }}<FaIcon icon="external-link-alt" fixed-width
+          >{{ $t("about.freeSoftware") }}<FasExternalLinkAlt class="w-fixed"
         /></a>
       </i18n>
       <p class="text-left">
@@ -29,18 +29,18 @@
       <i18n class="text-left" path="about.licenseCopy" tag="p">
         {{ appTitle
         }}<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener"
-          >http://www.gnu.org/licenses/<FaIcon icon="external-link-alt" fixed-width
+          >http://www.gnu.org/licenses/<FasExternalLinkAlt class="w-fixed"
         /></a>
       </i18n>
     </div>
     <p class="button-group">
       <a class="button" :href="repoUrl" target="_blank" rel="noopener"
-        ><FaIcon :icon="['fab', 'gitlab']" fixed-width />{{ $t("about.code") }}
-        <FaIcon icon="external-link-alt" fixed-width
+        ><FabGitlab class="w-fixed" /> {{ $t("about.code") }} <FasExternalLinkAlt class="w-fixed"
       /></a>
       <a class="button" :href="issuesUrl" target="_blank" rel="noopener"
-        ><FaIcon icon="comments" fixed-width />{{ $t("about.issues") }}
-        <FaIcon icon="external-link-alt" fixed-width
+        ><FasComments class="w-fixed" />
+        {{ $t("about.issues") }}
+        <FasExternalLinkAlt class="w-fixed"
       /></a>
     </p>
   </RadDrawer>
@@ -53,6 +53,10 @@ import RadDrawer from "@/components/RadDrawer.vue";
 @Component({
   components: {
     RadDrawer,
+    FasCodeBranch,
+    FasExternalLinkAlt,
+    FabGitlab,
+    FasComments,
   },
 })
 export default class RadAbout extends Vue {

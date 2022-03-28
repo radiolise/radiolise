@@ -34,7 +34,7 @@
         flex-align
         @change="trigger"
       >
-        <FaIcon icon="ellipsis-v" fixed-width />
+        <FasEllipsisV class="w-fixed" />
       </RadDropdown>
     </div>
   </div>
@@ -56,6 +56,7 @@ import { navigate } from "@/common/routing";
     RadDropdown,
     RadIcon,
     RadTags,
+    FasEllipsisV,
   },
 })
 export default class RadStation extends Mixins(DragHelper) {

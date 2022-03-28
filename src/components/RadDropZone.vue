@@ -2,7 +2,7 @@
   <label class="drop-zone" @drop.prevent="handleDrop" @dragover.prevent>
     <div>
       <div v-show-slide="imported">
-        <div class="highlighted"><FaIcon icon="check" /> {{ $t("dropZone.fileAdded") }}</div>
+        <div class="highlighted"><FasCheck /> {{ $t("dropZone.fileAdded") }}</div>
         <br />
       </div>
       {{ $t("dropZone.usage") }}
@@ -24,7 +24,11 @@ import { ModalOptions, ModalType } from "@/store";
 
 type ImportResult = SelectableStation[] | Settings;
 
-@Component
+@Component({
+  components: {
+    FasCheck,
+  },
+})
 export default class RadDropZone extends Vue {
   reader = new FileReader();
   imported = false;

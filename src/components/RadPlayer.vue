@@ -8,15 +8,13 @@
     @mousemove="showControls()"
   >
     <slot />
-    <div class="media-controls" style="display: table; table-layout: fixed">
+    <div
+      :class="['media-controls', { 'icons:text-[27px]': fullscreen }]"
+      style="display: table; table-layout: fixed"
+    >
       <div style="width: 30px">
         <a class="button-primary expand" :title="$t('player.advancedView')" @click="expand()"
-          ><FaIcon
-            icon="chevron-down"
-            :style="{
-              transition: 'transform 0.4s',
-              transform: `rotate(${compact ? 0 : -180}deg)`,
-            }" /></a
+          ><FasChevronDown :class="{ '-rotate-180': expanded }" /></a
         >&nbsp;
       </div>
       <div>
@@ -24,19 +22,19 @@
           class="player"
           style="display: table-row; height: 41px; width: 100%; vertical-align: middle"
         >
-          <div v-show="compact" class="main-options">
+          <div v-show="compact" class="main-options icons:w-fixed">
             <a
               class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
-              ><FaIcon icon="step-backward" fixed-width /></a
+              ><FasStepBackward /></a
             >&nbsp;<a class="button-primary" :title="$t('player.playStop')" @click="toggleStation()"
-              ><FaIcon :icon="station ? 'stop' : 'play'" fixed-width /></a
+              ><component :is="station ? 'FasStop' : 'FasPlay'" /></a
             >&nbsp;<a
               class="button-primary next-station"
               :title="$t('player.nextStation')"
               @click="playClosestStation(true)"
-              ><FaIcon icon="step-forward" fixed-width
+              ><FasStepForward
             /></a>
           </div>
           <div
@@ -51,7 +49,7 @@
           >
             <transition name="slide-fade" mode="out-in" appear>
               <div :key="broadcaster" class="broadcaster">
-                <FaIcon v-if="loading" icon="spinner" spin />
+                <FasSpinner v-if="loading" class="animate-spin" />
                 {{ broadcaster }}
               </div>
             </transition>
@@ -73,26 +71,26 @@
             <a
               v-if="station"
               class="button-primary like"
-              :class="{ active: liked }"
+              :class="{ 'active icons:opacity-100': liked }"
               :title="likeInfo"
               @click="like()"
-              ><FaIcon icon="thumbs-up" fixed-width /></a
+              ><FasThumbsUp class="w-fixed" /></a
             >&nbsp;<a
               v-if="station !== undefined"
               class="button-primary homepage"
               target="blank"
               :title="homepageInfo"
               :href="station.homepage"
-              ><FaIcon icon="home" fixed-width
+              ><FasHome class="w-fixed"
             /></a>
             {{ " " }}
             <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
               <a
-                :class="['button-primary', { active }]"
+                :class="['button-primary', { 'active icons:opacity-100': active }]"
                 :title="$t('general.manageTitles')"
                 @click="navigate"
               >
-                <FaIcon icon="history" fixed-width />
+                <FasHistory class="w-fixed" />
               </a>
             </RadLink>
             {{ " " }}
@@ -100,13 +98,9 @@
               v-if="info"
               class="button-primary"
               :title="$t('player.addBookmark')"
-              :class="{ active: bookmarked }"
+              :class="{ 'active icons:opacity-100': bookmarked }"
               @click="toggleBookmark({ station: station.name, info })"
-              ><FaIcon icon="music" /><FaIcon
-                icon="plus"
-                fixed-width
-                size="xs"
-                style="vertical-align: super"
+              ><FasMusic /><FasPlus class="relative -top-2 w-fixed text-icon-xs"
             /></a>
           </div>
           <div v-if="hasVideo" class="fullscreen-button-container">
@@ -115,7 +109,7 @@
               class="button-primary fullscreen"
               :title="$t('player.toggleFullscreen')"
               @click="toggleFullscreen()"
-              ><FaIcon :icon="fullscreen ? 'compress' : 'expand'" fixed-width
+              ><component :is="fullscreen ? 'FasCompress' : 'FasExpand'" class="w-fixed"
             /></a>
           </div>
         </div>
@@ -135,36 +129,36 @@
               class="button-primary previous-station"
               :title="$t('player.prevStation')"
               @click="playClosestStation(false)"
-              ><FaIcon icon="step-backward" fixed-width /></a
+              ><FasStepBackward class="w-fixed" /></a
             >&nbsp;<a class="button-primary" :title="$t('player.playStop')" @click="toggleStation()"
-              ><FaIcon :icon="station ? 'stop' : 'play'" fixed-width /></a
+              ><component :is="station ? 'FasStop' : 'FasPlay'" class="w-fixed" /></a
             >&nbsp;<a
               class="button-primary next-station"
               :title="$t('player.nextStation')"
               @click="playClosestStation(true)"
-              ><FaIcon icon="step-forward" fixed-width
+              ><FasStepForward class="w-fixed"
             /></a>
             {{ " " }}
             <RadSlider v-model="volume">
               <template #minusIcon>
-                <FaIcon icon="volume-off" fixed-width />
+                <FasVolumeOff class="w-fixed" />
               </template>
               <template #plusIcon>
-                <FaIcon icon="volume-up" fixed-width />
+                <FasVolumeUp class="w-fixed" />
               </template>
             </RadSlider>
           </div>
           <div style="padding-bottom: 5px">
             <div v-show-slide="station !== undefined">
-              <div style="padding-top: 10px">
+              <div class="overflow-x-hidden text-ellipsis" style="padding-top: 10px">
                 <a
                   v-if="station"
                   class="like"
-                  :class="{ active: liked }"
+                  :class="{ 'active icons:opacity-100': liked }"
                   :title="likeInfo"
                   @click="like()"
                 >
-                  <FaIcon icon="thumbs-up" fixed-width style="width: 31px" />
+                  <FasThumbsUp class="w-7.75" />
                   <template v-if="likeCount !== undefined">{{ formattedlikeCount }} | </template>
                   <template v-if="liked">{{ $t("player.alreadyVoted") }}</template>
                   <template v-else>{{ $t("general.like.submit") }}</template>
@@ -172,7 +166,7 @@
               </div>
             </div>
             <div v-show-slide="!!station">
-              <div style="padding-top: 10px">
+              <div class="overflow-x-hidden text-ellipsis" style="padding-top: 10px">
                 <a
                   v-if="station"
                   class="homepage"
@@ -180,36 +174,31 @@
                   :title="homepageInfo"
                   :href="station.homepage"
                 >
-                  <FaIcon icon="home" fixed-width style="width: 31px" />{{
+                  <FasHome class="w-7.75" />{{
                     $t("general.visitHomepage")
-                  }}&nbsp;<FaIcon icon="external-link-alt" fixed-width />
+                  }}&nbsp;<FasExternalLinkAlt class="w-fixed" />
                 </a>
               </div>
             </div>
             <div>
-              <div style="padding-top: 10px">
+              <div class="overflow-x-hidden text-ellipsis" style="padding-top: 10px">
                 <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
-                  <a :class="{ active }" @click="navigate">
-                    <FaIcon icon="history" fixed-width style="width: 31px" />{{
-                      $t("general.manageTitles")
-                    }}
+                  <a :class="{ 'active icons:opacity-100': active }" @click="navigate">
+                    <FasHistory class="w-7.75" />{{ $t("general.manageTitles") }}
                   </a>
                 </RadLink>
               </div>
             </div>
             <div v-show-slide="!!info">
-              <div style="padding-top: 9px">
+              <div class="overflow-x-hidden text-ellipsis" style="padding-top: 10px">
                 <a
                   v-if="info"
-                  :class="{ active: bookmarked }"
+                  :class="{ 'active icons:opacity-100': bookmarked }"
                   @click="toggleBookmark({ station: station.name, info })"
                 >
-                  <FaIcon icon="music" /><FaIcon
-                    icon="plus"
-                    fixed-width
-                    size="xs"
-                    style="vertical-align: super"
-                  />{{ $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`) }}
+                  <FasMusic /><FasPlus class="relative -top-1.5 w-fixed text-icon-xs" />{{
+                    $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`)
+                  }}
                 </a>
               </div>
             </div>
@@ -232,6 +221,22 @@ import BookmarkHelper from "@/mixins/BookmarkHelper";
   components: {
     RadLink,
     RadSlider,
+    FasChevronDown,
+    FasStepBackward,
+    FasStop,
+    FasPlay,
+    FasStepForward,
+    FasSpinner,
+    FasThumbsUp,
+    FasHome,
+    FasHistory,
+    FasMusic,
+    FasPlus,
+    FasCompress,
+    FasExpand,
+    FasVolumeOff,
+    FasVolumeUp,
+    FasExternalLinkAlt,
   },
 })
 export default class RadPlayer extends Mixins(BookmarkHelper) {
@@ -404,7 +409,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
   toggleStation(): void {
     this._toggleStation().catch(() => {
       this.showToast({
-        icon: "exclamation-triangle",
+        icon: FasExclamationTriangle,
         message: this.$t("general.listEmpty[0]") as string,
       });
     });
@@ -496,13 +501,6 @@ hr {
 #info-box {
   font-size: 16px;
   margin-left: 5px;
-}
-#info-box > :last-child a {
-  display: block;
-  width: 100%;
-  max-width: fit-content;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 @media (max-width: 820px) {
   #video {

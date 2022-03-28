@@ -1,14 +1,14 @@
 <template>
   <RadDrawer id="search">
     <h3>
-      <FaIcon icon="search" fixed-width />
+      <FasSearch class="w-fixed" />
       {{ $t("general.findStations") }}
     </h3>
     <i18n path="search.credit.radioBrowser" tag="p">
       <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
-        >{{ $t("search.credit.free") }} <FaIcon icon="external-link-alt" fixed-width /></a
+        >{{ $t("search.credit.free") }} <FasExternalLinkAlt class="w-fixed" /></a
       ><a href="http://www.radio-browser.info" target="_blank" rel="noopener"
-        >Community Radio Browser <FaIcon icon="external-link-alt" fixed-width
+        >Community Radio Browser <FasExternalLinkAlt class="w-fixed"
       /></a>
     </i18n>
     <div>
@@ -29,7 +29,7 @@
             scrollDownIfLoaded();
           "
         /><button id="find-station" @click="scrollDownIfLoaded()">
-          <FaIcon icon="search" />
+          <FasSearch />
         </button>
       </div>
       <RadSearchOptions :options.sync="options" />
@@ -68,14 +68,14 @@
                     class="label highlighted"
                     style="font-weight: bold"
                   >
-                    <FaIcon :icon="sortIcon" />
+                    <component :is="sortIcon" />
                     {{ " " }}
                     <template v-if="result[options.order] !== ''">{{
                       numericalOrder
                         ? result[options.order].toLocaleString($i18n.locale)
                         : result[options.order]
                     }}</template>
-                    <FaIcon v-else icon="question" />
+                    <FasQuestion v-else />
                   </span>
                 </RadTags>
               </template>
@@ -84,22 +84,22 @@
           <p v-if="moreExpected || moreAvailable" id="load-more">
             <span v-if="moreExpected" style="margin: auto">
               <template v-if="empty">
-                <FaIcon :icon="['far', 'meh']" fixed-width />{{ $t("search.noMatches") }}
+                <FarMeh class="w-fixed" />{{ $t("search.noMatches") }}
               </template>
               <template v-else>
-                <FaIcon icon="spinner" fixed-width spin />{{ $t("search.loading") }}
+                <FasSpinner class="w-fixed animate-spin" />{{ $t("search.loading") }}
               </template>
             </span>
             <button v-else @click="loadMore">
-              <FaIcon icon="search" fixed-width />
+              <FasSearch class="w-fixed" />
               {{ $t("search.loadMore") }}
             </button>
           </p>
         </template>
         <p v-if="failed" style="font-size: 18px">
-          <FaIcon icon="exclamation-triangle" fixed-width />
+          <FasExclamationTriangle class="w-fixed" />
           {{ $t("search.error") }}
-          <a @click="reset"><FaIcon icon="redo" fixed-width />{{ $t("search.tryAgain") }}</a>
+          <a @click="reset"><FasRedo class="w-fixed" />{{ $t("search.tryAgain") }}</a>
         </p>
       </div>
     </div>
@@ -125,6 +125,13 @@ let source = network.CancelToken.source();
     RadTags,
     RadResult,
     RadSearchOptions,
+    FasSearch,
+    FasExternalLinkAlt,
+    FasQuestion,
+    FarMeh,
+    FasSpinner,
+    FasExclamationTriangle,
+    FasRedo,
   },
 })
 export default class RadSearch extends Vue {
@@ -179,15 +186,15 @@ export default class RadSearch extends Vue {
     return this.options.order === "clickcount" || this.options.order === "votes";
   }
 
-  get sortIcon(): string | undefined {
+  get sortIcon(): any {
     const icons = {
       name: undefined,
-      country: "flag",
-      state: "map-marker",
-      language: "comment-dots",
-      codec: "file-audio",
-      clickcount: "play",
-      votes: "thumbs-up",
+      country: FasFlag,
+      state: FasMapMarker,
+      language: FasCommentDots,
+      codec: FasFileAudio,
+      clickcount: FasPlay,
+      votes: FasThumbsUp,
     };
 
     return icons[this.options.order as keyof typeof icons];

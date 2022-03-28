@@ -1,15 +1,11 @@
 <template>
   <RadDrawer id="title-manager">
     <h3>
-      <FaIcon icon="history" fixed-width />
+      <FasHistory class="w-fixed" />
       {{ $t("titleManager.title") }}
     </h3>
     <button @click="showTitles = !showTitles">
-      <FaIcon
-        icon="chevron-down"
-        fixed-width
-        :style="{ transform: `rotate(${showTitles ? -180 : 0}deg)` }"
-      />
+      <FasChevronDown :class="['w-fixed', { '-rotate-180': showTitles }]" />
       {{ $t("titleManager.recentTitles") }}
     </button>
     <div v-show-slide="showTitles" class="text-left">
@@ -28,11 +24,7 @@
     </div>
     <div style="display: table; width: 100%">
       <button @click="showBookmarks = !showBookmarks">
-        <FaIcon
-          icon="chevron-down"
-          fixed-width
-          :style="{ transform: `rotate(${showBookmarks ? -180 : 0}deg)` }"
-        />
+        <FasChevronDown :class="['w-fixed', { '-rotate-180': showBookmarks }]" />
         {{ $tc("titleManager.bookmark", 0) }}
       </button>
       <div
@@ -40,7 +32,7 @@
         class="download text-right"
         style="display: table-cell; font-size: 20px; width: 35px"
       >
-        <a @click="exportBookmarks()"><FaIcon icon="download" fixed-width /></a>
+        <a @click="exportBookmarks()"><FasDownload class="w-fixed" /></a>
       </div>
     </div>
     <div v-show-slide="showBookmarks" class="text-left">
@@ -89,6 +81,9 @@ import RadTitleRow from "@/components/RadTitleRow.vue";
   components: {
     RadDrawer,
     RadTitleRow,
+    FasHistory,
+    FasChevronDown,
+    FasDownload,
   },
 })
 export default class RadTitleManager extends Vue {

@@ -11,20 +11,20 @@
       @blur="handleBlur()"
       @keydown.enter="handleEnterPress()"
     />
-    <div class="text-left" style="display: table-cell; white-space: nowrap">
-      <a v-show="active"><FaIcon icon="check" fixed-width /></a>
+    <div class="text-left icons:w-fixed" style="display: table-cell; white-space: nowrap">
+      <a v-show="active"><FasCheck /></a>
       <a v-show="!active" @click="input.focus()">
-        <FaIcon icon="edit" fixed-width />
+        <FasEdit />
       </a>
       <template v-if="!isNewList">
         <a @click="exportList()">
-          <FaIcon icon="download" fixed-width />
+          <FasDownload />
         </a>
         <a @click="change()">
-          <FaIcon icon="search" fixed-width />
+          <FasSearch />
         </a>
         <a v-show="removable" @click="remove()">
-          <FaIcon icon="trash" fixed-width />
+          <FasTrash />
         </a>
       </template>
     </div>
@@ -39,7 +39,15 @@ import { navigate } from "@/common/routing";
 import ListHelper from "@/mixins/ListHelper";
 import { ModalType } from "@/store";
 
-@Component
+@Component({
+  components: {
+    FasCheck,
+    FasEdit,
+    FasDownload,
+    FasSearch,
+    FasTrash,
+  },
+})
 export default class RadListInput extends Mixins(ListHelper) {
   active = false;
 

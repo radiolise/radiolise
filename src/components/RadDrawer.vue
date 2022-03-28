@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="menu-buttons">
+    <div class="menu-buttons icons:w-fixed icons:text-icon-lg">
       <RadLink v-if="!isMenu" v-slot="{ navigate }" to="menu">
         <a @click="navigate">
-          <FaIcon icon="bars" fixed-width size="lg" />
+          <FasBars />
         </a>
       </RadLink>
       {{ " " }}
       <RadLink v-slot="{ navigate }" :to="null">
         <a @click="navigate">
-          <FaIcon icon="times-circle" fixed-width size="lg" />
+          <FasTimesCircle />
         </a>
       </RadLink>
     </div>
@@ -24,6 +24,8 @@ import RadLink from "./RadLink.vue";
 @Component({
   components: {
     RadLink,
+    FasBars,
+    FasTimesCircle,
   },
 })
 export default class RadDrawer extends Vue {

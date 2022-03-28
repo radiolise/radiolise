@@ -18,7 +18,7 @@
       @error="handleError()"
     />
     <div v-if="hasVideo && loading" class="spin-container">
-      <FaIcon icon="spinner" spin size="4x" />
+      <FasSpinner class="animate-spin text-[4em]" />
     </div>
   </div>
 </template>
@@ -37,7 +37,11 @@ import { TranslateResult } from "vue-i18n";
 let source = network.CancelToken.source();
 let hls: Hls | undefined;
 
-@Component
+@Component({
+  components: {
+    FasSpinner,
+  },
+})
 export default class RadMedia extends Vue {
   hasVideo = false;
   triedUrls = [] as string[];

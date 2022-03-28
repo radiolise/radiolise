@@ -1,7 +1,7 @@
 <template>
   <RadDrawer>
     <h3>
-      <FaIcon icon="keyboard" fixed-width />
+      <FasKeyboard class="w-fixed" />
       {{ $t("hotkeys.title") }}
     </h3>
     <div class="content">
@@ -36,6 +36,7 @@ import keyBindings from "@/common/hotkeys";
 @Component({
   components: {
     RadDrawer,
+    FasKeyboard,
   },
 })
 export default class RadHotkeyReference extends Vue {

@@ -5,16 +5,16 @@
       <h3 style="margin-bottom: 0">
         {{ $t("general.listEmpty[0]") }}
       </h3>
-      <div class="button-group">
+      <div class="button-group icons:w-fixed">
         <RadLink v-slot="{ active, navigate }" to="search" toggle>
           <a :class="['button', { active }]" @click="navigate">
-            <FaIcon icon="search" fixed-width />
+            <FasSearch />
             {{ $t("general.findStations") }}
           </a>
         </RadLink>
         <RadLink v-slot="{ active, navigate }" to="import-wizard" :props="{ type: 'list' }" toggle>
           <a :class="['button', { active }]" @click="navigate">
-            <FaIcon icon="file-import" fixed-width />
+            <FasFileImport />
             {{ $t("general.importBackup") }}
           </a>
         </RadLink>
@@ -33,6 +33,8 @@ import RadLink from "./RadLink.vue";
   components: {
     RadHappyBird,
     RadLink,
+    FasSearch,
+    FasFileImport,
   },
 })
 export default class RadEmptyList extends Vue {}

@@ -14,12 +14,9 @@
         style="margin-bottom: 0"
         :class="{ active: bookmarked }"
         @click="toggleBookmark({ station: title.station, info: title.info })"
-        ><FaIcon icon="music" /><FaIcon
-          icon="plus"
-          fixed-width
-          size="xs"
-          style="vertical-align: super; margin: 0"
-        />{{ $tc("titleManager.bookmark", 1) }}</a
+        ><FasMusic /><FasPlus class="relative -top-2 m-0 w-fixed text-icon-xs" />{{
+          $tc("titleManager.bookmark", 1)
+        }}</a
       >
       <a
         class="button"
@@ -28,13 +25,13 @@
         )}&type=recording`"
         target="_blank"
         style="margin-bottom: 0"
-        ><FaIcon icon="search" fixed-width />MusicBrainz</a
+        ><FasSearch class="w-fixed" />MusicBrainz</a
       ><a
         v-if="isBookmark"
         class="button"
         style="margin-bottom: 0"
         @click="toggleBookmark({ station: title.station, info: title.info })"
-        ><FaIcon icon="times" fixed-width /><span>{{ $t("titleManager.remove") }}</span></a
+        ><FasTimes class="w-fixed" /><span>{{ $t("titleManager.remove") }}</span></a
       >
     </div>
   </div>
@@ -47,7 +44,14 @@ import { Getter, Action } from "vuex-class";
 
 import BookmarkHelper from "@/mixins/BookmarkHelper";
 
-@Component
+@Component({
+  components: {
+    FasMusic,
+    FasPlus,
+    FasSearch,
+    FasTimes,
+  },
+})
 export default class RadTitleRow extends Mixins(BookmarkHelper) {
   updateInterval: number | null = null;
   timeStamp: string | null = null;

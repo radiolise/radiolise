@@ -100,7 +100,7 @@ interface DropdownOption {
 
 interface Toast {
   message: string;
-  icon?: string;
+  icon?: any;
 }
 
 interface DialogProps {

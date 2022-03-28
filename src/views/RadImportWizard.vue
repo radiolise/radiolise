@@ -1,7 +1,7 @@
 <template>
   <RadDrawer>
     <h3>
-      <FaIcon icon="file-import" fixed-width />
+      <FasFileImport class="w-fixed" />
       {{ $t("general.importBackup") }}
     </h3>
     <p class="description">
@@ -64,13 +64,9 @@
         </template>
         <div class="button-group text-right">
           <RadLink v-slot="{ navigate }" :to="type === 'list' ? null : 'settings'">
-            <a class="button" @click="navigate">
-              <FaIcon icon="ban" /> {{ $t("general.cancel") }}
-            </a>
+            <a class="button" @click="navigate"><FasBan /> {{ $t("general.cancel") }}</a>
           </RadLink>
-          <a class="button" @click="importItems()">
-            <FaIcon icon="arrow-right" /> {{ $t("general.apply") }}
-          </a>
+          <a class="button" @click="importItems()"><FasArrowRight /> {{ $t("general.apply") }}</a>
         </div>
       </template>
     </div>
@@ -99,6 +95,9 @@ type Backup = Record<string, string | BackupKind>;
     RadLink,
     RadResult,
     RadTags,
+    FasFileImport,
+    FasBan,
+    FasArrowRight,
   },
 })
 export default class RadImportWizard extends Vue {

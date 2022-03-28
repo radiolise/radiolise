@@ -47,7 +47,7 @@ export default class Hotkeys extends Vue {
 
     if (station === undefined) {
       this.showToast({
-        icon: "exclamation-triangle",
+        icon: FasExclamationTriangle,
         message: this.$t("hotkeys.onScreenToasts.notExisting", [index]) as string,
       });
       return;

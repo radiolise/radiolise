@@ -1,7 +1,7 @@
 <template>
   <RadDrawer>
     <h3>
-      <FaIcon icon="list-alt" fixed-width />
+      <FasListAlt class="w-fixed" />
       {{ $t("general.stationLists") }}
     </h3>
     <p class="description">{{ $t("listManager.description") }}</p>
@@ -20,13 +20,11 @@
       <div class="button-group text-right">
         <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'list' }">
           <a class="button" @click="navigate">
-            <FaIcon icon="file-import" />
+            <FasFileImport />
             {{ $t("general.importBackup") }}
           </a>
         </RadLink>
-        <a class="button" @click="adding = true">
-          <FaIcon icon="plus" /> {{ $t("listManager.newList") }}
-        </a>
+        <a class="button" @click="adding = true"><FasPlus /> {{ $t("listManager.newList") }}</a>
       </div>
     </div>
   </RadDrawer>
@@ -45,6 +43,9 @@ import RadListInput from "@/components/RadListInput.vue";
     RadDrawer,
     RadLink,
     RadListInput,
+    FasListAlt,
+    FasFileImport,
+    FasPlus,
   },
 })
 export default class RadListManager extends Vue {

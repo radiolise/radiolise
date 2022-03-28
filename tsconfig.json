@@ -14,13 +14,14 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "baseUrl": ".",
-    "types": ["webpack-env"],
+    "types": ["webpack-env", "unplugin-icons/types/vue"],
     "paths": {
       "@/*": ["src/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
+    "auto-imports.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",

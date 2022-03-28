@@ -32,7 +32,7 @@
     <transition name="fade">
       <div v-if="toast !== null" id="toast">
         <div>
-          <FaIcon v-if="toast.icon !== undefined" :icon="toast.icon" fixed-width />
+          <component :is="toast.icon" v-if="toast.icon" class="w-fixed" />
           {{ toast.message }}
         </div>
       </div>
@@ -55,14 +55,14 @@
                 v-show="modalOptions.closeable"
                 style="position: absolute; right: 26px; top: 26px"
               >
-                <a @click="closeModal()"><FaIcon icon="times" fixed-width size="lg" /></a>
+                <a @click="closeModal()"><FasTimes class="w-fixed text-icon-lg" /></a>
               </div>
               <div style="font-size: 20px; font-weight: bold; margin-bottom: 22px">
                 {{ modalTitle }}
               </div>
               <div style="display: table">
                 <div v-if="modalIcon !== ''" style="display: table-cell; padding-right: 5px">
-                  <FaIcon :icon="modalIcon" style="opacity: 0.7" />
+                  <component :is="modalIcon" class="opacity-70" />
                 </div>
                 <div style="display: table-cell">
                   <template v-for="(line, index) in modalOptions.message.split('\n')">
@@ -77,9 +77,8 @@
                 :key="button"
                 class="button"
                 @click="modalOptions.handleButtonClicked(i)"
-                ><FaIcon v-if="isNegativeButton(button)" icon="ban" /><FaIcon
+                ><FasBan v-if="isNegativeButton(button)" /><FasCheck
                   v-if="isPositiveButton(button)"
-                  icon="check"
                 />
                 {{ button }}</a
               >
@@ -115,6 +114,9 @@ import RadTitleManager from "@/views/RadTitleManager.vue";
   components: {
     RadBanner,
     RadLink,
+    FasTimes,
+    FasBan,
+    FasCheck,
   },
 })
 export default class RadDialogLayer extends Vue {
@@ -159,18 +161,18 @@ export default class RadDialogLayer extends Vue {
     return this.modalOptions?.title || (this.$t("general.note") as string);
   }
 
-  get modalIcon(): string {
+  get modalIcon(): any {
     switch (this.modalOptions?.type) {
       case ModalType.ERROR:
-        return "exclamation-circle";
+        return FasExclamationCircle;
       case ModalType.QUESTION:
-        return "question-circle";
+        return FasQuestionCircle;
       case ModalType.WARNING:
-        return "exclamation-triangle";
+        return FasExclamationTriangle;
       case ModalType.INFO:
-        return "info-circle";
+        return FasInfoCircle;
       default:
-        return "";
+        return false;
     }
   }
 

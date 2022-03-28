@@ -2,11 +2,9 @@
   <div>
     <div id="more-options">
       <a @click="showOptions = !showOptions"
-        ><FaIcon
-          icon="chevron-down"
-          fixed-width
-          :style="{ transform: `rotate(${showOptions ? -180 : 0}deg)` }"
-        />{{ $t(`search.${showOptions ? "hideOptions" : "showOptions"}`) }}</a
+        ><FasChevronDown :class="['w-fixed', { '-rotate-180': showOptions }]" />{{
+          $t(`search.${showOptions ? "hideOptions" : "showOptions"}`)
+        }}</a
       >
     </div>
     <div id="filters" v-show-slide="showOptions">
@@ -14,7 +12,7 @@
       <div class="text-left" style="display: table; width: 100%">
         <div style="padding: 5px 0; display: table-row; overflow: hidden">
           <div style="display: table-cell; white-space: nowrap">
-            <FaIcon icon="filter" style="opacity: 0.5" />
+            <FasFilter class="opacity-50" />
             {{ $t("search.filters.label") }}:{{ "\xa0" }}
           </div>
           <div style="display: table-cell; width: 100%">
@@ -22,12 +20,12 @@
               <div style="display: table">
                 1
                 <div style="display: table-cell; white-space: nowrap">
-                  <FaIcon icon="exclamation-triangle" fixed-width />{{ "\xa0" }}
+                  <FasExclamationTriangle class="w-fixed" />{{ "\xa0" }}
                 </div>
                 <div>
                   {{ $t("search.optionsUnavailable") }}
                   <a @click="loadFilters()"
-                    ><FaIcon icon="redo" fixed-width />{{ $t("search.tryAgain") }}</a
+                    ><FasRedo class="w-fixed" />{{ $t("search.tryAgain") }}</a
                   >
                 </div>
               </div>
@@ -69,7 +67,7 @@
         </div>
         <div style="padding: 5px 0; display: table-row">
           <div style="display: table-cell; white-space: nowrap">
-            <FaIcon icon="sort" style="opacity: 0.5" />
+            <FasSort class="opacity-50" />
             {{ $t("search.order.sortBy") }}{{ "\xa0" }}
           </div>
           <div style="display: table-cell; width: 100%">
@@ -93,7 +91,7 @@
       </div>
       <div class="text-left" style="padding-top: 10px">
         <span style="cursor: help" :title="$t('search.bitrate.description')"
-          ><FaIcon icon="wave-square" style="opacity: 0.5" /> {{ $t("search.bitrate.label") }}</span
+          ><FasWaveSquare class="opacity-50" /> {{ $t("search.bitrate.label") }}</span
         >:
         <RadRangeInput
           style="display: inline-block; white-space: nowrap"
@@ -131,6 +129,12 @@ import RadTagInput from "@/components/RadTagInput.vue";
     RadDropdown,
     RadRangeInput,
     RadTagInput,
+    FasChevronDown,
+    FasFilter,
+    FasExclamationTriangle,
+    FasRedo,
+    FasSort,
+    FasWaveSquare,
   },
 })
 export default class RadSearchOptions extends Vue {
@@ -226,7 +230,7 @@ export default class RadSearchOptions extends Vue {
   text-align: left;
   padding-bottom: 10px;
 }
-#more-options svg {
-  transition: transform 0.3s;
+#more-options .icon {
+  transition: opacity 0.2s, transform 0.3s;
 }
 </style>

@@ -2,14 +2,18 @@
   <div>
     <div class="play-button">
       <div>
-        <FaIcon :icon="overlay" fixed-width :spin="overlay === 'spinner'" />
+        <component :is="overlay" :class="['w-fixed', { 'animate-spin': buffering }]" />
       </div>
     </div>
     <div class="icon-container">
-      <div v-show="loaded" v-if="settings.loadpolicy" class="icon">
+      <div v-show="loaded" v-if="settings.loadpolicy" class="station-icon">
         <img ref="image" :src="url" alt="Logo" @load="hidePlaceholder()" />
       </div>
-      <div v-if="!loaded" class="icon" :style="{ background: `hsl(${station.hue}, 50%, 50%)` }">
+      <div
+        v-if="!loaded"
+        class="station-icon"
+        :style="{ background: `hsl(${station.hue}, 50%, 50%)` }"
+      >
         <span>{{ station.name[0].toUpperCase() }}</span>
       </div>
     </div>
@@ -48,11 +52,19 @@ export default class RadIcon extends Vue {
   }
 
   get overlay(): string {
-    if (this.currentStation?.id === this.station.id) {
-      return this.loading ? "spinner" : "stop";
+    if (this.buffering) {
+      return FasSpinner;
     }
 
-    return "play";
+    return this.active ? FasStop : FasPlay;
+  }
+
+  get active(): boolean {
+    return this.currentStation?.id === this.station.id;
+  }
+
+  get buffering(): boolean {
+    return this.active && this.loading;
   }
 
   @Watch("settings.loadpolicy")
@@ -100,7 +112,7 @@ export default class RadIcon extends Vue {
   overflow: hidden;
   box-shadow: 0 0 1px #000;
 }
-.icon {
+.station-icon {
   display: flex;
   align-items: center;
   width: 100%;
@@ -111,10 +123,10 @@ export default class RadIcon extends Vue {
   background: #fff;
   border-radius: 50%;
 }
-.icon > img {
+.station-icon > img {
   width: 100%;
 }
-.icon > span {
+.station-icon > span {
   width: 100%;
 }
 </style>

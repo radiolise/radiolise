@@ -4,16 +4,14 @@
       <transition name="progress" appear>
         <div id="progress-bar" :key="animationTrigger" :class="{ active: autoHide }" />
       </transition>
-      <div style="display: table; padding: 10px; margin: 0 auto; max-width: 800px">
-        <span style="padding: 14px 20px; float: left"
-          ><FaIcon icon="info-circle" fixed-width /> {{ message }}</span
-        >
+      <div
+        class="icons:w-fixed"
+        style="display: table; padding: 10px; margin: 0 auto; max-width: 800px"
+      >
+        <span style="padding: 14px 20px; float: left"><FasInfoCircle /> {{ message }}</span>
         <span style="white-space: nowrap; float: right"
-          ><a class="button" @click="undo()"
-            ><FaIcon icon="undo" fixed-width />{{ $t("general.undo") }}</a
-          ><a class="button" @click="confirm()"
-            ><FaIcon icon="check" fixed-width />{{ $t("general.ok") }}</a
-          ></span
+          ><a class="button" @click="undo()"><FasUndo />{{ $t("general.undo") }}</a
+          ><a class="button" @click="confirm()"><FasCheck />{{ $t("general.ok") }}</a></span
         >
       </div>
     </div>
@@ -26,7 +24,13 @@ import { State, Getter, Action } from "vuex-class";
 import { SearchStats, UndoableEvent } from "@/store";
 import { navigate } from "@/common/routing";
 
-@Component
+@Component({
+  components: {
+    FasInfoCircle,
+    FasUndo,
+    FasCheck,
+  },
+})
 export default class RadBanner extends Vue {
   timer?: number;
   message = "";
