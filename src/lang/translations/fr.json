@@ -289,9 +289,6 @@
     "loadIcons": {
       "name": "Charger les icônes"
     },
-    "transitions": {
-      "name": "Activer les transitions"
-    },
     "sleep": {
       "name": "@:sleepTimer.name",
       "description": "Arrête l’écoute du flux automatiquement après un certain temps (en minutes).",

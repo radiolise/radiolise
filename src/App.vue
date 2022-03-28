@@ -9,7 +9,6 @@
       'fixed-player': fixedPlayer,
       'fullscreen': fullscreen,
       'has-video': hasVideo,
-      'no-transitions': !transitions,
       'no-navbar': !navbarShown,
     }"
     :style="{
@@ -107,10 +106,6 @@ export default class App extends HelperMixins {
 
   get relaxModeAllowed(): boolean {
     return this.settings.relax && this.playing && !this.hasVideo;
-  }
-
-  get transitions(): boolean {
-    return this.settings.transitions;
   }
 
   async created(): Promise<void> {

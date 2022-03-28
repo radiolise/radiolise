@@ -9,7 +9,6 @@ export const defaultSettings: Settings = {
   sleepTimeout: 5,
   changecolor: false,
   volume: 100,
-  transitions: true,
   loadpolicy: true,
   language: "auto",
 };

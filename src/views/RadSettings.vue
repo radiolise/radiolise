@@ -100,9 +100,6 @@
         <RadCheck v-model="settings.loadpolicy" setting>
           {{ $t("settings.loadIcons.name") }}
         </RadCheck>
-        <RadCheck v-model="settings.transitions" setting>
-          {{ $t("settings.transitions.name") }}
-        </RadCheck>
         <div>
           <strong>{{ $t("settings.volume") }}</strong>
           {{ " " }}

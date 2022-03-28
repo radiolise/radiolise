@@ -8,7 +8,6 @@ interface OldSettings {
   "relax-timeout": number;
   "changecolor": boolean;
   "volume": number;
-  "transitions": boolean;
   "loadpolicy": boolean;
   "language": string;
 }
@@ -66,7 +65,6 @@ async function migrateData(memory: OldMemory): Promise<Memory> {
       sleepTimeout: defaultSettings.sleepTimeout,
       changecolor: settings.changecolor ?? settings.theme === 3,
       volume: settings.volume,
-      transitions: settings.transitions,
       loadpolicy: settings.loadpolicy,
       language: settings.language,
     },

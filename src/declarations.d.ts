@@ -32,7 +32,6 @@ interface Settings {
   sleepTimeout: number;
   changecolor: boolean;
   volume: number;
-  transitions: boolean;
   loadpolicy: boolean;
   language: string;
 }
