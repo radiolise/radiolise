@@ -9,19 +9,29 @@
         </RadLink>
         <div>
           <RadLink v-slot="{ active, navigate }" to="search" toggle>
-            <button :aria-label="$t('general.findStations')" :class="{ active }" @click="navigate">
-              <FasSearch /><span> {{ $t("general.findStations") }}</span>
-            </button>
+            <RadMenuButton
+              :aria-label="$t('general.findStations')"
+              :active="active"
+              @click="navigate"
+            >
+              <FasSearch /><span :class="['hidden md:inline', { 'lg:hidden xl:inline': dialog }]">
+                {{ $t("general.findStations") }}</span
+              >
+            </RadMenuButton>
           </RadLink>
           <RadLink v-slot="{ active, navigate }" to="settings" toggle>
-            <button :aria-label="$t('general.settings')" :class="{ active }" @click="navigate">
-              <FasCog /><span> {{ $t("general.settings") }}</span>
-            </button>
+            <RadMenuButton :aria-label="$t('general.settings')" :active="active" @click="navigate">
+              <FasCog /><span :class="['hidden md:inline', { 'lg:hidden xl:inline': dialog }]">
+                {{ $t("general.settings") }}</span
+              >
+            </RadMenuButton>
           </RadLink>
           <RadLink v-slot="{ active, navigate }" to="menu" toggle>
-            <button :aria-label="$t('general.more')" :class="{ active }" @click="navigate">
-              <FasBars /><span> {{ $t("general.more") }}</span>
-            </button>
+            <RadMenuButton :aria-label="$t('general.more')" :active="active" @click="navigate">
+              <FasBars /><span :class="['hidden md:inline', { 'lg:hidden xl:inline': dialog }]">
+                {{ $t("general.more") }}</span
+              >
+            </RadMenuButton>
           </RadLink>
         </div>
         <RadPlayer />
@@ -38,11 +48,11 @@
             <RadEmptyList v-if="listEmpty" />
             <RadStationList v-else />
           </div>
-          <p v-if="!listEmpty" class="text-right">
+          <p v-if="!listEmpty" class="my-4 py-5 text-right">
             <RadLink v-slot="{ active, navigate }" to="search" toggle>
-              <a :class="['button', { active }]" @click="navigate">
+              <RadButton :active="active" @click="navigate">
                 <FasSearch class="w-fixed" />{{ $t("general.findStations") }}
-              </a>
+              </RadButton>
             </RadLink>
           </p>
         </div>
@@ -55,22 +65,27 @@
 import { Component, Watch, Mixins } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import ScrollHelper from "@/mixins/ScrollHelper";
+import RadButton from "./RadButton.vue";
 import RadEmptyList from "./RadEmptyList.vue";
 import RadLink from "./RadLink.vue";
 import RadListMenu from "./RadListMenu.vue";
 import RadLogo from "./RadLogo.vue";
 import RadMedia from "./RadMedia.vue";
+import RadMenuButton from "./RadMenuButton.vue";
 import RadPlayer from "./RadPlayer.vue";
 import RadStationList from "./RadStationList.vue";
 
+import ScrollHelper from "@/mixins/ScrollHelper";
+
 @Component({
   components: {
+    RadButton,
     RadEmptyList,
     RadLink,
     RadListMenu,
     RadLogo,
     RadMedia,
+    RadMenuButton,
     RadPlayer,
     RadStationList,
     FasSearch,

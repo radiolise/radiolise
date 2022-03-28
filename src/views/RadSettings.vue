@@ -131,12 +131,15 @@
       </div>
       <div class="button-group text-right">
         <RadLink v-slot="{ navigate }" :to="null">
-          <a class="button" @click="navigate"><FasBan /> {{ $t("settings.discard") }}</a>
+          <RadButton @click="navigate">
+            <FasBan />
+            {{ $t("settings.discard") }}
+          </RadButton>
         </RadLink>
-        <a class="button" @click="form.submit.click()">
+        <RadButton @click="form.submit.click()">
           <FasCheck />
           {{ $t("general.apply") }}
-        </a>
+        </RadButton>
         <input type="submit" name="submit" style="display: none" />
       </div>
     </form>
@@ -165,6 +168,7 @@ import { State, Getter, Action } from "vuex-class";
 import { saveFile, convertToYaml } from "@/common/downloader";
 import { navigate } from "@/common/routing";
 
+import RadButton from "@/components/RadButton.vue";
 import RadCheck from "@/components/RadCheck.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadDropdown from "@/components/RadDropdown.vue";
@@ -173,6 +177,7 @@ import RadLink from "@/components/RadLink.vue";
 
 @Component({
   components: {
+    RadButton,
     RadCheck,
     RadDrawer,
     RadDropdown,

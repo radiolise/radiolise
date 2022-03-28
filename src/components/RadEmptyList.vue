@@ -7,16 +7,16 @@
       </h3>
       <div class="button-group icons:w-fixed">
         <RadLink v-slot="{ active, navigate }" to="search" toggle>
-          <a :class="['button', { active }]" @click="navigate">
+          <RadButton class="text-lg" :active="active" @click="navigate">
             <FasSearch />
             {{ $t("general.findStations") }}
-          </a>
+          </RadButton>
         </RadLink>
         <RadLink v-slot="{ active, navigate }" to="import-wizard" :props="{ type: 'list' }" toggle>
-          <a :class="['button', { active }]" @click="navigate">
+          <RadButton class="text-lg" :active="active" @click="navigate">
             <FasFileImport />
             {{ $t("general.importBackup") }}
-          </a>
+          </RadButton>
         </RadLink>
       </div>
     </div>
@@ -26,11 +26,13 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
+import RadButton from "./RadButton.vue";
 import RadHappyBird from "./RadHappyBird.vue";
 import RadLink from "./RadLink.vue";
 
 @Component({
   components: {
+    RadButton,
     RadHappyBird,
     RadLink,
     FasSearch,
@@ -54,8 +56,5 @@ export default class RadEmptyList extends Vue {}
   width: 200px;
   max-width: 100%;
   margin-top: 20px;
-}
-.button {
-  font-size: 18px;
 }
 </style>

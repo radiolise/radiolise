@@ -4,10 +4,10 @@
       <FasHistory class="w-fixed" />
       {{ $t("titleManager.title") }}
     </h3>
-    <button @click="showTitles = !showTitles">
+    <RadMenuButton class="w-full text-left" @click="showTitles = !showTitles">
       <FasChevronDown :class="['w-fixed', { '-rotate-180': showTitles }]" />
       {{ $t("titleManager.recentTitles") }}
-    </button>
+    </RadMenuButton>
     <div v-show-slide="showTitles" class="text-left">
       <div v-if="history.length === 0" class="text-center" style="padding: 15px 0">
         {{ $t("titleManager.listEmpty") }}
@@ -23,10 +23,10 @@
       </div>
     </div>
     <div style="display: table; width: 100%">
-      <button @click="showBookmarks = !showBookmarks">
+      <RadMenuButton class="w-full text-left" @click="showBookmarks = !showBookmarks">
         <FasChevronDown :class="['w-fixed', { '-rotate-180': showBookmarks }]" />
         {{ $tc("titleManager.bookmark", 0) }}
-      </button>
+      </RadMenuButton>
       <div
         v-if="!bookmarksEmpty"
         class="download text-right"
@@ -74,12 +74,15 @@ import { Component, Vue } from "vue-property-decorator";
 import { format } from "date-fns";
 import { State, Getter, Action } from "vuex-class";
 import { downloadBookmarks } from "@/common/list-converter";
+
 import RadDrawer from "@/components/RadDrawer.vue";
+import RadMenuButton from "@/components/RadMenuButton.vue";
 import RadTitleRow from "@/components/RadTitleRow.vue";
 
 @Component({
   components: {
     RadDrawer,
+    RadMenuButton,
     RadTitleRow,
     FasHistory,
     FasChevronDown,

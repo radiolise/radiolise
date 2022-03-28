@@ -92,9 +92,9 @@
         <div class="important text-left">&lowast; {{ $t("editor.field.required") }}</div>
       </div>
       <div class="button-group text-right">
-        <a class="button" @click="finish()">
+        <RadButton @click="finish()">
           <FasCheck class="w-fixed" />{{ $t("general.done") }}
-        </a>
+        </RadButton>
         <input ref="submit-button" type="submit" name="submit" style="display: none" />
       </div>
     </form>
@@ -105,6 +105,7 @@
 import { Component, Prop, Ref, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
+import RadButton from "@/components/RadButton.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadInput from "@/components/RadInput.vue";
 import RadTagInput from "@/components/RadTagInput.vue";
@@ -114,6 +115,7 @@ import { navigate } from "@/common/routing";
 
 @Component({
   components: {
+    RadButton,
     RadDrawer,
     RadInput,
     RadTagInput,

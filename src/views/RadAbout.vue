@@ -34,24 +34,29 @@
       </i18n>
     </div>
     <p class="button-group">
-      <a class="button" :href="repoUrl" target="_blank" rel="noopener"
-        ><FabGitlab class="w-fixed" /> {{ $t("about.code") }} <FasExternalLinkAlt class="w-fixed"
-      /></a>
-      <a class="button" :href="issuesUrl" target="_blank" rel="noopener"
-        ><FasComments class="w-fixed" />
+      <RadButton :href="repoUrl" target="_blank" rel="noopener">
+        <FabGitlab class="w-fixed" />
+        {{ $t("about.code") }}
+        <FasExternalLinkAlt class="w-fixed" />
+      </RadButton>
+      <RadButton :href="issuesUrl" target="_blank" rel="noopener">
+        <FasComments class="w-fixed" />
         {{ $t("about.issues") }}
-        <FasExternalLinkAlt class="w-fixed"
-      /></a>
+        <FasExternalLinkAlt class="w-fixed" />
+      </RadButton>
     </p>
   </RadDrawer>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+
+import RadButton from "@/components/RadButton.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
 
 @Component({
   components: {
+    RadButton,
     RadDrawer,
     FasCodeBranch,
     FasExternalLinkAlt,

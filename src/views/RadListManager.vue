@@ -19,12 +19,15 @@
       </div>
       <div class="button-group text-right">
         <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'list' }">
-          <a class="button" @click="navigate">
+          <RadButton @click="navigate">
             <FasFileImport />
             {{ $t("general.importBackup") }}
-          </a>
+          </RadButton>
         </RadLink>
-        <a class="button" @click="adding = true"><FasPlus /> {{ $t("listManager.newList") }}</a>
+        <RadButton @click="adding = true">
+          <FasPlus />
+          {{ $t("listManager.newList") }}
+        </RadButton>
       </div>
     </div>
   </RadDrawer>
@@ -34,12 +37,14 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
+import RadButton from "@/components/RadButton.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadLink from "@/components/RadLink.vue";
 import RadListInput from "@/components/RadListInput.vue";
 
 @Component({
   components: {
+    RadButton,
     RadDrawer,
     RadLink,
     RadListInput,

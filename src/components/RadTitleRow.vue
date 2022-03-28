@@ -7,32 +7,35 @@
       <span>{{ title.station }}</span
       ><span style="margin-left: 15px; float: right">{{ timeStamp }}</span>
     </div>
-    <div v-show-slide="active" class="options" @click.stop>
-      <a
-        v-if="!isBookmark"
-        class="button"
-        style="margin-bottom: 0"
-        :class="{ active: bookmarked }"
-        @click="toggleBookmark({ station: title.station, info: title.info })"
-        ><FasMusic /><FasPlus class="relative -top-2 m-0 w-fixed text-icon-xs" />{{
-          $tc("titleManager.bookmark", 1)
-        }}</a
-      >
-      <a
-        class="button"
-        :href="`https://musicbrainz.org/search?query=${encodeURIComponent(
-          title.info
-        )}&type=recording`"
-        target="_blank"
-        style="margin-bottom: 0"
-        ><FasSearch class="w-fixed" />MusicBrainz</a
-      ><a
-        v-if="isBookmark"
-        class="button"
-        style="margin-bottom: 0"
-        @click="toggleBookmark({ station: title.station, info: title.info })"
-        ><FasTimes class="w-fixed" /><span>{{ $t("titleManager.remove") }}</span></a
-      >
+    <div v-show-slide="active">
+      <div class="cursor-default pt-2.5" @click.stop>
+        <RadButton
+          v-if="!isBookmark"
+          class="px-3 py-1.5 text-lg"
+          :active="bookmarked"
+          @click="toggleBookmark({ station: title.station, info: title.info })"
+        >
+          <FasMusic /><FasPlus class="relative -top-2 m-0 w-fixed text-icon-xs" />{{
+            $tc("titleManager.bookmark", 1)
+          }}
+        </RadButton>
+        <RadButton
+          class="px-3 py-1.5 text-lg"
+          :href="`https://musicbrainz.org/search?query=${encodeURIComponent(
+            title.info
+          )}&type=recording`"
+          target="_blank"
+        >
+          <FasSearch class="w-fixed" />MusicBrainz
+        </RadButton>
+        <RadButton
+          v-if="isBookmark"
+          class="px-3 py-1.5 text-lg"
+          @click="toggleBookmark({ station: title.station, info: title.info })"
+        >
+          <FasTimes class="w-fixed" />{{ $t("titleManager.remove") }}
+        </RadButton>
+      </div>
     </div>
   </div>
 </template>
@@ -42,10 +45,12 @@ import { Component, Prop, Mixins } from "vue-property-decorator";
 import { formatDistanceToNow } from "date-fns";
 import { Getter, Action } from "vuex-class";
 
+import RadButton from "./RadButton.vue";
 import BookmarkHelper from "@/mixins/BookmarkHelper";
 
 @Component({
   components: {
+    RadButton,
     FasMusic,
     FasPlus,
     FasSearch,
@@ -100,12 +105,5 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
 }
 .title-row:hover {
   background: rgba(0, 0, 0, 0.1);
-}
-.options {
-  cursor: default;
-}
-.options .button {
-  font-size: 18px;
-  padding: 2px 12px;
 }
 </style>

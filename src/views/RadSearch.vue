@@ -28,7 +28,11 @@
             query.blur();
             scrollDownIfLoaded();
           "
-        /><button id="find-station" @click="scrollDownIfLoaded()">
+        /><button
+          id="find-station"
+          class="opacity-70 duration-200 hover:opacity-100"
+          @click="scrollDownIfLoaded()"
+        >
           <FasSearch />
         </button>
       </div>
@@ -90,10 +94,10 @@
                 <FasSpinner class="w-fixed animate-spin" />{{ $t("search.loading") }}
               </template>
             </span>
-            <button v-else @click="loadMore">
+            <RadMenuButton v-else class="w-full" @click="loadMore">
               <FasSearch class="w-fixed" />
               {{ $t("search.loadMore") }}
-            </button>
+            </RadMenuButton>
           </p>
         </template>
         <p v-if="failed" style="font-size: 18px">
@@ -113,18 +117,20 @@ import { Getter, Action } from "vuex-class";
 import network, { findStations } from "@/common/network";
 
 import RadDrawer from "@/components/RadDrawer.vue";
-import RadTags from "@/components/RadTags.vue";
+import RadMenuButton from "@/components/RadMenuButton.vue";
 import RadResult from "@/components/RadResult.vue";
 import RadSearchOptions from "@/components/RadSearchOptions.vue";
+import RadTags from "@/components/RadTags.vue";
 
 let source = network.CancelToken.source();
 
 @Component({
   components: {
     RadDrawer,
-    RadTags,
+    RadMenuButton,
     RadResult,
     RadSearchOptions,
+    RadTags,
     FasSearch,
     FasExternalLinkAlt,
     FasQuestion,

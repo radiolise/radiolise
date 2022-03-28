@@ -8,11 +8,11 @@
         class="icons:w-fixed"
         style="display: table; padding: 10px; margin: 0 auto; max-width: 800px"
       >
-        <span style="padding: 14px 20px; float: left"><FasInfoCircle /> {{ message }}</span>
-        <span style="white-space: nowrap; float: right"
-          ><a class="button" @click="undo()"><FasUndo />{{ $t("general.undo") }}</a
-          ><a class="button" @click="confirm()"><FasCheck />{{ $t("general.ok") }}</a></span
-        >
+        <div style="padding: 14px 20px; float: left"><FasInfoCircle /> {{ message }}</div>
+        <div class="float-right whitespace-nowrap py-2.5">
+          <RadButton @click="undo()"><FasUndo />{{ $t("general.undo") }}</RadButton>
+          <RadButton @click="confirm()"><FasCheck />{{ $t("general.ok") }}</RadButton>
+        </div>
       </div>
     </div>
   </div>
@@ -24,8 +24,11 @@ import { State, Getter, Action } from "vuex-class";
 import { SearchStats, UndoableEvent } from "@/store";
 import { navigate } from "@/common/routing";
 
+import RadButton from "./RadButton.vue";
+
 @Component({
   components: {
+    RadButton,
     FasInfoCircle,
     FasUndo,
     FasCheck,
@@ -157,9 +160,6 @@ export default class RadBanner extends Vue {
 #banner {
   text-align: center;
   font-size: 20px;
-}
-#banner .button {
-  color: inherit !important;
 }
 #progress-bar.progress-enter-active {
   animation: progress 10s linear;

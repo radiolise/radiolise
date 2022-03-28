@@ -17,6 +17,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  a {
+    color: inherit !important;
+    cursor: pointer;
+    text-decoration: inherit;
+    white-space: nowrap;
+  }
+
+  button {
+    border: none;
+    font-family: inherit;
+    margin: 0;
+    background-color: transparent;
+    color: inherit;
+  }
+}
+
 @layer components {
   .icon {
     display: inline-block;
@@ -24,14 +41,11 @@
     transition: opacity 200ms, transform 400ms;
   }
 
-  a .icon,
-  button .icon {
+  a .icon {
     opacity: 0.7;
   }
 
-  a:hover .icon,
-  button:hover .icon,
-  button:active .icon {
+  a:hover .icon {
     opacity: 1;
   }
 }
@@ -68,7 +82,6 @@ body.no-overflow {
   bottom: 0;
   transition: none;
 }
-button,
 h1,
 h2 {
   font-weight: normal;
@@ -90,15 +103,8 @@ h2 {
   background: #f00 !important;
   color: #fff;
 }
-button {
-  font-family: inherit;
-}
-input,
-button {
+input {
   margin: 0;
-}
-a {
-  white-space: nowrap;
 }
 #logo path {
   opacity: 0.7;
@@ -166,27 +172,8 @@ main > div {
   opacity: 0 !important;
   pointer-events: none !important;
 }
-.button {
-  display: inline-block;
-  height: 28px;
-  line-height: 28px;
-  font-size: 20px;
-  margin: 10px 0;
-  padding: 5px 15px;
-  text-decoration: none;
-  transition: all 0.2s;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  border-radius: 3px;
-}
 .button-group {
   padding: 10px 0;
-}
-.button-group > .button {
-  margin: 0;
-}
-.button > .icon:first-child {
-  margin-left: -5px;
 }
 .button-primary {
   padding: 5px;
@@ -334,57 +321,10 @@ a.active .icon {
   margin-bottom: 2px;
   font-size: 12px;
 }
-#menu button,
-#title-manager button,
-.navbar-content > div > button,
-#load-more button {
-  height: 50px;
-  font-size: 20px;
-  background: none;
-  border: none;
-  padding: 0 10px;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s;
-  border-radius: 0;
-}
-#menu button,
-#title-manager button {
-  text-align: left;
-}
-#menu button,
-#title-manager button,
-#load-more button {
-  width: 100%;
-}
-#menu button:hover,
-#title-manager button:hover,
-.button:hover,
-.navbar-content > div > button:hover,
-#load-more button:hover {
-  color: var(--rad-primary-color);
-}
-#menu button:active,
-#title-manager button:active,
-.button:active,
-.navbar-content > div > button:active,
-#load-more button:active,
-button.active {
-  background: var(--rad-primary-color) !important;
-  color: #fff !important;
-}
-button.active .icon {
-  opacity: 1;
-}
 input:not(#search-field input):focus,
 #search-field:focus-within {
   background: rgba(0, 0, 0, 0.1);
   border-bottom: 2px solid var(--rad-primary-color) !important;
-}
-a {
-  cursor: pointer;
-  text-decoration: none;
 }
 h4 {
   margin-top: 0;

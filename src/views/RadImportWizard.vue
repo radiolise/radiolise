@@ -64,9 +64,9 @@
         </template>
         <div class="button-group text-right">
           <RadLink v-slot="{ navigate }" :to="type === 'list' ? null : 'settings'">
-            <a class="button" @click="navigate"><FasBan /> {{ $t("general.cancel") }}</a>
+            <RadButton @click="navigate"><FasBan /> {{ $t("general.cancel") }}</RadButton>
           </RadLink>
-          <a class="button" @click="importItems()"><FasArrowRight /> {{ $t("general.apply") }}</a>
+          <RadButton @click="importItems()"><FasArrowRight /> {{ $t("general.apply") }}</RadButton>
         </div>
       </template>
     </div>
@@ -79,6 +79,7 @@ import { Action } from "vuex-class";
 import { ModalOptions, ModalType } from "@/store";
 import { navigate } from "@/common/routing";
 
+import RadButton from "@/components/RadButton.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadDropZone from "@/components/RadDropZone.vue";
 import RadLink from "@/components/RadLink.vue";
@@ -90,6 +91,7 @@ type Backup = Record<string, string | BackupKind>;
 
 @Component({
   components: {
+    RadButton,
     RadDrawer,
     RadDropZone,
     RadLink,

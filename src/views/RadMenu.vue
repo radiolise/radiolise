@@ -2,50 +2,50 @@
   <RadDrawer id="menu" class="icons:w-fixed" is-menu>
     <h3><FasBars /> {{ $t("general.menu") }}</h3>
     <RadLink v-slot="{ navigate }" to="search">
-      <button @click="navigate">
+      <RadMenuButton class="w-full text-left" @click="navigate">
         <FasSearch />
         {{ $t("general.findStations") }}
-      </button>
+      </RadMenuButton>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="list-manager">
-      <button @click="navigate">
+      <RadMenuButton class="w-full text-left" @click="navigate">
         <FasListAlt />
         {{ $t("general.manageLists") }}
-      </button>
+      </RadMenuButton>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="title-manager">
-      <button @click="navigate">
+      <RadMenuButton class="w-full text-left" @click="navigate">
         <FasHistory />
         {{ $t("general.manageTitles") }}
-      </button>
+      </RadMenuButton>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'list' }">
-      <button @click="navigate">
+      <RadMenuButton class="w-full text-left" @click="navigate">
         <FasFileImport />
         {{ $t("general.importBackup") }}
-      </button>
+      </RadMenuButton>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="hotkeys">
-      <button @click="navigate">
+      <RadMenuButton class="w-full text-left" @click="navigate">
         <FasKeyboard />
         {{ $t("general.hotkeys") }}
-      </button>
+      </RadMenuButton>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="settings">
-      <button @click="navigate">
+      <RadMenuButton class="w-full text-left" @click="navigate">
         <FasCog />
         {{ $t("general.settings") }}
-      </button>
+      </RadMenuButton>
     </RadLink>
     <RadLink v-slot="{ navigate }" to="about">
-      <button @click="navigate">
+      <RadMenuButton class="w-full text-left" @click="navigate">
         <FasInfoCircle />
         {{ $t("general.learnMore") }}
-      </button>
+      </RadMenuButton>
     </RadLink>
     <div class="button-group text-right">
       <RadLink v-slot="{ navigate }" :to="null">
-        <a class="button" @click="navigate"><FasTimes /> {{ $t("menu.close") }}</a>
+        <RadButton @click="navigate"><FasTimes /> {{ $t("menu.close") }}</RadButton>
       </RadLink>
     </div>
   </RadDrawer>
@@ -53,13 +53,18 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+
+import RadButton from "@/components/RadButton.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadLink from "@/components/RadLink.vue";
+import RadMenuButton from "@/components/RadMenuButton.vue";
 
 @Component({
   components: {
+    RadButton,
     RadDrawer,
     RadLink,
+    RadMenuButton,
     FasBars,
     FasSearch,
     FasListAlt,

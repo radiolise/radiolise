@@ -71,17 +71,17 @@
                 </div>
               </div>
             </div>
-            <div style="display: flex; flex-direction: row-reverse; padding: 20px">
-              <a
+            <div class="flex flex-row-reverse px-5 py-7.5">
+              <RadButton
                 v-for="(button, i) in modalOptions.buttons"
                 :key="button"
-                class="button"
                 @click="modalOptions.handleButtonClicked(i)"
-                ><FasBan v-if="isNegativeButton(button)" /><FasCheck
+              >
+                <FasBan v-if="isNegativeButton(button)" /><FasCheck
                   v-if="isPositiveButton(button)"
                 />
-                {{ button }}</a
-              >
+                {{ button }}
+              </RadButton>
             </div>
           </div>
         </div>
@@ -96,6 +96,7 @@ import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
 import RadBanner from "./RadBanner.vue";
+import RadButton from "./RadButton.vue";
 import RadLink from "./RadLink.vue";
 
 import { ModalOptions, ModalType } from "@/store";
@@ -113,6 +114,7 @@ import RadTitleManager from "@/views/RadTitleManager.vue";
 @Component({
   components: {
     RadBanner,
+    RadButton,
     RadLink,
     FasTimes,
     FasBan,
@@ -250,11 +252,6 @@ export default class RadDialogLayer extends Vue {
   padding: 20px;
   margin: 0 auto;
   max-width: calc(100% - 40px);
-}
-#toast .button {
-  color: inherit;
-  font-weight: normal;
-  margin-bottom: -5px;
 }
 #drawers {
   transform: translateX(-200px);
