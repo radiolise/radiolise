@@ -28,7 +28,7 @@
         </div>
       </div>
     </RadLink>
-    <RadBottomDrawer />
+    <RadBanner />
     <transition name="fade">
       <div v-if="toast !== null" id="toast">
         <div>
@@ -96,7 +96,7 @@ import { Component as IComponent } from "vue";
 import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
-import RadBottomDrawer from "./RadBottomDrawer.vue";
+import RadBanner from "./RadBanner.vue";
 import RadLink from "./RadLink.vue";
 
 import { ModalOptions, ModalType } from "@/store";
@@ -113,7 +113,7 @@ import RadTitleManager from "@/views/RadTitleManager.vue";
 
 @Component({
   components: {
-    RadBottomDrawer,
+    RadBanner,
     RadLink,
   },
 })

@@ -67,7 +67,7 @@ input,
 .station-row.dragging {
   background: #3d3d3d;
 }
-#bottom-drawer,
+#banner,
 .media-controls {
   background: rgba(255, 255, 255, 0.9);
   color: #000;

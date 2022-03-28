@@ -1,6 +1,6 @@
 <template>
   <div style="pointer-events: all">
-    <div id="bottom-drawer" v-show-slide="shown">
+    <div id="banner" v-show-slide="shown">
       <transition name="progress" appear>
         <div id="progress-bar" :key="animationTrigger" :class="{ active: autoHide }" />
       </transition>
@@ -27,7 +27,7 @@ import { SearchStats, UndoableEvent } from "@/store";
 import { navigate } from "@/common/routing";
 
 @Component
-export default class RadBottomDrawer extends Vue {
+export default class RadBanner extends Vue {
   timer?: number;
   message = "";
   autoHide = false;
@@ -150,11 +150,11 @@ export default class RadBottomDrawer extends Vue {
 </script>
 
 <style scoped>
-#bottom-drawer {
+#banner {
   text-align: center;
   font-size: 20px;
 }
-#bottom-drawer .button {
+#banner .button {
   color: inherit !important;
 }
 #progress-bar.progress-enter-active {

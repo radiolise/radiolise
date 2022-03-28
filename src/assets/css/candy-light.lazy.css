@@ -99,7 +99,7 @@ input,
   background: #ddd;
 }
 #drawers,
-#bottom-drawer {
+#banner {
   background: rgba(34, 34, 34, 0.9);
   backdrop-filter: blur(10px);
   color: #fff;
