@@ -81,13 +81,11 @@ export default class RadStartup extends Vue {
   }
 
   reset(): void {
-    const warningMessage = `
-Important!
+    const warningMessage = `Important!
 
-If you proceed now, all saved data – including station lists, settings and bookmarks – will be permanently deleted.
+By proceeding, all save data – including station lists, settings and bookmarks – will get deleted. This cannot be undone.
 
-If you cancel, you can download a copy of the (possibly corrupted) storage data beforehand.
-`.trim();
+Otherwise, you can download a copy of the (possibly corrupted) save data beforehand.`;
 
     const confirmed = confirm(warningMessage);
 
