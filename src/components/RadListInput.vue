@@ -1,17 +1,19 @@
 <template>
-  <div v-show="shown" style="display: table-row">
-    <input
-      ref="input"
-      type="text"
-      class="list-name"
-      :placeholder="$t(isNewList ? 'listManager.specifyName' : 'general.newName')"
-      :value="name"
-      spellcheck="false"
-      @focus="handleFocus()"
-      @blur="handleBlur()"
-      @keydown.enter="handleEnterPress()"
-    />
-    <div class="text-left icons:w-fixed" style="display: table-cell; white-space: nowrap">
+  <div :class="['flex max-w-sm', { hidden: !shown }]">
+    <div class="px-2">
+      <input
+        ref="input"
+        type="text"
+        class="w-full border-b-2 border-b-mute-contrast/50 text-xl focus:border-b-accent focus:bg-black/10"
+        :placeholder="$t(isNewList ? 'listManager.specifyName' : 'general.newName')"
+        :value="name"
+        spellcheck="false"
+        @focus="handleFocus()"
+        @blur="handleBlur()"
+        @keydown.enter="handleEnterPress()"
+      />
+    </div>
+    <div class="table-cell whitespace-nowrap text-left icons:w-fixed">
       <a v-show="active"><FasCheck /></a>
       <a v-show="!active" @click="input.focus()">
         <FasEdit />
@@ -23,7 +25,7 @@
         <a @click="change()">
           <FasSearch />
         </a>
-        <a v-show="removable" @click="remove()">
+        <a :class="{ hidden: !removable }" @click="remove()">
           <FasTrash />
         </a>
       </template>

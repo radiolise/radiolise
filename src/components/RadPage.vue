@@ -1,13 +1,31 @@
 <template>
-  <div id="page">
-    <nav>
-      <div class="navbar-content">
+  <div
+    :class="[
+      'offset-horizontal relative z-10 flex transition-opacity',
+      relaxed ? 'opacity-0' : { 'opacity-50 lg:opacity-100': dialog },
+    ]"
+  >
+    <nav
+      :class="[
+        'action-bar offset-horizontal fixed top-0 left-0 z-20 box-content flex h-12.5 w-full bg-surface text-on-surface shadow-theme mobile:shadow-none',
+        {
+          'z-40 shadow-none transition-transform duration-500': fullscreen,
+          'mobile:border-b-0': !hasVideo,
+          '-translate-y-full': !navbarShown,
+          'border-b': !fixedPlayer,
+        },
+      ]"
+    >
+      <div class="max-w-230 flex-1 px-15 mobile:px-2.5">
         <RadLink v-slot="{ navigate }" to="menu" toggle>
-          <span @click="navigate">
-            <RadLogo /><span>{{ appTitle }}</span>
-          </span>
+          <div
+            class="group absolute cursor-pointer whitespace-nowrap px-1 py-2.5 text-[22px]"
+            @click="navigate"
+          >
+            <RadLogo /><span class="align-middle">{{ appTitle }}</span>
+          </div>
         </RadLink>
-        <div>
+        <div class="float-right whitespace-nowrap">
           <RadLink v-slot="{ active, navigate }" to="search" toggle>
             <RadMenuButton
               :aria-label="$t('general.findStations')"
@@ -37,13 +55,27 @@
         <RadPlayer />
       </div>
     </nav>
-    <main>
-      <div>
+    <div
+      :class="[
+        'max-w-230 flex-1 px-12.5 transition-all mobile:px-0',
+        { 'mobile:mt-12.5': !fullscreen },
+      ]"
+    >
+      <main
+        :class="[
+          'main rounded-tl rounded-br bg-surface text-on-surface mobile:rounded-none mobile:rounded-tl-none mobile:shadow-none',
+          {
+            'mt-25 mb-12.5 border-b shadow-theme mobile:m-0 mobile:border-0': !fullscreen,
+            'border-t': !hasVideo,
+            'overflow-hidden': !fixedPlayer,
+          },
+        ]"
+      >
         <RadPlayer>
           <RadMedia />
         </RadPlayer>
-        <div id="main-controls">
-          <div class="text-left" style="padding-top: 40px">
+        <div :class="['px-5 pb-5 transition-[padding] sm:px-15', { 'mt-[100vh]': fullscreen }]">
+          <div :class="['text-left', { 'pt-10': fullscreen }]">
             <RadListMenu />
             <RadEmptyList v-if="listEmpty" />
             <RadStationList v-else />
@@ -56,8 +88,8 @@
             </RadLink>
           </p>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -98,6 +130,8 @@ export default class RadPage extends Mixins(ScrollHelper) {
   provideMediaSession = false;
 
   @State readonly currentDialog!: DialogState | null;
+  @State readonly navbarShown!: boolean;
+  @State readonly relaxed!: boolean;
 
   @Getter readonly currentStation: Station | undefined;
   @Getter readonly currentList!: Station[];

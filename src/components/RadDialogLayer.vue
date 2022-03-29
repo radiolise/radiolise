@@ -1,13 +1,30 @@
 <template>
-  <div id="dialog-layer">
+  <div
+    :class="[
+      'fixed left-0 top-0 z-20 flex h-full w-full flex-col transition',
+      {
+        'bg-black/50 lg:pointer-events-none lg:bg-transparent': currentDialog,
+        'pointer-events-none': !currentDialog || relaxed,
+        'opacity-0': relaxed,
+      },
+    ]"
+  >
     <RadLink v-slot="{ navigate }" :to="null">
-      <div style="height: 100%; overflow: hidden" @click="navigate">
+      <div class="h-full overflow-hidden" @click="navigate">
         <div
-          id="drawers"
-          :class="['overscroll-contain', { shown: currentDialog !== null }]"
+          :class="[
+            'drawer z-20 h-full w-full max-w-sidebar overflow-y-auto overflow-x-hidden overscroll-contain scroll-smooth bg-surface text-on-surface shadow-theme backdrop-blur transition-all',
+            currentDialog
+              ? { 'pointer-events-auto': !relaxed }
+              : 'invisible -translate-x-[200px] opacity-0',
+          ]"
           @click.stop
         >
-          <transition name="slide-fade" mode="out-in">
+          <transition
+            enter-class="-translate-x-12.5 opacity-0"
+            leave-to-class="-translate-x-12.5 opacity-0"
+            mode="out-in"
+          >
             <keep-alive
               :exclude="[
                 'RadEditor',
@@ -29,49 +46,58 @@
       </div>
     </RadLink>
     <RadBanner />
-    <transition name="fade">
-      <div v-if="toast !== null" id="toast">
-        <div>
+    <transition enter-class="opacity-0" leave-to-class="opacity-0">
+      <div
+        v-if="toast !== null"
+        :class="[
+          'pointer-events-none absolute z-20 mx-auto mt-12.5 w-full overflow-hidden px-1.25 text-center transition',
+          { 'scale-150': fullscreen },
+        ]"
+      >
+        <div
+          class="toast mx-auto w-[340px] max-w-full rounded-tr rounded-bl bg-surface p-5 text-on-surface"
+        >
           <component :is="toast.icon" v-if="toast.icon" class="w-fixed" />
           {{ toast.message }}
         </div>
       </div>
     </transition>
-    <transition name="scale-fade">
+    <transition
+      enter-class="scale-125 opacity-0"
+      leave-to-class="opacity-0"
+      enter-active-class="ease-out"
+      leave-active-class="duration-200"
+    >
       <div
         v-if="modalOptions !== undefined"
         :key="animationTrigger"
-        class="modal-container"
+        class="pointer-events-auto absolute flex h-full w-full items-center justify-center bg-black/50 transition"
         @click="closeModal()"
       >
         <div
-          class="modal"
-          style="width: 640px; border-radius: 10px 0 10px 0; margin: 10px"
+          class="m-2.5 w-[640px] rounded-tl rounded-br bg-surface text-on-surface shadow-[0_25px_50px_-12px] shadow-white/20 dark:shadow-black/20"
           @click.stop
         >
-          <div style="position: relative">
-            <div style="padding: 32px 32px 0 32px">
-              <div
-                v-show="modalOptions.closeable"
-                style="position: absolute; right: 26px; top: 26px"
-              >
+          <div class="relative">
+            <div class="px-8 pt-8">
+              <div :class="['absolute right-6.5 top-6.5', { hidden: !modalOptions.closeable }]">
                 <a @click="closeModal()"><FasTimes class="w-fixed text-icon-lg" /></a>
               </div>
-              <div style="font-size: 20px; font-weight: bold; margin-bottom: 22px">
+              <div class="mb-5 text-xl font-bold">
                 {{ modalTitle }}
               </div>
-              <div style="display: table">
-                <div v-if="modalIcon !== ''" style="display: table-cell; padding-right: 5px">
+              <div class="flex leading-normal">
+                <div v-if="modalIcon !== ''" class="pr-1.25">
                   <component :is="modalIcon" class="opacity-70" />
                 </div>
-                <div style="display: table-cell">
+                <div>
                   <template v-for="(line, index) in modalOptions.message.split('\n')">
                     {{ line }}<br :key="index" />
                   </template>
                 </div>
               </div>
             </div>
-            <div class="flex flex-row-reverse px-5 py-7.5">
+            <div class="flex flex-row-reverse px-5 py-7">
               <RadButton
                 v-for="(button, i) in modalOptions.buttons"
                 :key="button"
@@ -141,8 +167,10 @@ export default class RadDialogLayer extends Vue {
   }
 
   @State readonly currentDialog!: DialogState | null;
+  @State readonly relaxed!: boolean;
   @State readonly toast!: Toast | null;
 
+  @Getter readonly fullscreen!: boolean;
   @Getter readonly modalOptions: Required<ModalOptions> | undefined;
 
   @Action updateDialog!: (dialog: DialogState | null) => void;
@@ -212,104 +240,3 @@ export default class RadDialogLayer extends Vue {
   }
 }
 </script>
-
-<style scoped>
-#dialog-layer {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-  transition-property: background, opacity;
-  transition-duration: 0.3s;
-}
-.modal-container {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  pointer-events: all;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#toast {
-  position: absolute;
-  box-sizing: border-box;
-  padding: 0 5px;
-  margin: 50px auto;
-  overflow: hidden;
-  pointer-events: none;
-  width: 100%;
-}
-#toast > div {
-  width: 300px;
-  border-radius: 0 10px 0 10px;
-  padding: 20px;
-  margin: 0 auto;
-  max-width: calc(100% - 40px);
-}
-#drawers {
-  transform: translateX(-200px);
-  max-width: 470px;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  overflow-x: hidden;
-  overflow-y: auto;
-  transition: all 0.3s;
-}
-#drawers.shown {
-  transform: none;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-.overscroll-contain {
-  overscroll-behavior: contain;
-}
-#drawers,
-#toast {
-  z-index: 2;
-}
-#drawers > div {
-  padding: 20px;
-}
-#drawers > div,
-#toast {
-  top: 0;
-  text-align: center;
-  transition: all 0.3s;
-}
-#drawers .slide-fade-enter,
-#drawers .slide-fade-leave-to {
-  transform: translateX(-50px);
-}
-.fade-enter,
-.fade-leave-to,
-.scale-fade-enter,
-.scale-fade-leave-to {
-  opacity: 0;
-}
-.fade-enter-active,
-.fade-leave-active,
-.scale-fade-enter-active,
-.scale-fade-leave-active {
-  transition: opacity 0.3s;
-}
-.modal {
-  transition: transform 0.3s;
-}
-.scale-fade-enter .modal {
-  transform: scale(1.25);
-}
-.scale-fade-leave-to .modal {
-  transform: scale(0.8);
-}
-</style>

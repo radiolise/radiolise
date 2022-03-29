@@ -1,11 +1,11 @@
 <template>
-  <div class="title-row" style="padding: 10px">
-    <div style="margin-bottom: 5px; font-size: 17px; font-weight: bold">
+  <div class="cursor-pointer p-2.5 transition-[background-color] duration-200 hover:bg-black/10">
+    <div class="mb-1.25 text-[17px] font-bold">
       {{ title.info }}
     </div>
-    <div style="opacity: 0.7; overflow: auto">
+    <div class="text-on-surface/70">
       <span>{{ title.station }}</span
-      ><span style="margin-left: 15px; float: right">{{ timeStamp }}</span>
+      ><span class="float-right ml-3.75">{{ timeStamp }}</span>
     </div>
     <div v-show-slide="active">
       <div class="cursor-default pt-2.5" @click.stop>
@@ -97,13 +97,3 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
   }
 }
 </script>
-
-<style scoped>
-.title-row {
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.title-row:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
-</style>

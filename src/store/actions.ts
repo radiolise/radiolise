@@ -650,6 +650,10 @@ const actions: ActionTree<StoreState, StoreState> = {
   updateDialog({ commit }, dialog: DialogState | null): void {
     commit("SET_DIALOG", dialog);
   },
+
+  toggleNavbar({ commit }, navbarShown: boolean) {
+    commit("SET_NAVBAR_SHOWN", navbarShown);
+  },
 };
 
 export default actions;

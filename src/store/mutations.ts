@@ -168,6 +168,10 @@ const mutations: MutationTree<StoreState> = {
   SET_DIALOG(state, dialog: DialogState | null) {
     state.currentDialog = dialog;
   },
+
+  SET_NAVBAR_SHOWN(state, navbarShown: boolean) {
+    state.navbarShown = navbarShown;
+  },
 };
 
 export default mutations;

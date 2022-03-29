@@ -1,5 +1,5 @@
 <template>
-  <RadDrawer id="menu" class="icons:w-fixed" is-menu>
+  <RadDrawer class="icons:w-fixed" is-menu>
     <h3><FasBars /> {{ $t("general.menu") }}</h3>
     <RadLink v-slot="{ navigate }" to="search">
       <RadMenuButton class="w-full text-left" @click="navigate">
@@ -43,7 +43,7 @@
         {{ $t("general.learnMore") }}
       </RadMenuButton>
     </RadLink>
-    <div class="button-group text-right">
+    <div class="py-2.5 text-right">
       <RadLink v-slot="{ navigate }" :to="null">
         <RadButton @click="navigate"><FasTimes /> {{ $t("menu.close") }}</RadButton>
       </RadLink>

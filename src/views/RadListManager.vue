@@ -4,9 +4,9 @@
       <FasListAlt class="w-fixed" />
       {{ $t("general.stationLists") }}
     </h3>
-    <p class="description">{{ $t("listManager.description") }}</p>
+    <p class="description mb-3.75 py-2.5">{{ $t("listManager.description") }}</p>
     <div>
-      <div style="display: table; margin: 0 auto; padding-bottom: 10px; font-size: 20px">
+      <div class="mx-auto table pb-2.5 text-xl">
         <RadListInput
           v-for="(list, index) in lists"
           :key="index"
@@ -17,7 +17,7 @@
         />
         <RadListInput :adding="adding" @blur="adding = false" />
       </div>
-      <div class="button-group text-right">
+      <div class="py-2.5 text-right">
         <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'list' }">
           <RadButton @click="navigate">
             <FasFileImport />

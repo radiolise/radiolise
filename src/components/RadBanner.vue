@@ -1,14 +1,15 @@
 <template>
-  <div style="pointer-events: all">
-    <div id="banner" v-show-slide="shown">
-      <transition name="progress" appear>
-        <div id="progress-bar" :key="animationTrigger" :class="{ active: autoHide }" />
-      </transition>
+  <div class="pointer-events-auto">
+    <div
+      v-show-slide="shown"
+      class="banner bg-surface text-xl text-on-surface shadow-theme backdrop-blur"
+    >
       <div
-        class="icons:w-fixed"
-        style="display: table; padding: 10px; margin: 0 auto; max-width: 800px"
-      >
-        <div style="padding: 14px 20px; float: left"><FasInfoCircle /> {{ message }}</div>
+        :key="animationTrigger"
+        :class="['h-0.75 origin-left bg-accent', autoHide ? 'animate-progress' : 'invisible']"
+      />
+      <div class="mx-auto table max-w-[800px] p-2.5 icons:w-fixed">
+        <div class="float-left px-5 py-4"><FasInfoCircle /> {{ message }}</div>
         <div class="float-right whitespace-nowrap py-2.5">
           <RadButton @click="undo()"><FasUndo />{{ $t("general.undo") }}</RadButton>
           <RadButton @click="confirm()"><FasCheck />{{ $t("general.ok") }}</RadButton>
@@ -155,24 +156,3 @@ export default class RadBanner extends Vue {
   }
 }
 </script>
-
-<style scoped>
-#banner {
-  text-align: center;
-  font-size: 20px;
-}
-#progress-bar.progress-enter-active {
-  animation: progress 10s linear;
-}
-#progress-bar.progress-leave-active {
-  animation: none;
-}
-#progress-bar {
-  height: 3px;
-  transform-origin: left;
-  visibility: hidden;
-}
-#progress-bar.active {
-  visibility: visible;
-}
-</style>

@@ -58,6 +58,7 @@ export interface StoreState {
   likeState?: LikeState;
   memory: Memory;
   messages: Required<ModalOptions>[];
+  navbarShown: boolean;
   playerExpanded: boolean;
   playing: boolean;
   ready: boolean;
@@ -104,6 +105,7 @@ const store = new Vuex.Store({
     likeState: undefined,
     memory: defaultMemory,
     messages: [],
+    navbarShown: true,
     playerExpanded: false,
     playing: false,
     ready: false,

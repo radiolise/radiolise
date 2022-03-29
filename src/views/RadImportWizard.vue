@@ -4,7 +4,7 @@
       <FasFileImport class="w-fixed" />
       {{ $t("general.importBackup") }}
     </h3>
-    <p class="description">
+    <p class="description mb-3.75 py-2.5">
       {{
         $t("importWizard.description", [
           $t(`importWizard.${type === "list" ? "stationLists" : "settings"}`),
@@ -13,7 +13,7 @@
     </p>
     <div class="text-left">
       <div>
-        <h4>
+        <h4 class="mt-0">
           <template v-if="type === 'list'">
             {{ $t("importWizard.step", [1, $t("importWizard.chooseFile")]) }}
           </template>
@@ -28,25 +28,21 @@
         <template v-if="type === 'list'">
           <br />
           <div>
-            <h4>
+            <h4 class="mt-0">
               {{ $t("importWizard.step", [2, $t("importWizard.setName")]) }}
             </h4>
-            <div style="display: inline-block">
-              <input
+            <div class="inline-block">
+              <RadInput
                 v-model="listName"
                 autocomplete="off"
-                type="text"
                 :placeholder="$t('general.newName')"
-                class="list-name"
-                spellcheck="false"
-                @focus="$event.target.select()"
-                @keypress.enter="$event.target.blur()"
+                select-on-focus
               />
             </div>
           </div>
           <br /><br />
           <div>
-            <h4>
+            <h4 class="mt-0">
               {{ $t("importWizard.step", [3, $t("importWizard.selectStations")]) }}
             </h4>
             <div v-if="backup">
@@ -62,7 +58,7 @@
           </div>
           <br />
         </template>
-        <div class="button-group text-right">
+        <div class="py-2.5 text-right">
           <RadLink v-slot="{ navigate }" :to="type === 'list' ? null : 'settings'">
             <RadButton @click="navigate"><FasBan /> {{ $t("general.cancel") }}</RadButton>
           </RadLink>
@@ -82,6 +78,7 @@ import { navigate } from "@/common/routing";
 import RadButton from "@/components/RadButton.vue";
 import RadDrawer from "@/components/RadDrawer.vue";
 import RadDropZone from "@/components/RadDropZone.vue";
+import RadInput from "@/components/RadInput.vue";
 import RadLink from "@/components/RadLink.vue";
 import RadResult from "@/components/RadResult.vue";
 import RadTags from "@/components/RadTags.vue";
@@ -94,6 +91,7 @@ type Backup = Record<string, string | BackupKind>;
     RadButton,
     RadDrawer,
     RadDropZone,
+    RadInput,
     RadLink,
     RadResult,
     RadTags,

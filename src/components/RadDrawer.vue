@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="menu-buttons icons:w-fixed icons:text-icon-lg">
+  <div class="p-5 text-center transition-all">
+    <div class="float-right icons:w-fixed icons:text-icon-lg">
       <RadLink v-if="!isMenu" v-slot="{ navigate }" to="menu">
         <a @click="navigate">
           <FasBars />
@@ -32,9 +32,3 @@ export default class RadDrawer extends Vue {
   @Prop({ type: Boolean, default: false }) readonly isMenu!: boolean;
 }
 </script>
-
-<style scoped>
-.menu-buttons {
-  float: right;
-}
-</style>

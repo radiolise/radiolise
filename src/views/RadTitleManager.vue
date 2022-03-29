@@ -1,5 +1,5 @@
 <template>
-  <RadDrawer id="title-manager">
+  <RadDrawer>
     <h3>
       <FasHistory class="w-fixed" />
       {{ $t("titleManager.title") }}
@@ -9,10 +9,10 @@
       {{ $t("titleManager.recentTitles") }}
     </RadMenuButton>
     <div v-show-slide="showTitles" class="text-left">
-      <div v-if="history.length === 0" class="text-center" style="padding: 15px 0">
+      <div v-if="history.length === 0" class="py-3.75 text-center">
         {{ $t("titleManager.listEmpty") }}
       </div>
-      <div v-else style="display: flex; flex-direction: column-reverse">
+      <div v-else class="flex flex-col-reverse">
         <RadTitleRow
           v-for="title in history"
           :key="title.time"
@@ -22,38 +22,27 @@
         />
       </div>
     </div>
-    <div style="display: table; width: 100%">
+    <div class="table w-full">
       <RadMenuButton class="w-full text-left" @click="showBookmarks = !showBookmarks">
         <FasChevronDown :class="['w-fixed', { '-rotate-180': showBookmarks }]" />
         {{ $tc("titleManager.bookmark", 0) }}
       </RadMenuButton>
-      <div
-        v-if="!bookmarksEmpty"
-        class="download text-right"
-        style="display: table-cell; font-size: 20px; width: 35px"
-      >
+      <div v-if="!bookmarksEmpty" class="table-cell w-8.75 text-right text-xl">
         <a @click="exportBookmarks()"><FasDownload class="w-fixed" /></a>
       </div>
     </div>
     <div v-show-slide="showBookmarks" class="text-left">
-      <div v-if="bookmarksEmpty" class="text-center" style="padding: 15px 0">
+      <div v-if="bookmarksEmpty" class="py-3.75 text-center">
         {{ $t("titleManager.listEmpty") }}
       </div>
-      <div v-else style="display: flex; flex-direction: column-reverse">
+      <div v-else class="flex flex-col-reverse">
         <div v-for="(titles, month) in bookmarks" :key="month">
           <div
-            class="month-separator"
-            style="
-              margin: 10px 0;
-              padding: 5px 10px;
-              font-size: 20px;
-              font-weight: bold;
-              opacity: 0.7;
-            "
+            class="my-2.5 border-b-2 border-b-mute-contrast/50 px-2.5 py-1.25 text-xl font-bold text-on-surface/70"
           >
             {{ month }}
           </div>
-          <div style="display: flex; flex-direction: column-reverse">
+          <div class="flex flex-col-reverse">
             <RadTitleRow
               v-for="title in titles"
               :key="title.time"
@@ -137,9 +126,3 @@ export default class RadTitleManager extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.fa-chevron-down {
-  transition: transform 0.3s;
-}
-</style>

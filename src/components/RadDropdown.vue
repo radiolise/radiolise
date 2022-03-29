@@ -1,17 +1,18 @@
 <template>
-  <div
-    class="dropdown-menu"
-    :class="{
-      'is-list': !isMenu,
-      'flex-align': flexAlign,
-      'disabled': !enabled,
-    }"
-  >
-    <div class="wrapper" :class="{ 'fixed-height': !isMenu }">
-      <div v-if="!isMenu" class="dropdown-label covering">
+  <div :class="['inline-block max-w-[200px]', { 'text-lg': !isMenu, 'opacity-50': !enabled }]">
+    <div
+      :class="[
+        'relative inline-block h-full w-full cursor-pointer overflow-hidden align-text-top',
+        { 'h-6.25': !isMenu, 'cursor-not-allowed': !enabled },
+      ]"
+    >
+      <div
+        v-if="!isMenu"
+        class="pointer-events-none absolute h-full w-full select-none truncate border-0 border-b-2 border-b-mute-contrast/50"
+      >
         <template v-if="loaded">
           {{ currentOption.name }}
-          <span v-if="currentOption.description !== undefined" style="opacity: 0.5"
+          <span v-if="currentOption.description !== undefined" class="opacity-50"
             >({{ currentOption.description }})</span
           >
         </template>
@@ -23,7 +24,10 @@
         ref="select"
         :value="value"
         :disabled="!enabled"
-        :class="['peer', { covering: isMenu }]"
+        :class="[
+          'peer h-full w-full cursor-pointer appearance-none text-lg opacity-0',
+          { 'absolute': isMenu, 'pointer-events-none': !enabled },
+        ]"
         @change="handleChange()"
       >
         <optgroup :label="label">
@@ -39,7 +43,7 @@
       </select>
       <div
         v-if="isMenu"
-        class="dropdown-label icons:opacity-70 icons:transition-opacity icons:duration-200 icons:peer-hover:opacity-100"
+        class="pointer-events-none h-full w-full select-none truncate icons:opacity-70 icons:transition-opacity icons:duration-200 icons:peer-hover:opacity-100"
       >
         <slot />
       </div>
@@ -110,82 +114,3 @@ export default class RadDropdown extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.dropdown-menu {
-  display: inline-block;
-  max-width: 200px;
-}
-.dropdown-menu.is-list,
-.dropdown-menu.flex-align {
-  font-size: 18px;
-}
-.dropdown-menu.flex-align {
-  width: 42px;
-  height: 42px;
-}
-.dropdown-menu.flex-align .dropdown-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.wrapper {
-  position: relative;
-  display: inline-block;
-  vertical-align: text-top;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-.wrapper,
-select {
-  cursor: pointer;
-}
-.wrapper.fixed-height {
-  height: 25px;
-}
-.dropdown-label {
-  white-space: nowrap;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  pointer-events: none;
-  user-select: none;
-}
-.dropdown-label.covering {
-  border-bottom: 2px solid #aaa;
-}
-select {
-  font-size: 18px;
-  font-family: Fira Sans, sans-serif;
-  opacity: 0;
-  max-width: 400px;
-  max-height: 100%;
-  width: inherit;
-  height: inherit;
-  border: none;
-  appearance: none;
-}
-select.covering {
-  height: 100%;
-}
-select + div path {
-  opacity: 0.7;
-  transition: opacity 0.2s;
-}
-select:hover + div path {
-  opacity: 1;
-}
-.covering {
-  position: absolute;
-}
-.dropdown-menu.disabled {
-  opacity: 0.5;
-}
-.dropdown-menu.disabled select {
-  pointer-events: none;
-}
-.dropdown-menu.disabled .wrapper {
-  cursor: not-allowed;
-}
-</style>

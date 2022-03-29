@@ -1,15 +1,15 @@
 <template>
-  <div style="font-size: 18px; padding: 0 5px; display: inline-block" @wheel.prevent="handleScroll">
+  <div class="inline-block px-1.25 text-lg" @wheel.prevent="handleScroll">
     <a @click="setValue(value - 0.1)"><slot name="minusIcon" /></a>
     {{ " " }}
     <div
       ref="slider"
-      class="slider"
-      style="width: 100px; margin: 2px 5px; height: 9px; display: inline-block"
+      class="mx-1.25 inline-flex h-[9px] w-25 align-[2px]"
       @mousedown.left="handleMouseDown"
       @touchstart.prevent="handleTouchStart"
     >
-      <div class="text-left" :style="{ width: `${value * 100}%`, height: '100%' }" />
+      <div class="h-full bg-current opacity-70" :style="{ width: `${value * 100}%` }" />
+      <div class="flex-grow bg-mute" />
     </div>
     {{ " " }}
     <a @click="setValue(value + 0.1)"><slot name="plusIcon" /></a>

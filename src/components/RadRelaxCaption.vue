@@ -1,10 +1,15 @@
 <template>
-  <div id="relax-caption" :style="{ fontSize: `${fontSize}pt` }">
-    <div class="station">
-      <div class="broadcaster">{{ name }}</div>
-      <div class="info">{{ info }}</div>
+  <transition enter-class="opacity-0" leave-to-class="opacity-0" appear>
+    <div
+      class="fixed top-0 z-50 flex h-1/2 w-full items-center justify-center overflow-hidden px-[10vw] text-white transition-opacity"
+      :style="{ fontSize: `${fontSize}pt` }"
+    >
+      <div class="max-w-full text-center">
+        <div class="truncate font-bold">{{ name }}</div>
+        <div class="text-[0.9em]">{{ info }}</div>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -40,38 +45,3 @@ export default class RadRelaxCaption extends Vue {
   }
 }
 </script>
-
-<style scoped>
-#relax-caption {
-  color: #fff;
-  display: table;
-  text-align: center;
-  overflow: hidden;
-  position: fixed;
-  z-index: 5;
-  left: 0;
-  top: 0;
-  width: calc(100% - 20vw);
-  height: 50%;
-  padding: 0 10vw;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.3s;
-}
-.station {
-  display: table-cell;
-  vertical-align: middle;
-}
-.station > div {
-  width: 80vw;
-}
-.broadcaster {
-  font-weight: bold;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.info {
-  font-size: 0.9em;
-}
-</style>

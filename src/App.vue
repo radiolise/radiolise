@@ -2,18 +2,16 @@
   <div
     id="app"
     ref="app"
-    :class="{
-      'colorful': colorful,
-      'dialog': dialog,
-      'dragging': dragging,
-      'fixed-player': fixedPlayer,
-      'fullscreen': fullscreen,
-      'has-video': hasVideo,
-      'no-navbar': !navbarShown,
-    }"
+    :class="[
+      'min-h-screen',
+      fullscreen
+        ? 'absolute inset-y-0 left-0 -right-scrollbar overflow-y-auto bg-surface'
+        : 'bg-default transition-[background-color] duration-2000 mobile:bg-surface mobile:transition-none',
+      { 'dialog': dialog, 'cursor-grabbing': dragging, 'cursor-none': relaxed },
+    ]"
     :style="{
-      width: scrollbarWidth,
-      background: backgroundColor,
+      '--rad-color-accent': accentColor,
+      '--rad-color-background': backgroundColor,
     }"
     @scroll="handleFullscreenScroll()"
   >
@@ -57,9 +55,6 @@ const HelperMixins = Mixins(ColorChanger, Hotkeys, LikeHelper);
   },
 })
 export default class App extends HelperMixins {
-  navbarShown = true;
-  scrollbarWidth = "";
-
   inputEventTypes: Array<keyof GlobalEventHandlersEventMap> = [
     "mousemove",
     "mousedown",
@@ -85,11 +80,10 @@ export default class App extends HelperMixins {
 
   @Action confirmSleepTimer!: () => Promise<void>;
   @Action createList!: (list: StationList) => Promise<void>;
-
   @Action determineDateFnsLocale!: (locale: string) => Promise<Locale | undefined>;
-
   @Action setDarkMode!: (darkMode: boolean) => Promise<void>;
   @Action setRelaxTimer!: () => Promise<void>;
+  @Action toggleNavbar!: (navbarShown: boolean) => Promise<void>;
   @Action unsetDateFnsLocale!: () => Promise<void>;
 
   get darkSchemeQuery(): MediaQueryList {
@@ -126,12 +120,12 @@ export default class App extends HelperMixins {
 
   @Watch("noOverflow", { immediate: true })
   setOverflowAllowed(noOverflow: boolean): void {
-    document.body.classList.toggle("no-overflow", noOverflow);
+    document.body.classList.toggle("overflow-y-hidden", noOverflow);
   }
 
-  @Watch("relaxed")
-  onRelaxedChanged(relaxed: boolean): void {
-    document.body.classList.toggle("relaxed", relaxed);
+  @Watch("relaxed", { immediate: true })
+  onRelaxedChanged(): void {
+    document.body.classList.toggle("lg:overflow-y-visible", !this.relaxed);
   }
 
   @Watch("fellAsleep")
@@ -161,21 +155,23 @@ export default class App extends HelperMixins {
   @Watch("fullscreen")
   handleFullscreenChanged(fullscreen: boolean): void {
     if (fullscreen) {
-      this.navbarShown = false;
+      this.toggleNavbar(false);
 
       if (this.dialog) {
         navigate(null);
       }
 
-      document.documentElement.style.overflowY = "scroll";
+      document.documentElement.classList.add("overflow-y-scroll");
       const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
-      this.scrollbarWidth = `calc(100% + ${scrollbarWidth}px)`;
-      document.documentElement.style.overflowY = "";
+      document.documentElement.style.setProperty("--rad-scrollbar-width", `${scrollbarWidth}px`);
+      document.documentElement.classList.remove("overflow-y-scroll");
     } else {
-      this.navbarShown = true;
-      this.scrollbarWidth = "";
+      this.toggleNavbar(true);
+      document.documentElement.style.removeProperty("--rad-scrollbar-width");
+      this.app.scrollTop = 0;
     }
 
+    document.body.classList.toggle("overflow-hidden", fullscreen);
     this.setBackgroundColor();
   }
 
@@ -242,7 +238,7 @@ export default class App extends HelperMixins {
 
   handleFullscreenScroll(): void {
     if (this.fullscreen) {
-      this.navbarShown = this.app.scrollTop > 0;
+      this.toggleNavbar(this.app.scrollTop > 0);
     }
   }
 

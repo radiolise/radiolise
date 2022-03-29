@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form class="inline-block whitespace-nowrap" @submit.prevent="onSubmit">
     <RadInput
       v-model.number="_min"
       type="number"
@@ -9,7 +9,7 @@
       :placeholder="$t('rangeInput.minimumShort')"
       @change="submitButton.click()"
     />
-    <span style="padding: 0 10px">{{ $t("rangeInput.to") }}</span>
+    <span class="px-2.5">{{ $t("rangeInput.to") }}</span>
     <RadInput
       v-model.number="_max"
       type="number"
@@ -19,7 +19,7 @@
       :placeholder="$t('rangeInput.maximumShort')"
       @change="submitButton.click()"
     />
-    <input ref="submit-button" type="submit" name="submit" style="display: none" />
+    <input ref="submit-button" type="submit" name="submit" hidden />
   </form>
 </template>
 

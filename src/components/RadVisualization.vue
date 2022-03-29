@@ -1,69 +1,38 @@
 <template>
-  <div id="visualization" ref="visualization">
-    <div v-for="(position, i) in positions" :key="i" :style="{ top: position }" />
+  <div class="fixed bottom-0 flex h-1/2 w-full items-end space-x-[1%] px-[1%]">
+    <div
+      v-for="(height, i) in heights"
+      :key="i"
+      :class="['w-full duration-100', colorful ? 'bg-white/10' : 'bg-black/10 dark:bg-white/10']"
+      :style="{ height }"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, InjectReactive, Vue } from "vue-property-decorator";
 
 @Component
 export default class RadVisualization extends Vue {
-  positions = Array.from({ length: 10 }).fill("");
-  vinterval?: number;
+  heights = Array.from<string>({ length: 10 }).fill("0%");
+  interval?: number;
+
+  @InjectReactive() readonly colorful!: boolean;
+
+  updateHeights(next: () => string) {
+    this.heights.forEach((_, index) => {
+      this.$set(this.heights, index, next());
+    });
+  }
 
   mounted() {
-    this.vinterval = setInterval(() => {
-      this.positions.forEach((child, i) => {
-        this.$set(this.positions, i, `${Math.floor(Math.random() * 15) + 50}%`);
-      });
+    this.interval = setInterval(() => {
+      this.updateHeights(() => `${Math.floor(Math.random() * 30) + 70}%`);
     }, 100);
   }
 
   beforeDestroy() {
-    clearInterval(this.vinterval);
+    clearInterval(this.interval);
   }
 }
 </script>
-
-<style scoped>
-#visualization > div {
-  position: fixed;
-  background: #fff;
-  opacity: 0.1;
-  width: 8.9%;
-  height: 50%;
-  top: 100%;
-  transition: top 0.1s;
-}
-#visualization > :first-child {
-  left: 1%;
-}
-#visualization > :nth-child(2) {
-  left: 10.9%;
-}
-#visualization > :nth-child(3) {
-  left: 20.8%;
-}
-#visualization > :nth-child(4) {
-  left: 30.7%;
-}
-#visualization > :nth-child(5) {
-  left: 40.6%;
-}
-#visualization > :nth-child(6) {
-  left: 50.5%;
-}
-#visualization > :nth-child(7) {
-  left: 60.4%;
-}
-#visualization > :nth-child(8) {
-  left: 70.3%;
-}
-#visualization > :nth-child(9) {
-  left: 80.2%;
-}
-#visualization > :last-child {
-  left: 90.1%;
-}
-</style>

@@ -1,12 +1,22 @@
 <template>
-  <div class="tags">
+  <div class="scrollbar-avoid">
     <slot />
     <template v-if="renderedTags.length > 0">
       <template v-for="(item, i) in renderedTags">
-        {{ " " }}<span :key="i" class="label">{{ item }}</span>
+        {{ " " }}
+        <span
+          :key="i"
+          :class="[
+            'mb-0.5 inline-block text-xs',
+            compact
+              ? 'mr-0.5 text-on-surface/70 after:content-comma last:after:content-none'
+              : 'bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em]',
+          ]"
+          >{{ item }}</span
+        >
       </template>
     </template>
-    <span v-else style="opacity: 0.5"> {{ $t("general.noTags") }}</span>
+    <span v-else class="text-on-surface/50"> {{ $t("general.noTags") }}</span>
   </div>
 </template>
 
@@ -15,6 +25,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class RadTags extends Vue {
+  @Prop({ type: Boolean, default: false }) readonly compact!: boolean;
   @Prop({ type: Array, required: true }) readonly labels!: string[];
 
   get renderedTags(): string[] {
@@ -22,18 +33,3 @@ export default class RadTags extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.compact-mode .label {
-  background-color: transparent;
-  opacity: 0.7;
-  padding: 0;
-  margin-right: 2px;
-}
-.compact-mode .label:not(:last-child)::after {
-  content: ",";
-}
-.tags::-webkit-scrollbar {
-  display: none;
-}
-</style>

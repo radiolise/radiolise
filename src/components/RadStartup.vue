@@ -1,13 +1,13 @@
 <template>
-  <transition name="fade">
-    <div class="splash">
-      <div class="logo">
+  <transition leave-to-class="pointer-events-none opacity-0">
+    <div class="fixed left-0 top-0 z-30 h-full w-full bg-brand transition-opacity duration-2000">
+      <div class="h-full w-full bg-logo bg-center bg-no-repeat text-center text-white">
         <div v-if="!failed">
           <h1 v-if="message">{{ message }}</h1>
         </div>
         <div v-else>
           <h1>Guru Meditation</h1>
-          <p>
+          <p class="my-4 py-2.5">
             Unfortunately, storage data could not be loaded.<br />
             Reset {{ appTitle }} to be able to continue using it.
           </p>
@@ -35,6 +35,11 @@ export default class RadStartup extends Vue {
   showMessages = false;
 
   @Action init!: (memory: Memory) => Promise<void>;
+
+  created() {
+    document.body.classList.remove("bg-brand");
+    document.body.classList.add("bg-default");
+  }
 
   async mounted(): Promise<void> {
     if (memoryUpgradeNeeded) {
@@ -84,32 +89,3 @@ Otherwise, you can download a copy of the (possibly corrupted) save data beforeh
   }
 }
 </script>
-
-<style scoped>
-.splash {
-  background-color: #222;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-  transition: opacity 2s;
-}
-
-.fade-leave-to {
-  opacity: 0;
-  background-image: none;
-  pointer-events: none;
-}
-
-.logo {
-  color: #fff;
-  background-image: url("../assets/img/logo.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-}
-</style>

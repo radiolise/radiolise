@@ -1,32 +1,33 @@
 <template>
   <div
     ref="station-row"
-    class="station-row"
-    :class="{ dragging, playing, transition }"
-    :style="{ transform: dragging ? `translateY(${currentTranslate}px)` : '' }"
+    :class="[
+      'group flex cursor-pointer duration-200 hover:bg-black/10',
+      transition ? 'transition-transform' : 'transition-[background-color]',
+      { 'relative z-50 bg-mute opacity-80': dragging },
+    ]"
+    :style="dragging ? { transform: `translateY(${currentTranslate}px)` } : {}"
     @click="handleClick()"
     @mousedown.left="handleMouseDown"
   >
-    <div>
-      <RadIcon :station="station" />
+    <div class="p-station">
+      <RadIcon :station="station" :playing="playing" />
     </div>
-    <div>
-      <div style="display: block; padding-bottom: var(--rad-station-padding-inner)">
-        <div>
-          <h4 style="font-weight: bold; display: inline">
-            {{ station.name }}
-          </h4>
-        </div>
+    <div class="w-full overflow-x-hidden py-station">
+      <div class="block pb-station-inner">
+        <h4 class="mt-0 inline font-bold">
+          {{ station.name }}
+        </h4>
       </div>
-      <div style="overflow: hidden; height: var(--rad-station-tags-height)">
-        <div class="avoid-scrollbar" style="overflow: scroll hidden; width: 100%">
-          <div style="white-space: nowrap; height: var(--rad-station-tags-height)">
-            <RadTags :labels="labels" />
+      <div class="h-tags max-w-full">
+        <div class="scrollbar-avoid overflow-y-hidden overflow-x-scroll">
+          <div class="h-tags max-w-0 whitespace-nowrap">
+            <RadTags :labels="labels" :compact="settings.compactMode" />
           </div>
         </div>
       </div>
     </div>
-    <div @click.stop @mousedown.stop>
+    <div class="flex cursor-auto items-center pr-station-sm" @click.stop @mousedown.stop>
       <RadDropdown
         :actions="[$t('general.cancel')]"
         :label="$t('station.options', [station.name])"
@@ -34,7 +35,9 @@
         flex-align
         @change="trigger"
       >
-        <FasEllipsisV class="w-fixed" />
+        <div class="flex h-10 w-10 items-center justify-center text-lg">
+          <FasEllipsisV class="w-fixed" />
+        </div>
       </RadDropdown>
     </div>
   </div>
@@ -68,6 +71,7 @@ export default class RadStation extends Mixins(DragHelper) {
 
   @Getter readonly currentStation?: Station;
   @Getter readonly selectedList!: number;
+  @Getter readonly settings!: Settings;
 
   @Action("removeStation") handleDelete!: (index: number) => Promise<void>;
   @Action likeStation!: (id: string) => Promise<void>;
@@ -180,57 +184,3 @@ export default class RadStation extends Mixins(DragHelper) {
   }
 }
 </script>
-
-<style scoped>
-.station-row {
-  --rad-station-padding-standard: 20px;
-  --rad-station-padding-small: 15px;
-  --rad-station-padding-inner: 20px;
-  --rad-station-tags-height: 30px;
-  cursor: pointer;
-  display: table;
-  transition: background 0.2s;
-}
-.compact-mode .station-row {
-  --rad-station-padding-standard: 15px;
-  --rad-station-padding-small: 10px;
-  --rad-station-padding-inner: 5px;
-  --rad-station-tags-height: auto;
-}
-.station-row:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
-.station-row > div {
-  display: table-cell;
-  padding-top: var(--rad-station-padding-standard);
-  padding-bottom: var(--rad-station-padding-standard);
-}
-.station-row > :first-child {
-  padding: var(--rad-station-padding-standard);
-  vertical-align: top;
-}
-.station-row > :nth-child(2) {
-  text-align: left;
-  width: 100%;
-  max-width: 0;
-}
-.station-row > :last-child {
-  cursor: auto;
-  vertical-align: middle;
-  padding: 0 var(--rad-station-padding-small) 0 0;
-}
-.dragging {
-  position: relative;
-  z-index: 10;
-  opacity: 0.8;
-}
-.transition {
-  transition: transform 0.3s;
-}
-.avoid-scrollbar {
-  scrollbar-width: none;
-}
-.avoid-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-</style>

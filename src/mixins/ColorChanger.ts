@@ -1,8 +1,9 @@
-import { Component, Watch, Vue } from "vue-property-decorator";
+import { Component, ProvideReactive, Watch, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
 @Component
 export default class ColorChanger extends Vue {
+  accentColor = "";
   backgroundColor = "";
 
   @Getter readonly changeColor!: boolean;
@@ -11,6 +12,7 @@ export default class ColorChanger extends Vue {
   @Getter readonly playing!: boolean;
   @Getter readonly settings!: Settings;
 
+  @ProvideReactive()
   get colorful(): boolean {
     return this.backgroundColor !== "";
   }
@@ -21,8 +23,7 @@ export default class ColorChanger extends Vue {
 
   @Watch("backgroundColor")
   handleColorChanged(): void {
-    const themeColor = this.colorful ? this.generateHsl(60) : "";
-    document.documentElement.style.setProperty("--rad-primary-color", themeColor);
+    this.accentColor = this.colorful ? this.generateHsl(60) : "";
   }
 
   @Watch("currentStation")
@@ -41,7 +42,7 @@ export default class ColorChanger extends Vue {
   }
 
   generateHsl(lightness: number): string {
-    return `hsl(${this.currentStation.hue}, 50%, ${lightness}%)`;
+    return `hsl(${this.currentStation.hue} 50% ${lightness}%)`;
   }
 
   setBackgroundColor(): void {

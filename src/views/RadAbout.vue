@@ -2,38 +2,41 @@
   <RadDrawer>
     <br />
     <div
-      class="logo"
       @mouseenter="versionShown = true"
       @mouseleave="versionShown = false"
       @touchstart="versionShown = !versionShown"
     >
-      <div>
-        <img src="@/assets/img/logo.svg" alt="Logo" /><span>{{ appTitle }}</span>
+      <div class="mb-2.5">
+        <img
+          class="mr-1.25 inline h-12.5 align-middle"
+          src="@/assets/img/logo.svg"
+          alt="Logo"
+        /><span class="ml-1.25 align-middle text-3xl">{{ appTitle }}</span>
       </div>
-      <div v-show-slide="versionShown" class="version" :class="{ visible: versionShown }">
-        <span><FasCodeBranch /> {{ version }}</span>
+      <div v-show-slide="versionShown">
+        <span :class="['text-on-surface/50 transition-opacity', { 'opacity-0': !versionShown }]"
+          ><FasCodeBranch /> {{ version }}</span
+        >
       </div>
     </div>
     <br />
-    <div>
-      <p>{{ copyright }}</p>
-      <i18n class="text-left" path="about.licenseInfo" tag="p">
-        {{ appTitle }}
-        <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
-          >{{ $t("about.freeSoftware") }}<FasExternalLinkAlt class="w-fixed"
-        /></a>
-      </i18n>
-      <p class="text-left">
-        {{ $t("about.noWarranty", [appTitle]) }}
-      </p>
-      <i18n class="text-left" path="about.licenseCopy" tag="p">
-        {{ appTitle
-        }}<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener"
-          >http://www.gnu.org/licenses/<FasExternalLinkAlt class="w-fixed"
-        /></a>
-      </i18n>
-    </div>
-    <p class="button-group">
+    <p class="my-4 py-2.5">{{ copyright }}</p>
+    <i18n class="my-4 py-2.5 text-left leading-6" path="about.licenseInfo" tag="p">
+      {{ appTitle }}
+      <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
+        >{{ $t("about.freeSoftware") }}<FasExternalLinkAlt class="w-fixed"
+      /></a>
+    </i18n>
+    <p class="my-4 py-2.5 text-left leading-6">
+      {{ $t("about.noWarranty", [appTitle]) }}
+    </p>
+    <i18n class="my-4 py-2.5 text-left leading-6" path="about.licenseCopy" tag="p">
+      {{ appTitle
+      }}<a href="http://www.gnu.org/licenses/" target="_blank" rel="noopener"
+        >http://www.gnu.org/licenses/<FasExternalLinkAlt class="w-fixed"
+      /></a>
+    </i18n>
+    <p class="my-4 py-5">
       <RadButton :href="repoUrl" target="_blank" rel="noopener">
         <FabGitlab class="w-fixed" />
         {{ $t("about.code") }}
@@ -73,30 +76,3 @@ export default class RadAbout extends Vue {
   versionShown = false;
 }
 </script>
-
-<style scoped>
-.logo > :first-child {
-  margin-bottom: 10px;
-}
-.logo img {
-  height: 50px;
-  margin-right: 5px;
-  vertical-align: middle;
-}
-.logo img + span {
-  margin-left: 5px;
-  font-size: 30px;
-  vertical-align: middle;
-}
-.version > :only-child {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.version.visible > :only-child {
-  opacity: 0.5;
-}
-.button-group {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-</style>

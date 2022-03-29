@@ -1,12 +1,14 @@
 <template>
   <div
-    v-show="videoShown"
-    id="media-container"
-    style="position: relative"
+    :class="[
+      'w-full overflow-hidden bg-black',
+      { 'relative rounded-tl border-t': !fullscreen, 'hidden': !videoShown },
+    ]"
     @dblclick="toggleFullscreen()"
   >
     <video
       ref="media-element"
+      class="pointer-events-none h-full w-full"
       playsinline
       @loadedmetadata="onLoadedMetadata()"
       @loadeddata="confirmPlaying(lastTriedUrl)"
@@ -17,7 +19,10 @@
       @playing="handleBufferWaiting(false)"
       @error="handleError()"
     />
-    <div v-if="hasVideo && loading" class="spin-container">
+    <div
+      v-if="hasVideo && loading"
+      class="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/50 text-white"
+    >
       <FasSpinner class="animate-spin text-[4em]" />
     </div>
   </div>
@@ -314,32 +319,3 @@ export default class RadMedia extends Vue {
   }
 }
 </script>
-
-<style scoped>
-#media-container {
-  background-size: contain;
-  background: #000 no-repeat center;
-}
-video {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
-  display: block;
-  pointer-events: none;
-}
-video::-webkit-media-controls {
-  display: none;
-}
-.spin-container {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.5);
-}
-</style>

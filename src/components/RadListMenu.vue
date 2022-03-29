@@ -1,10 +1,9 @@
 <template>
-  <div class="list-menu">
+  <div class="mb-5">
     <strong>{{ $t("general.list") }}</strong
     >:
     <RadLink v-slot="{ active: listManagerShown, navigate: openListManager }" to="list-manager">
       <RadDropdown
-        id="lists"
         :value="selectedList"
         :actions="[$t('general.manage')]"
         :actions-enabled="!listManagerShown"
@@ -18,7 +17,7 @@
     {{ " " }}
     <RadLink v-slot="{ active, navigate }" to="import-wizard" :props="{ type: 'list' }" toggle>
       <a
-        :class="{ 'active icons:opacity-100': active }"
+        :class="{ 'text-accent icons:opacity-100': active }"
         :title="$t('general.importBackup')"
         @click="navigate"
       >
@@ -38,7 +37,7 @@
     {{ " " }}
     <RadLink v-slot="{ active, navigate }" to="list-manager" toggle>
       <a
-        :class="{ 'active icons:opacity-100': active }"
+        :class="{ 'text-accent icons:opacity-100': active }"
         :title="$t('general.manageLists')"
         @click="navigate"
       >
@@ -102,9 +101,3 @@ export default class RadListMenu extends Mixins(ListHelper) {
   }
 }
 </script>
-
-<style scoped>
-.list-menu {
-  margin-bottom: 20px;
-}
-</style>

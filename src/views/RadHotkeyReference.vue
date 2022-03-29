@@ -4,22 +4,20 @@
       <FasKeyboard class="w-fixed" />
       {{ $t("hotkeys.title") }}
     </h3>
-    <div class="content">
-      <div v-for="key in bindingAliases" :key="key" class="hotkey-item">
-        <div>
-          <div class="hotkey-tile">
-            <span>{{ key }}</span>
+    <div class="text-left">
+      <div v-for="key in bindingAliases" :key="key" class="flex">
+        <div class="py-2 px-2.5 text-center text-xl">
+          <div class="mt-1.25 flex h-8.75 w-10 rounded-[5px] bg-soft">
+            <span class="m-auto">{{ key }}</span>
           </div>
-          <span v-if="key === ' '" :class="{ 'space-bar-label': key === ' ' }">{{
-            $t("hotkeys.space")
-          }}</span>
+          <span v-if="key === ' '" class="text-xs">{{ $t("hotkeys.space") }}</span>
         </div>
-        <div>
-          <div class="name">
-            {{ $t(`hotkeys.bindings["${key}"].name`) }}
+        <div class="py-2.5 pr-2.5">
+          <div class="mb-1.25 text-xl">
+            {{ $t(`hotkeys.bindings.${key}.name`) }}
           </div>
           <div class="description">
-            {{ $t(`hotkeys.bindings["${key}"].description`) }}
+            {{ $t(`hotkeys.bindings.${key}.description`) }}
           </div>
         </div>
       </div>
@@ -45,43 +43,3 @@ export default class RadHotkeyReference extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.content {
-  display: table;
-  text-align: left;
-}
-.hotkey-item {
-  display: table-row;
-  margin: 10px 0;
-}
-.hotkey-item > :first-child {
-  font-size: 20px;
-  white-space: nowrap;
-  text-align: center;
-  vertical-align: top;
-  padding: 8px 10px;
-}
-.hotkey-tile {
-  margin: 5px 0 0 auto;
-  border-radius: 5px;
-  display: table;
-  width: 40px;
-  height: 35px;
-}
-.hotkey-tile span {
-  display: table-cell;
-  vertical-align: middle;
-}
-.space-bar-label {
-  font-size: 12px;
-}
-.hotkey-item > div {
-  display: table-cell;
-  padding: 10px 10px 10px 0;
-}
-.name {
-  font-size: 20px;
-  margin-bottom: 5px;
-}
-</style>

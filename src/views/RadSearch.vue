@@ -1,111 +1,109 @@
 <template>
-  <RadDrawer id="search">
+  <RadDrawer>
     <h3>
       <FasSearch class="w-fixed" />
       {{ $t("general.findStations") }}
     </h3>
-    <i18n path="search.credit.radioBrowser" tag="p">
+    <i18n path="search.credit.radioBrowser" tag="p" class="my-4 py-2.5 leading-6">
       <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
         >{{ $t("search.credit.free") }} <FasExternalLinkAlt class="w-fixed" /></a
       ><a href="http://www.radio-browser.info" target="_blank" rel="noopener"
         >Community Radio Browser <FasExternalLinkAlt class="w-fixed"
       /></a>
     </i18n>
+    <div
+      class="mb-5 flex border-b-2 border-b-mute-contrast/50 focus-within:border-b-accent focus-within:bg-black/10"
+    >
+      <input
+        ref="query"
+        class="w-full appearance-none bg-transparent p-2.5 font-sans text-2xl"
+        :value="searchTerm"
+        autocomplete="off"
+        autocapitalize="off"
+        :placeholder="$t('search.byName')"
+        type="text"
+        spellcheck="false"
+        @input="searchTerm = $event.target.value"
+        @change="searchTerm = $event.target.value"
+        @focus="query.select()"
+        @keypress.enter="
+          query.blur();
+          scrollDownIfLoaded();
+        "
+      />
+      <a
+        class="my-auto w-10 flex-shrink-0 border-none bg-transparent text-xl"
+        @click="scrollDownIfLoaded()"
+      >
+        <FasSearch />
+      </a>
+    </div>
+    <RadSearchOptions :options.sync="options" />
     <div>
-      <div id="search-field">
-        <input
-          ref="query"
-          :value="searchTerm"
-          autocomplete="off"
-          autocapitalize="off"
-          :placeholder="$t('search.byName')"
-          type="text"
-          spellcheck="false"
-          @input="searchTerm = $event.target.value"
-          @change="searchTerm = $event.target.value"
-          @focus="query.select()"
-          @keypress.enter="
-            query.blur();
-            scrollDownIfLoaded();
-          "
-        /><button
-          id="find-station"
-          class="opacity-70 duration-200 hover:opacity-100"
-          @click="scrollDownIfLoaded()"
+      <template v-if="!failed">
+        <div
+          v-if="active && results.length > 0 && !scrollOnceLoaded"
+          class="mt-1.25 w-full text-left"
         >
-          <FasSearch />
-        </button>
-      </div>
-      <RadSearchOptions :options.sync="options" />
-      <div>
-        <template v-if="!failed">
-          <div
-            v-if="active && results.length > 0 && !scrollOnceLoaded"
-            id="results"
-            style="width: 100%; display: block !important"
+          <RadResult
+            v-for="result in results"
+            :key="result.stationuuid"
+            :selected="ids.includes(result.stationuuid)"
+            @change="toggleResult(result)"
           >
-            <RadResult
-              v-for="result in results"
-              :key="result.stationuuid"
-              :selected="ids.includes(result.stationuuid)"
-              @change="toggleResult(result)"
-            >
-              {{ result.name }}
-              <template #tags>
-                <RadTags
-                  :labels="[
-                    ...(result.bitrate > 0 ? [`${result.bitrate} kBit/s`] : []),
-                    result.country,
-                    result.state,
-                    ...result.tags.split(','),
-                  ]"
+            {{ result.name }}
+            <template #tags>
+              <RadTags
+                :labels="[
+                  ...(result.bitrate > 0 ? [`${result.bitrate} kBit/s`] : []),
+                  result.country,
+                  result.state,
+                  ...result.tags.split(','),
+                ]"
+              >
+                <span
+                  v-if="result.lastcheckok === 0"
+                  class="mb-0.5 inline-block bg-strong px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs font-bold uppercase text-on-strong"
+                  >{{ $t("search.stationBroken") }}</span
                 >
-                  <span
-                    v-if="result.lastcheckok === 0"
-                    class="label important"
-                    style="font-weight: bold; text-transform: uppercase"
-                    >{{ $t("search.stationBroken") }}</span
-                  >
-                  {{ " "
-                  }}<span
-                    v-if="options.order !== 'name'"
-                    class="label highlighted"
-                    style="font-weight: bold"
-                  >
-                    <component :is="sortIcon" />
-                    {{ " " }}
-                    <template v-if="result[options.order] !== ''">{{
-                      numericalOrder
-                        ? result[options.order].toLocaleString($i18n.locale)
-                        : result[options.order]
-                    }}</template>
-                    <FasQuestion v-else />
-                  </span>
-                </RadTags>
-              </template>
-            </RadResult>
-          </div>
-          <p v-if="moreExpected || moreAvailable" id="load-more">
-            <span v-if="moreExpected" style="margin: auto">
-              <template v-if="empty">
-                <FarMeh class="w-fixed" />{{ $t("search.noMatches") }}
-              </template>
-              <template v-else>
-                <FasSpinner class="w-fixed animate-spin" />{{ $t("search.loading") }}
-              </template>
-            </span>
-            <RadMenuButton v-else class="w-full" @click="loadMore">
-              <FasSearch class="w-fixed" />
-              {{ $t("search.loadMore") }}
-            </RadMenuButton>
-          </p>
-        </template>
-        <p v-if="failed" style="font-size: 18px">
-          <FasExclamationTriangle class="w-fixed" />
-          {{ $t("search.error") }}
-          <a @click="reset"><FasRedo class="w-fixed" />{{ $t("search.tryAgain") }}</a>
-        </p>
-      </div>
+                {{ " "
+                }}<span
+                  v-if="options.order !== 'name'"
+                  class="mb-0.5 inline-block bg-emphasis px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs font-bold text-on-emphasis"
+                >
+                  <component :is="sortIcon" />
+                  {{ " " }}
+                  <template v-if="result[options.order] !== ''">{{
+                    numericalOrder
+                      ? result[options.order].toLocaleString($i18n.locale)
+                      : result[options.order]
+                  }}</template>
+                  <FasQuestion v-else />
+                </span>
+              </RadTags>
+            </template>
+          </RadResult>
+        </div>
+        <div v-if="moreExpected || moreAvailable" class="mt-[18px] flex py-2.5 text-lg">
+          <span v-if="moreExpected" class="m-auto py-3.5">
+            <template v-if="empty">
+              <FarMeh class="w-fixed" />{{ $t("search.noMatches") }}
+            </template>
+            <template v-else>
+              <FasSpinner class="w-fixed animate-spin" />{{ $t("search.loading") }}
+            </template>
+          </span>
+          <RadMenuButton v-else class="w-full" @click="loadMore">
+            <FasSearch class="w-fixed" />
+            {{ $t("search.loadMore") }}
+          </RadMenuButton>
+        </div>
+      </template>
+      <p v-if="failed" class="my-4 py-2.5 text-lg">
+        <FasExclamationTriangle class="w-fixed" />
+        {{ $t("search.error") }}
+        <a @click="reset"><FasRedo class="w-fixed" />{{ $t("search.tryAgain") }}</a>
+      </p>
     </div>
   </RadDrawer>
 </template>
@@ -356,45 +354,9 @@ export default class RadSearch extends Vue {
 
   scrollDown(): void {
     this.$scrollTo(this.query, 300, {
-      container: "#drawers",
+      container: ".drawer",
       cancelable: false,
     });
   }
 }
 </script>
-
-<style scoped>
-#search > :nth-child(4) > :first-child {
-  margin-bottom: 20px;
-}
-#search-field input {
-  width: calc(100% - 60px);
-  border: none;
-  font-size: 24px;
-  font-family: inherit;
-  padding: 10px;
-  background: none;
-  appearance: none;
-}
-#search-field input::-webkit-search-cancel-button {
-  display: none;
-}
-#find-station {
-  font-size: 20px;
-  font-family: inherit;
-  width: 40px;
-  border: none;
-  background: none;
-  white-space: nowrap;
-}
-#results {
-  text-align: left;
-  margin-top: 5px;
-}
-#load-more {
-  display: flex;
-  font-size: 18px;
-  height: 50px;
-  margin-bottom: 0;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <RadDrawer id="editor">
+  <RadDrawer>
     <h3>
       <FasEdit class="w-fixed" />
       {{ stationReference ? stationReference.name : $t("editor.newStation") }} –
@@ -7,95 +7,81 @@
     </h3>
     <form ref="form" @submit.prevent="handleSubmit()">
       <div v-if="stationClone !== null">
-        <span style="display: table-cell"
-          ><sup
-            class="important"
-            :title="$t('editor.field.marked')"
-            style="vertical-align: text-top"
-            >&lowast;</sup
-          >
+        <span class="table-cell"
+          ><sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
           {{ $t("editor.field.name") }}: </span
         ><RadInput
           :value="stationClone.name"
-          style="display: table-cell; width: 100%"
+          class="mb-2.5 table-cell w-full"
           :placeholder="$t('editor.field.name')"
           type="text"
           required
           @change="stationClone.name = $event"
         />
-        <span style="display: table-cell"
-          ><sup
-            class="important"
-            :title="$t('editor.field.marked')"
-            style="vertical-align: text-top"
-            >&lowast;</sup
-          >
+        <span class="table-cell"
+          ><sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
           {{ $t("editor.field.url") }}: </span
         ><RadInput
           :value="stationClone.url"
-          style="display: table-cell; width: 100%"
+          class="mb-2.5 table-cell w-full"
           :placeholder="$t('editor.field.url')"
           type="url"
           required
           @change="stationClone.url = $event"
         />
-        <span style="display: table-cell"
-          ><sup
-            class="important"
-            :title="$t('editor.field.marked')"
-            style="vertical-align: text-top"
-            >&lowast;</sup
-          >
+        <span class="table-cell"
+          ><sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
           {{ $t("editor.field.homepage") }}: </span
         ><RadInput
           :value="stationClone.homepage"
-          style="display: table-cell; width: 100%"
+          class="mb-2.5 table-cell w-full"
           :placeholder="$t('editor.field.homepage')"
           type="url"
           required
           @change="stationClone.homepage = $event"
         />
-        <span style="display: table-cell">{{ $t("editor.field.icon") }}: </span
+        <span class="table-cell">{{ $t("editor.field.icon") }}: </span
         ><RadInput
           :value="stationClone.icon"
-          style="display: table-cell; width: 100%"
+          class="mb-2.5 table-cell w-full"
           :placeholder="$t('editor.field.icon')"
           type="url"
           @change="stationClone.icon = $event"
         />
-        <span style="display: table-cell">{{ $tc("general.country") }}: </span
+        <span class="table-cell">{{ $tc("general.country") }}: </span
         ><RadInput
           :value="stationClone.country"
-          style="display: table-cell; width: 100%"
+          class="mb-2.5 table-cell w-full"
           :placeholder="$tc('general.country')"
           type="text"
           @change="stationClone.country = $event"
         />
-        <span style="display: table-cell">{{ $tc("general.state") }}: </span
+        <span class="table-cell">{{ $tc("general.state") }}: </span
         ><RadInput
           :value="stationClone.state"
-          style="display: table-cell; width: 100%"
+          class="mb-2.5 table-cell w-full"
           :placeholder="$tc('general.state')"
           type="text"
           @change="stationClone.state = $event"
         />
-        <span style="display: table-cell">{{ $tc("general.language") }}: </span
+        <span class="table-cell">{{ $tc("general.language") }}: </span
         ><RadInput
           :value="stationClone.language"
-          style="display: table-cell; width: 100%"
+          class="mb-2.5 table-cell w-full"
           :placeholder="$tc('general.language')"
           type="text"
           @change="stationClone.language = $event"
         />
         <RadTagInput :tags.sync="stationClone.tags" />
         <br />
-        <div class="important text-left">&lowast; {{ $t("editor.field.required") }}</div>
+        <div class="text-left text-strong">&lowast; {{ $t("editor.field.required") }}</div>
       </div>
-      <div class="button-group text-right">
+      <div class="py-2.5 text-right">
         <RadButton @click="finish()">
-          <FasCheck class="w-fixed" />{{ $t("general.done") }}
+          <FasCheck class="w-fixed" />
+          {{ $t("general.done") }}
         </RadButton>
-        <input ref="submit-button" type="submit" name="submit" style="display: none" />
+        <input ref="submit-button" type="submit" name="submit" hidden />
       </div>
     </form>
   </RadDrawer>

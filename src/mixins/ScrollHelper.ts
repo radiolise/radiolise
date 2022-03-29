@@ -44,16 +44,14 @@ export default class ScrollHelper extends Vue {
   }
 
   getPlayerBarHeight(): number {
-    const playerBar = document.querySelector("#video .media-controls") as HTMLDivElement;
-
+    const playerBar = document.querySelector(".video .action-bar") as HTMLDivElement;
     return playerBar.offsetHeight;
   }
 
   scrollHandler(): void {
-    const player = document.querySelector("#video") as HTMLDivElement;
-    const playerRect = player.getBoundingClientRect();
-
-    const fixedPlayer = playerRect.top + playerRect.height <= this.playerBarHeight + 50;
+    const player = document.querySelector(".video") as HTMLDivElement;
+    const { top, height } = player.getBoundingClientRect();
+    const fixedPlayer = top + height <= this.playerBarHeight + 50;
 
     if (this.fixedPlayer !== fixedPlayer) {
       this.fixPlayer(fixedPlayer);

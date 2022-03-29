@@ -1,12 +1,18 @@
 <template>
-  <div class="checkbox" :class="{ checked }" @click="toggleChecked()">
-    <div>
-      <transition name="fade" mode="out-in">
+  <div class="cursor-pointer" @click="toggleChecked()">
+    <div class="table-cell w-6.25 align-top text-xl">
+      <transition
+        mode="out-in"
+        enter-class="scale-x-[0.8] scale-y-[0.7]"
+        leave-to-class="scale-x-[0.8] scale-y-[0.7]"
+        enter-active-class="transition-transform duration-75"
+        leave-active-class="transition-transform duration-75"
+      >
         <FasCheckSquare v-if="checked" key="checked" />
         <FarSquare v-else key="notChecked" class="opacity-70" />
       </transition>
     </div>
-    <div>
+    <div class="table-cell pt-0.75">
       <strong v-if="strongHeading"><slot /></strong>
       <slot v-else />
       <template v-if="hasDescription">
@@ -45,28 +51,3 @@ export default class RadCheck extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.checkbox {
-  cursor: pointer;
-}
-.checkbox > div {
-  vertical-align: top;
-  display: table-cell;
-}
-.checkbox > :first-child {
-  width: 25px;
-  font-size: 20px;
-}
-.checkbox > :last-child {
-  padding-top: 3px;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 80ms;
-}
-.fade-enter,
-.fade-leave-to {
-  transform: scale(0.8, 0.7);
-}
-</style>

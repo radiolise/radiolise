@@ -1,25 +1,26 @@
 <template>
   <div>
-    <div id="more-options">
+    <div class="pb-2.5 text-left">
       <a @click="showOptions = !showOptions"
         ><FasChevronDown :class="['w-fixed', { '-rotate-180': showOptions }]" />{{
           $t(`search.${showOptions ? "hideOptions" : "showOptions"}`)
         }}</a
       >
     </div>
-    <div id="filters" v-show-slide="showOptions">
-      <RadTagInput style="padding-bottom: 10px" :tags.sync="syncedOptions.tags" />
-      <div class="text-left" style="display: table; width: 100%">
-        <div style="padding: 5px 0; display: table-row; overflow: hidden">
-          <div style="display: table-cell; white-space: nowrap">
+    <div v-show-slide="showOptions">
+      <div class="pb-2.5">
+        <RadTagInput :tags.sync="syncedOptions.tags" />
+      </div>
+      <div class="table w-full text-left">
+        <div class="table-row overflow-hidden py-1.25">
+          <div class="table-cell whitespace-nowrap">
             <FasFilter class="opacity-50" />
             {{ $t("search.filters.label") }}:{{ "\xa0" }}
           </div>
-          <div style="display: table-cell; width: 100%">
+          <div class="table-cell w-full">
             <div v-if="failedToLoadFilters">
-              <div style="display: table">
-                1
-                <div style="display: table-cell; white-space: nowrap">
+              <div class="table">
+                <div class="table-cell whitespace-nowrap">
                   <FasExclamationTriangle class="w-fixed" />{{ "\xa0" }}
                 </div>
                 <div>
@@ -33,9 +34,8 @@
             </div>
             <template v-else>
               <RadDropdown
-                id="country"
                 v-model="syncedOptions.country"
-                style="width: 100%"
+                class="w-full"
                 :label="$tc('general.country')"
                 :data="filterOptions['countries']"
                 :loaded="filters.countries !== null"
@@ -43,10 +43,9 @@
               />
               <br />
               <RadDropdown
-                id="state"
                 v-model="syncedOptions.state"
                 :title="syncedOptions.country === '' ? $t('search.filters.noCountrySelected') : ''"
-                style="width: 100%"
+                class="w-full"
                 :disabled="syncedOptions.country === ''"
                 :label="`${$tc('general.state')} (${syncedOptions.country})`"
                 :data="filterOptions['states']"
@@ -55,9 +54,8 @@
               />
               <br />
               <RadDropdown
-                id="language"
                 v-model="syncedOptions.language"
-                style="width: 100%"
+                class="w-full"
                 :label="$tc('general.language')"
                 :data="filterOptions['languages']"
                 :loaded="filters.languages !== null"
@@ -65,16 +63,15 @@
             </template>
           </div>
         </div>
-        <div style="padding: 5px 0; display: table-row">
-          <div style="display: table-cell; white-space: nowrap">
+        <div class="table-row py-1.25">
+          <div class="table-cell whitespace-nowrap">
             <FasSort class="opacity-50" />
             {{ $t("search.order.sortBy") }}{{ "\xa0" }}
           </div>
-          <div style="display: table-cell; width: 100%">
+          <div class="table-cell w-full">
             <RadDropdown
-              id="order"
               v-model="syncedOptions.order"
-              style="width: 100%"
+              class="w-full"
               :label="$t('search.order.sortBy')"
               :data="[
                 { id: 'clickcount', name: $t('search.order.clicks') },
@@ -89,17 +86,16 @@
           </div>
         </div>
       </div>
-      <div class="text-left" style="padding-top: 10px">
-        <span style="cursor: help" :title="$t('search.bitrate.description')"
+      <div class="pt-2.5 text-left">
+        <span class="cursor-help" :title="$t('search.bitrate.description')"
           ><FasWaveSquare class="opacity-50" /> {{ $t("search.bitrate.label") }}</span
         >:
         <RadRangeInput
-          style="display: inline-block; white-space: nowrap"
           :min.sync="syncedOptions.bitrate.min"
           :max.sync="syncedOptions.bitrate.max"
         />
       </div>
-      <div class="text-left" style="padding: 10px 0">
+      <div class="py-2.5 text-left">
         <RadCheck v-model="syncedOptions.reverse">
           {{ $t("search.reverse") }}
         </RadCheck>
@@ -224,13 +220,3 @@ export default class RadSearchOptions extends Vue {
   }
 }
 </script>
-
-<style scoped>
-#more-options {
-  text-align: left;
-  padding-bottom: 10px;
-}
-#more-options .icon {
-  transition: opacity 0.2s, transform 0.3s;
-}
-</style>

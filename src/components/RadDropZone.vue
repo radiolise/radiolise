@@ -1,14 +1,19 @@
 <template>
-  <label class="drop-zone" @drop.prevent="handleDrop" @dragover.prevent>
-    <div>
+  <label
+    class="flex h-[142px] cursor-pointer border-[1px] border-dotted border-[#888] bg-soft p-2.5 text-center"
+    @drop.prevent="handleDrop"
+    @dragover.prevent
+  >
+    <div class="my-auto">
       <div v-show-slide="imported">
-        <div class="highlighted"><FasCheck /> {{ $t("dropZone.fileAdded") }}</div>
+        <div class="text-[1.2em] text-emphasis"><FasCheck /> {{ $t("dropZone.fileAdded") }}</div>
         <br />
       </div>
       {{ $t("dropZone.usage") }}
     </div>
     <input
       ref="file-input"
+      hidden
       type="file"
       accept="text/plain, application/x-yaml, .txt"
       @change="handleFileChanged"
@@ -94,23 +99,3 @@ export default class RadDropZone extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.drop-zone {
-  display: flex;
-  cursor: pointer;
-  border: 1px dotted #888;
-  padding: 10px;
-  text-align: center;
-  min-height: 120px;
-}
-input[type="file"] {
-  display: none;
-}
-label > div {
-  margin: auto;
-}
-.highlighted {
-  font-size: 1.2em;
-}
-</style>

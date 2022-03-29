@@ -1,10 +1,10 @@
 <template>
   <RadDrawer>
     <h3><FasCog class="w-fixed" /> {{ $t("general.settings") }}</h3>
-    <p class="description">{{ $t("settings.description", [appTitle]) }}</p>
+    <p class="description py-2.5">{{ $t("settings.description", [appTitle]) }}</p>
     <form ref="form" @submit.prevent="onSubmit()">
-      <div v-if="settings !== null" id="control-panel">
-        <div>
+      <div v-if="settings !== null" class="text-left">
+        <div class="mt-5 ml-2.5">
           <strong>{{ $tc("settings.theme", 1) }}</strong
           >:
           <RadDropdown
@@ -16,10 +16,10 @@
             ]"
           />
         </div>
-        <div>
+        <div class="mt-5 ml-2.5">
           <span class="description">{{ $t(`settings.themes.${settings.theme}`) }}</span>
         </div>
-        <div>
+        <div class="mt-5 ml-2.5">
           <strong>{{ $tc("settings.colorScheme.name") }}</strong
           >:
           <RadDropdown
@@ -36,37 +36,37 @@
             ]"
           />
         </div>
-        <RadCheck v-model="settings.compactMode">
+        <RadCheck v-model="settings.compactMode" class="mt-5 ml-2.5">
           {{ $t("settings.compactMode.name") }}
           <template #description>
             {{ $t("settings.compactMode.description") }}
           </template>
         </RadCheck>
-        <RadCheck v-model="settings.changecolor">
+        <RadCheck v-model="settings.changecolor" class="mt-5 ml-2.5">
           {{ $t("settings.colorChange.name") }}
           <template #description>
             {{ $t("settings.colorChange.description") }}
           </template>
         </RadCheck>
-        <RadCheck id="visualization-setting" v-model="settings.visualization">
+        <RadCheck v-model="settings.visualization" class="mt-5 ml-2.5 mobile:opacity-50">
           {{ $t("settings.visualization.name") }}
-          <span :title="$t('settings.visualization.screenWidthIssue')">
+          <span class="hidden mobile:inline" :title="$t('settings.visualization.screenWidthIssue')">
             <FasExclamationTriangle />
           </span>
           <template #description>
             {{ $t("settings.visualization.description") }}
           </template>
         </RadCheck>
-        <RadCheck v-model="settings.relax">
+        <RadCheck v-model="settings.relax" class="mt-5 ml-2.5">
           {{ $t("settings.relaxMode.name") }}
           <template #description>
             {{ $t("settings.relaxMode.description") }}
           </template>
         </RadCheck>
-        <div v-if="settings.relax">
+        <div v-if="settings.relax" class="mt-5 ml-2.5">
           <strong>{{ $t("settings.relaxMode.timer") }}</strong>
           {{ " " }}
-          <span style="opacity: 0.7">(sec):</span>
+          <span class="opacity-70">(sec):</span>
           {{ " " }}
           <RadInput
             v-model.number="settings.relaxTimeout"
@@ -77,16 +77,16 @@
             required
           />
         </div>
-        <RadCheck v-model="settings.sleep">
+        <RadCheck v-model="settings.sleep" class="mt-5 ml-2.5">
           {{ $t("settings.sleep.name") }}
           <template #description>
             {{ $t("settings.sleep.description") }}
           </template>
         </RadCheck>
-        <div v-if="settings.sleep">
+        <div v-if="settings.sleep" class="mt-5 ml-2.5">
           <strong>{{ $t("settings.sleep.timer") }}</strong>
           {{ " " }}
-          <span style="opacity: 0.7">(min):</span>
+          <span class="opacity-70">(min):</span>
           {{ " " }}
           <RadInput
             v-model.number="settings.sleepTimeout"
@@ -97,13 +97,13 @@
             required
           />
         </div>
-        <RadCheck v-model="settings.loadpolicy" setting>
+        <RadCheck v-model="settings.loadpolicy" setting class="mt-5 ml-2.5">
           {{ $t("settings.loadIcons.name") }}
         </RadCheck>
-        <div>
+        <div class="mt-5 ml-2.5">
           <strong>{{ $t("settings.volume") }}</strong>
           {{ " " }}
-          <span style="opacity: 0.7">(%):</span>
+          <span class="opacity-70">(%):</span>
           {{ " " }}
           <RadInput
             v-model.number="settings.volume"
@@ -115,7 +115,7 @@
             required
           />
         </div>
-        <div>
+        <div class="mt-5 mb-2.5 ml-2.5">
           <FasCommentDots class="-scale-x-100" />{{ " " }}
           <strong>{{ $tc("general.language", 1) }}</strong
           >:
@@ -126,7 +126,7 @@
           />
         </div>
       </div>
-      <div class="button-group text-right">
+      <div class="py-2.5 text-right">
         <RadLink v-slot="{ navigate }" :to="null">
           <RadButton @click="navigate">
             <FasBan />
@@ -137,15 +137,15 @@
           <FasCheck />
           {{ $t("general.apply") }}
         </RadButton>
-        <input type="submit" name="submit" style="display: none" />
+        <input type="submit" name="submit" hidden />
       </div>
     </form>
-    <div style="display: table; margin: 10px auto">
-      <div style="float: left; margin: 5px 10px">
+    <div class="mx-auto my-2.5 table">
+      <div class="float-left mx-2.5 my-1.25">
         <a @click="reset()"><FasUndo class="w-fixed" />{{ $t("settings.reset") }}</a
         ><br />
       </div>
-      <div style="float: right; margin: 5px 10px">
+      <div class="float-right mx-2.5 my-1.25">
         <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'settings' }">
           <a @click="navigate"><FasUpload class="w-fixed" />{{ $t("settings.import") }}</a>
         </RadLink>
@@ -264,23 +264,3 @@ export default class RadSettings extends Vue {
   }
 }
 </script>
-
-<style scoped>
-#control-panel {
-  text-align: left;
-}
-#control-panel > div {
-  margin: 20px 0 10px 10px;
-}
-#visualization-setting span {
-  display: none;
-}
-@media (max-width: 820px) {
-  #visualization-setting {
-    opacity: 0.5;
-  }
-  #visualization-setting span {
-    display: initial;
-  }
-}
-</style>

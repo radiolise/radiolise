@@ -1,11 +1,13 @@
 <template>
-  <div style="display: flex; justify-content: center">
-    <div id="empty-list" class="bg-dim">
+  <div class="flex justify-center">
+    <div
+      class="mb-[40px] w-full max-w-[440px] rounded bg-soft px-5 py-2.5 text-center shadow-sm shadow-black/25"
+    >
       <RadHappyBird />
-      <h3 style="margin-bottom: 0">
+      <h3 class="mb-0 pt-1">
         {{ $t("general.listEmpty[0]") }}
       </h3>
-      <div class="button-group icons:w-fixed">
+      <div class="py-2.5 icons:w-fixed">
         <RadLink v-slot="{ active, navigate }" to="search" toggle>
           <RadButton class="text-lg" :active="active" @click="navigate">
             <FasSearch />
@@ -41,20 +43,3 @@ import RadLink from "./RadLink.vue";
 })
 export default class RadEmptyList extends Vue {}
 </script>
-
-<style scoped>
-#empty-list {
-  text-align: center;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  width: 100%;
-  max-width: 400px;
-  padding: 10px 20px;
-  margin-bottom: 40px;
-}
-#empty-list .illustration {
-  width: 200px;
-  max-width: 100%;
-  margin-top: 20px;
-}
-</style>

@@ -1,20 +1,35 @@
 <template>
   <div>
-    <div class="play-button">
-      <div>
+    <div
+      :class="[
+        'absolute z-10 table h-8.75 w-8.75 overflow-hidden rounded-full bg-black/50 text-center text-white',
+        { 'opacity-0 group-hover:opacity-100': !playing },
+      ]"
+    >
+      <div class="table-cell align-middle">
         <component :is="overlay" :class="['w-fixed', { 'animate-spin': buffering }]" />
       </div>
     </div>
-    <div class="icon-container">
-      <div v-show="loaded" v-if="settings.loadpolicy" class="station-icon">
-        <img ref="image" :src="url" alt="Logo" @load="hidePlaceholder()" />
+    <div class="h-8.75 w-8.75 overflow-hidden rounded-full shadow-[0_0_1px_0] shadow-black">
+      <div
+        v-if="settings.loadpolicy"
+        :class="[
+          'flex h-full items-center bg-white',
+          playing ? 'blur' : 'group-hover:blur',
+          { hidden: !loaded },
+        ]"
+      >
+        <img class="w-full" :src="url" alt="Logo" @load="hidePlaceholder()" />
       </div>
       <div
         v-if="!loaded"
-        class="station-icon"
-        :style="{ background: `hsl(${station.hue}, 50%, 50%)` }"
+        :class="[
+          'flex h-full w-full items-center text-center text-xl text-white',
+          playing ? 'blur' : 'group-hover:blur',
+        ]"
+        :style="{ backgroundColor: `hsl(${station.hue} 50% 50%)` }"
       >
-        <span>{{ station.name[0].toUpperCase() }}</span>
+        <div class="w-full">{{ station.name[0].toUpperCase() }}</div>
       </div>
     </div>
   </div>
@@ -28,6 +43,7 @@ import { Getter, Action } from "vuex-class";
 export default class RadIcon extends Vue {
   loaded = false;
 
+  @Prop(Boolean) readonly playing!: boolean;
   @Prop({ type: Object, required: true }) readonly station!: Station;
 
   @Getter readonly settings!: Settings;
@@ -86,47 +102,3 @@ export default class RadIcon extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.play-button {
-  position: absolute;
-  z-index: 1;
-  color: #ffffff;
-  text-align: center;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  background: rgba(0, 0, 0, 0.5);
-  display: table;
-  opacity: 0;
-  overflow: hidden;
-}
-.play-button > div {
-  display: table-cell;
-  vertical-align: middle;
-}
-.icon-container {
-  border-radius: 50%;
-  height: 35px;
-  width: 35px;
-  overflow: hidden;
-  box-shadow: 0 0 1px #000;
-}
-.station-icon {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  font-size: 22px;
-  text-align: center;
-  color: #fff;
-  background: #fff;
-  border-radius: 50%;
-}
-.station-icon > img {
-  width: 100%;
-}
-.station-icon > span {
-  width: 100%;
-}
-</style>

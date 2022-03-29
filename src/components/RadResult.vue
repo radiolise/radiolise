@@ -1,10 +1,13 @@
 <template>
-  <div class="result" :class="{ selected }" @click="toggleSelection()">
-    <div class="check-mark highlighted">
-      <FasCheck style="margin-left: 10px" />
+  <div
+    class="flex cursor-pointer p-2.5 transition-[background-color] duration-200 hover:bg-black/10"
+    @click="toggleSelection()"
+  >
+    <div :class="['w-0 text-emphasis duration-200', selected ? 'mr-6.25' : 'opacity-0']">
+      <FasCheck />
     </div>
-    <div style="padding: 10px; margin-bottom: 10px; display: table-cell">
-      <h4 style="margin: 0">
+    <div>
+      <h4 class="m-0">
         <slot />
       </h4>
       <br />
@@ -30,27 +33,3 @@ export default class RadResult extends Vue {
   }
 }
 </script>
-
-<style scoped>
-.result {
-  cursor: pointer;
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  transition: background 0.2s;
-}
-.result:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
-.check-mark {
-  display: table-cell;
-  opacity: 0;
-  width: 0;
-  transition-property: opacity, width;
-  transition-duration: 0.2s;
-}
-.selected .check-mark {
-  opacity: 1;
-  width: 25px;
-}
-</style>
