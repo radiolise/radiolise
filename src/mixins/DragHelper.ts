@@ -9,7 +9,7 @@ export default class DragHelper extends Vue {
 
   @Prop({ type: Number, required: true }) readonly index!: number;
 
-  @Ref("station-row") readonly stationRow!: HTMLTableRowElement;
+  @Ref("station-row") readonly stationRow!: HTMLDivElement;
 
   @Getter readonly currentList!: Station[];
   @Getter readonly sortIndex!: number | undefined;
@@ -33,7 +33,7 @@ export default class DragHelper extends Vue {
   }
 
   handleMouseMove(event: MouseEvent): void {
-    const container = document.querySelector("#stations") as HTMLTableElement;
+    const container = document.querySelector("#stations") as HTMLDivElement;
     const currentTranslate = event.pageY - this.dragOrigin;
 
     if (!this.dragging) {
@@ -58,7 +58,7 @@ export default class DragHelper extends Vue {
       this.newIndex = this.currentList.length - 1;
     }
 
-    const rows = document.querySelectorAll("#stations > div") as NodeListOf<HTMLTableRowElement>;
+    const rows = document.querySelectorAll("#stations > div") as NodeListOf<HTMLDivElement>;
 
     rows.forEach((row, i) => {
       if (i === this.index) {
@@ -81,7 +81,7 @@ export default class DragHelper extends Vue {
 
   handleMouseUp(): void {
     if (this.dragging) {
-      const rows = [...document.querySelectorAll("#stations > div")] as HTMLTableRowElement[];
+      const rows = [...document.querySelectorAll("#stations > div")] as HTMLDivElement[];
 
       rows.forEach((row) => {
         row.style.transform = "";
@@ -90,7 +90,7 @@ export default class DragHelper extends Vue {
       this.dragging = false;
       this.currentTranslate = 0;
       this.finishSorting();
-      const container = document.querySelector("#stations") as HTMLTableElement;
+      const container = document.querySelector("#stations") as HTMLDivElement;
       container.style.pointerEvents = "";
       this.moveStation({ index: this.index, newIndex: this.newIndex });
     }
