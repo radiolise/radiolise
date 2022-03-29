@@ -55,7 +55,6 @@ export interface StoreState {
   fixedPlayer: boolean;
   fullscreen: boolean;
   hasVideo: boolean;
-  initialized: boolean;
   likeState?: LikeState;
   memory: Memory;
   messages: Required<ModalOptions>[];
@@ -102,7 +101,6 @@ const store = new Vuex.Store({
     fixedPlayer: false,
     fullscreen: false,
     hasVideo: false,
-    initialized: false,
     likeState: undefined,
     memory: defaultMemory,
     messages: [],

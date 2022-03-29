@@ -1,0 +1,42 @@
+:root {
+  color-scheme: light;
+
+  --rad-color-primary: 100 149 237;
+  --rad-color-default: 221 221 221;
+
+  --rad-color-surface-base: 255 255 255;
+  --rad-color-on-surface-base: 34 34 34;
+  --rad-color-soft-base: 238 238 238;
+  --rad-color-mute-base: var(--rad-color-default);
+
+  --rad-color-surface-inverse: 34 34 34;
+  --rad-color-on-surface-inverse: 255 255 255;
+  --rad-color-soft-inverse: 68 68 68;
+  --rad-color-mute-inverse: 85 85 85;
+
+  --rad-color-surface: var(--rad-color-surface-base);
+  --rad-color-on-surface: var(--rad-color-on-surface-base);
+  --rad-color-soft: var(--rad-color-soft-base);
+  --rad-color-mute: var(--rad-color-mute-base);
+  --rad-color-mute-contrast: var(--rad-color-mute-inverse);
+
+  --rad-color-bird-accent: 63 61 87;
+
+  &.dark {
+    color-scheme: dark;
+
+    --rad-color-default: 51 51 51;
+
+    --rad-color-surface-base: 68 68 68;
+    --rad-color-on-surface-base: 255 255 255;
+    --rad-color-soft-base: 85 85 85;
+    --rad-color-mute-base: 61 61 61;
+
+    --rad-color-surface-inverse: 255 255 255;
+    --rad-color-on-surface-inverse: 0 0 0;
+    --rad-color-soft-inverse: 221 221 221;
+    --rad-color-mute-inverse: 221 221 221;
+
+    --rad-color-bird-accent: 226 225 234;
+  }
+}

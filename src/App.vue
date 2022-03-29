@@ -71,6 +71,7 @@ export default class App extends HelperMixins {
   @Ref() readonly app!: HTMLDivElement;
 
   @State readonly currentDialog!: DialogState | null;
+  @State readonly darkMode!: boolean;
   @State readonly fellAsleep!: boolean;
   @State readonly relaxed!: boolean;
 
@@ -87,7 +88,6 @@ export default class App extends HelperMixins {
 
   @Action determineDateFnsLocale!: (locale: string) => Promise<Locale | undefined>;
 
-  @Action loadStyle!: () => Promise<void>;
   @Action setDarkMode!: (darkMode: boolean) => Promise<void>;
   @Action setRelaxTimer!: () => Promise<void>;
   @Action unsetDateFnsLocale!: () => Promise<void>;
@@ -117,6 +117,11 @@ export default class App extends HelperMixins {
         content: [],
       });
     }
+  }
+
+  @Watch("darkMode")
+  onDarkModeToggled(dark: boolean) {
+    document.documentElement.classList.toggle("dark", dark);
   }
 
   @Watch("noOverflow", { immediate: true })
@@ -174,11 +179,6 @@ export default class App extends HelperMixins {
     this.setBackgroundColor();
   }
 
-  @Watch("settings.theme")
-  handleThemeChanged(): void {
-    this.loadStyle();
-  }
-
   @Watch("colorScheme")
   handleColorSchemeChanged(colorScheme: string): void {
     if (colorScheme === "auto") {
@@ -187,7 +187,6 @@ export default class App extends HelperMixins {
     } else {
       this.darkSchemeQuery.removeListener(this.applyColorScheme);
       this.setDarkMode(colorScheme === "dark");
-      this.loadStyle();
     }
   }
 
@@ -239,7 +238,6 @@ export default class App extends HelperMixins {
 
   applyColorScheme(): void {
     this.setDarkMode(this.darkSchemeQuery.matches);
-    this.loadStyle();
   }
 
   handleFullscreenScroll(): void {
@@ -247,9 +245,10 @@ export default class App extends HelperMixins {
       this.navbarShown = this.app.scrollTop > 0;
     }
   }
+
+  @Watch("settings.theme", { immediate: true })
+  updateTheme(): void {
+    document.documentElement.dataset.theme = this.settings.theme;
+  }
 }
 </script>
-
-<style>
-@import url("@/assets/css/app.css");
-</style>

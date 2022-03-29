@@ -5,6 +5,8 @@ import App from "./App.vue";
 import store from "./store";
 import i18n from "./lang";
 
+import "./assets/css/index.css";
+
 Vue.config.productionTip = false;
 Vue.config.silent = process.env.NODE_ENV === "production";
 Vue.config.devtools = true;

@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { Component, Watch, Mixins } from "vue-property-decorator";
-import { Getter, Action } from "vuex-class";
+import { State, Getter, Action } from "vuex-class";
 
 import RadButton from "./RadButton.vue";
 import RadEmptyList from "./RadEmptyList.vue";
@@ -97,6 +97,8 @@ export default class RadPage extends Mixins(ScrollHelper) {
   appTitle = process.env.VUE_APP_TITLE;
   provideMediaSession = false;
 
+  @State readonly currentDialog!: DialogState | null;
+
   @Getter readonly currentStation: Station | undefined;
   @Getter readonly currentList!: Station[];
 
@@ -115,6 +117,10 @@ export default class RadPage extends Mixins(ScrollHelper) {
     if (station === undefined || oldStation === undefined) {
       this.setSwitchButtons();
     }
+  }
+
+  get dialog() {
+    return this.currentDialog !== null;
   }
 
   get listEmpty(): boolean {

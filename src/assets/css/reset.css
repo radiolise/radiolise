@@ -1,0 +1,62 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: theme("borderColor.DEFAULT");
+  outline: 2px solid transparent;
+}
+
+::before,
+::after {
+  --tw-content: "";
+}
+
+html {
+  font-family: theme("fontFamily.sans");
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: inherit;
+  white-space: nowrap;
+}
+
+h1,
+h2 {
+  font-weight: inherit;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  margin: 0;
+}
+
+button,
+input {
+  background-color: transparent;
+  color: inherit;
+}
+
+p {
+  margin: 0;
+}
+
+img,
+svg,
+video {
+  display: block;
+  vertical-align: middle;
+}
+
+[hidden] {
+  display: none;
+}

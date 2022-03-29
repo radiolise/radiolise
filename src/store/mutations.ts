@@ -6,7 +6,7 @@ const mutations: MutationTree<StoreState> = {
   INITIALIZE(state, memory: Memory) {
     state.memory = memory;
     state.volume = memory.settings.volume / 100;
-    state.initialized = true;
+    state.ready = true;
   },
 
   SET_EDITING_REF(state, station?: Station): void {
@@ -147,10 +147,6 @@ const mutations: MutationTree<StoreState> = {
 
   SET_SORT_INDEX(state, index?: number): void {
     state.sortMode.index = index;
-  },
-
-  SET_READY(state): void {
-    state.ready = true;
   },
 
   SET_DARK_MODE(state, darkMode: boolean): void {

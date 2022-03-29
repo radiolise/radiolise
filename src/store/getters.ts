@@ -31,7 +31,7 @@ const getters: GetterTree<StoreState, StoreState> = {
   },
 
   colorScheme(state): string | null {
-    return state.initialized ? state.memory.settings.colorScheme : null;
+    return state.memory.settings.colorScheme;
   },
 
   language(state): string {

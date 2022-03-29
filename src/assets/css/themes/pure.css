@@ -1,0 +1,35 @@
+:root[data-theme="pure"] {
+  --rad-color-emphasis: 0 128 0;
+  --rad-color-on-emphasis: 255 255 255;
+  --rad-color-strong: 255 0 0;
+  --rad-color-on-strong: 255 255 255;
+
+  --rad-backdrop-blur: 5px;
+
+  .main {
+    --rad-shadow: 5px 5px 10px 0 rgb(0 0 0 / 0.1);
+  }
+
+  .action-bar,
+  .banner,
+  .toast {
+    --rad-shadow: none;
+    --tw-bg-opacity: 0.9;
+    --rad-color-surface: var(--rad-color-surface-inverse);
+    --rad-color-on-surface: var(--rad-color-on-surface-inverse);
+    --rad-color-soft: var(--rad-color-soft-inverse);
+    --rad-color-mute: var(--rad-color-mute-inverse);
+    --rad-color-mute-contrast: var(--rad-color-mute-base);
+  }
+
+  .toast {
+    --tw-bg-opacity: 1;
+  }
+
+  &.dark {
+    --rad-color-emphasis: 232 121 249;
+    --rad-color-on-emphasis: 0 0 0;
+    --rad-color-strong: 103 232 249;
+    --rad-color-on-strong: 0 0 0;
+  }
+}

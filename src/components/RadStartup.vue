@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from "vue-property-decorator";
-import { State, Action } from "vuex-class";
+import { Component, Vue } from "vue-property-decorator";
+import { Action } from "vuex-class";
 
 import { memoryUpgradeNeeded, getMemory, defaultMemory } from "@/common/memory";
 import { saveFile } from "@/common/downloader";
@@ -34,12 +34,9 @@ export default class RadStartup extends Vue {
   failed = false;
   showMessages = false;
 
-  @State readonly initialized!: boolean;
-  @State readonly ready!: boolean;
-
   @Action init!: (memory: Memory) => Promise<void>;
 
-  async created(): Promise<void> {
+  async mounted(): Promise<void> {
     if (memoryUpgradeNeeded) {
       this.showMessages = true;
     }
@@ -52,24 +49,16 @@ export default class RadStartup extends Vue {
   }
 
   startup(memory: Memory): void {
+    this.showMessages = false;
     this.init(memory);
   }
 
   get message(): string {
     if (this.showMessages) {
-      if (this.initialized) {
-        return "Almost done...";
-      }
-
       return `Upgrading ${this.appTitle}, please wait...`;
     }
 
     return "";
-  }
-
-  @Watch("ready")
-  onReadyChanged(): void {
-    this.showMessages = false;
   }
 
   download(): void {

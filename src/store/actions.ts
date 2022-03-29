@@ -14,7 +14,6 @@ let updateTimer: number;
 let sleepTimer: number;
 let relaxTimer: number;
 let toastTimer: number;
-let importedTheme: { use: () => void; unuse: () => void } | undefined;
 
 const actions: ActionTree<StoreState, StoreState> = {
   init({ commit }, memory: Memory): void {
@@ -544,32 +543,6 @@ const actions: ActionTree<StoreState, StoreState> = {
     }
 
     return notExisting;
-  },
-
-  async loadStyle({ state, commit, dispatch }): Promise<void> {
-    const { theme } = state.memory.settings;
-    const colorScheme = state.darkMode ? "dark" : "light";
-    const styleSheetName = `${theme}-${colorScheme}`;
-
-    try {
-      const theme = await import(
-        /* webpackChunkName: "[request]" */ `@/assets/css/${styleSheetName}.lazy.css`
-      ).then((module) => module.default);
-
-      importedTheme?.unuse();
-      theme.use();
-      importedTheme = theme;
-
-      if (!state.ready) {
-        commit("SET_READY");
-      }
-    } catch {
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
-      });
-
-      return dispatch("loadStyle");
-    }
   },
 
   likeStation({ state, getters, commit }, id: string): void {
