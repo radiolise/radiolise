@@ -5,7 +5,7 @@ import { Getter, Action } from "vuex-class";
 export default class DragHelper extends Vue {
   dragOrigin = 0;
   newIndex = 0;
-  currentTranslate = 0;
+  currentTranslation = 0;
 
   @Prop({ type: Number, required: true }) readonly index!: number;
 
@@ -15,15 +15,21 @@ export default class DragHelper extends Vue {
   @Getter readonly sortIndex!: number | undefined;
 
   @Action moveStation!: (payload: { index: number; newIndex: number }) => Promise<void>;
-
   @Action startSorting!: (index?: number) => Promise<void>;
 
-  get dragging(): boolean {
+  get dragged(): boolean {
     return this.sortIndex === this.index;
   }
 
-  set dragging(dragging: boolean) {
-    this.startSorting(dragging ? this.index : undefined);
+  set dragged(dragged: boolean) {
+    this.startSorting(dragged ? this.index : undefined);
+  }
+
+  getSiblingTranslationValue(siblingIndex: number) {
+    if (this.index < siblingIndex) {
+      return this.newIndex >= siblingIndex ? -1 : 0;
+    }
+    return this.newIndex <= siblingIndex ? 1 : 0;
   }
 
   handleMouseDown(event: MouseEvent): void {
@@ -33,65 +39,40 @@ export default class DragHelper extends Vue {
   }
 
   handleMouseMove(event: MouseEvent): void {
-    const container = document.querySelector(".stations") as HTMLDivElement;
-    const currentTranslate = event.pageY - this.dragOrigin;
+    const currentTranslation = event.pageY - this.dragOrigin;
 
-    if (!this.dragging) {
-      if (Math.abs(currentTranslate) < 20) {
+    if (!this.dragged) {
+      if (Math.abs(currentTranslation) < 20) {
         return;
       }
 
-      this.dragging = true;
-      container.style.pointerEvents = "none";
+      this.dragged = true;
     }
 
-    this.currentTranslate = currentTranslate;
+    this.currentTranslation = currentTranslation;
 
-    this.newIndex = Math.floor(
-      (event.pageY - document.documentElement.scrollTop - container.getBoundingClientRect().top) /
-        this.stationRow.offsetHeight
-    );
+    const offsetTop = this.stationRow.parentElement!.getBoundingClientRect().top;
+    const positionRelative = event.pageY - document.documentElement.scrollTop - offsetTop;
+    const closestIndex = Math.floor(positionRelative / this.stationRow.offsetHeight);
 
-    if (this.newIndex < 0) {
-      this.newIndex = 0;
-    } else if (this.newIndex >= this.currentList.length) {
-      this.newIndex = this.currentList.length - 1;
-    }
+    this.newIndex = Math.min(Math.max(closestIndex, 0), this.currentList.length - 1);
 
-    const rows = document.querySelectorAll(".stations > div") as NodeListOf<HTMLDivElement>;
+    const rows = document.querySelectorAll(".station") as NodeListOf<HTMLDivElement>;
 
-    rows.forEach((row, i) => {
-      if (i === this.index) {
-        return;
+    rows.forEach((row, index) => {
+      if (this.index !== index) {
+        const translationValue = this.getSiblingTranslationValue(index);
+        row.classList.toggle("-translate-y-full", translationValue === -1);
+        row.classList.toggle("translate-y-full", translationValue === 1);
       }
-
-      let translate = 0;
-
-      if (i < this.index) {
-        if (i >= this.newIndex) {
-          translate = this.stationRow.offsetHeight;
-        }
-      } else if (i <= this.newIndex) {
-        translate = -this.stationRow.offsetHeight;
-      }
-
-      row.style.transform = `translateY(${translate}px)`;
     });
   }
 
   handleMouseUp(): void {
-    if (this.dragging) {
-      const rows = [...document.querySelectorAll(".stations > div")] as HTMLDivElement[];
-
-      rows.forEach((row) => {
-        row.style.transform = "";
-      });
-
-      this.dragging = false;
-      this.currentTranslate = 0;
+    if (this.dragged) {
+      this.dragged = false;
+      this.currentTranslation = 0;
       this.finishSorting();
-      const container = document.querySelector(".stations") as HTMLDivElement;
-      container.style.pointerEvents = "";
       this.moveStation({ index: this.index, newIndex: this.newIndex });
     }
   }

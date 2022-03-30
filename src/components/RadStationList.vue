@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" :class="['stations', { 'compact-mode': settings.compactMode }]">
+  <div :class="{ 'compact-mode': settings.compactMode, 'pointer-events-none': dragging }">
     <RadStation
       v-for="(station, index) in currentList"
       :key="station.id"
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
 import RadStation from "./RadStation.vue";
@@ -21,14 +21,8 @@ import RadStation from "./RadStation.vue";
   },
 })
 export default class RadStationList extends Vue {
-  @Ref() readonly container!: HTMLTableSectionElement;
-
   @Getter readonly currentList!: Station[];
+  @Getter readonly dragging!: boolean;
   @Getter readonly settings!: Settings;
-
-  get heights(): number[] {
-    const stationRows = [...this.container.childNodes] as HTMLTableRowElement[];
-    return stationRows.map((item) => item.offsetHeight);
-  }
 }
 </script>

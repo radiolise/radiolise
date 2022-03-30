@@ -2,11 +2,11 @@
   <div
     ref="station-row"
     :class="[
-      'group flex cursor-pointer duration-200 hover:bg-black/10',
+      'station group flex cursor-pointer duration-200 hover:bg-black/10',
       transition ? 'transition-transform' : 'transition-[background-color]',
-      { 'relative z-50 bg-mute opacity-80': dragging },
+      { 'relative z-50 bg-mute opacity-80': dragged },
     ]"
-    :style="dragging ? { transform: `translateY(${currentTranslate}px)` } : {}"
+    :style="{ transform: dragged ? `translateY(${currentTranslation}px)` : '' }"
     @click="handleClick()"
     @mousedown.left="handleMouseDown"
   >
@@ -78,7 +78,7 @@ export default class RadStation extends Mixins(DragHelper) {
   @Action toggleStation!: (station: Station) => Promise<void>;
 
   get transition(): boolean {
-    return !this.dragging && this.sortIndex !== undefined;
+    return !this.dragged && this.sortIndex !== undefined;
   }
 
   get labels(): string[] {
