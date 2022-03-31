@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
 
-import en from "./translations/en.json";
-import de from "./translations/de.json";
-import fr from "./translations/fr.json";
+import en from "./en.json";
+import de from "./de.json";
+import fr from "./fr.json";
 
 Vue.use(VueI18n);
 
