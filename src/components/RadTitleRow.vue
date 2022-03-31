@@ -72,7 +72,7 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
 
   async created(): Promise<void> {
     await this.$nextTick();
-    this.updateInterval = setInterval(this.updateTimestamp, 1000);
+    this.updateInterval = window.setInterval(this.updateTimestamp, 1000);
     this.updateTimestamp();
   }
 

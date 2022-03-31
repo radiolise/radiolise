@@ -67,7 +67,7 @@ export default class RadIcon extends Vue {
     return this.station.icon;
   }
 
-  get overlay(): string {
+  get overlay(): any {
     if (this.buffering) {
       return FasSpinner;
     }

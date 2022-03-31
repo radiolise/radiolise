@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="station-row"
+    ref="stationRow"
     :class="[
       'station group flex cursor-pointer duration-200 hover:bg-black/10',
       transition ? 'transition-transform' : 'transition-[background-color]',
@@ -32,7 +32,6 @@
         :actions="[$t('general.cancel')]"
         :label="$t('station.options', [station.name])"
         :data="menuOptions"
-        flex-align
         @change="trigger"
       >
         <div class="flex h-10 w-10 items-center justify-center text-lg">
@@ -44,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Ref, Mixins } from "vue-property-decorator";
+import { Component, Prop, Mixins } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
 import RadDropdown from "./RadDropdown.vue";
@@ -65,8 +64,6 @@ import { navigate } from "@/common/routing";
 export default class RadStation extends Mixins(DragHelper) {
   @Prop({ type: Object, required: true }) readonly station!: Station;
 
-  @Ref() readonly menu!: HTMLSelectElement;
-
   @State readonly editing?: Station;
 
   @Getter readonly currentStation?: Station;
@@ -74,7 +71,7 @@ export default class RadStation extends Mixins(DragHelper) {
   @Getter readonly settings!: Settings;
 
   @Action("removeStation") handleDelete!: (index: number) => Promise<void>;
-  @Action likeStation!: (id: string) => Promise<void>;
+  @Action("likeStation") like!: (id: string) => Promise<void>;
   @Action toggleStation!: (station: Station) => Promise<void>;
 
   get transition(): boolean {
@@ -158,29 +155,12 @@ export default class RadStation extends Mixins(DragHelper) {
     this.handleDelete(index);
   }
 
-  trigger(option: string): void {
-    switch (option) {
-      case "like":
-        this.likeStation(this.station.id);
-        break;
-      case "visitHomepage":
-        this.visitHomepage();
-        break;
-      case "edit":
-        this.edit();
-        break;
-      case "moveUp":
-        this.moveUp();
-        break;
-      case "moveDown":
-        this.moveDown();
-        break;
-      case "delete":
-        this.delete();
-        break;
-      default:
-        throw new Error(`Unknown option '${option}'.`);
+  trigger(optionName: keyof this) {
+    const option = this[optionName];
+    if (typeof option === "function") {
+      return option();
     }
+    throw new Error(`Unknown option '${optionName}'.`);
   }
 }
 </script>

@@ -81,12 +81,13 @@ const keyBindings: Record<string, KeyBinding> = {
 
       if (hasVideo) {
         toggleFullscreen();
-      } else {
-        showToast({
-          icon: FasExclamationTriangle,
-          message: context.$t("hotkeys.onScreenToasts.noVideoStream") as string,
-        });
+        return;
       }
+
+      showToast({
+        icon: FasExclamationTriangle,
+        message: context.$t("hotkeys.onScreenToasts.noVideoStream") as string,
+      });
     },
   },
 
@@ -120,16 +121,18 @@ const keyBindings: Record<string, KeyBinding> = {
   "n": {
     alias: "N",
     trigger(context) {
-      if (context.currentStation !== undefined) {
-        const { playClosestStation, showToast } = context;
-        playClosestStation(true);
-
-        showToast({
-          message: context.$t("hotkeys.onScreenToasts.playingNext", [
-            context.currentStation.name,
-          ]) as string,
-        });
+      if (context.currentStation === undefined) {
+        return;
       }
+
+      const { playClosestStation, showToast } = context;
+      playClosestStation(true);
+
+      showToast({
+        message: context.$t("hotkeys.onScreenToasts.playingNext", [
+          context.currentStation.name,
+        ]) as string,
+      });
     },
   },
 

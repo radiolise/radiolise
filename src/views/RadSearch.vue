@@ -15,7 +15,7 @@
       class="mb-5 flex border-b-2 border-b-mute-contrast/50 focus-within:border-b-accent focus-within:bg-black/10"
     >
       <input
-        ref="query"
+        ref="searchField"
         class="w-full appearance-none bg-transparent p-2.5 font-sans text-2xl"
         :value="searchTerm"
         autocomplete="off"
@@ -25,9 +25,9 @@
         spellcheck="false"
         @input="searchTerm = $event.target.value"
         @change="searchTerm = $event.target.value"
-        @focus="query.select()"
+        @focus="searchField.select()"
         @keypress.enter="
-          query.blur();
+          searchField.blur();
           scrollDownIfLoaded();
         "
       />
@@ -85,14 +85,14 @@
           </RadResult>
         </div>
         <div v-if="moreExpected || moreAvailable" class="mt-[18px] flex py-2.5 text-lg">
-          <span v-if="moreExpected" class="m-auto py-3.5">
+          <div v-if="moreExpected" class="m-auto py-3.5">
             <template v-if="empty">
               <FarMeh class="w-fixed" />{{ $t("search.noMatches") }}
             </template>
             <template v-else>
               <FasSpinner class="w-fixed animate-spin" />{{ $t("search.loading") }}
             </template>
-          </span>
+          </div>
           <RadMenuButton v-else class="w-full" @click="loadMore">
             <FasSearch class="w-fixed" />
             {{ $t("search.loadMore") }}
@@ -162,7 +162,7 @@ export default class RadSearch extends Vue {
     includeBroken: false,
   };
 
-  @Ref() readonly query!: HTMLInputElement;
+  @Ref() readonly searchField!: HTMLInputElement;
 
   @Getter readonly currentList!: Station[];
   @Getter readonly listName!: string;
@@ -225,8 +225,8 @@ export default class RadSearch extends Vue {
     this.reset();
     this.setStationBackup([...this.currentList]);
 
-    setTimeout(() => {
-      this.query.focus();
+    window.setTimeout(() => {
+      this.searchField.focus();
       this.active = true;
     }, 300);
   }
@@ -235,7 +235,7 @@ export default class RadSearch extends Vue {
     this.setStationBackup(undefined);
     this.resetSearchStats();
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       this.active = false;
     }, 300);
   }
@@ -292,9 +292,9 @@ export default class RadSearch extends Vue {
         }
       }
 
-      searchResults.forEach((result: Record<string, string>) => {
+      for (const result of searchResults) {
         this.results.push(Object.freeze(result));
-      });
+      }
 
       this.moreAvailable = this.results.length % 20 === 0 && searchResults.length > 0;
 
@@ -347,13 +347,13 @@ export default class RadSearch extends Vue {
   scrollDownIfLoaded(): void {
     if (this.loading) {
       this.scrollOnceLoaded = true;
-    } else {
-      this.scrollDown();
+      return;
     }
+    this.scrollDown();
   }
 
   scrollDown(): void {
-    this.$scrollTo(this.query, 300, {
+    this.$scrollTo(this.searchField, 300, {
       container: ".drawer",
       cancelable: false,
     });

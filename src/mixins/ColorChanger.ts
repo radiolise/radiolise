@@ -46,12 +46,13 @@ export default class ColorChanger extends Vue {
   }
 
   setBackgroundColor(): void {
-    if (this.colorizationAllowed) {
-      if (this.playing) {
-        this.backgroundColor = this.generateHsl(30);
-      }
-    } else {
+    if (!this.colorizationAllowed) {
       this.backgroundColor = "";
+      return;
+    }
+
+    if (this.playing) {
+      this.backgroundColor = this.generateHsl(30);
     }
   }
 }

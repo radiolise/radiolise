@@ -20,13 +20,13 @@ export default class RadVisualization extends Vue {
   @InjectReactive() readonly colorful!: boolean;
 
   updateHeights(next: () => string) {
-    this.heights.forEach((_, index) => {
+    for (const index of this.heights.keys()) {
       this.$set(this.heights, index, next());
-    });
+    }
   }
 
   mounted() {
-    this.interval = setInterval(() => {
+    this.interval = window.setInterval(() => {
       this.updateHeights(() => `${Math.floor(Math.random() * 30) + 70}%`);
     }, 100);
   }

@@ -69,22 +69,23 @@ export default class RadBanner extends Vue {
   }
 
   undo(): void {
-    if (this.itemRemoved) {
-      if (this.undoableEvent !== undefined) {
-        this.undoableEvent.undo();
-        this.discardUndoableEvent();
-      }
-    } else {
+    if (!this.itemRemoved) {
       this.updateList({ content: this.stationBackup });
+      return;
+    }
+
+    if (this.undoableEvent !== undefined) {
+      this.undoableEvent.undo();
+      this.discardUndoableEvent();
     }
   }
 
   confirm(): void {
     if (this.itemRemoved) {
       this.discardUndoableEvent();
-    } else {
-      navigate(null);
+      return;
     }
+    navigate(null);
   }
 
   @Watch("searchStats")
@@ -141,11 +142,12 @@ export default class RadBanner extends Vue {
       this.animationTrigger = !this.animationTrigger;
 
       this.message = this.$t(`general.undoableEvent.${event.kind}`, event.affected) as string;
+      this.timer = window.setTimeout(this.discardUndoableEvent, 10000);
 
-      this.timer = setTimeout(this.discardUndoableEvent, 10000);
-    } else {
-      this.autoHide = false;
+      return;
     }
+
+    this.autoHide = false;
   }
 
   @Watch("listModified")

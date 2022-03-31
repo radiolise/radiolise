@@ -14,8 +14,10 @@
       />
     </div>
     <div class="table-cell whitespace-nowrap text-left icons:w-fixed">
-      <a v-show="active"><FasCheck /></a>
-      <a v-show="!active" @click="input.focus()">
+      <a :class="{ hidden: !active }">
+        <FasCheck />
+      </a>
+      <a :class="{ hidden: active }" @click="input.focus()">
         <FasEdit />
       </a>
       <template v-if="!isNewList">
@@ -128,14 +130,16 @@ export default class RadListInput extends Mixins(ListHelper) {
           });
         }
       }
-    } else {
-      this.showMessage({
-        type: ModalType.WARNING,
-        buttons: [this.$t("general.ok") as string],
-        title: this.$t("listManager.invalidName") as string,
-        message: this.$t("listManager.nameEmpty") as string,
-      });
+
+      return;
     }
+
+    this.showMessage({
+      type: ModalType.WARNING,
+      buttons: [this.$t("general.ok") as string],
+      title: this.$t("listManager.invalidName") as string,
+      message: this.$t("listManager.nameEmpty") as string,
+    });
   }
 
   remove(): void {

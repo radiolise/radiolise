@@ -21,7 +21,7 @@
             {{ $t("importWizard.chooseFile") }}
           </template>
         </h4>
-        <RadDropZone ref="drop-zone" @change="setBackup" @error="handleError()" />
+        <RadDropZone ref="dropZone" @change="setBackup" @error="handleError()" />
       </div>
       <template v-if="backup">
         <br />
@@ -107,7 +107,7 @@ export default class RadImportWizard extends Vue {
 
   @Prop({ type: String, required: true }) readonly type!: string;
 
-  @Ref("drop-zone") readonly dropZone!: RadDropZone;
+  @Ref() readonly dropZone!: RadDropZone;
 
   @Action applySettings!: (settings: Settings) => Promise<void>;
   @Action changeList!: (index: number) => Promise<void>;

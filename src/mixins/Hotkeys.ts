@@ -77,12 +77,14 @@ export default class Hotkeys extends Vue {
         message: `${this.numberInput.input}${"–".repeat(digitsLeft)}`,
       });
 
-      this.numberInput.timeout = setTimeout(() => {
+      this.numberInput.timeout = window.setTimeout(() => {
         this.finishNumberInput(index);
       }, 2000);
-    } else {
-      this.finishNumberInput(index);
+
+      return;
     }
+
+    this.finishNumberInput(index);
   }
 
   isHotkeyAllowed(event: KeyboardEvent): boolean {
@@ -101,26 +103,28 @@ export default class Hotkeys extends Vue {
   }
 
   closeModal(): boolean {
-    if (this.modalOptions !== undefined) {
-      if (this.modalOptions.closeable) {
-        this.modalOptions.handleButtonClicked(0);
-      }
-
-      return true;
+    if (this.modalOptions === undefined) {
+      return false;
     }
 
-    return false;
+    if (this.modalOptions.closeable) {
+      this.modalOptions.handleButtonClicked(0);
+    }
+
+    return true;
   }
 
   triggerHotkeyAction(event: KeyboardEvent): void {
     switch (event.key) {
       case " ": {
-        if (document.activeElement?.tagName !== "INPUT") {
-          event.preventDefault();
+        if (document.activeElement?.tagName === "INPUT") {
+          return;
+        }
 
-          if (this.modalOptions === undefined) {
-            keyBindings[" "].trigger(this);
-          }
+        event.preventDefault();
+
+        if (this.modalOptions === undefined) {
+          keyBindings[" "].trigger(this);
         }
         return;
       }
@@ -131,18 +135,20 @@ export default class Hotkeys extends Vue {
         return;
       }
       default: {
-        if (this.isHotkeyAllowed(event)) {
-          if (event.key in keyBindings) {
-            event.preventDefault();
-            keyBindings[event.key].trigger(this);
-            return;
-          }
+        if (!this.isHotkeyAllowed(event)) {
+          return;
+        }
 
-          const enteredDigit = Number(event.key);
+        if (event.key in keyBindings) {
+          event.preventDefault();
+          keyBindings[event.key].trigger(this);
+          return;
+        }
 
-          if (!Number.isNaN(enteredDigit)) {
-            keyBindings.number.trigger(this, enteredDigit);
-          }
+        const enteredDigit = Number(event.key);
+
+        if (!Number.isNaN(enteredDigit)) {
+          keyBindings.number.trigger(this, enteredDigit);
         }
       }
     }

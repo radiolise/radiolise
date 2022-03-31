@@ -1,7 +1,9 @@
 <template>
   <RadDrawer>
     <h3><FasCog class="w-fixed" /> {{ $t("general.settings") }}</h3>
-    <p class="description py-2.5">{{ $t("settings.description", [appTitle]) }}</p>
+    <p class="description py-2.5">
+      {{ $t("settings.description", [appTitle]) }}
+    </p>
     <form ref="form" @submit.prevent="onSubmit()">
       <div v-if="settings !== null" class="text-left">
         <div class="mt-5 ml-2.5">

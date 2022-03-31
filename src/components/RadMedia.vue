@@ -7,7 +7,7 @@
     @dblclick="toggleFullscreen()"
   >
     <video
-      ref="media-element"
+      ref="mediaElement"
       class="pointer-events-none h-full w-full"
       playsinline
       @loadedmetadata="onLoadedMetadata()"
@@ -51,12 +51,12 @@ export default class RadMedia extends Vue {
   hasVideo = false;
   triedUrls = [] as string[];
 
-  @Ref("media-element") readonly mediaElement!: HTMLVideoElement;
+  @Ref() readonly mediaElement!: HTMLVideoElement;
 
+  @Getter readonly fullscreen!: boolean;
   @Getter readonly loading!: boolean;
   @Getter("currentStation") readonly station?: Station;
   @Getter readonly volume!: number;
-  @Getter readonly fullscreen!: boolean;
 
   @Action allowFullscreen!: (hasVideo: boolean) => Promise<void>;
   @Action confirmFullscreen!: (fullscreen: boolean) => Promise<void>;
@@ -152,9 +152,9 @@ export default class RadMedia extends Vue {
 
     if (this.isNativeStream(url)) {
       this.mediaElement.src = url;
-    } else {
-      this.playHls(url);
+      return;
     }
+    this.playHls(url);
   }
 
   playHls(url: string): void {
@@ -166,18 +166,19 @@ export default class RadMedia extends Vue {
       });
 
       hls.loadSource(window.location.protocol === "https:" ? url.replace("http:", "https:") : url);
-
       hls.attachMedia(this.mediaElement);
-    } else {
-      this.showErrorMessage({
-        title: this.$t("general.error.hlsNotSupported.title"),
-        message: this.$t("general.error.hlsNotSupported.description", [
-          (this.station as Station).name,
-        ]),
-      });
 
-      this.stop();
+      return;
     }
+
+    this.showErrorMessage({
+      title: this.$t("general.error.hlsNotSupported.title"),
+      message: this.$t("general.error.hlsNotSupported.description", [
+        (this.station as Station).name,
+      ]),
+    });
+
+    this.stop();
   }
 
   detachStream(): void {

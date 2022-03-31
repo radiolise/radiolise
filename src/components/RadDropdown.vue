@@ -34,7 +34,7 @@
           <option v-if="isMenu" value="" hidden disabled selected>Please select...</option>
           <option v-for="(item, index) in data" :key="index" :value="item.id">
             {{ item.name }}
-            <template v-if="item.description !== undefined"> ({{ item.description }}) </template>
+            <template v-if="item.description !== undefined"> ({{ item.description }})</template>
           </option>
         </optgroup>
         <option v-for="(action, index) in actions" :key="index" :disabled="!actionsEnabled">
@@ -63,7 +63,6 @@ export default class RadDropdown extends Vue {
   @Prop({ type: Boolean, default: true }) readonly actionsEnabled!: boolean;
   @Prop({ type: Array, required: true }) readonly data!: DropdownOption[];
   @Prop({ type: Boolean, default: false }) readonly disabled!: boolean;
-  @Prop({ type: Boolean, default: false }) readonly flexAlign!: boolean;
   @Prop({ type: Boolean, default: true }) readonly loaded!: boolean;
   @Prop({ type: String, required: true }) readonly label!: string;
 

@@ -174,7 +174,7 @@ export default class RadSearchOptions extends Vue {
   }
 
   created(): void {
-    setTimeout(this.loadFilters, 300);
+    window.setTimeout(this.loadFilters, 300);
   }
 
   async loadFilters(): Promise<void> {
@@ -204,9 +204,10 @@ export default class RadSearchOptions extends Vue {
       } catch {
         this.failedToLoadFilters = true;
       }
-    } else {
-      this.filters.states = [];
+      return;
     }
+
+    this.filters.states = [];
   }
 
   handleStatesClicked(): void {

@@ -1,5 +1,5 @@
 import { ActionTree } from "vuex";
-import XorWith from "lodash.xorwith";
+import xorWith from "lodash.xorwith";
 
 import "date-fns";
 import Screenfull from "screenfull";
@@ -218,11 +218,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     commit("SET_FULLSCREEN", fullscreen);
 
     if (fullscreen) {
-      const app = document.querySelector("#app") as HTMLDivElement;
-      app.scrollTop = 0;
       dispatch("expandPlayer", false);
-    } else {
-      document.documentElement.scrollTop = 0;
     }
   },
 
@@ -253,7 +249,7 @@ const actions: ActionTree<StoreState, StoreState> = {
       const stationBackup = state.stationBackup as Station[];
       const newList = getters.currentList as Station[];
 
-      const changeLog = XorWith(
+      const changeLog = xorWith(
         newList,
         stationBackup,
         (station, otherStation) => station.id === otherStation.id
@@ -265,13 +261,13 @@ const actions: ActionTree<StoreState, StoreState> = {
       const orderChanged =
         changeLog.length === 0 && newList.some((station, i) => station.id !== stationBackup[i].id);
 
-      changeLog.forEach((station) => {
-        if (newList.map((station) => station.id).includes(station.id)) {
+      for (const station of changeLog) {
+        if (newList.some(({ id }) => station.id === id)) {
           added.push(station.name);
-        } else {
-          removed.push(station.name);
+          continue;
         }
-      });
+        removed.push(station.name);
+      }
 
       commit("SET_SEARCH_STATS", {
         added,
@@ -312,11 +308,11 @@ const actions: ActionTree<StoreState, StoreState> = {
     const history = [...state.memory.titles.history];
     const currentStation = state.memory.lastStation as Station;
 
-    history.forEach((item, index) => {
+    for (const [index, item] of history.entries()) {
       if (item.station === currentStation.name && item.info === info) {
         history.splice(index, 1);
       }
-    });
+    }
 
     if (history.length === 5) {
       history.splice(0, 1);
@@ -422,7 +418,7 @@ const actions: ActionTree<StoreState, StoreState> = {
       }
     } finally {
       if (!cancelled) {
-        updateTimer = setTimeout(() => {
+        updateTimer = window.setTimeout(() => {
           dispatch("requestInfo", url);
         }, 10000);
       }
@@ -435,7 +431,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     if (settings.sleep) {
       const minutes = settings.sleepTimeout;
 
-      sleepTimer = setTimeout(() => {
+      sleepTimer = window.setTimeout(() => {
         dispatch("stop");
         commit("SET_FELL_ASLEEP", true);
       }, minutes * 60000);
@@ -460,7 +456,7 @@ const actions: ActionTree<StoreState, StoreState> = {
     if (settings.relax && !state.hasVideo) {
       const seconds = settings.relaxTimeout;
 
-      relaxTimer = setTimeout(() => {
+      relaxTimer = window.setTimeout(() => {
         commit("SET_RELAXED", true);
       }, seconds * 1000);
     }
@@ -551,20 +547,20 @@ const actions: ActionTree<StoreState, StoreState> = {
       promise: (async () => {
         if (getters.likes.includes(id)) {
           throw true;
-        } else {
-          try {
-            const voteResult = await voteForStation(id);
+        }
 
-            if (voteResult.ok || voteResult.message.includes("too often")) {
-              commit("SET_CACHE_ITEM", {
-                [id]: { ...state.memory.cache[id], liked: true },
-              });
-            }
+        try {
+          const voteResult = await voteForStation(id);
 
-            return voteResult;
-          } catch {
-            throw false;
+          if (voteResult.ok || voteResult.message.includes("too often")) {
+            commit("SET_CACHE_ITEM", {
+              [id]: { ...state.memory.cache[id], liked: true },
+            });
           }
+
+          return voteResult;
+        } catch {
+          throw false;
         }
       })(),
     });
@@ -620,7 +616,7 @@ const actions: ActionTree<StoreState, StoreState> = {
       clearTimeout(toastTimer);
     }
 
-    toastTimer = setTimeout(() => {
+    toastTimer = window.setTimeout(() => {
       commit("SET_TOAST", null);
     }, 5000);
 

@@ -48,7 +48,7 @@
     <RadBanner />
     <transition enter-class="opacity-0" leave-to-class="opacity-0">
       <div
-        v-if="toast !== null"
+        v-if="toast"
         :class="[
           'pointer-events-none absolute z-20 mx-auto mt-12.5 w-full overflow-hidden px-1.25 text-center transition',
           { 'scale-150': fullscreen },
@@ -69,7 +69,7 @@
       leave-active-class="duration-200"
     >
       <div
-        v-if="modalOptions !== undefined"
+        v-if="modalOptions"
         :key="animationTrigger"
         class="pointer-events-auto absolute flex h-full w-full items-center justify-center bg-black/50 transition"
         @click="closeModal()"
@@ -87,7 +87,7 @@
                 {{ modalTitle }}
               </div>
               <div class="flex leading-normal">
-                <div v-if="modalIcon !== ''" class="pr-1.25">
+                <div v-if="modalIcon" class="pr-1.25">
                   <component :is="modalIcon" class="opacity-70" />
                 </div>
                 <div>
@@ -233,9 +233,7 @@ export default class RadDialogLayer extends Vue {
 
   closeModal(): void {
     if (this.modalOptions !== undefined && this.modalOptions.closeable) {
-      const handleButtonClicked = this.modalOptions.handleButtonClicked as (button: number) => void;
-
-      handleButtonClicked(0);
+      this.modalOptions.handleButtonClicked(0);
     }
   }
 }

@@ -12,7 +12,7 @@
       {{ $t("dropZone.usage") }}
     </div>
     <input
-      ref="file-input"
+      ref="fileInput"
       hidden
       type="file"
       accept="text/plain, application/x-yaml, .txt"
@@ -38,7 +38,7 @@ export default class RadDropZone extends Vue {
   reader = new FileReader();
   imported = false;
 
-  @Ref("file-input") readonly fileInput!: HTMLInputElement;
+  @Ref() readonly fileInput!: HTMLInputElement;
 
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 

@@ -81,7 +81,7 @@ By proceeding, all save data – including station lists, settings and bookmarks
 
 Otherwise, you can download a copy of the (possibly corrupted) save data beforehand.`;
 
-    const confirmed = confirm(warningMessage);
+    const confirmed = window.confirm(warningMessage);
 
     if (confirmed) {
       this.startup(defaultMemory);

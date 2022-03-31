@@ -32,9 +32,7 @@ function convertToAppFormat(payload: { name: string; content: Station[] }) {
 function convertToPls(list: Station[]) {
   return generateOutput(list, {
     start: "[playlist]",
-    getEntry: (item, index) => {
-      return `File${index + 1}=${item.url}\nTitle${index + 1}=${item.name}`;
-    },
+    getEntry: (item, index) => `File${index + 1}=${item.url}\nTitle${index + 1}=${item.name}`,
     end: `Version=2\n`,
   });
 }
@@ -51,9 +49,7 @@ function convertToM3u(list: Station[]) {
 }
 
 function encodeXmlEntities(value: string) {
-  return value.replace(/[\u00A0-\u9999<>&]/g, (substring) => {
-    return `&#${substring.charCodeAt(0)};`;
-  });
+  return value.replace(/[\u00A0-\u9999<>&]/g, (substring) => `&#${substring.charCodeAt(0)};`);
 }
 
 function convertToXspf(list: Station[]) {

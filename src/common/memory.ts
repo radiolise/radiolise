@@ -91,9 +91,9 @@ async function unregisterServiceWorkers(): Promise<void> {
   if (navigator.serviceWorker !== undefined) {
     const registrations = await navigator.serviceWorker.getRegistrations();
 
-    registrations.forEach((registration) => {
+    for (const registration of registrations) {
       registration.unregister();
-    });
+    }
   }
 }
 

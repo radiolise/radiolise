@@ -19,7 +19,7 @@
       :placeholder="$t('rangeInput.maximumShort')"
       @change="submitButton.click()"
     />
-    <input ref="submit-button" type="submit" name="submit" hidden />
+    <input ref="submit" type="submit" name="submit" hidden />
   </form>
 </template>
 
@@ -36,7 +36,7 @@ export default class RadRangeInput extends Vue {
   _min: NumberLike = "";
   _max: NumberLike = "";
 
-  @Ref("submit-button") readonly submitButton!: HTMLInputElement;
+  @Ref("submit") readonly submitButton!: HTMLInputElement;
 
   @PropSync("min", { type: [String, Number], default: 0 })
   syncedMin!: NumberLike;

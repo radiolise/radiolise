@@ -9,7 +9,7 @@ export default class DragHelper extends Vue {
 
   @Prop({ type: Number, required: true }) readonly index!: number;
 
-  @Ref("station-row") readonly stationRow!: HTMLDivElement;
+  @Ref() readonly stationRow!: HTMLDivElement;
 
   @Getter readonly currentList!: Station[];
   @Getter readonly sortIndex!: number | undefined;
@@ -59,13 +59,13 @@ export default class DragHelper extends Vue {
 
     const rows = document.querySelectorAll(".station") as NodeListOf<HTMLDivElement>;
 
-    rows.forEach((row, index) => {
+    for (const [index, row] of rows.entries()) {
       if (this.index !== index) {
         const translationValue = this.getSiblingTranslationValue(index);
         row.classList.toggle("-translate-y-full", translationValue === -1);
         row.classList.toggle("translate-y-full", translationValue === 1);
       }
-    });
+    }
   }
 
   handleMouseUp(): void {

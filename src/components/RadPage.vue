@@ -179,20 +179,12 @@ export default class RadPage extends Vue {
 
     mediaSession.setActionHandler(
       "previoustrack",
-      provideHandlers
-        ? () => {
-            this.playClosestStation(false);
-          }
-        : null
+      provideHandlers ? () => this.playClosestStation(false) : null
     );
 
     mediaSession.setActionHandler(
       "nexttrack",
-      provideHandlers
-        ? () => {
-            this.playClosestStation(true);
-          }
-        : null
+      provideHandlers ? () => this.playClosestStation(true) : null
     );
   }
 }

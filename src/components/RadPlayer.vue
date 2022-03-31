@@ -394,7 +394,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper, ScrollHelper) {
   onPlayingChanged(): void {
     this.animationFinished = false;
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       this.animationFinished = true;
     }, 600);
   }
@@ -422,8 +422,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper, ScrollHelper) {
   }
 
   like(): void {
-    const station = this.station as Station;
-    this.likeStation(station.id);
+    this.likeStation(this.station!.id);
   }
 
   showControls(): void {
@@ -435,7 +434,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper, ScrollHelper) {
     this.controlsHidden = false;
 
     if (this.fullscreen) {
-      this.hideTimeout = setTimeout(() => {
+      this.hideTimeout = window.setTimeout(() => {
         this.controlsHidden = true;
       }, 3000);
     }

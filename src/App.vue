@@ -179,10 +179,11 @@ export default class App extends HelperMixins {
     if (colorScheme === "auto") {
       this.darkSchemeQuery.addListener(this.applyColorScheme);
       this.applyColorScheme();
-    } else {
-      this.darkSchemeQuery.removeListener(this.applyColorScheme);
-      this.setDarkMode(colorScheme === "dark");
+      return;
     }
+
+    this.darkSchemeQuery.removeListener(this.applyColorScheme);
+    this.setDarkMode(colorScheme === "dark");
   }
 
   @Watch("language", { immediate: true })
@@ -200,9 +201,9 @@ export default class App extends HelperMixins {
   onRelaxModeAllowedChanged(relaxModeAllowed: boolean): void {
     if (relaxModeAllowed) {
       this.addInputListeners(this.setRelaxTimer);
-    } else {
-      this.removeInputListeners(this.setRelaxTimer);
+      return;
     }
+    this.removeInputListeners(this.setRelaxTimer);
   }
 
   detectLocale(): string {
@@ -220,15 +221,15 @@ export default class App extends HelperMixins {
   }
 
   addInputListeners(listener: EventListener): void {
-    this.inputEventTypes.forEach((type) => {
+    for (const type of this.inputEventTypes) {
       window.addEventListener(type, listener);
-    });
+    }
   }
 
   removeInputListeners(listener: EventListener): void {
-    this.inputEventTypes.forEach((type) => {
+    for (const type of this.inputEventTypes) {
       window.removeEventListener(type, listener);
-    });
+    }
   }
 
   applyColorScheme(): void {

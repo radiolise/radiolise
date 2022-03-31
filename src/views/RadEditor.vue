@@ -81,7 +81,7 @@
           <FasCheck class="w-fixed" />
           {{ $t("general.done") }}
         </RadButton>
-        <input ref="submit-button" type="submit" name="submit" hidden />
+        <input ref="submit" type="submit" name="submit" hidden />
       </div>
     </form>
   </RadDrawer>
@@ -118,7 +118,7 @@ export default class RadEditor extends Vue {
   @Prop({ type: String, required: true }) readonly id!: string;
 
   @Ref() readonly form!: HTMLFormElement;
-  @Ref("submit-button") readonly submitButton!: HTMLInputElement;
+  @Ref("submit") readonly submitButton!: HTMLInputElement;
 
   @Getter readonly lists!: StationList[];
 
@@ -133,15 +133,16 @@ export default class RadEditor extends Vue {
       this.stationReference = station;
       this.editStation(station);
       this.stationClone = { ...station };
-    } else {
-      this.showMessage({
-        type: ModalType.WARNING,
-        buttons: [this.$t("general.ok") as string],
-        message: this.$t("editor.notExisting") as string,
-      });
-
-      navigate(null, { replace: true });
+      return;
     }
+
+    this.showMessage({
+      type: ModalType.WARNING,
+      buttons: [this.$t("general.ok") as string],
+      message: this.$t("editor.notExisting") as string,
+    });
+
+    navigate(null, { replace: true });
   }
 
   destroyed(): void {
