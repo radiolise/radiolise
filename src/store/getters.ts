@@ -50,8 +50,8 @@ const getters: GetterTree<StoreState, StoreState> = {
     return state.fullscreen;
   },
 
-  fixedPlayer(state): boolean {
-    return state.fixedPlayer;
+  stickyPlayer(state): boolean {
+    return !state.fullscreen && state.stickyPlayer;
   },
 
   volume(state): number {

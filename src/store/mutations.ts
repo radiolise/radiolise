@@ -117,8 +117,8 @@ const mutations: MutationTree<StoreState> = {
     state.bufferFine = bufferFine;
   },
 
-  SET_FIXED_PLAYER(state, fix: boolean): void {
-    state.fixedPlayer = fix;
+  SET_STICKY_PLAYER(state, sticky: boolean): void {
+    state.stickyPlayer = sticky;
   },
 
   SET_CURRENT_INFO(state, info: string): void {

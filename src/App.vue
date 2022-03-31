@@ -72,7 +72,6 @@ export default class App extends HelperMixins {
 
   @Getter readonly colorScheme!: string | null;
   @Getter readonly dragging!: boolean;
-  @Getter readonly fixedPlayer!: boolean;
   @Getter readonly language!: string;
   @Getter readonly lists!: StationList[];
   @Getter readonly ready!: boolean;

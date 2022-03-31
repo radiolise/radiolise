@@ -30,8 +30,8 @@ const actions: ActionTree<StoreState, StoreState> = {
     }
   },
 
-  fixPlayer({ commit }, fixedPlayer: boolean): void {
-    commit("SET_FIXED_PLAYER", fixedPlayer);
+  stickPlayer({ commit }, sticky: boolean): void {
+    commit("SET_STICKY_PLAYER", sticky);
   },
 
   discardUndoableEvent({ commit }): void {
@@ -647,7 +647,11 @@ const actions: ActionTree<StoreState, StoreState> = {
     commit("SET_DATE_FNS_LOCALE", null);
   },
 
-  updateDialog({ commit }, dialog: DialogState | null): void {
+  updateDialog({ state, commit, dispatch }, dialog: DialogState | null): void {
+    if (dialog !== null && state.fullscreen) {
+      dispatch("toggleFullscreen");
+    }
+
     commit("SET_DIALOG", dialog);
   },
 

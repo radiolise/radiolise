@@ -7,12 +7,12 @@
   >
     <nav
       :class="[
-        'action-bar offset-horizontal fixed top-0 left-0 z-20 box-content flex h-12.5 w-full bg-surface text-on-surface shadow-theme mobile:shadow-none',
+        'action-bar offset-horizontal fixed top-0 left-0 z-20 flex w-full bg-surface text-on-surface shadow-theme mobile:shadow-none',
         {
           'z-40 shadow-none transition-transform duration-500': fullscreen,
           'mobile:border-b-0': !hasVideo,
           '-translate-y-full': !navbarShown,
-          'border-b': !fixedPlayer,
+          'border-b': !stickyPlayer,
         },
       ]"
     >
@@ -52,7 +52,6 @@
             </RadMenuButton>
           </RadLink>
         </div>
-        <RadPlayer />
       </div>
     </nav>
     <div
@@ -63,17 +62,15 @@
     >
       <main
         :class="[
-          'main rounded-tl rounded-br bg-surface text-on-surface mobile:rounded-none mobile:rounded-tl-none mobile:shadow-none',
+          'main rounded-tl rounded-br bg-surface text-on-surface mobile:rounded-none mobile:shadow-none',
           {
             'mt-25 mb-12.5 border-b shadow-theme mobile:m-0 mobile:border-0': !fullscreen,
             'border-t': !hasVideo,
-            'overflow-hidden': !fixedPlayer,
+            'overflow-hidden': !stickyPlayer,
           },
         ]"
       >
-        <RadPlayer>
-          <RadMedia />
-        </RadPlayer>
+        <RadPlayer />
         <div :class="['px-5 pb-5 transition-[padding] sm:px-15', { 'mt-[100vh]': fullscreen }]">
           <div :class="['text-left', { 'pt-10': fullscreen }]">
             <RadListMenu />
@@ -94,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Mixins } from "vue-property-decorator";
+import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
 import RadButton from "./RadButton.vue";
@@ -102,12 +99,9 @@ import RadEmptyList from "./RadEmptyList.vue";
 import RadLink from "./RadLink.vue";
 import RadListMenu from "./RadListMenu.vue";
 import RadLogo from "./RadLogo.vue";
-import RadMedia from "./RadMedia.vue";
 import RadMenuButton from "./RadMenuButton.vue";
 import RadPlayer from "./RadPlayer.vue";
 import RadStationList from "./RadStationList.vue";
-
-import ScrollHelper from "@/mixins/ScrollHelper";
 
 @Component({
   components: {
@@ -116,7 +110,6 @@ import ScrollHelper from "@/mixins/ScrollHelper";
     RadLink,
     RadListMenu,
     RadLogo,
-    RadMedia,
     RadMenuButton,
     RadPlayer,
     RadStationList,
@@ -125,7 +118,7 @@ import ScrollHelper from "@/mixins/ScrollHelper";
     FasBars,
   },
 })
-export default class RadPage extends Mixins(ScrollHelper) {
+export default class RadPage extends Vue {
   appTitle = process.env.VUE_APP_TITLE;
   provideMediaSession = false;
 
@@ -135,6 +128,9 @@ export default class RadPage extends Mixins(ScrollHelper) {
 
   @Getter readonly currentStation: Station | undefined;
   @Getter readonly currentList!: Station[];
+  @Getter readonly fullscreen!: boolean;
+  @Getter readonly hasVideo!: boolean;
+  @Getter readonly stickyPlayer!: boolean;
 
   @Action playClosestStation!: (forward: boolean) => Promise<void>;
 

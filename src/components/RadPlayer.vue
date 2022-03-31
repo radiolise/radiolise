@@ -1,249 +1,251 @@
 <template>
   <div
     :class="[
-      main
-        ? [
-            'video mb-10 overflow-hidden',
-            fullscreen
-              ? 'absolute top-0 left-0 z-20 h-screen w-full transform-none'
-              : 'relative rounded-tl mobile:rounded-tl-none',
-            { 'action-bar shadow-theme': !fixedPlayer },
-          ]
-        : [
-            'w-[calc(100%+20px)] -translate-x-2.5 overflow-y-hidden pb-5',
-            { 'pointer-events-none opacity-0': !fixedPlayer },
-          ],
-      { 'cursor-none': controlsHidden, 'mobile:border-t-0': !hasVideo },
+      fullscreen ? 'absolute top-0 left-0 flex h-screen w-full' : 'contents',
+      { 'cursor-none': controlsHidden },
     ]"
     @mousedown="showControls()"
     @mouseup="showControls()"
     @mousemove="showControls()"
   >
-    <slot />
+    <RadMedia />
     <div
+      ref="controls"
       :class="[
-        'action-bar table h-10.25 w-full table-fixed text-left',
-        fullscreen
-          ? 'absolute bottom-0 bg-brand/90 px-3.75 py-5 text-white icons:text-[27px]'
-          : 'bg-surface py-3.75 px-2.5 text-on-surface',
+        'pointer-events-none z-20 h-full overflow-hidden pb-10 mobile:mb-0',
         {
-          'invisible opacity-0 transition-all': controlsHidden,
-          'border-b shadow-theme': !main,
-          'opacity-0': main && fixedPlayer,
-          'mobile:border-b': !hasVideo,
+          'absolute bottom-0 w-full transform-none': fullscreen,
+          'sticky top-12.5 -mb-borders': stickyPlayer,
         },
       ]"
     >
-      <div :class="['table-cell w-7.5 align-middle', { hidden: fullscreen }]">
-        <a class="p-1.25 text-lg" :title="$t('player.advancedView')" @click="expand()"
-          ><FasChevronDown :class="{ '-rotate-180': !compact }" /></a
-        >&nbsp;
-      </div>
-      <div class="table-cell align-middle">
-        <div class="table-row h-10.25 w-full align-middle">
-          <div
-            :class="[
-              'table-cell max-w-full whitespace-nowrap align-middle icons:w-fixed',
-              { hidden: !compact },
-            ]"
-          >
-            <a
-              class="hidden p-1.25 text-lg xs:inline"
-              :title="$t('player.prevStation')"
-              @click="playClosestStation(false)"
-              ><FasStepBackward /></a
-            >&nbsp;<a class="p-1.25 text-lg" :title="$t('player.playStop')" @click="toggleStation()"
-              ><component :is="station ? 'FasStop' : 'FasPlay'" /></a
-            >&nbsp;<a
-              class="hidden p-1.25 text-lg xs:inline"
-              :title="$t('player.nextStation')"
-              @click="playClosestStation(true)"
-              ><FasStepForward
-            /></a>
-          </div>
-          <div
-            :class="[
-              'table-cell w-full overflow-hidden px-2.5 align-middle text-lg',
-              { 'max-w-0 whitespace-nowrap': compact, 'text-[27px]': fullscreen },
-            ]"
-            :title="tooltip"
-            @click="expand()"
-          >
-            <transition enter-class="opacity-0" leave-to-class="opacity-0" mode="out-in" appear>
-              <div
-                :key="broadcaster"
-                class="max-w-full overflow-hidden text-ellipsis font-bold transition-opacity"
-                :class="{ 'leading-[21px]': !fullscreen }"
-              >
-                <FasSpinner v-if="loading" class="animate-spin" />
-                {{ broadcaster }}
-              </div>
-            </transition>
+      <div
+        :class="[
+          'action-bar pointer-events-auto table w-full table-fixed text-left',
+          fullscreen
+            ? 'absolute bottom-0 bg-brand/90 px-3.75 py-5 text-white icons:text-[27px]'
+            : 'bg-surface py-3.75 px-2.5 text-on-surface shadow-theme',
+          stickyPlayer ? 'border-b' : 'mobile:border-b',
+          { 'invisible opacity-0 transition-all': controlsHidden },
+        ]"
+      >
+        <div :class="['table-cell w-7.5 align-middle', { hidden: fullscreen }]">
+          <a class="p-1.25 text-lg" :title="$t('player.advancedView')" @click="expand()"
+            ><FasChevronDown :class="{ '-rotate-180': detailsShown }" /></a
+          >&nbsp;
+        </div>
+        <div class="table-cell align-middle">
+          <div class="table-row h-10.25 w-full align-middle">
             <div
-              v-show-slide="info && animationFinished && !loading"
-              class="text-[17px]"
-              :class="['leading-5', { 'max-h-5': !expanded }]"
+              :class="[
+                'table-cell max-w-full whitespace-nowrap align-middle icons:w-fixed',
+                { hidden: detailsShown },
+              ]"
             >
-              <transition
-                enter-class="translate-x-7.5 opacity-0"
-                leave-to-class="translate-x-7.5 opacity-0"
-                mode="out-in"
-                appear
-              >
-                <span
-                  :key="animationTrigger"
-                  :class="[
-                    'max-w-full overflow-hidden text-ellipsis transition-[opacity,_transform]',
-                    expanded ? 'block' : 'inline-block',
-                  ]"
-                  >{{ renderedInfo }}</span
+              <a
+                class="hidden p-1.25 text-lg xs:inline"
+                :title="$t('player.prevStation')"
+                @click="playClosestStation(false)"
+                ><FasStepBackward /></a
+              >&nbsp;<a
+                class="p-1.25 text-lg"
+                :title="$t('player.playStop')"
+                @click="toggleStation()"
+                ><component :is="station ? 'FasStop' : 'FasPlay'" /></a
+              >&nbsp;<a
+                class="hidden p-1.25 text-lg xs:inline"
+                :title="$t('player.nextStation')"
+                @click="playClosestStation(true)"
+                ><FasStepForward
+              /></a>
+            </div>
+            <div
+              :class="[
+                'table-cell w-full overflow-hidden px-2.5 align-middle text-lg',
+                { 'max-w-0 whitespace-nowrap': !detailsShown, 'text-[27px]': fullscreen },
+              ]"
+              :title="tooltip"
+              @click="expand()"
+            >
+              <transition enter-class="opacity-0" leave-to-class="opacity-0" mode="out-in" appear>
+                <div
+                  :key="broadcaster"
+                  class="max-w-full overflow-hidden text-ellipsis font-bold transition-opacity"
+                  :class="{ 'leading-[21px]': !fullscreen }"
                 >
+                  <FasSpinner v-if="loading" class="animate-spin" />
+                  {{ broadcaster }}
+                </div>
               </transition>
+              <div
+                v-show-slide="info && animationFinished && !loading"
+                class="text-[17px]"
+                :class="['leading-5', { 'max-h-5': !detailsShown }]"
+              >
+                <transition
+                  enter-class="translate-x-7.5 opacity-0"
+                  leave-to-class="translate-x-7.5 opacity-0"
+                  mode="out-in"
+                  appear
+                >
+                  <span
+                    :key="animationTrigger"
+                    :class="[
+                      'max-w-full overflow-hidden text-ellipsis transition-[opacity,_transform]',
+                      detailsShown ? 'block' : 'inline-block',
+                    ]"
+                    >{{ renderedInfo }}</span
+                  >
+                </transition>
+              </div>
+            </div>
+            <div
+              :class="['hidden whitespace-nowrap align-middle', { 'md:table-cell': !detailsShown }]"
+            >
+              <a
+                v-if="station"
+                :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': liked }]"
+                :title="likeInfo"
+                @click="like()"
+                ><FasThumbsUp class="w-fixed" /></a
+              >&nbsp;<a
+                v-if="station !== undefined"
+                class="p-1.25 text-lg"
+                target="blank"
+                :title="homepageInfo"
+                :href="station.homepage"
+                ><FasHome class="w-fixed"
+              /></a>
+              {{ " " }}
+              <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
+                <a
+                  :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': active }]"
+                  :title="$t('general.manageTitles')"
+                  @click="navigate"
+                >
+                  <FasHistory class="w-fixed" />
+                </a>
+              </RadLink>
+              {{ " " }}
+              <a
+                v-if="info"
+                :title="$t('player.addBookmark')"
+                :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': bookmarked }]"
+                @click="toggleBookmark({ station: station.name, info })"
+                ><FasMusic /><FasPlus class="relative -top-2 w-fixed text-icon-xs"
+              /></a>
+            </div>
+            <div v-if="hasVideo" class="table-cell whitespace-nowrap align-middle">
+              {{ "\xa0"
+              }}<a
+                class="p-1.25 text-lg"
+                :title="$t('player.toggleFullscreen')"
+                @click="toggleFullscreen()"
+                ><component :is="fullscreen ? 'FasCompress' : 'FasExpand'" class="w-fixed"
+              /></a>
             </div>
           </div>
-          <div :class="['hidden whitespace-nowrap align-middle', { 'md:table-cell': compact }]">
-            <a
-              v-if="station"
-              :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': liked }]"
-              :title="likeInfo"
-              @click="like()"
-              ><FasThumbsUp class="w-fixed" /></a
-            >&nbsp;<a
-              v-if="station !== undefined"
-              class="p-1.25 text-lg"
-              target="blank"
-              :title="homepageInfo"
-              :href="station.homepage"
-              ><FasHome class="w-fixed"
-            /></a>
-            {{ " " }}
-            <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
-              <a
-                :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': active }]"
-                :title="$t('general.manageTitles')"
-                @click="navigate"
-              >
-                <FasHistory class="w-fixed" />
-              </a>
-            </RadLink>
-            {{ " " }}
-            <a
-              v-if="info"
-              :title="$t('player.addBookmark')"
-              :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': bookmarked }]"
-              @click="toggleBookmark({ station: station.name, info })"
-              ><FasMusic /><FasPlus class="relative -top-2 w-fixed text-icon-xs"
-            /></a>
-          </div>
-          <div v-if="hasVideo" class="table-cell whitespace-nowrap align-middle">
-            {{
-              "\xa0"
-              /**/
-            }}<a
-              class="p-1.25 text-lg"
-              :title="$t('player.toggleFullscreen')"
-              @click="toggleFullscreen()"
-              ><component :is="fullscreen ? 'FasCompress' : 'FasExpand'" class="w-fixed"
-            /></a>
-          </div>
-        </div>
-        <div v-if="main" v-show-slide="!fullscreen && expanded" class="ml-1.25">
-          <hr class="mt-2.5 h-0 border-t-2 border-mute-contrast/30" />
-          <div v-show-slide="!!station" class="mx-1.25 mt-2.5">
-            <div v-if="station" class="pb-2.5">
-              <span
-                class="mb-0.5 inline-block bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
-                >{{ station.country }}</span
-              >
-              {{ " "
-              }}<span
-                class="mb-0.5 inline-block bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
-                >{{ station.state }}</span
-              ><template v-for="(item, i) in station.tags.split(',')">
+          <div v-show-slide="!fullscreen && detailsShown" class="ml-1.25">
+            <hr class="mt-2.5 h-0 border-t-2 border-mute-contrast/30" />
+            <div v-show-slide="!!station" class="mx-1.25 mt-2.5">
+              <div v-if="station" class="pb-2.5">
+                <span
+                  class="mb-0.5 inline-block bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
+                  >{{ station.country }}</span
+                >
                 {{ " "
                 }}<span
-                  :key="i"
                   class="mb-0.5 inline-block bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
-                  >{{ item }}</span
-                >
-              </template>
-            </div>
-          </div>
-          <div class="whitespace-nowrap py-2.5 align-middle">
-            <a
-              class="p-1.25 text-lg"
-              :title="$t('player.prevStation')"
-              @click="playClosestStation(false)"
-              ><FasStepBackward class="w-fixed" /></a
-            >&nbsp;<a class="p-1.25 text-lg" :title="$t('player.playStop')" @click="toggleStation()"
-              ><component :is="station ? 'FasStop' : 'FasPlay'" class="w-fixed" /></a
-            >&nbsp;<a
-              class="p-1.25 text-lg"
-              :title="$t('player.nextStation')"
-              @click="playClosestStation(true)"
-              ><FasStepForward class="w-fixed"
-            /></a>
-            {{ " " }}
-            <RadSlider v-model="volume">
-              <template #minusIcon>
-                <FasVolumeOff class="w-fixed" />
-              </template>
-              <template #plusIcon>
-                <FasVolumeUp class="w-fixed" />
-              </template>
-            </RadSlider>
-          </div>
-          <div class="pb-1.25">
-            <div v-show-slide="station !== undefined">
-              <div class="pt-2.5">
-                <a
-                  v-if="station"
-                  :class="[
-                    'block w-full overflow-x-hidden text-ellipsis',
-                    { 'font-bold text-accent icons:opacity-100': liked },
-                  ]"
-                  :title="likeInfo"
-                  @click="like()"
-                >
-                  <FasThumbsUp class="w-7.75" />
-                  <template v-if="likeCount !== undefined">{{ formattedlikeCount }} | </template>
-                  <template v-if="liked">{{ $t("player.alreadyVoted") }}</template>
-                  <template v-else>{{ $t("general.like.submit") }}</template>
-                </a>
-              </div>
-            </div>
-            <div v-show-slide="!!station">
-              <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
-                <a v-if="station" target="blank" :title="homepageInfo" :href="station.homepage">
-                  <FasHome class="w-7.75" />{{
-                    $t("general.visitHomepage")
-                  }}&nbsp;<FasExternalLinkAlt class="w-fixed" />
-                </a>
-              </div>
-            </div>
-            <div>
-              <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
-                <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
-                  <a
-                    :class="{ 'font-bold text-accent icons:opacity-100': active }"
-                    @click="navigate"
+                  >{{ station.state }}</span
+                ><template v-for="(item, i) in station.tags.split(',')">
+                  {{ " "
+                  }}<span
+                    :key="i"
+                    class="mb-0.5 inline-block bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
+                    >{{ item }}</span
                   >
-                    <FasHistory class="w-7.75" />{{ $t("general.manageTitles") }}
-                  </a>
-                </RadLink>
+                </template>
               </div>
             </div>
-            <div v-show-slide="!!info">
-              <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
-                <a
-                  v-if="info"
-                  :class="{ 'font-bold text-accent icons:opacity-100': bookmarked }"
-                  @click="toggleBookmark({ station: station.name, info })"
-                >
-                  <FasMusic /><FasPlus class="relative -top-1.5 w-fixed text-icon-xs" />{{
-                    $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`)
-                  }}
-                </a>
+            <div class="whitespace-nowrap py-2.5 align-middle">
+              <a
+                class="p-1.25 text-lg"
+                :title="$t('player.prevStation')"
+                @click="playClosestStation(false)"
+                ><FasStepBackward class="w-fixed" /></a
+              >&nbsp;<a
+                class="p-1.25 text-lg"
+                :title="$t('player.playStop')"
+                @click="toggleStation()"
+                ><component :is="station ? 'FasStop' : 'FasPlay'" class="w-fixed" /></a
+              >&nbsp;<a
+                class="p-1.25 text-lg"
+                :title="$t('player.nextStation')"
+                @click="playClosestStation(true)"
+                ><FasStepForward class="w-fixed"
+              /></a>
+              {{ " " }}
+              <RadSlider v-model="volume">
+                <template #minusIcon>
+                  <FasVolumeOff class="w-fixed" />
+                </template>
+                <template #plusIcon>
+                  <FasVolumeUp class="w-fixed" />
+                </template>
+              </RadSlider>
+            </div>
+            <div class="pb-1.25">
+              <div v-show-slide="station !== undefined">
+                <div class="pt-2.5">
+                  <a
+                    v-if="station"
+                    :class="[
+                      'block w-full overflow-x-hidden text-ellipsis',
+                      { 'font-bold text-accent icons:opacity-100': liked },
+                    ]"
+                    :title="likeInfo"
+                    @click="like()"
+                  >
+                    <FasThumbsUp class="w-7.75" />
+                    <template v-if="likeCount !== undefined">{{ formattedlikeCount }} | </template>
+                    <template v-if="liked">{{ $t("player.alreadyVoted") }}</template>
+                    <template v-else>{{ $t("general.like.submit") }}</template>
+                  </a>
+                </div>
+              </div>
+              <div v-show-slide="!!station">
+                <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
+                  <a v-if="station" target="blank" :title="homepageInfo" :href="station.homepage">
+                    <FasHome class="w-7.75" />{{
+                      $t("general.visitHomepage")
+                    }}&nbsp;<FasExternalLinkAlt class="w-fixed" />
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
+                  <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
+                    <a
+                      :class="{ 'font-bold text-accent icons:opacity-100': active }"
+                      @click="navigate"
+                    >
+                      <FasHistory class="w-7.75" />{{ $t("general.manageTitles") }}
+                    </a>
+                  </RadLink>
+                </div>
+              </div>
+              <div v-show-slide="!!info">
+                <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
+                  <a
+                    v-if="info"
+                    :class="{ 'font-bold text-accent icons:opacity-100': bookmarked }"
+                    @click="toggleBookmark({ station: station.name, info })"
+                  >
+                    <FasMusic /><FasPlus class="relative -top-1.5 w-fixed text-icon-xs" />{{
+                      $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`)
+                    }}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -258,12 +260,15 @@ import { Component, Watch, Mixins } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
 import RadLink from "./RadLink.vue";
+import RadMedia from "./RadMedia.vue";
 import RadSlider from "./RadSlider.vue";
 import BookmarkHelper from "@/mixins/BookmarkHelper";
+import ScrollHelper from "@/mixins/ScrollHelper";
 
 @Component({
   components: {
     RadLink,
+    RadMedia,
     RadSlider,
     FasChevronDown,
     FasStepBackward,
@@ -283,20 +288,17 @@ import BookmarkHelper from "@/mixins/BookmarkHelper";
     FasExternalLinkAlt,
   },
 })
-export default class RadPlayer extends Mixins(BookmarkHelper) {
+export default class RadPlayer extends Mixins(BookmarkHelper, ScrollHelper) {
   animationFinished = true;
   animationTrigger = false;
   renderedInfo = "";
   controlsHidden = false;
   hideTimeout?: number;
 
-  @Getter readonly fixedPlayer!: boolean;
   @Getter("currentLikeCount") readonly likeCount: number | undefined;
   @Getter("currentStation") readonly station: Station | undefined;
   @Getter("currentInfo") readonly info!: string;
-  @Getter readonly hasVideo!: boolean;
-  @Getter readonly fullscreen!: boolean;
-  @Getter("isPlayerExpanded") readonly expanded!: boolean;
+  @Getter("isPlayerExpanded") readonly detailsShown!: boolean;
   @Getter readonly loading!: boolean;
   @Getter readonly likes!: string[];
   @Getter readonly bookmarks!: Title[];
@@ -304,16 +306,11 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
   @Getter readonly playing!: boolean;
 
   @Action changeVolume!: (volume: number) => Promise<void>;
-  @Action expandPlayer!: (expand: boolean) => Promise<void>;
   @Action fetchLikeCount!: (id?: string) => Promise<number>;
   @Action likeStation!: (id: string) => Promise<void>;
   @Action playClosestStation!: (forward: boolean) => Promise<void>;
   @Action toggleFullscreen!: () => Promise<void>;
   @Action("toggleStation") _toggleStation!: () => Promise<void>;
-
-  get main(): boolean {
-    return "default" in this.$slots;
-  }
 
   get broadcaster(): string {
     if (this.loading) {
@@ -325,10 +322,6 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
     }
 
     return this.$t("player.ready") as string;
-  }
-
-  get compact(): boolean {
-    return !this.main || !this.expanded;
   }
 
   get homepageInfo(): string | null {
@@ -408,7 +401,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
 
   @Watch("station")
   onStationChanged(station?: Station): void {
-    if (this.main && station !== undefined) {
+    if (station !== undefined) {
       this.fetchLikeCount().catch(() => {});
     }
   }
@@ -419,14 +412,12 @@ export default class RadPlayer extends Mixins(BookmarkHelper) {
   }
 
   expand(): void {
-    this.$scrollTo({
-      element: document.documentElement,
-    });
+    this.expandPlayer(!this.detailsShown);
 
-    if (this.main) {
-      this.expandPlayer(!this.expanded);
-    } else if (!this.expanded) {
-      this.expandPlayer(true);
+    if (this.detailsShown) {
+      this.$scrollTo({
+        element: document.documentElement,
+      });
     }
   }
 

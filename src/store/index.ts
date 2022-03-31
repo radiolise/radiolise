@@ -52,7 +52,7 @@ export interface StoreState {
   dateFnsLocale: Locale | null;
   editing?: Station;
   enterKeyAllowed: boolean;
-  fixedPlayer: boolean;
+  stickyPlayer: boolean;
   fullscreen: boolean;
   hasVideo: boolean;
   likeState?: LikeState;
@@ -99,7 +99,7 @@ const store = new Vuex.Store({
     dateFnsLocale: null,
     editing: undefined,
     enterKeyAllowed: true,
-    fixedPlayer: false,
+    stickyPlayer: false,
     fullscreen: false,
     hasVideo: false,
     likeState: undefined,
