@@ -226,7 +226,7 @@
   "search": {
     "credit": {
       "free": "free",
-      "radioBrowser": "The search feature is made possible by the {0} {1}."
+      "radioBrowser": "The search feature is powered by the {0} {1}."
     },
     "error": "@:general.error.generic @:general.error.goOnline",
     "optionsUnavailable": "Oh no! Some options are currently unavailable due to connectivity issues.",
