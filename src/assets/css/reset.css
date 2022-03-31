@@ -36,6 +36,7 @@ h2 {
 button,
 input,
 select {
+  border-radius: 0;
   font-family: inherit;
   margin: 0;
 }
