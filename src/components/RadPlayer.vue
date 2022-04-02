@@ -25,7 +25,7 @@
           fullscreen
             ? 'absolute bottom-0 bg-brand/90 px-3.75 py-5 text-white icons:text-[27px]'
             : 'bg-surface py-3.75 px-2.5 text-on-surface shadow-theme',
-          stickyPlayer ? 'border-b' : 'mobile:border-b',
+          stickyPlayer ? 'border-b' : { 'mobile:border-b': !hasVideo },
           { 'invisible opacity-0 transition-all': controlsHidden },
         ]"
       >

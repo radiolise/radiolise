@@ -2,7 +2,10 @@
   <div
     :class="[
       'w-full overflow-hidden bg-black',
-      { 'relative rounded-tl border-t': !fullscreen, 'hidden': !videoShown },
+      {
+        'relative rounded-tl border-t mobile:rounded-none mobile:border-none': !fullscreen,
+        'hidden': !videoShown,
+      },
     ]"
     @dblclick="toggleFullscreen()"
   >
