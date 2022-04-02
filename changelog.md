@@ -1,3 +1,7 @@
+# Changes in [5.4.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.4.1) (2022-04-03)
+
+- Fix display issues with video streams on small screens
+
 # Changes in [5.4.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.4.0) (2022-04-03)
 
 - Migrate to Vue CLI 5 and upgrade dependencies
