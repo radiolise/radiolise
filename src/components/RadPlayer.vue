@@ -150,18 +150,18 @@
             <div v-show-slide="!!station" class="mx-1.25 mt-2.5">
               <div v-if="station" class="pb-2.5">
                 <span
-                  class="mb-0.5 inline-block bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
+                  class="mb-0.5 inline-block rounded-sm bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
                   >{{ station.country }}</span
                 >
                 {{ " "
                 }}<span
-                  class="mb-0.5 inline-block bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
+                  class="mb-0.5 inline-block rounded-sm bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
                   >{{ station.state }}</span
                 ><template v-for="(item, i) in station.tags.split(',')">
                   {{ " "
                   }}<span
                     :key="i"
-                    class="mb-0.5 inline-block bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
+                    class="mb-0.5 inline-block rounded-sm bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
                     >{{ item }}</span
                   >
                 </template>

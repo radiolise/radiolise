@@ -63,13 +63,13 @@
               >
                 <span
                   v-if="result.lastcheckok === 0"
-                  class="mb-0.5 inline-block bg-strong px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs font-bold uppercase text-on-strong"
+                  class="mb-0.5 inline-block rounded-sm bg-strong px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs font-bold uppercase text-on-strong"
                   >{{ $t("search.stationBroken") }}</span
                 >
                 {{ " "
                 }}<span
                   v-if="options.order !== 'name'"
-                  class="mb-0.5 inline-block bg-emphasis px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs font-bold text-on-emphasis"
+                  class="mb-0.5 inline-block rounded-sm bg-emphasis px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs font-bold text-on-emphasis"
                 >
                   <component :is="sortIcon" />
                   {{ " " }}
