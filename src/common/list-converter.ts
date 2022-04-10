@@ -16,6 +16,10 @@ interface OutputFormat<T> {
   end: string;
 }
 
+function getDisplayName(name: string, index: number) {
+  return `(${index + 1}) ${name}`;
+}
+
 function generateOutput<T>(list: T[], format: OutputFormat<T>) {
   const { start, getEntry, end } = format;
   return [start, ...list.map(getEntry), end].join("\n");
@@ -32,7 +36,9 @@ function convertToAppFormat(payload: { name: string; content: Station[] }) {
 function convertToPls(list: Station[]) {
   return generateOutput(list, {
     start: "[playlist]",
-    getEntry: (item, index) => `File${index + 1}=${item.url}\nTitle${index + 1}=${item.name}`,
+    getEntry: (item, index) => {
+      return `File${index + 1}=${item.url}\nTitle${index + 1}=${getDisplayName(item.name, index)}`;
+    },
     end: `Version=2\n`,
   });
 }
@@ -40,8 +46,8 @@ function convertToPls(list: Station[]) {
 function convertToM3u(list: Station[]) {
   return generateOutput(list, {
     start: "#EXTM3U",
-    getEntry: (item) => {
-      const normalizedName = item.name.replace(/(\s*[+\-()[\]]\s*)+/g, " ");
+    getEntry: (item, index) => {
+      const normalizedName = getDisplayName(item.name, index).replace(/(\s*[+\-[\]]\s*)+/g, " ");
       return `#EXTINF:-1,${normalizedName}\n${item.url}`;
     },
     end: "",
@@ -57,9 +63,9 @@ function convertToXspf(list: Station[]) {
     start: `<?xml version="1.0" encoding="UTF-8"?>
 <playlist version="1" xmlns="http://xspf.org/ns/0/">
   <trackList>`,
-    getEntry: (item) => {
+    getEntry: (item, index) => {
       return `    <track>
-      <title>${encodeXmlEntities(item.name)}</title>
+      <title>${encodeXmlEntities(getDisplayName(item.name, index))}</title>
       <location>${encodeXmlEntities(item.url)}</location>
       <image>${encodeXmlEntities(item.icon)}</image>
     </track>`;
