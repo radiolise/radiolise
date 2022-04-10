@@ -28,6 +28,7 @@
     "defaultListName": "Favoriten",
     "manage": "Verwalten…",
     "loading": "Wird geladen…",
+    "externalPlayback": "Externe Wiedergabe",
     "downloadPlaylist": "Als Wiedergabeliste herunterladen",
     "downloadAs": "Liste herunterladen als",
     "yamlFile": "{0}-Datei (zum Transfer)",
@@ -284,6 +285,10 @@
       "auto": "Auto",
       "light": "Hell",
       "dark": "Dunkel"
+    },
+    "externalPlayback": {
+      "name": "@:general.externalPlayback",
+      "description": "Beim Wechseln des Senders eine Wiedergabeliste zum Öffnen in einer anderen App herunterladen."
     },
     "compactMode": {
       "name": "Kompakter Modus",

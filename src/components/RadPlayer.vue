@@ -295,15 +295,16 @@ export default class RadPlayer extends Mixins(BookmarkHelper, ScrollHelper) {
   controlsHidden = false;
   hideTimeout?: number;
 
-  @Getter("currentLikeCount") readonly likeCount: number | undefined;
-  @Getter("currentStation") readonly station: Station | undefined;
-  @Getter("currentInfo") readonly info!: string;
-  @Getter("isPlayerExpanded") readonly detailsShown!: boolean;
-  @Getter readonly loading!: boolean;
-  @Getter readonly likes!: string[];
   @Getter readonly bookmarks!: Title[];
+  @Getter("isPlayerExpanded") readonly detailsShown!: boolean;
   @Getter("volume") readonly globalVolume!: number;
+  @Getter("currentInfo") readonly info!: string;
+  @Getter("currentLikeCount") readonly likeCount: number | undefined;
+  @Getter readonly likes!: string[];
+  @Getter readonly loading!: boolean;
   @Getter readonly playing!: boolean;
+  @Getter readonly settings!: Settings;
+  @Getter("currentStation") readonly station: Station | undefined;
 
   @Action changeVolume!: (volume: number) => Promise<void>;
   @Action fetchLikeCount!: (id?: string) => Promise<number>;
@@ -401,7 +402,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper, ScrollHelper) {
 
   @Watch("station")
   onStationChanged(station?: Station): void {
-    if (station !== undefined) {
+    if (station !== undefined && !this.settings.externalPlayback) {
       this.fetchLikeCount().catch(() => {});
     }
   }

@@ -44,6 +44,12 @@
             {{ $t("settings.compactMode.description") }}
           </template>
         </RadCheck>
+        <RadCheck v-model="settings.externalPlayback" class="mt-5 ml-2.5">
+          {{ $t("settings.externalPlayback.name") }}
+          <template #description>
+            {{ $t("settings.externalPlayback.description") }}
+          </template>
+        </RadCheck>
         <RadCheck v-model="settings.changecolor" class="mt-5 ml-2.5">
           {{ $t("settings.colorChange.name") }}
           <template #description>

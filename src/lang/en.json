@@ -28,6 +28,7 @@
     "defaultListName": "Favorites",
     "manage": "Manage…",
     "loading": "Loading…",
+    "externalPlayback": "External playback",
     "downloadPlaylist": "Download as playlist",
     "downloadAs": "Download list as",
     "yamlFile": "{0} file (for transfer)",
@@ -284,6 +285,10 @@
       "auto": "Auto",
       "light": "Light",
       "dark": "Dark"
+    },
+    "externalPlayback": {
+      "name": "@:general.externalPlayback",
+      "description": "When changing stations, download a playlist for opening in another app."
     },
     "compactMode": {
       "name": "Compact mode",

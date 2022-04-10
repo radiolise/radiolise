@@ -41,6 +41,7 @@ import Screenfull from "screenfull";
 import { ModalOptions, ModalType } from "@/store";
 import network, { fetchPlayableUrl } from "@/common/network";
 import { TranslateResult } from "vue-i18n";
+import { downloadList } from "@/common/list-converter";
 
 let source = network.CancelToken.source();
 let hls: Hls | undefined;
@@ -58,6 +59,7 @@ export default class RadMedia extends Vue {
 
   @Getter readonly fullscreen!: boolean;
   @Getter readonly loading!: boolean;
+  @Getter readonly settings!: Settings;
   @Getter("currentStation") readonly station?: Station;
   @Getter readonly volume!: number;
 
@@ -66,6 +68,7 @@ export default class RadMedia extends Vue {
   @Action confirmPlaying!: (url: string) => Promise<void>;
   @Action handleBufferWaiting!: (waiting: boolean) => Promise<void>;
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
+  @Action showToast!: (toast: Toast) => Promise<void>;
   @Action stop!: () => Promise<void>;
   @Action toggleFullscreen!: () => Promise<void>;
   @Action toggleStation!: () => Promise<void>;
@@ -103,18 +106,25 @@ export default class RadMedia extends Vue {
     this.detachStream();
     this.triedUrls = [];
 
-    if (station !== undefined) {
-      try {
-        const playableUrl = await fetchPlayableUrl({
-          stationId: station.id,
-          cancelToken: source.token,
-        });
+    if (station === undefined) {
+      return;
+    }
 
-        this.play(playableUrl.ok ? playableUrl.url : station.url);
-      } catch (error) {
-        if (!network.isCancel(error)) {
-          this.play(station.url);
-        }
+    if (this.settings.externalPlayback) {
+      this.playExternally(this.station!);
+      return;
+    }
+
+    try {
+      const playableUrl = await fetchPlayableUrl({
+        stationId: station.id,
+        cancelToken: source.token,
+      });
+
+      this.play(playableUrl.ok ? playableUrl.url : station.url);
+    } catch (error) {
+      if (!network.isCancel(error)) {
+        this.play(station.url);
       }
     }
   }
@@ -182,6 +192,21 @@ export default class RadMedia extends Vue {
     });
 
     this.stop();
+  }
+
+  async playExternally(station: Station): Promise<void> {
+    this.stop();
+
+    await downloadList({
+      name: station.name,
+      type: this.settings.defaultPlaylistFormat!,
+      content: [station],
+    });
+
+    this.showToast({
+      message: this.$t("general.externalPlayback") as string,
+      icon: FasPlay,
+    });
   }
 
   detachStream(): void {

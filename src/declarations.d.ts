@@ -25,6 +25,7 @@ interface Settings {
   theme: string;
   colorScheme: string;
   compactMode?: boolean;
+  externalPlayback?: boolean;
   visualization: boolean;
   relax: boolean;
   relaxTimeout: number;

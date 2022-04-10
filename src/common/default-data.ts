@@ -1,6 +1,7 @@
 export const defaultSettings: Settings = {
   theme: "candy",
   compactMode: true,
+  externalPlayback: false,
   defaultPlaylistFormat: "xspf",
   colorScheme: "auto",
   visualization: false,
