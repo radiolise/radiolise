@@ -117,6 +117,19 @@
             required
           />
         </div>
+        <div class="mt-5 ml-2.5">
+          <strong>{{ $t("settings.defaultPlaylistFormat") }}</strong
+          >:
+          <RadDropdown
+            v-model="settings.defaultPlaylistFormat"
+            :label="$t('settings.playlistFormats')"
+            :data="[
+              { id: 'xspf', name: 'XSPF' },
+              { id: 'pls', name: 'PLS' },
+              { id: 'm3u', name: 'M3U' },
+            ]"
+          />
+        </div>
         <div class="mt-5 mb-2.5 ml-2.5">
           <FasCommentDots class="-scale-x-100" />{{ " " }}
           <strong>{{ $tc("general.language", 1) }}</strong

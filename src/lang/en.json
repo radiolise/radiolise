@@ -312,6 +312,8 @@
       "timer": "Stop stream after"
     },
     "volume": "Default volume",
+    "playlistFormats": "Playlist formats",
+    "defaultPlaylistFormat": "Default playlist format",
     "detect": "Detect",
     "discard": "Discard",
     "reset": "Reset to defaults",

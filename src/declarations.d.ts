@@ -31,6 +31,7 @@ interface Settings {
   sleep: boolean;
   sleepTimeout: number;
   changecolor: boolean;
+  defaultPlaylistFormat?: "xspf" | "pls" | "m3u";
   volume: number;
   loadpolicy: boolean;
   language: string;

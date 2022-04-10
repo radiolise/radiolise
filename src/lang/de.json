@@ -312,6 +312,8 @@
       "timer": "Stream anhalten nach"
     },
     "volume": "Voreingestellte Lautstärke",
+    "playlistFormats": "Playlist-Formate",
+    "defaultPlaylistFormat": "Standardformat für Playlists",
     "detect": "Erkennen",
     "discard": "Verwerfen",
     "reset": "Auf Standardwerte zurücksetzen",

@@ -5,7 +5,7 @@ import "date-fns";
 import Screenfull from "screenfull";
 
 import { StoreState, ModalOptions, ModalType, ChangeKinds } from ".";
-import { defaultSettings } from "./default-data";
+import { defaultSettings } from "@/common/default-data";
 
 import network, { fetchNowPlayingInfo, voteForStation, fetchVoteNumber } from "@/common/network";
 

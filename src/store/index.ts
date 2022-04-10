@@ -4,7 +4,7 @@ import Vuex from "vuex";
 import getters from "./getters";
 import mutations from "./mutations";
 import actions from "./actions";
-import { defaultMemory } from "./default-data";
+import { defaultMemory } from "@/common/default-data";
 
 Vue.use(Vuex);
 

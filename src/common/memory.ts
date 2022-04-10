@@ -1,4 +1,4 @@
-import { defaultMemory, defaultSettings } from "@/store/default-data";
+import { defaultMemory, defaultSettings } from "./default-data";
 import { convertOldIds } from "./network";
 
 interface OldSettings {
@@ -116,8 +116,10 @@ const exists = "data" in localStorage;
 
 export const memoryUpgradeNeeded = checkVersion(exists);
 
-export function getMemory(): Promise<Memory> {
-  return load(exists, memoryUpgradeNeeded);
+export async function getMemory(): Promise<Memory> {
+  const memory = await load(exists, memoryUpgradeNeeded);
+  memory.settings.defaultPlaylistFormat ??= defaultSettings.defaultPlaylistFormat;
+  return memory;
 }
 
 export { defaultMemory };
