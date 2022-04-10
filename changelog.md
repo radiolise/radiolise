@@ -1,3 +1,9 @@
+# Changes in [5.5.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.5.0) (2022-04-10)
+
+- Add numbering to stations in playlist files
+- Add default playlist format to settings
+- Implement option for external playback (see #29)
+
 # Changes in [5.4.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.4.1) (2022-04-03)
 
 - Fix display issues with video streams on small screens
