@@ -22,12 +22,12 @@
         />
       </div>
     </div>
-    <div class="table w-full">
+    <div class="flex items-center">
       <RadMenuButton class="w-full text-left" @click="showBookmarks = !showBookmarks">
         <FasChevronDown :class="['w-fixed', { '-rotate-180': showBookmarks }]" />
         {{ $tc("titleManager.bookmark", 0) }}
       </RadMenuButton>
-      <div v-if="!bookmarksEmpty" class="table-cell w-8.75 text-right text-xl">
+      <div v-if="!bookmarksEmpty" class="ml-2.5 text-xl">
         <a @click="exportBookmarks()"><FasDownload class="w-fixed" /></a>
       </div>
     </div>

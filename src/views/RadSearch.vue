@@ -32,7 +32,7 @@
         "
       />
       <a
-        class="my-auto w-10 flex-shrink-0 border-none bg-transparent text-xl"
+        class="my-auto w-10 shrink-0 border-none bg-transparent text-xl"
         @click="scrollDownIfLoaded()"
       >
         <FasSearch />

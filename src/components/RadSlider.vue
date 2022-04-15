@@ -9,7 +9,7 @@
       @touchstart.prevent="handleTouchStart"
     >
       <div class="h-full bg-current opacity-70" :style="{ width: `${value * 100}%` }" />
-      <div class="flex-grow bg-mute" />
+      <div class="grow bg-mute" />
     </div>
     {{ " " }}
     <a @click="setValue(value + 0.1)"><slot name="plusIcon" /></a>

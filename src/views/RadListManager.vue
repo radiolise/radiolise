@@ -6,7 +6,7 @@
     </h3>
     <p class="description mb-3.75 py-2.5">{{ $t("listManager.description") }}</p>
     <div>
-      <div class="mx-auto table pb-2.5 text-xl">
+      <div class="mx-auto inline-block pb-2.5 text-xl">
         <RadListInput
           v-for="(list, index) in lists"
           :key="index"

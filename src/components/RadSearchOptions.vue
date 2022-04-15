@@ -12,16 +12,16 @@
         <RadTagInput :tags.sync="syncedOptions.tags" />
       </div>
       <div class="table w-full text-left">
-        <div class="table-row overflow-hidden py-1.25">
+        <div class="table-row overflow-hidden">
           <div class="table-cell whitespace-nowrap">
             <FasFilter class="opacity-50" />
-            {{ $t("search.filters.label") }}:{{ "\xa0" }}
+            {{ $t("search.filters.label") }}:&nbsp;
           </div>
           <div class="table-cell w-full">
             <div v-if="failedToLoadFilters">
-              <div class="table">
-                <div class="table-cell whitespace-nowrap">
-                  <FasExclamationTriangle class="w-fixed" />{{ "\xa0" }}
+              <div class="flex">
+                <div class="whitespace-nowrap">
+                  <FasExclamationTriangle class="w-fixed" />&nbsp;
                 </div>
                 <div>
                   {{ $t("search.optionsUnavailable") }}
@@ -63,10 +63,10 @@
             </template>
           </div>
         </div>
-        <div class="table-row py-1.25">
+        <div class="table-row">
           <div class="table-cell whitespace-nowrap">
             <FasSort class="opacity-50" />
-            {{ $t("search.order.sortBy") }}{{ "\xa0" }}
+            {{ $t("search.order.sortBy") }}&nbsp;
           </div>
           <div class="table-cell w-full">
             <RadDropdown

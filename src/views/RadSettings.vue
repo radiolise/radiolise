@@ -161,7 +161,7 @@
         <input type="submit" name="submit" hidden />
       </div>
     </form>
-    <div class="mx-auto my-2.5 table">
+    <div class="my-2.5 flow-root">
       <div class="float-left mx-2.5 my-1.25">
         <a @click="reset()"><FasUndo class="w-fixed" />{{ $t("settings.reset") }}</a
         ><br />

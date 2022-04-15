@@ -2,11 +2,11 @@
   <div>
     <div
       :class="[
-        'absolute z-10 table h-8.75 w-8.75 overflow-hidden rounded-full bg-black/50 text-center text-white',
+        'absolute z-10 flex h-8.75 w-8.75 items-center justify-center overflow-hidden rounded-full bg-black/50 text-center text-white',
         { 'opacity-0 group-hover:opacity-100': !playing },
       ]"
     >
-      <div class="table-cell align-middle">
+      <div>
         <component :is="overlay" :class="['w-fixed', { 'animate-spin': buffering }]" />
       </div>
     </div>

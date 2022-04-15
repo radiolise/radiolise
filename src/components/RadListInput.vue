@@ -13,7 +13,7 @@
         @keydown.enter="handleEnterPress()"
       />
     </div>
-    <div class="table-cell whitespace-nowrap text-left icons:w-fixed">
+    <div class="icons:w-fixed">
       <a :class="{ hidden: !active }">
         <FasCheck />
       </a>

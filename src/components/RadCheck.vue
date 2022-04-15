@@ -1,6 +1,6 @@
 <template>
-  <div class="cursor-pointer" @click="toggleChecked()">
-    <div class="table-cell w-6.25 align-top text-xl">
+  <div class="flex cursor-pointer" @click="toggleChecked()">
+    <div class="w-6.25 text-xl">
       <transition
         mode="out-in"
         enter-class="scale-x-[0.8] scale-y-[0.7]"
@@ -12,7 +12,7 @@
         <FarSquare v-else key="notChecked" class="opacity-70" />
       </transition>
     </div>
-    <div class="table-cell pt-0.75">
+    <div class="flex-1 pt-0.75">
       <strong v-if="strongHeading"><slot /></strong>
       <slot v-else />
       <template v-if="hasDescription">

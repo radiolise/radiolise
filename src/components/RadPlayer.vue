@@ -21,7 +21,7 @@
     >
       <div
         :class="[
-          'action-bar pointer-events-auto table w-full table-fixed text-left',
+          'action-bar pointer-events-auto flex items-center text-left',
           fullscreen
             ? 'absolute bottom-0 bg-brand/90 px-3.75 py-5 text-white icons:text-[27px]'
             : 'bg-surface py-3.75 px-2.5 text-on-surface shadow-theme',
@@ -29,19 +29,14 @@
           { 'invisible opacity-0 transition-all': controlsHidden },
         ]"
       >
-        <div :class="['table-cell w-7.5 align-middle', { hidden: fullscreen }]">
+        <div :class="{ hidden: fullscreen }">
           <a class="p-1.25 text-lg" :title="$t('player.advancedView')" @click="expand()"
             ><FasChevronDown :class="{ '-rotate-180': detailsShown }" /></a
           >&nbsp;
         </div>
-        <div class="table-cell align-middle">
-          <div class="table-row h-10.25 w-full align-middle">
-            <div
-              :class="[
-                'table-cell max-w-full whitespace-nowrap align-middle icons:w-fixed',
-                { hidden: detailsShown },
-              ]"
-            >
+        <div class="grid grow">
+          <div class="flex items-center overflow-hidden">
+            <div :class="['icons:w-fixed', { hidden: detailsShown }]">
               <a
                 class="hidden p-1.25 text-lg xs:inline"
                 :title="$t('player.prevStation')"
@@ -61,47 +56,47 @@
             </div>
             <div
               :class="[
-                'table-cell w-full overflow-hidden px-2.5 align-middle text-lg',
-                { 'max-w-0 whitespace-nowrap': !detailsShown, 'text-[27px]': fullscreen },
+                'flex min-h-[41px] flex-1 items-center overflow-hidden px-2.5 text-lg',
+                { 'whitespace-nowrap': !detailsShown, 'text-[27px]': fullscreen },
               ]"
               :title="tooltip"
               @click="expand()"
             >
-              <transition enter-class="opacity-0" leave-to-class="opacity-0" mode="out-in" appear>
-                <div
-                  :key="broadcaster"
-                  class="max-w-full overflow-hidden text-ellipsis font-bold transition-opacity"
-                  :class="{ 'leading-[21px]': !fullscreen }"
-                >
-                  <FasSpinner v-if="loading" class="animate-spin" />
-                  {{ broadcaster }}
-                </div>
-              </transition>
-              <div
-                v-show-slide="info && animationFinished && !loading"
-                class="text-[17px]"
-                :class="['leading-5', { 'max-h-5': !detailsShown }]"
-              >
-                <transition
-                  enter-class="translate-x-7.5 opacity-0"
-                  leave-to-class="translate-x-7.5 opacity-0"
-                  mode="out-in"
-                  appear
-                >
-                  <span
-                    :key="animationTrigger"
-                    :class="[
-                      'max-w-full overflow-hidden text-ellipsis transition-[opacity,_transform]',
-                      detailsShown ? 'block' : 'inline-block',
-                    ]"
-                    >{{ renderedInfo }}</span
+              <div class="w-full overflow-hidden">
+                <transition enter-class="opacity-0" leave-to-class="opacity-0" mode="out-in" appear>
+                  <div
+                    :key="broadcaster"
+                    class="max-w-full overflow-hidden text-ellipsis font-bold transition-opacity"
+                    :class="{ 'leading-[21px]': !fullscreen }"
                   >
+                    <FasSpinner v-if="loading" class="animate-spin" />
+                    {{ broadcaster }}
+                  </div>
                 </transition>
+                <div
+                  v-show-slide="info && animationFinished && !loading"
+                  class="text-[17px]"
+                  :class="['leading-5', { 'max-h-5': !detailsShown }]"
+                >
+                  <transition
+                    enter-class="translate-x-7.5 opacity-0"
+                    leave-to-class="translate-x-7.5 opacity-0"
+                    mode="out-in"
+                    appear
+                  >
+                    <span
+                      :key="animationTrigger"
+                      :class="[
+                        'max-w-full overflow-hidden text-ellipsis transition-[opacity,transform]',
+                        detailsShown ? 'block' : 'inline-block',
+                      ]"
+                      >{{ renderedInfo }}</span
+                    >
+                  </transition>
+                </div>
               </div>
             </div>
-            <div
-              :class="['hidden whitespace-nowrap align-middle', { 'md:table-cell': !detailsShown }]"
-            >
+            <div :class="['hidden', { 'md:block': !detailsShown }]">
               <a
                 v-if="station"
                 :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': liked }]"
@@ -135,9 +130,8 @@
                 ><FasMusic /><FasPlus class="relative -top-2 w-fixed text-icon-xs"
               /></a>
             </div>
-            <div v-if="hasVideo" class="table-cell whitespace-nowrap align-middle">
-              {{ "\xa0"
-              }}<a
+            <div v-if="hasVideo">
+              &nbsp;<a
                 class="p-1.25 text-lg"
                 :title="$t('player.toggleFullscreen')"
                 @click="toggleFullscreen()"
@@ -167,7 +161,7 @@
                 </template>
               </div>
             </div>
-            <div class="whitespace-nowrap py-2.5 align-middle">
+            <div class="whitespace-nowrap py-2.5">
               <a
                 class="p-1.25 text-lg"
                 :title="$t('player.prevStation')"

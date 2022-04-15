@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <span class="table-cell">{{ $t("tagInput.label") }}: </span
-    ><RadInput
+  <div class="text-left">
+    {{ $t("tagInput.label") }}:
+    <RadInput
       :value="renderedTags"
-      class="mb-2.5 table-cell w-full"
+      class="mb-2.5 w-full"
       :placeholder="$t('general.tags')"
       type="text"
       @input="renderedTags = $event"
       @change="syncedTags = $event"
     />
-    <div class="table text-left">
-      <div class="table-cell">{{ $t("tagInput.preview") }}:{{ "\xa0" }}</div>
-      <div class="table-cell">
-        <RadTags :labels="renderedTags.split(',')" />
-      </div>
+    <div class="flex">
+      {{ $t("tagInput.preview") }}:&nbsp;
+      <RadTags :labels="renderedTags.split(',')" />
     </div>
   </div>
 </template>

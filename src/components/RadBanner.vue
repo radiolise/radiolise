@@ -2,13 +2,13 @@
   <div class="pointer-events-auto">
     <div
       v-show-slide="shown"
-      class="banner bg-surface text-xl text-on-surface shadow-theme backdrop-blur"
+      class="banner flex flex-col bg-surface text-xl text-on-surface shadow-theme backdrop-blur"
     >
       <div
         :key="animationTrigger"
         :class="['h-0.75 origin-left bg-accent', autoHide ? 'animate-progress' : 'invisible']"
       />
-      <div class="mx-auto table max-w-[800px] p-2.5 icons:w-fixed">
+      <div class="mx-auto max-w-[800px] p-2.5 icons:w-fixed">
         <div class="float-left px-5 py-4"><FasInfoCircle /> {{ message }}</div>
         <div class="float-right whitespace-nowrap py-2.5">
           <RadButton @click="undo()"><FasUndo />{{ $t("general.undo") }}</RadButton>

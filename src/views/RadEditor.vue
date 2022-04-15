@@ -6,68 +6,65 @@
       {{ $t("editor.title") }}
     </h3>
     <form ref="form" @submit.prevent="handleSubmit()">
-      <div v-if="stationClone !== null">
-        <span class="table-cell"
-          ><sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
-          {{ $t("editor.field.name") }}: </span
-        ><RadInput
+      <div v-if="stationClone !== null" class="text-left">
+        <sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
+        {{ $t("editor.field.name") }}:
+        <RadInput
           :value="stationClone.name"
-          class="mb-2.5 table-cell w-full"
+          class="mb-2.5 w-full"
           :placeholder="$t('editor.field.name')"
           type="text"
           required
           @change="stationClone.name = $event"
         />
-        <span class="table-cell"
-          ><sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
-          {{ $t("editor.field.url") }}: </span
-        ><RadInput
+        <sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
+        {{ $t("editor.field.url") }}:
+        <RadInput
           :value="stationClone.url"
-          class="mb-2.5 table-cell w-full"
+          class="mb-2.5 w-full"
           :placeholder="$t('editor.field.url')"
           type="url"
           required
           @change="stationClone.url = $event"
         />
-        <span class="table-cell"
-          ><sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
-          {{ $t("editor.field.homepage") }}: </span
-        ><RadInput
+        <sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
+        {{ $t("editor.field.homepage") }}:
+        <RadInput
           :value="stationClone.homepage"
-          class="mb-2.5 table-cell w-full"
+          class="mb-2.5 w-full"
           :placeholder="$t('editor.field.homepage')"
           type="url"
           required
           @change="stationClone.homepage = $event"
         />
-        <span class="table-cell">{{ $t("editor.field.icon") }}: </span
-        ><RadInput
+        {{ $t("editor.field.icon") }}:
+        <RadInput
           :value="stationClone.icon"
-          class="mb-2.5 table-cell w-full"
+          class="mb-2.5 w-full"
           :placeholder="$t('editor.field.icon')"
           type="url"
           @change="stationClone.icon = $event"
         />
-        <span class="table-cell">{{ $tc("general.country") }}: </span
-        ><RadInput
+        {{ $tc("general.country") }}:
+        <RadInput
           :value="stationClone.country"
-          class="mb-2.5 table-cell w-full"
+          class="mb-2.5 w-full"
           :placeholder="$tc('general.country')"
           type="text"
           @change="stationClone.country = $event"
         />
-        <span class="table-cell">{{ $tc("general.state") }}: </span
-        ><RadInput
+        {{ $tc("general.state") }}:
+        <RadInput
           :value="stationClone.state"
-          class="mb-2.5 table-cell w-full"
+          class="mb-2.5 w-full"
           :placeholder="$tc('general.state')"
           type="text"
           @change="stationClone.state = $event"
         />
-        <span class="table-cell">{{ $tc("general.language") }}: </span
-        ><RadInput
+        {{ $tc("general.language") }}:
+        <RadInput
           :value="stationClone.language"
-          class="mb-2.5 table-cell w-full"
+          class="mb-2.5 w-full"
           :placeholder="$tc('general.language')"
           type="text"
           @change="stationClone.language = $event"
