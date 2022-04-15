@@ -25,7 +25,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
-import { memoryUpgradeNeeded, getMemory, defaultMemory } from "@/common/memory";
+import { MEMORY_UPGRADE_NEEDED, getMemory, DEFAULT_MEMORY } from "@/common/memory";
 import { saveFile } from "@/common/downloader";
 
 @Component
@@ -42,7 +42,7 @@ export default class RadStartup extends Vue {
   }
 
   async mounted(): Promise<void> {
-    if (memoryUpgradeNeeded) {
+    if (MEMORY_UPGRADE_NEEDED) {
       this.showMessages = true;
     }
 
@@ -84,7 +84,7 @@ Otherwise, you can download a copy of the (possibly corrupted) save data beforeh
     const confirmed = window.confirm(warningMessage);
 
     if (confirmed) {
-      this.startup(defaultMemory);
+      this.startup(DEFAULT_MEMORY);
     }
   }
 }

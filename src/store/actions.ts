@@ -5,7 +5,7 @@ import "date-fns";
 import Screenfull from "screenfull";
 
 import { StoreState, ModalOptions, ModalType, ChangeKinds } from ".";
-import { defaultSettings } from "@/common/default-data";
+import { DEFAULT_SETTINGS } from "@/common/default-data";
 
 import network, { fetchNowPlayingInfo, voteForStation, fetchVoteNumber } from "@/common/network";
 
@@ -15,7 +15,7 @@ let sleepTimer: number;
 let relaxTimer: number;
 let toastTimer: number;
 
-const actions: ActionTree<StoreState, StoreState> = {
+const ACTIONS: ActionTree<StoreState, StoreState> = {
   init({ commit }, memory: Memory): void {
     commit("INITIALIZE", memory);
   },
@@ -174,7 +174,7 @@ const actions: ActionTree<StoreState, StoreState> = {
   },
 
   reset({ dispatch }): void {
-    dispatch("applySettings", defaultSettings);
+    dispatch("applySettings", DEFAULT_SETTINGS);
   },
 
   stop({ dispatch }): void {
@@ -656,4 +656,4 @@ const actions: ActionTree<StoreState, StoreState> = {
   },
 };
 
-export default actions;
+export default ACTIONS;

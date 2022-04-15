@@ -1,4 +1,4 @@
-export const defaultSettings: Settings = {
+export const DEFAULT_SETTINGS: Settings = {
   theme: "candy",
   compactMode: true,
   externalPlayback: false,
@@ -15,10 +15,10 @@ export const defaultSettings: Settings = {
   language: "auto",
 };
 
-export const defaultMemory: Memory = {
+export const DEFAULT_MEMORY: Memory = {
   version: "2",
   lists: [],
-  settings: defaultSettings,
+  settings: DEFAULT_SETTINGS,
   titles: {
     history: [],
     favorites: [],

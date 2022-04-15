@@ -1,7 +1,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Getter, Action, State } from "vuex-class";
 
-import keyBindings from "@/common/hotkeys";
+import KEY_BINDINGS from "@/common/hotkeys";
 import { ModalOptions } from "@/store";
 
 interface NumberInput {
@@ -124,7 +124,7 @@ export default class Hotkeys extends Vue {
         event.preventDefault();
 
         if (this.modalOptions === undefined) {
-          keyBindings[" "].trigger(this);
+          KEY_BINDINGS[" "].trigger(this);
         }
         return;
       }
@@ -139,16 +139,16 @@ export default class Hotkeys extends Vue {
           return;
         }
 
-        if (event.key in keyBindings) {
+        if (event.key in KEY_BINDINGS) {
           event.preventDefault();
-          keyBindings[event.key].trigger(this);
+          KEY_BINDINGS[event.key].trigger(this);
           return;
         }
 
         const enteredDigit = Number(event.key);
 
         if (!Number.isNaN(enteredDigit)) {
-          keyBindings.number.trigger(this, enteredDigit);
+          KEY_BINDINGS.number.trigger(this, enteredDigit);
         }
       }
     }

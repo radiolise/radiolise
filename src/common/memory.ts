@@ -1,4 +1,4 @@
-import { defaultMemory, defaultSettings } from "./default-data";
+import { DEFAULT_MEMORY, DEFAULT_SETTINGS } from "./default-data";
 import { convertOldIds } from "./network";
 
 interface OldSettings {
@@ -61,8 +61,8 @@ async function migrateData(memory: OldMemory): Promise<Memory> {
       visualization: settings.visualization,
       relax: settings.relax,
       relaxTimeout: settings["relax-timeout"],
-      sleep: defaultSettings.sleep,
-      sleepTimeout: defaultSettings.sleepTimeout,
+      sleep: DEFAULT_SETTINGS.sleep,
+      sleepTimeout: DEFAULT_SETTINGS.sleepTimeout,
       changecolor: settings.changecolor ?? settings.theme === 3,
       volume: settings.volume,
       loadpolicy: settings.loadpolicy,
@@ -78,7 +78,7 @@ async function migrateData(memory: OldMemory): Promise<Memory> {
 function checkVersion(exists: boolean): boolean {
   if (exists) {
     try {
-      return JSON.parse(localStorage.data).version !== defaultMemory.version;
+      return JSON.parse(localStorage.data).version !== DEFAULT_MEMORY.version;
     } catch {
       return false;
     }
@@ -109,17 +109,17 @@ async function load(exists: boolean, needsUpgrade: boolean): Promise<Memory> {
     return memory;
   }
 
-  return defaultMemory;
+  return DEFAULT_MEMORY;
 }
 
 const exists = "data" in localStorage;
 
-export const memoryUpgradeNeeded = checkVersion(exists);
+export const MEMORY_UPGRADE_NEEDED = checkVersion(exists);
 
 export async function getMemory(): Promise<Memory> {
-  const memory = await load(exists, memoryUpgradeNeeded);
-  memory.settings.defaultPlaylistFormat ??= defaultSettings.defaultPlaylistFormat;
+  const memory = await load(exists, MEMORY_UPGRADE_NEEDED);
+  memory.settings.defaultPlaylistFormat ??= DEFAULT_SETTINGS.defaultPlaylistFormat;
   return memory;
 }
 
-export { defaultMemory };
+export { DEFAULT_MEMORY };

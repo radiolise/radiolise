@@ -29,7 +29,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import RadDrawer from "@/components/RadDrawer.vue";
-import keyBindings from "@/common/hotkeys";
+import KEY_BINDINGS from "@/common/hotkeys";
 
 @Component({
   components: {
@@ -39,7 +39,7 @@ import keyBindings from "@/common/hotkeys";
 })
 export default class RadHotkeyReference extends Vue {
   get bindingAliases(): string[] {
-    return Object.values(keyBindings).map((keybinding) => keybinding.alias);
+    return Object.values(KEY_BINDINGS).map((keybinding) => keybinding.alias);
   }
 }
 </script>

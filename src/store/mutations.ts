@@ -2,7 +2,7 @@ import { MutationTree } from "vuex";
 
 import { StoreState, ModalOptions, UndoableEvent, SearchStats } from ".";
 
-const mutations: MutationTree<StoreState> = {
+const MUTATIONS: MutationTree<StoreState> = {
   INITIALIZE(state, memory: Memory) {
     state.memory = memory;
     state.volume = memory.settings.volume / 100;
@@ -174,4 +174,4 @@ const mutations: MutationTree<StoreState> = {
   },
 };
 
-export default mutations;
+export default MUTATIONS;

@@ -4,7 +4,7 @@ import Vuex from "vuex";
 import getters from "./getters";
 import mutations from "./mutations";
 import actions from "./actions";
-import { defaultMemory } from "@/common/default-data";
+import { DEFAULT_MEMORY } from "@/common/default-data";
 
 Vue.use(Vuex);
 
@@ -103,7 +103,7 @@ const store = new Vuex.Store({
     fullscreen: false,
     hasVideo: false,
     likeState: undefined,
-    memory: defaultMemory,
+    memory: DEFAULT_MEMORY,
     messages: [],
     navbarShown: true,
     playerExpanded: false,
@@ -123,7 +123,7 @@ const store = new Vuex.Store({
     stationBackup: undefined,
     toast: null,
     undoableEvent: undefined,
-    volume: defaultMemory.settings.volume / 100,
+    volume: DEFAULT_MEMORY.settings.volume / 100,
   },
 
   getters,

@@ -1,7 +1,7 @@
 import { GetterTree } from "vuex";
 import { StoreState, ModalOptions } from ".";
 
-const getters: GetterTree<StoreState, StoreState> = {
+const GETTERS: GetterTree<StoreState, StoreState> = {
   listName(state): string {
     return state.memory.lists[state.memory.lastList]?.name;
   },
@@ -125,4 +125,4 @@ const getters: GetterTree<StoreState, StoreState> = {
   },
 };
 
-export default getters;
+export default GETTERS;

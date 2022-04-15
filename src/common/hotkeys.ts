@@ -6,7 +6,7 @@ interface KeyBinding {
   trigger(context: HotkeyMixin, enteredDigit?: number): void;
 }
 
-const keyBindings: Record<string, KeyBinding> = {
+const KEY_BINDINGS: Record<string, KeyBinding> = {
   "h": {
     alias: "H",
     trigger() {
@@ -144,4 +144,4 @@ const keyBindings: Record<string, KeyBinding> = {
   },
 };
 
-export default keyBindings;
+export default KEY_BINDINGS;

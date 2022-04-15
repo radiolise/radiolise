@@ -1,4 +1,4 @@
-const failInProductionMode = process.env.NODE_ENV === "production" ? "error" : "off";
+const FAIL_IN_PRODUCTION = process.env.NODE_ENV === "production" ? "error" : "off";
 
 module.exports = {
   root: true,
@@ -15,8 +15,8 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
-    "no-console": failInProductionMode,
-    "no-debugger": failInProductionMode,
+    "no-console": FAIL_IN_PRODUCTION,
+    "no-debugger": FAIL_IN_PRODUCTION,
     "no-undef": "off",
     "prefer-template": "warn",
     "vue/prefer-template": "warn",
