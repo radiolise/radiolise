@@ -56,6 +56,11 @@
   "bugs": {
     "url": "https://gitlab.com/radiolise/radiolise.gitlab.io/-/issues"
   },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
