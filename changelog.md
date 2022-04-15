@@ -1,3 +1,9 @@
+# Changes in [5.5.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.5.1) (2022-04-15)
+
+- Add commitizen config
+- Avoid table classes as layout utilities and use more flex containers
+- Upgrade dependencies
+
 # Changes in [5.5.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.5.0) (2022-04-10)
 
 - Add numbering to stations in playlist files
