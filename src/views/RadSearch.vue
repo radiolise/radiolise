@@ -321,7 +321,7 @@ export default class RadSearch extends Vue {
   }
 
   toggleResult(result: Record<string, string>): void {
-    const currentIndex = this.ids.findIndex((id) => id === result.stationuuid);
+    const currentIndex = this.ids.indexOf(result.stationuuid);
     const added = currentIndex === -1;
 
     this.updateList({
