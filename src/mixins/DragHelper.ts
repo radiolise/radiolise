@@ -62,7 +62,7 @@ export default class DragHelper extends Vue {
     const rows = container.childNodes as NodeListOf<HTMLDivElement>;
 
     for (const [index, row] of rows.entries()) {
-      if (this.index !== index) {
+      if (this.stationRow !== row) {
         const translationValue = this.getSiblingTranslationValue(index);
         row.classList.toggle("-translate-y-full", translationValue === -1);
         row.classList.toggle("translate-y-full", translationValue === 1);
