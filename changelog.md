@@ -1,3 +1,18 @@
+# Changes in [5.6.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.6.0) (2022-05-05)
+
+- Use SNAKE_CASE for global constants
+- Use pnpm instead of yarn
+- Rename "banner" to "message-banner" so that ad blockers don't hide it
+- Fix layout problems
+- Prefer `String#slice()` over `String#substring()`
+- Prefer `Date.now()` to get the number of Unix milliseconds
+- Prefer `String#codePointAt()` over `String#charCodeAt()`
+- RadMedia.vue: Omit unused catch binding parameter
+- Prefer `Array#indexOf()` over `Array#findIndex()`
+- DragHelper.ts: use element refs instead of DOM queries
+- DragHelper.ts: compare station rows by reference instead of index
+- show name of most recent station in action bar during external playback (see #30)
+
 # Changes in [5.5.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.5.1) (2022-04-15)
 
 - Add commitizen config
