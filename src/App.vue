@@ -209,7 +209,7 @@ export default class App extends HelperMixins {
   detectLocale(): string {
     const preferredLocales = [
       ...new Set(
-        [navigator.language, ...navigator.languages].map((language) => language.substring(0, 2))
+        [navigator.language, ...navigator.languages].map((language) => language.slice(0, 2))
       ),
     ];
 
