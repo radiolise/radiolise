@@ -1,6 +1,8 @@
 pages:
   image: node:lts
   stage: deploy
+  before_script:
+    - npm install -g pnpm
   script:
     - pnpm install
     - pnpm run build
