@@ -21,10 +21,10 @@
     >
       <div
         :class="[
-          'action-bar pointer-events-auto flex items-center text-left',
+          'action-bar pointer-events-auto flex w-full items-center text-left',
           fullscreen
             ? 'absolute bottom-0 bg-brand/90 px-3.75 py-5 text-white icons:text-[27px]'
-            : 'bg-surface py-3.75 px-2.5 text-on-surface shadow-theme',
+            : 'bg-surface px-2.5 py-3.75 text-on-surface shadow-theme',
           stickyPlayer ? 'border-b' : { 'mobile:border-b': !hasVideo },
           { 'invisible opacity-0 transition-all': controlsHidden },
         ]"

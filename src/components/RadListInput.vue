@@ -13,7 +13,7 @@
         @keydown.enter="handleEnterPress()"
       />
     </div>
-    <div class="icons:w-fixed">
+    <div class="shrink-0 icons:w-fixed">
       <a :class="{ hidden: !active }">
         <FasCheck />
       </a>
