@@ -11,7 +11,7 @@
   }
 
   .action-bar,
-  .banner,
+  .message-banner,
   .toast {
     --rad-shadow: none;
     --tw-bg-opacity: 0.9;

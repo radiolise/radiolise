@@ -2,7 +2,7 @@
   <div class="pointer-events-auto">
     <div
       v-show-slide="shown"
-      class="banner flex flex-col bg-surface text-xl text-on-surface shadow-theme backdrop-blur"
+      class="message-banner flex flex-col bg-surface text-xl text-on-surface shadow-theme backdrop-blur"
     >
       <div
         :key="animationTrigger"

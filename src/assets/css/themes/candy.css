@@ -16,8 +16,8 @@
     --rad-shadow: 10px 10px 20px 0 rgb(0 0 0 / 0.2);
   }
 
-  .banner,
   .drawer,
+  .message-banner,
   .toast {
     color-scheme: dark;
     --tw-bg-opacity: 0.9;
@@ -38,8 +38,8 @@
     --rad-color-strong: 255 0 0;
     --rad-color-on-strong: 255 255 255;
 
-    .banner,
     .drawer,
+    .message-banner,
     .toast {
       color-scheme: light;
     }
