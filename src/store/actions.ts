@@ -321,7 +321,7 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
     history.push({
       station: currentStation.name,
       info,
-      time: Math.floor(Number(new Date()) / 60),
+      time: Math.floor(Date.now() / 60),
     });
 
     commit("SET_HISTORY", history);
@@ -493,7 +493,7 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
     commit("PUSH_BOOKMARK", {
       station,
       info,
-      time: Math.floor(Number(new Date()) / 60),
+      time: Math.floor(Date.now() / 60),
     });
 
     const { undoableEvent } = state;
