@@ -155,7 +155,7 @@ export default class RadMedia extends Vue {
   isNativeStream(streamUrl: string): boolean {
     try {
       return !new URL(streamUrl).pathname.endsWith(".m3u8");
-    } catch (err) {
+    } catch {
       return true;
     }
   }
