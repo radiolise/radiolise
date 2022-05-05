@@ -85,7 +85,8 @@ const GETTERS: GetterTree<StoreState, StoreState> = {
   },
 
   loading(state): boolean {
-    return state.active && (!state.playing || !state.bufferFine);
+    const { externalPlayback } = state.memory.settings;
+    return state.active && !externalPlayback && (!state.playing || !state.bufferFine);
   },
 
   changeColor(state): boolean {

@@ -96,6 +96,11 @@ export default class RadMedia extends Vue {
     }
   }
 
+  @Watch("settings.externalPlayback")
+  onPlaybackChanged() {
+    this.stop();
+  }
+
   @Watch("station")
   async onStationChanged(station?: Station): Promise<void> {
     if (source) {
@@ -195,8 +200,6 @@ export default class RadMedia extends Vue {
   }
 
   async playExternally(station: Station): Promise<void> {
-    this.stop();
-
     await downloadList({
       name: station.name,
       type: this.settings.defaultPlaylistFormat!,
