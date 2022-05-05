@@ -51,13 +51,15 @@ export default class DragHelper extends Vue {
 
     this.currentTranslation = currentTranslation;
 
-    const offsetTop = this.stationRow.parentElement!.getBoundingClientRect().top;
+    const container = this.stationRow.parentElement!;
+
+    const { top: offsetTop } = container.getBoundingClientRect();
     const positionRelative = event.pageY - document.documentElement.scrollTop - offsetTop;
     const closestIndex = Math.floor(positionRelative / this.stationRow.offsetHeight);
 
     this.newIndex = Math.min(Math.max(closestIndex, 0), this.currentList.length - 1);
 
-    const rows = document.querySelectorAll(".station") as NodeListOf<HTMLDivElement>;
+    const rows = container.childNodes as NodeListOf<HTMLDivElement>;
 
     for (const [index, row] of rows.entries()) {
       if (this.index !== index) {
