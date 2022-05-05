@@ -55,7 +55,7 @@ function convertToM3u(list: Station[]) {
 }
 
 function encodeXmlEntities(value: string) {
-  return value.replace(/[\u00A0-\u9999<>&]/g, (substring) => `&#${substring.charCodeAt(0)};`);
+  return value.replace(/[\u00A0-\u9999<>&]/g, (substring) => `&#${substring.codePointAt(0)};`);
 }
 
 function convertToXspf(list: Station[]) {

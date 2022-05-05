@@ -54,7 +54,7 @@ export default class RadIcon extends Vue {
 
   created(): void {
     if (this.station.hue === undefined) {
-      const firstCharCode = this.station.name.toUpperCase().charCodeAt(0);
+      const firstCharCode = this.station.name.toUpperCase().codePointAt(0)!;
 
       this.updateColor({
         station: this.station,
