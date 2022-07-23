@@ -6,14 +6,10 @@ function withFallbackColor(variableName, fallbackVariableName) {
 }
 
 function withOpacity(variableName) {
-  return ({ opacityValue }) => {
-    if (opacityValue === undefined) {
-      return `rgb(var(${variableName}))`;
-    }
-    return `rgb(var(${variableName}) / ${opacityValue})`;
-  };
+  return `rgb(var(${variableName}) / <alpha-value>)`;
 }
 
+/** @type {import("tailwindcss").Config} */
 module.exports = {
   content: ["./public/index.html", "./src/**/*.{js,jsx,vue,ts,tsx}"],
   darkMode: "class",
