@@ -5,7 +5,7 @@ pages:
     - npm install -g pnpm
   script:
     - pnpm install
-    - pnpm run build
+    - pnpm run build-only
     - mv public public-vue
     - mv dist public
     - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
