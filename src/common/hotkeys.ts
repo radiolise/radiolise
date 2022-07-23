@@ -1,4 +1,9 @@
-import HotkeyMixin from "@/mixins/Hotkeys";
+import FasVolumeUp from "~icons/fa-solid/volume-up";
+import FasVolumeMute from "~icons/fa-solid/volume-mute";
+import FasExclamationTriangle from "~icons/fa-solid/exclamation-triangle";
+import FasToggleOn from "~icons/fa-solid/toggle-on";
+import FasToggleOff from "~icons/fa-solid/toggle-off";
+import type HotkeyMixin from "@/mixins/Hotkeys";
 import { navigate } from "./routing";
 
 interface KeyBinding {

@@ -13,21 +13,14 @@
         </a>
       </RadLink>
     </div>
-    <slot />
+    <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import RadLink from "./RadLink.vue";
 
-@Component({
-  components: {
-    RadLink,
-    FasBars,
-    FasTimesCircle,
-  },
-})
+@Component
 export default class RadDrawer extends Vue {
   @Prop({ type: Boolean, default: false }) readonly isMenu!: boolean;
 }

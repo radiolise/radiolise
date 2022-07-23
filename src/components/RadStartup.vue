@@ -30,7 +30,7 @@ import { saveFile } from "@/common/downloader";
 
 @Component
 export default class RadStartup extends Vue {
-  appTitle = process.env.VUE_APP_TITLE;
+  appTitle = __APP_TITLE__;
   failed = false;
   showMessages = false;
 

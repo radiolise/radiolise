@@ -19,15 +19,7 @@
 <script lang="ts">
 import { Component, PropSync, Vue } from "vue-property-decorator";
 
-import RadInput from "@/components/RadInput.vue";
-import RadTags from "@/components/RadTags.vue";
-
-@Component({
-  components: {
-    RadInput,
-    RadTags,
-  },
-})
+@Component
 export default class RadTagInput extends Vue {
   renderedTags = "";
 

@@ -1,7 +1,7 @@
 import { Component, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import { ModalOptions, ModalType } from "@/store";
+import { type ModalOptions, ModalType } from "@/store";
 
 @Component
 export default class LikeHelper extends Vue {

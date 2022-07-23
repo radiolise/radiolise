@@ -38,7 +38,7 @@
       <div v-else class="flex flex-col-reverse">
         <div v-for="(titles, month) in bookmarks" :key="month">
           <div
-            class="my-2.5 border-b-2 border-b-mute-contrast/50 px-2.5 py-1.25 text-xl font-bold text-on-surface/70"
+            class="my-2.5 border-b-2 border-b-mute-contrast/50 py-1.25 px-2.5 text-xl font-bold text-on-surface/70"
           >
             {{ month }}
           </div>
@@ -64,20 +64,7 @@ import { format } from "date-fns";
 import { State, Getter, Action } from "vuex-class";
 import { downloadBookmarks } from "@/common/list-converter";
 
-import RadDrawer from "@/components/RadDrawer.vue";
-import RadMenuButton from "@/components/RadMenuButton.vue";
-import RadTitleRow from "@/components/RadTitleRow.vue";
-
-@Component({
-  components: {
-    RadDrawer,
-    RadMenuButton,
-    RadTitleRow,
-    FasHistory,
-    FasChevronDown,
-    FasDownload,
-  },
-})
+@Component
 export default class RadTitleManager extends Vue {
   showTitles = false;
   showBookmarks = true;

@@ -13,10 +13,10 @@
       </transition>
     </div>
     <div class="flex-1 pt-0.75">
-      <strong v-if="strongHeading"><slot /></strong>
-      <slot v-else />
+      <strong v-if="strongHeading"><slot></slot></strong>
+      <slot v-else></slot>
       <template v-if="hasDescription">
-        <br /><span class="description"><slot name="description" /></span>
+        <br /><span class="description"><slot name="description"></slot></span>
       </template>
     </div>
   </div>
@@ -25,12 +25,7 @@
 <script lang="ts">
 import { Component, Emit, Model, Prop, Vue } from "vue-property-decorator";
 
-@Component({
-  components: {
-    FasCheckSquare,
-    FarSquare,
-  },
-})
+@Component
 export default class RadCheck extends Vue {
   @Model("change", { type: Boolean, default: false })
   readonly checked!: boolean;

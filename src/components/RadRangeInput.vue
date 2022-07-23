@@ -25,13 +25,8 @@
 
 <script lang="ts">
 import { Component, PropSync, Ref, Vue } from "vue-property-decorator";
-import RadInput from "./RadInput.vue";
 
-@Component({
-  components: {
-    RadInput,
-  },
-})
+@Component
 export default class RadRangeInput extends Vue {
   _min: NumberLike = "";
   _max: NumberLike = "";

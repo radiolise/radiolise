@@ -7,7 +7,9 @@
     </h3>
     <form ref="form" @submit.prevent="handleSubmit()">
       <div v-if="stationClone !== null" class="text-left">
-        <sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
+        <sup class="align-text-top text-strong" :title="String($t('editor.field.marked'))"
+          >&lowast;</sup
+        >
         {{ $t("editor.field.name") }}:
         <RadInput
           :value="stationClone.name"
@@ -17,7 +19,9 @@
           required
           @change="stationClone.name = $event"
         />
-        <sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
+        <sup class="align-text-top text-strong" :title="String($t('editor.field.marked'))"
+          >&lowast;</sup
+        >
         {{ $t("editor.field.url") }}:
         <RadInput
           :value="stationClone.url"
@@ -27,7 +31,9 @@
           required
           @change="stationClone.url = $event"
         />
-        <sup class="align-text-top text-strong" :title="$t('editor.field.marked')">&lowast;</sup>
+        <sup class="align-text-top text-strong" :title="String($t('editor.field.marked'))"
+          >&lowast;</sup
+        >
         {{ $t("editor.field.homepage") }}:
         <RadInput
           :value="stationClone.homepage"
@@ -88,27 +94,13 @@
 import { Component, Prop, Ref, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import RadButton from "@/components/RadButton.vue";
-import RadDrawer from "@/components/RadDrawer.vue";
-import RadInput from "@/components/RadInput.vue";
-import RadTagInput from "@/components/RadTagInput.vue";
-
-import { ModalOptions, ModalType } from "@/store";
+import { type ModalOptions, ModalType } from "@/store";
 import { navigate } from "@/common/routing";
 
-@Component({
-  components: {
-    RadButton,
-    RadDrawer,
-    RadInput,
-    RadTagInput,
-    FasEdit,
-    FasCheck,
-  },
-})
+@Component
 export default class RadEditor extends Vue {
   stationReference: Station | null = null;
-  stationClone: Station | null = null;
+  stationClone: Station = null!;
   closing = false;
 
   @Prop({ type: Number, required: true }) readonly list!: number;

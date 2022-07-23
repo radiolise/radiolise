@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, CancelToken } from "axios";
+import axios, { type AxiosRequestConfig, type CancelToken } from "axios";
 
 const SERVICE_URL = "https://service.radiolise.com";
 const RADIO_BROWSER_FALLBACK_URL = "https://de1.api.radio-browser.info/json";
@@ -72,7 +72,7 @@ export function findStations(options: {
   cancelToken: CancelToken;
 }) {
   const { searchEntries, cancelToken } = options;
-  return fetchFromRadioBrowser<Record<string, any>[]>("/stations/search", {
+  return fetchFromRadioBrowser<SearchResult[]>("/stations/search", {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
     data: new URLSearchParams(searchEntries).toString(),

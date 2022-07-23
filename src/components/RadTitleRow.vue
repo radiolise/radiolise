@@ -45,18 +45,9 @@ import { Component, Prop, Mixins } from "vue-property-decorator";
 import { formatDistanceToNow } from "date-fns";
 import { Getter, Action } from "vuex-class";
 
-import RadButton from "./RadButton.vue";
 import BookmarkHelper from "@/mixins/BookmarkHelper";
 
-@Component({
-  components: {
-    RadButton,
-    FasMusic,
-    FasPlus,
-    FasSearch,
-    FasTimes,
-  },
-})
+@Component
 export default class RadTitleRow extends Mixins(BookmarkHelper) {
   updateInterval: number | null = null;
   timeStamp: string | null = null;

@@ -20,11 +20,11 @@
         :value="searchTerm"
         autocomplete="off"
         autocapitalize="off"
-        :placeholder="$t('search.byName')"
+        :placeholder="String($t('search.byName'))"
         type="text"
         spellcheck="false"
-        @input="searchTerm = $event.target.value"
-        @change="searchTerm = $event.target.value"
+        @input="searchTerm = searchField.value"
+        @change="searchTerm = searchField.value"
         @focus="searchField.select()"
         @keypress.enter="
           searchField.blur();
@@ -112,36 +112,22 @@
 import { Component, Ref, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import network, { findStations } from "@/common/network";
+import FasFlag from "~icons/fa-solid/flag";
+import FasMapMarker from "~icons/fa-solid/map-marker";
+import FasCommentDots from "~icons/fa-solid/comment-dots";
+import FasFileAudio from "~icons/fa-solid/file-audio";
+import FasPlay from "~icons/fa-solid/play";
+import FasThumbsUp from "~icons/fa-solid/thumbs-up";
 
-import RadDrawer from "@/components/RadDrawer.vue";
-import RadMenuButton from "@/components/RadMenuButton.vue";
-import RadResult from "@/components/RadResult.vue";
-import RadSearchOptions from "@/components/RadSearchOptions.vue";
-import RadTags from "@/components/RadTags.vue";
+import network, { findStations } from "@/common/network";
 
 let source = network.CancelToken.source();
 
-@Component({
-  components: {
-    RadDrawer,
-    RadMenuButton,
-    RadResult,
-    RadSearchOptions,
-    RadTags,
-    FasSearch,
-    FasExternalLinkAlt,
-    FasQuestion,
-    FarMeh,
-    FasSpinner,
-    FasExclamationTriangle,
-    FasRedo,
-  },
-})
+@Component
 export default class RadSearch extends Vue {
   searchTerm = "";
   active = false;
-  results: Record<string, string | number>[] = [];
+  results: SearchResult[] = [];
   transition = "";
   moreAvailable = true;
   failed = false;
@@ -320,7 +306,7 @@ export default class RadSearch extends Vue {
     this.showSpinner = true;
   }
 
-  toggleResult(result: Record<string, string>): void {
+  toggleResult(result: SearchResult): void {
     const currentIndex = this.ids.indexOf(result.stationuuid);
     const added = currentIndex === -1;
 

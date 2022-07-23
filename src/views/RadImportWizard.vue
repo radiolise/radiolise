@@ -45,8 +45,12 @@
             <h4 class="mt-0">
               {{ $t("importWizard.step", [3, $t("importWizard.selectStations")]) }}
             </h4>
-            <div v-if="backup">
-              <RadResult v-for="(station, index) in backup" :key="index" v-model="station.selected">
+            <div>
+              <RadResult
+                v-for="(station, index) in stationList"
+                :key="index"
+                v-model="station.selected"
+              >
                 {{ station.name }}
                 <template #tags>
                   <RadTags
@@ -72,40 +76,21 @@
 <script lang="ts">
 import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
-import { ModalOptions, ModalType } from "@/store";
+import { type ModalOptions, ModalType } from "@/store";
 import { navigate } from "@/common/routing";
 
-import RadButton from "@/components/RadButton.vue";
-import RadDrawer from "@/components/RadDrawer.vue";
-import RadDropZone from "@/components/RadDropZone.vue";
-import RadInput from "@/components/RadInput.vue";
-import RadLink from "@/components/RadLink.vue";
-import RadResult from "@/components/RadResult.vue";
-import RadTags from "@/components/RadTags.vue";
+import type RadDropZone from "@/components/RadDropZone.vue";
 
 type BackupKind = Record<string, Station[]> | Settings;
 type Backup = Record<string, string | BackupKind>;
 
-@Component({
-  components: {
-    RadButton,
-    RadDrawer,
-    RadDropZone,
-    RadInput,
-    RadLink,
-    RadResult,
-    RadTags,
-    FasFileImport,
-    FasBan,
-    FasArrowRight,
-  },
-})
+@Component
 export default class RadImportWizard extends Vue {
-  appTitle = process.env.VUE_APP_TITLE;
+  appTitle = __APP_TITLE__;
   backup: SelectableStation[] | Settings | null = null;
   listName?: string;
 
-  @Prop({ type: String, required: true }) readonly type!: string;
+  @Prop({ type: String, required: true }) readonly type!: "list" | "settings";
 
   @Ref() readonly dropZone!: RadDropZone;
 
@@ -115,6 +100,10 @@ export default class RadImportWizard extends Vue {
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   @Action updateList!: (payload: { name?: string; content: Station[] }) => Promise<void>;
+
+  get stationList() {
+    return this.type === "list" ? (this.backup as SelectableStation[]) : null;
+  }
 
   setBackup(rawBackup: Backup): void {
     if (rawBackup.version !== "2" || this.type !== rawBackup.type) {

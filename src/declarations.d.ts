@@ -1,3 +1,9 @@
+declare const __APP_TITLE__: string;
+declare const __APP_VERSION__: string;
+declare const __APP_COPYRIGHT__: string;
+declare const __APP_REPO__: string;
+declare const __APP_ISSUES__: string;
+
 interface Station {
   name: string;
   url: string;
@@ -74,12 +80,29 @@ type Filter = Array<{
 
 type NumberLike = number | `${number}` | "";
 
+interface SearchResult {
+  bitrate: number;
+  lastcheckok: number;
+  name: string;
+  url: string;
+  homepage: string;
+  favicon: string;
+  country: string;
+  state: string;
+  language: string;
+  codec: string;
+  clickcount: number;
+  votes: number;
+  tags: string;
+  stationuuid: string;
+}
+
 interface SearchOptions {
   tags: string;
   country: string;
   state: string;
   language: string;
-  order: string;
+  order: keyof SearchResult;
   bitrate: { min?: NumberLike; max?: NumberLike };
   reverse: boolean;
   includeBroken: boolean;

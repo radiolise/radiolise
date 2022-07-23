@@ -5,7 +5,7 @@
       :key="i"
       :class="['w-full duration-100', colorful ? 'bg-white/10' : 'bg-black/10 dark:bg-white/10']"
       :style="{ height }"
-    />
+    ></div>
   </div>
 </template>
 

@@ -46,21 +46,10 @@
 import { Component, Prop, Mixins } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
-import RadDropdown from "./RadDropdown.vue";
-import RadIcon from "./RadIcon.vue";
-import RadTags from "./RadTags.vue";
-
 import DragHelper from "@/mixins/DragHelper";
 import { navigate } from "@/common/routing";
 
-@Component({
-  components: {
-    RadDropdown,
-    RadIcon,
-    RadTags,
-    FasEllipsisV,
-  },
-})
+@Component
 export default class RadStation extends Mixins(DragHelper) {
   @Prop({ type: Object, required: true }) readonly station!: Station;
 
@@ -155,7 +144,7 @@ export default class RadStation extends Mixins(DragHelper) {
     this.handleDelete(index);
   }
 
-  trigger(optionName: keyof this) {
+  trigger(optionName: keyof RadStation) {
     const option = this[optionName];
     if (typeof option === "function") {
       return option();

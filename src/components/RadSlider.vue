@@ -1,6 +1,6 @@
 <template>
   <div class="inline-block px-1.25 text-lg" @wheel.prevent="handleScroll">
-    <a @click="setValue(value - 0.1)"><slot name="minusIcon" /></a>
+    <a @click="setValue(value - 0.1)"><slot name="minusIcon"></slot></a>
     {{ " " }}
     <div
       ref="slider"
@@ -8,11 +8,11 @@
       @mousedown.left="handleMouseDown"
       @touchstart.prevent="handleTouchStart"
     >
-      <div class="h-full bg-current opacity-70" :style="{ width: `${value * 100}%` }" />
-      <div class="grow bg-mute" />
+      <div class="h-full bg-current opacity-70" :style="{ width: `${value * 100}%` }"></div>
+      <div class="grow bg-mute"></div>
     </div>
     {{ " " }}
-    <a @click="setValue(value + 0.1)"><slot name="plusIcon" /></a>
+    <a @click="setValue(value + 0.1)"><slot name="plusIcon"></slot></a>
   </div>
 </template>
 

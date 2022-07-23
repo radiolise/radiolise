@@ -27,16 +27,9 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-
-import RadDrawer from "@/components/RadDrawer.vue";
 import KEY_BINDINGS from "@/common/hotkeys";
 
-@Component({
-  components: {
-    RadDrawer,
-    FasKeyboard,
-  },
-})
+@Component
 export default class RadHotkeyReference extends Vue {
   get bindingAliases(): string[] {
     return Object.values(KEY_BINDINGS).map((keybinding) => keybinding.alias);

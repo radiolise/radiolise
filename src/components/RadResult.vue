@@ -8,10 +8,10 @@
     </div>
     <div>
       <h4 class="m-0">
-        <slot />
+        <slot></slot>
       </h4>
       <br />
-      <slot name="tags" />
+      <slot name="tags"></slot>
     </div>
   </div>
 </template>
@@ -19,11 +19,7 @@
 <script lang="ts">
 import { Component, Emit, Model, Vue } from "vue-property-decorator";
 
-@Component({
-  components: {
-    FasCheck,
-  },
-})
+@Component
 export default class RadResult extends Vue {
   @Model("change", Boolean) readonly selected!: boolean;
 

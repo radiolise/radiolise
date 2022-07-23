@@ -54,25 +54,13 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import RadButton from "@/components/RadButton.vue";
-import RadDrawer from "@/components/RadDrawer.vue";
-
-@Component({
-  components: {
-    RadButton,
-    RadDrawer,
-    FasCodeBranch,
-    FasExternalLinkAlt,
-    FabGitlab,
-    FasComments,
-  },
-})
+@Component
 export default class RadAbout extends Vue {
-  appTitle = process.env.VUE_APP_TITLE;
-  version = process.env.VUE_APP_VERSION;
-  copyright = process.env.VUE_APP_COPYRIGHT;
-  repoUrl = process.env.VUE_APP_REPO;
-  issuesUrl = process.env.VUE_APP_ISSUES;
+  appTitle = __APP_TITLE__;
+  version = __APP_VERSION__;
+  copyright = __APP_COPYRIGHT__;
+  repoUrl = __APP_REPO__;
+  issuesUrl = __APP_ISSUES__;
   versionShown = false;
 }
 </script>

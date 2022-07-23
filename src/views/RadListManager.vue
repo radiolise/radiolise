@@ -37,22 +37,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
-import RadButton from "@/components/RadButton.vue";
-import RadDrawer from "@/components/RadDrawer.vue";
-import RadLink from "@/components/RadLink.vue";
-import RadListInput from "@/components/RadListInput.vue";
-
-@Component({
-  components: {
-    RadButton,
-    RadDrawer,
-    RadLink,
-    RadListInput,
-    FasListAlt,
-    FasFileImport,
-    FasPlus,
-  },
-})
+@Component
 export default class RadListManager extends Vue {
   adding = false;
 

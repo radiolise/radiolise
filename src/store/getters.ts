@@ -1,5 +1,5 @@
-import { GetterTree } from "vuex";
-import { StoreState, ModalOptions } from ".";
+import type { GetterTree } from "vuex";
+import type { StoreState, ModalOptions } from ".";
 
 const GETTERS: GetterTree<StoreState, StoreState> = {
   listName(state): string {

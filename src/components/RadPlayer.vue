@@ -24,13 +24,13 @@
           'action-bar pointer-events-auto flex w-full items-center text-left',
           fullscreen
             ? 'absolute bottom-0 bg-brand/90 px-3.75 py-5 text-white icons:text-[27px]'
-            : 'bg-surface px-2.5 py-3.75 text-on-surface shadow-theme',
+            : 'bg-surface py-3.75 px-2.5 text-on-surface shadow-theme',
           stickyPlayer ? 'border-b' : { 'mobile:border-b': !hasVideo },
           { 'invisible opacity-0 transition-all': controlsHidden },
         ]"
       >
         <div :class="{ hidden: fullscreen }">
-          <a class="p-1.25 text-lg" :title="$t('player.advancedView')" @click="expand()"
+          <a class="p-1.25 text-lg" :title="String($t('player.advancedView'))" @click="expand()"
             ><FasChevronDown :class="{ '-rotate-180': detailsShown }" /></a
           >&nbsp;
         </div>
@@ -39,17 +39,17 @@
             <div :class="['icons:w-fixed', { hidden: detailsShown }]">
               <a
                 class="hidden p-1.25 text-lg xs:inline"
-                :title="$t('player.prevStation')"
+                :title="String($t('player.prevStation'))"
                 @click="playClosestStation(false)"
                 ><FasStepBackward /></a
               >&nbsp;<a
                 class="p-1.25 text-lg"
-                :title="$t('player.playStop')"
+                :title="String($t('player.playStop'))"
                 @click="toggleStation()"
-                ><component :is="station ? 'FasStop' : 'FasPlay'" /></a
+                ><FasStop v-if="station" class="w-fixed" /><FasPlay v-else class="w-fixed" /></a
               >&nbsp;<a
                 class="hidden p-1.25 text-lg xs:inline"
-                :title="$t('player.nextStation')"
+                :title="String($t('player.nextStation'))"
                 @click="playClosestStation(true)"
                 ><FasStepForward
               /></a>
@@ -107,7 +107,7 @@
                 v-if="station !== undefined"
                 class="p-1.25 text-lg"
                 target="blank"
-                :title="homepageInfo"
+                :title="homepageInfo ?? ''"
                 :href="station.homepage"
                 ><FasHome class="w-fixed"
               /></a>
@@ -115,7 +115,7 @@
               <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
                 <a
                   :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': active }]"
-                  :title="$t('general.manageTitles')"
+                  :title="String($t('general.manageTitles'))"
                   @click="navigate"
                 >
                   <FasHistory class="w-fixed" />
@@ -124,16 +124,16 @@
               {{ " " }}
               <a
                 v-if="info"
-                :title="$t('player.addBookmark')"
+                :title="String($t('player.addBookmark'))"
                 :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': bookmarked }]"
-                @click="toggleBookmark({ station: station.name, info })"
+                @click="station && toggleBookmark({ station: station.name ?? '', info })"
                 ><FasMusic /><FasPlus class="relative -top-2 w-fixed text-icon-xs"
               /></a>
             </div>
             <div v-if="hasVideo">
               &nbsp;<a
                 class="p-1.25 text-lg"
-                :title="$t('player.toggleFullscreen')"
+                :title="String($t('player.toggleFullscreen'))"
                 @click="toggleFullscreen()"
                 ><component :is="fullscreen ? 'FasCompress' : 'FasExpand'" class="w-fixed"
               /></a>
@@ -164,17 +164,17 @@
             <div class="whitespace-nowrap py-2.5">
               <a
                 class="p-1.25 text-lg"
-                :title="$t('player.prevStation')"
+                :title="String($t('player.prevStation'))"
                 @click="playClosestStation(false)"
                 ><FasStepBackward class="w-fixed" /></a
               >&nbsp;<a
                 class="p-1.25 text-lg"
-                :title="$t('player.playStop')"
+                :title="String($t('player.playStop'))"
                 @click="toggleStation()"
-                ><component :is="station ? 'FasStop' : 'FasPlay'" class="w-fixed" /></a
+                ><FasStop v-if="station" class="w-fixed" /><FasPlay v-else class="w-fixed" /></a
               >&nbsp;<a
                 class="p-1.25 text-lg"
-                :title="$t('player.nextStation')"
+                :title="String($t('player.nextStation'))"
                 @click="playClosestStation(true)"
                 ><FasStepForward class="w-fixed"
               /></a>
@@ -209,7 +209,12 @@
               </div>
               <div v-show-slide="!!station">
                 <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
-                  <a v-if="station" target="blank" :title="homepageInfo" :href="station.homepage">
+                  <a
+                    v-if="station"
+                    target="blank"
+                    :title="homepageInfo ?? ''"
+                    :href="station.homepage"
+                  >
                     <FasHome class="w-7.75" />{{
                       $t("general.visitHomepage")
                     }}&nbsp;<FasExternalLinkAlt class="w-fixed" />
@@ -233,7 +238,7 @@
                   <a
                     v-if="info"
                     :class="{ 'font-bold text-accent icons:opacity-100': bookmarked }"
-                    @click="toggleBookmark({ station: station.name, info })"
+                    @click="station && toggleBookmark({ station: station.name, info })"
                   >
                     <FasMusic /><FasPlus class="relative -top-1.5 w-fixed text-icon-xs" />{{
                       $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`)
@@ -253,38 +258,15 @@
 import { Component, Watch, Mixins } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import RadLink from "./RadLink.vue";
-import RadMedia from "./RadMedia.vue";
-import RadSlider from "./RadSlider.vue";
+import FasExclamationTriangle from "~icons/fa-solid/exclamation-triangle";
+
 import BookmarkHelper from "@/mixins/BookmarkHelper";
 import ScrollHelper from "@/mixins/ScrollHelper";
 
-@Component({
-  components: {
-    RadLink,
-    RadMedia,
-    RadSlider,
-    FasChevronDown,
-    FasStepBackward,
-    FasStop,
-    FasPlay,
-    FasStepForward,
-    FasSpinner,
-    FasThumbsUp,
-    FasHome,
-    FasHistory,
-    FasMusic,
-    FasPlus,
-    FasCompress,
-    FasExpand,
-    FasVolumeOff,
-    FasVolumeUp,
-    FasExternalLinkAlt,
-  },
-})
+@Component
 export default class RadPlayer extends Mixins(BookmarkHelper, ScrollHelper) {
   animationFinished = true;
-  animationTrigger = false;
+  animationTrigger = 0;
   renderedInfo = "";
   controlsHidden = false;
   hideTimeout?: number;
@@ -380,7 +362,7 @@ export default class RadPlayer extends Mixins(BookmarkHelper, ScrollHelper) {
       this.renderedInfo = info;
 
       if (oldInfo) {
-        this.animationTrigger = !this.animationTrigger;
+        this.animationTrigger = 1 - this.animationTrigger;
       }
     }
   }

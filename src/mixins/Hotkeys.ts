@@ -1,8 +1,10 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Getter, Action, State } from "vuex-class";
 
+import FasExclamationTriangle from "~icons/fa-solid/exclamation-triangle";
+
 import KEY_BINDINGS from "@/common/hotkeys";
-import { ModalOptions } from "@/store";
+import type { ModalOptions } from "@/store";
 
 interface NumberInput {
   input: string;

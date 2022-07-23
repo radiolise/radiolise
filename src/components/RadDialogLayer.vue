@@ -101,7 +101,7 @@
               <RadButton
                 v-for="(button, i) in modalOptions.buttons"
                 :key="button"
-                @click="modalOptions.handleButtonClicked(i)"
+                @click="modalOptions?.handleButtonClicked(i)"
               >
                 <FasBan v-if="isNegativeButton(button)" /><FasCheck
                   v-if="isPositiveButton(button)"
@@ -117,15 +117,16 @@
 </template>
 
 <script lang="ts">
-import { Component as IComponent } from "vue";
+import type { Component as IComponent } from "vue";
 import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
-import RadBanner from "./RadBanner.vue";
-import RadButton from "./RadButton.vue";
-import RadLink from "./RadLink.vue";
+import FasExclamationCircle from "~icons/fa-solid/exclamation-circle";
+import FasQuestionCircle from "~icons/fa-solid/question-circle";
+import FasExclamationTriangle from "~icons/fa-solid/exclamation-triangle";
+import FasInfoCircle from "~icons/fa-solid/info-circle";
 
-import { ModalOptions, ModalType } from "@/store";
+import { type ModalOptions, ModalType } from "@/store";
 
 import RadAbout from "@/views/RadAbout.vue";
 import RadEditor from "@/views/RadEditor.vue";
@@ -137,18 +138,9 @@ import RadSearch from "@/views/RadSearch.vue";
 import RadSettings from "@/views/RadSettings.vue";
 import RadTitleManager from "@/views/RadTitleManager.vue";
 
-@Component({
-  components: {
-    RadBanner,
-    RadButton,
-    RadLink,
-    FasTimes,
-    FasBan,
-    FasCheck,
-  },
-})
+@Component
 export default class RadDialogLayer extends Vue {
-  animationTrigger = false;
+  animationTrigger = 0;
   viewIndex = 0;
   currentView: IComponent | null = null;
 
@@ -208,7 +200,7 @@ export default class RadDialogLayer extends Vue {
 
   @Watch("modalOptions.message")
   onModalOptionsChanged(): void {
-    this.animationTrigger = !this.animationTrigger;
+    this.animationTrigger = 1 - this.animationTrigger;
   }
 
   @Watch("currentDialog")

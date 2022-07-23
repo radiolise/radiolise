@@ -1,6 +1,5 @@
-import { MutationTree } from "vuex";
-
-import { StoreState, ModalOptions, UndoableEvent, SearchStats } from ".";
+import type { MutationTree } from "vuex";
+import type { StoreState, ModalOptions, UndoableEvent, SearchStats } from ".";
 
 const MUTATIONS: MutationTree<StoreState> = {
   INITIALIZE(state, memory: Memory) {
@@ -14,7 +13,7 @@ const MUTATIONS: MutationTree<StoreState> = {
   },
 
   UPDATE_STATION(state, station: Station): void {
-    Object.assign(state.editing, station);
+    Object.assign(state.editing!, station);
   },
 
   SET_LISTS(state, lists: StationList[]): void {

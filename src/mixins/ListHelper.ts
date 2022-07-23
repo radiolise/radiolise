@@ -1,8 +1,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
-import { ModalOptions, ModalType } from "@/store";
-import { downloadList, ListDownloadPayload } from "@/common/list-converter";
+import { type ModalOptions, ModalType } from "@/store";
+import { downloadList, type ListDownloadPayload } from "@/common/list-converter";
 
 @Component
 export default class ListHelper extends Vue {

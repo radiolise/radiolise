@@ -25,15 +25,11 @@
 import { Component, Emit, Ref, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
-import { ModalOptions, ModalType } from "@/store";
+import { type ModalOptions, ModalType } from "@/store";
 
 type ImportResult = SelectableStation[] | Settings;
 
-@Component({
-  components: {
-    FasCheck,
-  },
-})
+@Component
 export default class RadDropZone extends Vue {
   reader = new FileReader();
   imported = false;
@@ -44,7 +40,7 @@ export default class RadDropZone extends Vue {
 
   created(): void {
     this.reader.addEventListener("load", async () => {
-      const YAML = await import(/* webpackChunkName: "yaml" */ "yaml");
+      const YAML = await import("yaml");
 
       try {
         const fileContent = YAML.parse(this.reader.result as string);

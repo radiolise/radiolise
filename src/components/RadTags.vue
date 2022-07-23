@@ -1,6 +1,6 @@
 <template>
   <div class="scrollbar-avoid">
-    <slot />
+    <slot></slot>
     <template v-if="renderedTags.length > 0">
       <template v-for="(item, i) in renderedTags">
         {{ " " }}

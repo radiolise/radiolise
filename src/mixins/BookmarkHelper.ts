@@ -1,6 +1,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
+import FasCheck from "~icons/fa-solid/check";
+
 @Component
 export default class BookmarkHelper extends Vue {
   @Action showToast!: (toast: Toast) => Promise<void>;

@@ -15,13 +15,13 @@
       playsinline
       @loadedmetadata="onLoadedMetadata()"
       @loadeddata="confirmPlaying(lastTriedUrl)"
-      @timeupdate="hasVideo = $event.target.videoHeight > 0"
+      @timeupdate="hasVideo = mediaElement.videoHeight > 0"
       @play="playLastStation()"
       @pause="stop()"
       @waiting="handleBufferWaiting(true)"
       @playing="handleBufferWaiting(false)"
       @error="handleError()"
-    />
+    ></video>
     <div
       v-if="hasVideo && loading"
       class="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black/50 text-white"
@@ -35,22 +35,20 @@
 import { Component, Ref, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import Hls, { ErrorData } from "hls.js";
+import Hls, { type ErrorData } from "hls.js";
 import Screenfull from "screenfull";
 
-import { ModalOptions, ModalType } from "@/store";
+import FasPlay from "~icons/fa-solid/play";
+
+import { type ModalOptions, ModalType } from "@/store";
 import network, { fetchPlayableUrl } from "@/common/network";
-import { TranslateResult } from "vue-i18n";
+import type { TranslateResult } from "vue-i18n";
 import { downloadList } from "@/common/list-converter";
 
 let source = network.CancelToken.source();
 let hls: Hls | undefined;
 
-@Component({
-  components: {
-    FasSpinner,
-  },
-})
+@Component
 export default class RadMedia extends Vue {
   hasVideo = false;
   triedUrls = [] as string[];

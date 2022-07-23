@@ -18,7 +18,7 @@
     <RadLink v-slot="{ active, navigate }" to="import-wizard" :props="{ type: 'list' }" toggle>
       <a
         :class="{ 'text-accent icons:opacity-100': active }"
-        :title="$t('general.importBackup')"
+        :title="String($t('general.importBackup'))"
         @click="navigate"
       >
         <FasUpload class="w-fixed" />
@@ -38,7 +38,7 @@
     <RadLink v-slot="{ active, navigate }" to="list-manager" toggle>
       <a
         :class="{ 'text-accent icons:opacity-100': active }"
-        :title="$t('general.manageLists')"
+        :title="String($t('general.manageLists'))"
         @click="navigate"
       >
         <FasWrench class="w-fixed" />
@@ -51,22 +51,11 @@
 import { Component, Mixins } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
-import RadDropdown from "./RadDropdown.vue";
-import RadLink from "./RadLink.vue";
-
 import ListHelper from "@/mixins/ListHelper";
 
-@Component({
-  components: {
-    RadDropdown,
-    RadLink,
-    FasUpload,
-    FasDownload,
-    FasWrench,
-  },
-})
+@Component
 export default class RadListMenu extends Mixins(ListHelper) {
-  appTitle = process.env.VUE_APP_TITLE;
+  appTitle = __APP_TITLE__;
 
   @Getter readonly currentList!: Station[];
   @Getter readonly listName!: string;

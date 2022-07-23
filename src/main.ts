@@ -8,7 +8,7 @@ import i18n from "./lang";
 import "./assets/css/index.css";
 
 Vue.config.productionTip = false;
-Vue.config.silent = process.env.NODE_ENV === "production";
+Vue.config.silent = import.meta.env.MODE === "production";
 Vue.config.devtools = true;
 
 Vue.use(VShowSlide);
@@ -19,6 +19,6 @@ const app = new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-if (process.env.NODE_ENV !== "production") {
+if (import.meta.env.MODE !== "production") {
   window.app = app;
 }

@@ -50,31 +50,3 @@
     </div>
   </RadDrawer>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-
-import RadButton from "@/components/RadButton.vue";
-import RadDrawer from "@/components/RadDrawer.vue";
-import RadLink from "@/components/RadLink.vue";
-import RadMenuButton from "@/components/RadMenuButton.vue";
-
-@Component({
-  components: {
-    RadButton,
-    RadDrawer,
-    RadLink,
-    RadMenuButton,
-    FasBars,
-    FasSearch,
-    FasListAlt,
-    FasHistory,
-    FasFileImport,
-    FasKeyboard,
-    FasCog,
-    FasInfoCircle,
-    FasTimes,
-  },
-})
-export default class RadMenu extends Vue {}
-</script>

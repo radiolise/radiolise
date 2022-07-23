@@ -7,7 +7,7 @@
       <div
         :key="animationTrigger"
         :class="['h-0.75 origin-left bg-accent', autoHide ? 'animate-progress' : 'invisible']"
-      />
+      ></div>
       <div class="mx-auto max-w-[800px] p-2.5 icons:w-fixed">
         <div class="float-left px-5 py-4"><FasInfoCircle /> {{ message }}</div>
         <div class="float-right whitespace-nowrap py-2.5">
@@ -22,24 +22,15 @@
 <script lang="ts">
 import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
-import { SearchStats, UndoableEvent } from "@/store";
+import type { SearchStats, UndoableEvent } from "@/store";
 import { navigate } from "@/common/routing";
 
-import RadButton from "./RadButton.vue";
-
-@Component({
-  components: {
-    RadButton,
-    FasInfoCircle,
-    FasUndo,
-    FasCheck,
-  },
-})
+@Component
 export default class RadBanner extends Vue {
   timer?: number;
   message = "";
   autoHide = false;
-  animationTrigger = false;
+  animationTrigger = 0;
 
   @State readonly searchStats!: SearchStats;
   @State readonly stationBackup!: Station[];
@@ -139,7 +130,7 @@ export default class RadBanner extends Vue {
 
     if (event !== undefined) {
       this.autoHide = true;
-      this.animationTrigger = !this.animationTrigger;
+      this.animationTrigger = 1 - this.animationTrigger;
 
       this.message = this.$t(`general.undoableEvent.${event.kind}`, event.affected) as string;
       this.timer = window.setTimeout(this.discardUndoableEvent, 10000);

@@ -1,7 +1,8 @@
 {
   "recommendations": [
     "lokalise.i18n-ally",
-    "octref.vetur",
+    "vue.volar",
+    "vue.vscode-typescript-vue-plugin",
     "csstools.postcss",
     "bradlc.vscode-tailwindcss",
     "dbaeumer.vscode-eslint",

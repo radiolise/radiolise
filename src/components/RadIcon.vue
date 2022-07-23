@@ -39,6 +39,10 @@
 import { Component, Prop, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
+import FasSpinner from "~icons/fa-solid/spinner";
+import FasStop from "~icons/fa-solid/stop";
+import FasPlay from "~icons/fa-solid/play";
+
 @Component
 export default class RadIcon extends Vue {
   loaded = false;

@@ -4,7 +4,7 @@
     <p class="description py-2.5">
       {{ $t("settings.description", [appTitle]) }}
     </p>
-    <form ref="form" @submit.prevent="onSubmit()">
+    <form @submit.prevent="onSubmit()">
       <div v-if="settings !== null" class="text-left">
         <div class="mt-5 ml-2.5">
           <strong>{{ $tc("settings.theme", 1) }}</strong
@@ -58,7 +58,10 @@
         </RadCheck>
         <RadCheck v-model="settings.visualization" class="mt-5 ml-2.5 mobile:opacity-50">
           {{ $t("settings.visualization.name") }}
-          <span class="hidden mobile:inline" :title="$t('settings.visualization.screenWidthIssue')">
+          <span
+            class="hidden mobile:inline"
+            :title="String($t('settings.visualization.screenWidthIssue'))"
+          >
             <FasExclamationTriangle />
           </span>
           <template #description>
@@ -154,19 +157,19 @@
             {{ $t("settings.discard") }}
           </RadButton>
         </RadLink>
-        <RadButton @click="form.submit.click()">
+        <RadButton @click="submitButton.click()">
           <FasCheck />
           {{ $t("general.apply") }}
         </RadButton>
-        <input type="submit" name="submit" hidden />
+        <input ref="submit" type="submit" name="submit" hidden />
       </div>
     </form>
     <div class="my-2.5 flow-root">
-      <div class="float-left mx-2.5 my-1.25">
+      <div class="float-left my-1.25 mx-2.5">
         <a @click="reset()"><FasUndo class="w-fixed" />{{ $t("settings.reset") }}</a
         ><br />
       </div>
-      <div class="float-right mx-2.5 my-1.25">
+      <div class="float-right my-1.25 mx-2.5">
         <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'settings' }">
           <a @click="navigate"><FasUpload class="w-fixed" />{{ $t("settings.import") }}</a>
         </RadLink>
@@ -186,36 +189,12 @@ import { State, Getter, Action } from "vuex-class";
 import { saveFile, convertToYaml } from "@/common/downloader";
 import { navigate } from "@/common/routing";
 
-import RadButton from "@/components/RadButton.vue";
-import RadCheck from "@/components/RadCheck.vue";
-import RadDrawer from "@/components/RadDrawer.vue";
-import RadDropdown from "@/components/RadDropdown.vue";
-import RadInput from "@/components/RadInput.vue";
-import RadLink from "@/components/RadLink.vue";
-
-@Component({
-  components: {
-    RadButton,
-    RadCheck,
-    RadDrawer,
-    RadDropdown,
-    RadInput,
-    RadLink,
-    FasCog,
-    FasExclamationTriangle,
-    FasCommentDots,
-    FasBan,
-    FasCheck,
-    FasUndo,
-    FasUpload,
-    FasDownload,
-  },
-})
+@Component
 export default class RadSettings extends Vue {
-  appTitle = process.env.VUE_APP_TITLE;
+  appTitle = __APP_TITLE__;
   settings: Settings | null = null;
 
-  @Ref() readonly form!: HTMLFormElement;
+  @Ref("submit") readonly submitButton!: HTMLInputElement;
 
   @State readonly darkMode!: boolean;
 

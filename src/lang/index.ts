@@ -11,7 +11,18 @@ const i18n = new VueI18n({
   locale: "en",
   fallbackLocale: "en",
   messages: { en, de, fr },
-  silentTranslationWarn: process.env.NODE_ENV === "production",
+  silentTranslationWarn: import.meta.env.MODE === "production",
 });
+
+export async function getDateFnsLocale(locale: string) {
+  switch (locale) {
+    case "de":
+      return import("date-fns/locale/de/index.js");
+    case "fr":
+      return import("date-fns/locale/fr/index.js");
+    default:
+      throw new Error("unknown locale");
+  }
+}
 
 export default i18n;

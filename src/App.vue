@@ -5,7 +5,7 @@
     :class="[
       'min-h-screen',
       fullscreen
-        ? 'absolute inset-y-0 left-0 -right-scrollbar overflow-y-auto bg-surface'
+        ? 'absolute inset-y-0 -right-scrollbar left-0 overflow-y-auto bg-surface'
         : 'bg-default transition-[background-color] duration-2000 mobile:bg-surface mobile:transition-none',
       { 'dialog': dialog, 'cursor-grabbing': dragging, 'cursor-none': relaxed },
     ]"
@@ -37,23 +37,9 @@ import ColorChanger from "./mixins/ColorChanger";
 import Hotkeys from "./mixins/Hotkeys";
 import LikeHelper from "./mixins/LikeHelper";
 
-import RadDialogLayer from "./components/RadDialogLayer.vue";
-import RadPage from "./components/RadPage.vue";
-import RadRelaxCaption from "./components/RadRelaxCaption.vue";
-import RadStartup from "./components/RadStartup.vue";
-import RadVisualization from "./components/RadVisualization.vue";
-
 const HelperMixins = Mixins(ColorChanger, Hotkeys, LikeHelper);
 
-@Component({
-  components: {
-    RadDialogLayer,
-    RadPage,
-    RadRelaxCaption,
-    RadStartup,
-    RadVisualization,
-  },
-})
+@Component
 export default class App extends HelperMixins {
   inputEventTypes: Array<keyof GlobalEventHandlersEventMap> = [
     "mousemove",

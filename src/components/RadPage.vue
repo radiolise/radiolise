@@ -94,32 +94,9 @@
 import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
-import RadButton from "./RadButton.vue";
-import RadEmptyList from "./RadEmptyList.vue";
-import RadLink from "./RadLink.vue";
-import RadListMenu from "./RadListMenu.vue";
-import RadLogo from "./RadLogo.vue";
-import RadMenuButton from "./RadMenuButton.vue";
-import RadPlayer from "./RadPlayer.vue";
-import RadStationList from "./RadStationList.vue";
-
-@Component({
-  components: {
-    RadButton,
-    RadEmptyList,
-    RadLink,
-    RadListMenu,
-    RadLogo,
-    RadMenuButton,
-    RadPlayer,
-    RadStationList,
-    FasSearch,
-    FasCog,
-    FasBars,
-  },
-})
+@Component
 export default class RadPage extends Vue {
-  appTitle = process.env.VUE_APP_TITLE;
+  appTitle = __APP_TITLE__;
   provideMediaSession = false;
 
   @State readonly currentDialog!: DialogState | null;

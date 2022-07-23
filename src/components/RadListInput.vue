@@ -5,7 +5,7 @@
         ref="input"
         type="text"
         class="w-full border-b-2 border-b-mute-contrast/50 text-xl focus:border-b-accent focus:bg-black/10"
-        :placeholder="$t(isNewList ? 'listManager.specifyName' : 'general.newName')"
+        :placeholder="String(isNewList ? $t('listManager.specifyName') : $t('general.newName'))"
         :value="name"
         spellcheck="false"
         @focus="handleFocus()"
@@ -43,15 +43,7 @@ import { navigate } from "@/common/routing";
 import ListHelper from "@/mixins/ListHelper";
 import { ModalType } from "@/store";
 
-@Component({
-  components: {
-    FasCheck,
-    FasEdit,
-    FasDownload,
-    FasSearch,
-    FasTrash,
-  },
-})
+@Component
 export default class RadListInput extends Mixins(ListHelper) {
   active = false;
 

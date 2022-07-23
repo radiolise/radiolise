@@ -76,7 +76,7 @@ export interface StoreState {
 }
 
 const store = new Vuex.Store({
-  strict: process.env.NODE_ENV !== "production",
+  strict: import.meta.env.MODE !== "production",
 
   plugins: [
     (store) => {

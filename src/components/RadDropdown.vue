@@ -11,8 +11,8 @@
         class="pointer-events-none absolute h-full w-full select-none truncate border-0 border-b-2 border-b-mute-contrast/50"
       >
         <template v-if="loaded">
-          {{ currentOption.name }}
-          <span v-if="currentOption.description !== undefined" class="opacity-50"
+          {{ currentOption?.name }}
+          <span v-if="currentOption?.description !== undefined" class="opacity-50"
             >({{ currentOption.description }})</span
           >
         </template>
@@ -45,7 +45,7 @@
         v-if="isMenu"
         class="pointer-events-none h-full w-full select-none truncate icons:opacity-70 icons:transition-opacity icons:duration-200 icons:peer-hover:opacity-100"
       >
-        <slot />
+        <slot></slot>
       </div>
     </div>
   </div>

@@ -1,19 +1,16 @@
+/* eslint-env node */
+require("@rushstack/eslint-patch/modern-module-resolution");
+
 const FAIL_IN_PRODUCTION = process.env.NODE_ENV === "production" ? "error" : "off";
 
 module.exports = {
   root: true,
-  env: {
-    node: true,
-  },
   extends: [
-    "plugin:vue/recommended",
+    "plugin:vue/essential",
     "eslint:recommended",
-    "@vue/typescript/recommended",
-    "plugin:prettier/recommended",
+    "@vue/eslint-config-typescript/recommended",
+    "@vue/eslint-config-prettier",
   ],
-  parserOptions: {
-    ecmaVersion: 2020,
-  },
   rules: {
     "no-console": FAIL_IN_PRODUCTION,
     "no-debugger": FAIL_IN_PRODUCTION,

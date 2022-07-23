@@ -24,22 +24,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-
-import RadButton from "./RadButton.vue";
-import RadHappyBird from "./RadHappyBird.vue";
-import RadLink from "./RadLink.vue";
-
-@Component({
-  components: {
-    RadButton,
-    RadHappyBird,
-    RadLink,
-    FasSearch,
-    FasFileImport,
-  },
-})
-export default class RadEmptyList extends Vue {}
-</script>

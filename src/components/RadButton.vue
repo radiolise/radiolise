@@ -6,7 +6,7 @@
     ]"
     v-on="$listeners"
   >
-    <slot />
+    <slot></slot>
   </a>
 </template>
 

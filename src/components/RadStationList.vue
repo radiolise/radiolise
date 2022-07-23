@@ -13,13 +13,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
-import RadStation from "./RadStation.vue";
-
-@Component({
-  components: {
-    RadStation,
-  },
-})
+@Component
 export default class RadStationList extends Vue {
   @Getter readonly currentList!: Station[];
   @Getter readonly dragging!: boolean;

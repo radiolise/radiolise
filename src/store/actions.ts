@@ -1,11 +1,10 @@
-import { ActionTree } from "vuex";
+import type { ActionTree } from "vuex";
 import xorWith from "lodash.xorwith";
-
-import "date-fns";
 import Screenfull from "screenfull";
 
-import { StoreState, ModalOptions, ModalType, ChangeKinds } from ".";
+import { type StoreState, type ModalOptions, ModalType, ChangeKinds } from ".";
 import { DEFAULT_SETTINGS } from "@/common/default-data";
+import { getDateFnsLocale } from "@/lang";
 
 import network, { fetchNowPlayingInfo, voteForStation, fetchVoteNumber } from "@/common/network";
 
@@ -295,7 +294,7 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
       mediaSession.metadata = new MediaMetadata({
         title: info ?? currentStation.name,
         artist: info ? currentStation.name : undefined,
-        album: process.env.VUE_APP_TITLE,
+        album: __APP_TITLE__,
       });
     }
 
@@ -629,10 +628,7 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
 
   async determineDateFnsLocale({ state, commit }, locale: string): Promise<Locale | undefined> {
     if (state.dateFnsLocale === null && locale !== "en") {
-      const dateFnsLocale = await import(
-        /* webpackChunkName: "date-fns-locale-[index]" */
-        `date-fns/locale/${locale}/index.js`
-      );
+      const dateFnsLocale = await getDateFnsLocale(locale);
       commit("SET_DATE_FNS_LOCALE", dateFnsLocale);
     }
 

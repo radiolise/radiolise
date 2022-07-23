@@ -87,7 +87,7 @@
         </div>
       </div>
       <div class="pt-2.5 text-left">
-        <span class="cursor-help" :title="$t('search.bitrate.description')"
+        <span class="cursor-help" :title="String($t('search.bitrate.description'))"
           ><FasWaveSquare class="opacity-50" /> {{ $t("search.bitrate.label") }}</span
         >:
         <RadRangeInput
@@ -110,29 +110,11 @@
 <script lang="ts">
 import { Component, PropSync, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
-import { ModalOptions, ModalType } from "@/store";
+import { type ModalOptions, ModalType } from "@/store";
 
 import { fetchCountries, fetchStates, fetchLanguages } from "@/common/network";
 
-import RadCheck from "@/components/RadCheck.vue";
-import RadDropdown from "@/components/RadDropdown.vue";
-import RadRangeInput from "@/components/RadRangeInput.vue";
-import RadTagInput from "@/components/RadTagInput.vue";
-
-@Component({
-  components: {
-    RadCheck,
-    RadDropdown,
-    RadRangeInput,
-    RadTagInput,
-    FasChevronDown,
-    FasFilter,
-    FasExclamationTriangle,
-    FasRedo,
-    FasSort,
-    FasWaveSquare,
-  },
-})
+@Component
 export default class RadSearchOptions extends Vue {
   showOptions = false;
   failedToLoadFilters = false;
