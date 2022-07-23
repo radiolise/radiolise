@@ -1,3 +1,9 @@
+# Changes in [5.6.1](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.6.1) (2022-07-24)
+
+- Move to Vue 2.7 and upgrade other dependencies
+- Migrate to Vite and ESM
+- Update Tailwind config to use v3.1 features
+
 # Changes in [5.6.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.6.0) (2022-05-05)
 
 - Use SNAKE_CASE for global constants
