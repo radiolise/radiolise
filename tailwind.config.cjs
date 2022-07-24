@@ -11,7 +11,7 @@ function withOpacity(variableName) {
 
 /** @type {import("tailwindcss").Config} */
 module.exports = {
-  content: ["./public/index.html", "./src/**/*.{js,jsx,vue,ts,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,jsx,vue,ts,tsx}"],
   darkMode: "class",
   theme: {
     screens: {
