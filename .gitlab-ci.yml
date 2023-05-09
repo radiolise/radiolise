@@ -2,7 +2,7 @@ pages:
   image: node:lts
   stage: deploy
   before_script:
-    - npm install -g pnpm
+    - npm install -g pnpm@8
   script:
     - pnpm install
     - pnpm run build-only
