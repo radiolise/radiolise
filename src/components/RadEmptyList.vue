@@ -9,13 +9,13 @@
       </h3>
       <div class="py-2.5 icons:w-fixed">
         <RadLink v-slot="{ active, navigate }" to="search" toggle>
-          <RadButton class="text-lg" :active="active" @click="navigate">
+          <RadButton font-size-class="text-lg" :active="active" @click="navigate">
             <FasSearch />
             {{ $t("general.findStations") }}
           </RadButton>
         </RadLink>
         <RadLink v-slot="{ active, navigate }" to="import-wizard" :props="{ type: 'list' }" toggle>
-          <RadButton class="text-lg" :active="active" @click="navigate">
+          <RadButton font-size-class="text-lg" :active="active" @click="navigate">
             <FasFileImport />
             {{ $t("general.importBackup") }}
           </RadButton>

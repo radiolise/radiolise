@@ -11,7 +11,8 @@
       <div class="cursor-default pt-2.5" @click.stop>
         <RadButton
           v-if="!isBookmark"
-          class="px-3 py-1.5 text-lg"
+          class="px-3 py-1.5"
+          font-size-class="text-lg"
           :active="bookmarked"
           @click="toggleBookmark({ station: title.station, info: title.info })"
         >
@@ -20,7 +21,8 @@
           }}
         </RadButton>
         <RadButton
-          class="px-3 py-1.5 text-lg"
+          class="px-3 py-1.5"
+          font-size-class="text-lg"
           :href="`https://musicbrainz.org/search?query=${encodeURIComponent(
             title.info
           )}&type=recording`"
@@ -30,7 +32,8 @@
         </RadButton>
         <RadButton
           v-if="isBookmark"
-          class="px-3 py-1.5 text-lg"
+          class="px-3 py-1.5"
+          font-size-class="text-lg"
           @click="toggleBookmark({ station: title.station, info: title.info })"
         >
           <FasTimes class="w-fixed" />{{ $t("titleManager.remove") }}

@@ -2,8 +2,9 @@
   <div :class="['inline-block max-w-[200px]', { 'text-lg': !isMenu, 'opacity-50': !enabled }]">
     <div
       :class="[
-        'relative inline-block h-full w-full cursor-pointer overflow-hidden align-text-top',
-        { 'h-6.25': !isMenu, 'cursor-not-allowed': !enabled },
+        'relative inline-block w-full overflow-hidden align-text-top',
+        isMenu ? 'h-full' : 'h-6.25',
+        enabled ? 'cursor-pointer' : 'cursor-not-allowed',
       ]"
     >
       <div
