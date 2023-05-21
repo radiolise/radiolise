@@ -6,7 +6,7 @@
     </h3>
     <div class="text-left">
       <div v-for="key in bindingAliases" :key="key" class="flex">
-        <div class="py-2 px-2.5 text-center text-xl">
+        <div class="px-2.5 py-2 text-center text-xl">
           <div class="mt-1.25 flex h-8.75 w-10 rounded-[5px] bg-soft">
             <span class="m-auto">{{ key }}</span>
           </div>

@@ -55,7 +55,7 @@
         ]"
       >
         <div
-          class="toast mx-auto w-[340px] max-w-full rounded-tr rounded-bl bg-surface p-5 text-on-surface"
+          class="toast mx-auto w-[340px] max-w-full rounded-bl rounded-tr bg-surface p-5 text-on-surface"
         >
           <component :is="toast.icon" v-if="toast.icon" class="w-fixed" />
           {{ toast.message }}
@@ -75,7 +75,7 @@
         @click="closeModal()"
       >
         <div
-          class="m-2.5 w-[640px] rounded-tl rounded-br bg-surface text-on-surface shadow-[0_25px_50px_-12px] shadow-white/20 dark:shadow-black/20"
+          class="m-2.5 w-[640px] rounded-br rounded-tl bg-surface text-on-surface shadow-[0_25px_50px_-12px] shadow-white/20 dark:shadow-black/20"
           @click.stop
         >
           <div class="relative">

@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      fullscreen ? 'absolute top-0 left-0 flex h-screen w-full' : 'contents',
+      fullscreen ? 'absolute left-0 top-0 flex h-screen w-full' : 'contents',
       { 'cursor-none': controlsHidden },
     ]"
     @mousedown="showControls()"
@@ -24,7 +24,7 @@
           'action-bar pointer-events-auto flex w-full items-center text-left',
           fullscreen
             ? 'absolute bottom-0 bg-brand/90 px-3.75 py-5 text-white icons:text-[27px]'
-            : 'bg-surface py-3.75 px-2.5 text-on-surface shadow-theme',
+            : 'bg-surface px-2.5 py-3.75 text-on-surface shadow-theme',
           stickyPlayer ? 'border-b' : { 'mobile:border-b': !hasVideo },
           { 'invisible opacity-0 transition-all': controlsHidden },
         ]"
@@ -144,18 +144,18 @@
             <div v-show-slide="!!station" class="mx-1.25 mt-2.5">
               <div v-if="station" class="pb-2.5">
                 <span
-                  class="mb-0.5 inline-block rounded-sm bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
+                  class="mb-0.5 inline-block rounded-sm bg-soft px-[0.6em] pb-[0.3em] pt-[0.2em] text-xs empty:hidden"
                   >{{ station.country }}</span
                 >
                 {{ " "
                 }}<span
-                  class="mb-0.5 inline-block rounded-sm bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
+                  class="mb-0.5 inline-block rounded-sm bg-soft px-[0.6em] pb-[0.3em] pt-[0.2em] text-xs empty:hidden"
                   >{{ station.state }}</span
                 ><template v-for="(item, i) in station.tags.split(',')">
                   {{ " "
                   }}<span
                     :key="i"
-                    class="mb-0.5 inline-block rounded-sm bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em] text-xs empty:hidden"
+                    class="mb-0.5 inline-block rounded-sm bg-soft px-[0.6em] pb-[0.3em] pt-[0.2em] text-xs empty:hidden"
                     >{{ item }}</span
                   >
                 </template>

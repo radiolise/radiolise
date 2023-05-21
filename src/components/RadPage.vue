@@ -7,7 +7,7 @@
   >
     <nav
       :class="[
-        'action-bar offset-horizontal fixed top-0 left-0 z-20 flex w-full bg-surface text-on-surface shadow-theme mobile:shadow-none',
+        'action-bar offset-horizontal fixed left-0 top-0 z-20 flex w-full bg-surface text-on-surface shadow-theme mobile:shadow-none',
         {
           'z-40 shadow-none transition-transform duration-500': fullscreen,
           'mobile:border-b-0': !hasVideo,
@@ -62,9 +62,9 @@
     >
       <main
         :class="[
-          'main rounded-tl rounded-br bg-surface text-on-surface mobile:rounded-none mobile:shadow-none',
+          'main rounded-br rounded-tl bg-surface text-on-surface mobile:rounded-none mobile:shadow-none',
           {
-            'mt-25 mb-12.5 border-b shadow-theme mobile:m-0 mobile:border-0': !fullscreen,
+            'mb-12.5 mt-25 border-b shadow-theme mobile:m-0 mobile:border-0': !fullscreen,
             'border-t': !hasVideo,
             'overflow-hidden': !stickyPlayer,
           },

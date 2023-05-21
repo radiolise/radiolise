@@ -6,7 +6,7 @@
     </p>
     <form @submit.prevent="onSubmit()">
       <div v-if="settings !== null" class="text-left">
-        <div class="mt-5 ml-2.5">
+        <div class="ml-2.5 mt-5">
           <strong>{{ $tc("settings.theme", 1) }}</strong
           >:
           <RadDropdown
@@ -18,10 +18,10 @@
             ]"
           />
         </div>
-        <div class="mt-5 ml-2.5">
+        <div class="ml-2.5 mt-5">
           <span class="description">{{ $t(`settings.themes.${settings.theme}`) }}</span>
         </div>
-        <div class="mt-5 ml-2.5">
+        <div class="ml-2.5 mt-5">
           <strong>{{ $tc("settings.colorScheme.name") }}</strong
           >:
           <RadDropdown
@@ -38,25 +38,25 @@
             ]"
           />
         </div>
-        <RadCheck v-model="settings.compactMode" class="mt-5 ml-2.5">
+        <RadCheck v-model="settings.compactMode" class="ml-2.5 mt-5">
           {{ $t("settings.compactMode.name") }}
           <template #description>
             {{ $t("settings.compactMode.description") }}
           </template>
         </RadCheck>
-        <RadCheck v-model="settings.externalPlayback" class="mt-5 ml-2.5">
+        <RadCheck v-model="settings.externalPlayback" class="ml-2.5 mt-5">
           {{ $t("settings.externalPlayback.name") }}
           <template #description>
             {{ $t("settings.externalPlayback.description") }}
           </template>
         </RadCheck>
-        <RadCheck v-model="settings.changecolor" class="mt-5 ml-2.5">
+        <RadCheck v-model="settings.changecolor" class="ml-2.5 mt-5">
           {{ $t("settings.colorChange.name") }}
           <template #description>
             {{ $t("settings.colorChange.description") }}
           </template>
         </RadCheck>
-        <RadCheck v-model="settings.visualization" class="mt-5 ml-2.5 mobile:opacity-50">
+        <RadCheck v-model="settings.visualization" class="ml-2.5 mt-5 mobile:opacity-50">
           {{ $t("settings.visualization.name") }}
           <span
             class="hidden mobile:inline"
@@ -68,13 +68,13 @@
             {{ $t("settings.visualization.description") }}
           </template>
         </RadCheck>
-        <RadCheck v-model="settings.relax" class="mt-5 ml-2.5">
+        <RadCheck v-model="settings.relax" class="ml-2.5 mt-5">
           {{ $t("settings.relaxMode.name") }}
           <template #description>
             {{ $t("settings.relaxMode.description") }}
           </template>
         </RadCheck>
-        <div v-if="settings.relax" class="mt-5 ml-2.5">
+        <div v-if="settings.relax" class="ml-2.5 mt-5">
           <strong>{{ $t("settings.relaxMode.timer") }}</strong>
           {{ " " }}
           <span class="opacity-70">(sec):</span>
@@ -88,13 +88,13 @@
             required
           />
         </div>
-        <RadCheck v-model="settings.sleep" class="mt-5 ml-2.5">
+        <RadCheck v-model="settings.sleep" class="ml-2.5 mt-5">
           {{ $t("settings.sleep.name") }}
           <template #description>
             {{ $t("settings.sleep.description") }}
           </template>
         </RadCheck>
-        <div v-if="settings.sleep" class="mt-5 ml-2.5">
+        <div v-if="settings.sleep" class="ml-2.5 mt-5">
           <strong>{{ $t("settings.sleep.timer") }}</strong>
           {{ " " }}
           <span class="opacity-70">(min):</span>
@@ -108,10 +108,10 @@
             required
           />
         </div>
-        <RadCheck v-model="settings.loadpolicy" setting class="mt-5 ml-2.5">
+        <RadCheck v-model="settings.loadpolicy" setting class="ml-2.5 mt-5">
           {{ $t("settings.loadIcons.name") }}
         </RadCheck>
-        <div class="mt-5 ml-2.5">
+        <div class="ml-2.5 mt-5">
           <strong>{{ $t("settings.volume") }}</strong>
           {{ " " }}
           <span class="opacity-70">(%):</span>
@@ -126,7 +126,7 @@
             required
           />
         </div>
-        <div class="mt-5 ml-2.5">
+        <div class="ml-2.5 mt-5">
           <strong>{{ $t("settings.defaultPlaylistFormat") }}</strong
           >:
           <RadDropdown
@@ -139,7 +139,7 @@
             ]"
           />
         </div>
-        <div class="mt-5 mb-2.5 ml-2.5">
+        <div class="mb-2.5 ml-2.5 mt-5">
           <FasCommentDots class="-scale-x-100" />{{ " " }}
           <strong>{{ $tc("general.language", 1) }}</strong
           >:
@@ -165,11 +165,11 @@
       </div>
     </form>
     <div class="my-2.5 flow-root">
-      <div class="float-left my-1.25 mx-2.5">
+      <div class="float-left mx-2.5 my-1.25">
         <a @click="reset()"><FasUndo class="w-fixed" />{{ $t("settings.reset") }}</a
         ><br />
       </div>
-      <div class="float-right my-1.25 mx-2.5">
+      <div class="float-right mx-2.5 my-1.25">
         <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'settings' }">
           <a @click="navigate"><FasUpload class="w-fixed" />{{ $t("settings.import") }}</a>
         </RadLink>

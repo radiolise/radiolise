@@ -38,7 +38,7 @@
       <div v-else class="flex flex-col-reverse">
         <div v-for="(titles, month) in bookmarks" :key="month">
           <div
-            class="my-2.5 border-b-2 border-b-mute-contrast/50 py-1.25 px-2.5 text-xl font-bold text-on-surface/70"
+            class="my-2.5 border-b-2 border-b-mute-contrast/50 px-2.5 py-1.25 text-xl font-bold text-on-surface/70"
           >
             {{ month }}
           </div>

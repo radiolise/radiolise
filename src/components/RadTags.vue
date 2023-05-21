@@ -10,7 +10,7 @@
             'mb-0.5 inline-block text-xs',
             compact
               ? 'mr-0.5 text-on-surface/70 after:content-comma last:after:content-none'
-              : 'rounded-sm bg-soft px-[0.6em] pt-[0.2em] pb-[0.3em]',
+              : 'rounded-sm bg-soft px-[0.6em] pb-[0.3em] pt-[0.2em]',
           ]"
           >{{ item }}</span
         >
