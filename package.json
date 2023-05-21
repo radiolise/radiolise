@@ -1,81 +1,44 @@
 {
-  "name": "radiolise",
-  "version": "5.6.1",
   "private": true,
   "type": "module",
-  "author": "Marco Bauer",
   "scripts": {
     "prepare": "husky install",
-    "dev": "vite",
-    "build": "run-p type-check build-only",
-    "preview": "vite preview --port 4173",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
-  },
-  "dependencies": {
-    "axios": "^1.4.0",
-    "date-fns": "^2.30.0",
-    "file-saver": "^2.0.5",
-    "hls.js": "^1.4.3",
-    "lodash.xorwith": "^4.5.0",
-    "screenfull": "^6.0.2",
-    "v-show-slide": "^1.8.3",
-    "vue": "^2.7.14",
-    "vue-class-component": "^7.2.6",
-    "vue-i18n": "^8.28.2",
-    "vue-property-decorator": "^9.1.2",
-    "vue-scrollto": "^2.20.0",
-    "vuex": "^3.6.2",
-    "vuex-class": "^0.3.2",
-    "yaml": "^2.2.2"
+    "build": "pnpm -r build",
+    "lint": "eslint . --fix"
   },
   "devDependencies": {
-    "@iconify-json/fa-brands": "^1.1.4",
-    "@iconify-json/fa-regular": "^1.1.4",
-    "@iconify-json/fa-solid": "^1.1.4",
-    "@rushstack/eslint-patch": "^1.2.0",
-    "@types/file-saver": "^2.0.5",
-    "@types/lodash.xorwith": "^4.5.7",
-    "@types/node": "^16.18.32",
+    "@types/node": "^18.16.0",
     "@types/prettier": "^2.7.2",
-    "@vitejs/plugin-vue2": "^1.1.2",
-    "@vue/eslint-config-prettier": "^7.1.0",
-    "@vue/eslint-config-typescript": "^11.0.3",
-    "@vue/tsconfig": "^0.1.3",
-    "autoprefixer": "^10.4.14",
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
     "eslint": "^8.41.0",
-    "eslint-plugin-vue": "^9.13.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-unicorn": "^47.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
-    "npm-run-all": "^4.1.5",
-    "postcss": "^8.4.23",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.1.13",
-    "tailwindcss": "^3.3.2",
-    "typescript": "~4.7.4",
-    "unplugin-icons": "^0.14.15",
-    "unplugin-vue-components": "^0.21.2",
-    "vite": "^3.2.6",
-    "vue-template-compiler": "^2.7.14",
-    "vue-template-es2015-compiler": "^1.9.1",
-    "vue-tsc": "^0.38.8"
-  },
-  "bugs": {
-    "url": "https://gitlab.com/radiolise/radiolise.gitlab.io/-/issues"
+    "tsup": "^6.7.0",
+    "tsx": "^3.12.6",
+    "typescript": "~5.0.4"
   },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
   },
-  "homepage": "https://gitlab.com/radiolise/radiolise.gitlab.io",
-  "license": "AGPL-3.0-or-later",
   "lint-staged": {
-    "*.{vue,js,jsx,cjs,mjs,ts,tsx,cts,mts}": "eslint --fix --ignore-path .gitignore"
+    "*.{vue,js,jsx,cjs,mjs,ts,tsx,cts,mts}": "eslint --fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/radiolise/radiolise.gitlab.io.git"
+  "pnpm": {
+    "packageExtensions": {
+      "vue-template-compiler": {
+        "peerDependencies": {
+          "vue": "2"
+        }
+      }
+    }
   }
 }

@@ -56,8 +56,9 @@
             </div>
             <div
               :class="[
-                'flex min-h-[41px] flex-1 items-center overflow-hidden px-2.5 text-lg',
-                { 'whitespace-nowrap': !detailsShown, 'text-[27px]': fullscreen },
+                'flex min-h-[41px] flex-1 items-center overflow-hidden px-2.5',
+                fullscreen ? 'text-[27px]' : 'text-lg',
+                { 'whitespace-nowrap': !detailsShown },
               ]"
               :title="tooltip"
               @click="expand()"

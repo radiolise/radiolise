@@ -1,0 +1,66 @@
+{
+  "name": "@radiolise/frontend",
+  "version": "5.6.1",
+  "type": "module",
+  "author": "Marco Bauer",
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check build-only",
+    "preview": "vite preview --port 4173",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
+    "file-saver": "^2.0.5",
+    "hls.js": "^1.4.3",
+    "lodash.xorwith": "^4.5.0",
+    "screenfull": "^6.0.2",
+    "v-show-slide": "^1.8.3",
+    "vue": "^2.7.14",
+    "vue-class-component": "^7.2.6",
+    "vue-i18n": "^8.28.2",
+    "vue-property-decorator": "^9.1.2",
+    "vue-scrollto": "^2.20.0",
+    "vuex": "^3.6.2",
+    "vuex-class": "^0.3.2",
+    "yaml": "^2.2.2"
+  },
+  "devDependencies": {
+    "@iconify-json/fa-brands": "^1.1.4",
+    "@iconify-json/fa-regular": "^1.1.4",
+    "@iconify-json/fa-solid": "^1.1.4",
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@types/file-saver": "^2.0.5",
+    "@types/lodash.xorwith": "^4.5.7",
+    "@types/node": "^16.18.32",
+    "@types/prettier": "^2.7.2",
+    "@vitejs/plugin-vue2": "^1.1.2",
+    "@vue/eslint-config-prettier": "^7.1.0",
+    "@vue/eslint-config-typescript": "^11.0.3",
+    "@vue/tsconfig": "^0.1.3",
+    "autoprefixer": "^10.4.14",
+    "eslint-plugin-vue": "^9.13.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.23",
+    "prettier-plugin-tailwindcss": "^0.1.13",
+    "tailwindcss": "^3.3.2",
+    "typescript": "~4.7.4",
+    "unplugin-icons": "^0.14.15",
+    "unplugin-vue-components": "^0.21.2",
+    "vite": "^3.2.6",
+    "vue-template-compiler": "^2.7.14",
+    "vue-template-es2015-compiler": "^1.9.1",
+    "vue-tsc": "^0.38.8"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/radiolise/radiolise.gitlab.io/-/issues"
+  },
+  "homepage": "https://gitlab.com/radiolise/radiolise.gitlab.io",
+  "license": "AGPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/radiolise/radiolise.gitlab.io.git"
+  }
+}

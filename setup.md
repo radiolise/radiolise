@@ -1,11 +1,14 @@
 # Project setup
 
-**NOTICE**: Setup is only required if you want to host it yourself or make changes to the source
-code. For users, Radiolise will work out-of-the-box.
+**NOTICE**: Setup is only required if you want to host it yourself or make
+changes to the source code. For users, Radiolise will work out-of-the-box.
 
 ## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+[VSCode](https://code.visualstudio.com/) +
+[Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and
+disable Vetur) +
+[TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
 ## Customize configuration
 
@@ -20,11 +23,11 @@ pnpm install
 ### Compile and Hot-Reload for Development
 
 ```sh
-pnpm dev
+pnpm -F frontend dev
 ```
 
 ### Compile and Minify for Production
 
 ```sh
-pnpm build
+pnpm -F frontend build
 ```
