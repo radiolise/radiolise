@@ -1,25 +1,22 @@
-import axios, { type AxiosRequestConfig, type CancelToken } from "axios";
-
 const SERVICE_URL = "https://service.radiolise.com";
-const RADIO_BROWSER_FALLBACK_URL = "https://de1.api.radio-browser.info/json";
+const RADIO_BROWSER_FALLBACK_URL = "https://de1.api.radio-browser.info";
 let eventualRadioBrowserUrl: Promise<string> | undefined;
 
-async function request<T = any>(config: AxiosRequestConfig) {
-  const response = await axios(config);
-  return response.data as T;
+async function request<T = any>(url: URL, config?: RequestInit) {
+  const response = await fetch(url, config);
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  return response.json() as T;
 }
 
-function fetchFromService<T = any>(url: string, config?: AxiosRequestConfig) {
-  return request<T>({ baseURL: SERVICE_URL, url, ...config });
+function fetchFromService<T = any>(path: string, config: RequestInit) {
+  return request<T>(new URL(path, SERVICE_URL), config);
 }
 
 async function fetchRadioBrowserUrls() {
-  const serverInfo = await request<any[]>({
-    baseURL: RADIO_BROWSER_FALLBACK_URL,
-    url: "/servers",
-  });
-
-  return serverInfo.map((server) => `https://${server.name}/json`);
+  const serverInfo = await request<any[]>(new URL("/json/servers", RADIO_BROWSER_FALLBACK_URL));
+  return serverInfo.map((server) => `https://${server.name}`);
 }
 
 async function fetchRandomRadioBrowserUrl() {
@@ -40,63 +37,65 @@ async function getRadioBrowserUrl() {
   }
 }
 
-async function fetchFromRadioBrowser<T = any>(url: string, config?: AxiosRequestConfig) {
-  return request<T>({ baseURL: await getRadioBrowserUrl(), url, ...config });
+async function fetchFromRadioBrowser<T = any>(path: string, config?: RequestInit) {
+  return request<T>(new URL(path, await getRadioBrowserUrl()), config);
 }
 
 export function convertOldIds(oldStationIds: string[]) {
   return fetchFromService<Record<string, string>>("/convert-ids/", {
-    params: { ids: oldStationIds.join(",") },
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ ids: oldStationIds.join(",") }),
   });
 }
 
 export function fetchCountries() {
-  return fetchFromRadioBrowser<Filter>("/countries");
+  return fetchFromRadioBrowser<Filter>("/json/countries");
 }
 
 export function fetchStates(countryFilter: string) {
-  return fetchFromRadioBrowser<Filter>(`/states/${countryFilter}/`);
+  return fetchFromRadioBrowser<Filter>(`/json/states/${countryFilter}/`);
 }
 
 export function fetchLanguages() {
-  return fetchFromRadioBrowser<Filter>("/languages");
+  return fetchFromRadioBrowser<Filter>("/json/languages");
 }
 
-export function fetchPlayableUrl(options: { stationId: string; cancelToken: CancelToken }) {
-  const { stationId, cancelToken } = options;
-  return fetchFromRadioBrowser(`/url/${stationId}`, { cancelToken });
+export function fetchPlayableUrl(options: { stationId: string; signal: AbortSignal }) {
+  const { stationId, signal } = options;
+  return fetchFromRadioBrowser(`/json/url/${stationId}`, { signal });
 }
 
-export function findStations(options: {
-  searchEntries: Record<string, any>;
-  cancelToken: CancelToken;
-}) {
-  const { searchEntries, cancelToken } = options;
-  return fetchFromRadioBrowser<SearchResult[]>("/stations/search", {
+export function findStations(options: { searchEntries: Record<string, any>; signal: AbortSignal }) {
+  const { searchEntries, signal } = options;
+  return fetchFromRadioBrowser<SearchResult[]>("/json/stations/search", {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
-    data: new URLSearchParams(searchEntries).toString(),
-    cancelToken,
+    body: new URLSearchParams(searchEntries),
+    signal,
   });
 }
 
-export function fetchNowPlayingInfo(options: { url: string; cancelToken: CancelToken }) {
-  const { url, cancelToken } = options;
-  return fetchFromService<Record<string, string>>("/", {
+export async function fetchNowPlayingInfo(options: { url: string; controller: AbortController }) {
+  const { url, controller } = options;
+  const timeout = window.setTimeout(() => {
+    controller.abort();
+  }, 50000);
+  const nowPlayingInfo = await fetchFromService<Record<string, string>>("/", {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
-    data: new URLSearchParams({ url }).toString(),
-    cancelToken,
-    timeout: 50000,
+    body: new URLSearchParams({ url }),
+    signal: controller.signal,
   });
+  clearTimeout(timeout);
+  return nowPlayingInfo;
 }
 
 export function voteForStation(stationId: string) {
-  return fetchFromRadioBrowser<Record<string, any>>(`/vote/${stationId}`);
+  return fetchFromRadioBrowser<Record<string, any>>(`/json/vote/${stationId}`);
 }
 
 export async function fetchVoteNumber(stationId: string) {
-  const results = await fetchFromRadioBrowser(`/stations/byuuid/${stationId}`);
+  const results = await fetchFromRadioBrowser(`/json/stations/byuuid/${stationId}`);
 
   if (results.length === 0) {
     throw new Error("Unable to fetch vote number: Station not found.");
@@ -104,5 +103,3 @@ export async function fetchVoteNumber(stationId: string) {
 
   return results[0].votes as number;
 }
-
-export default { CancelToken: axios.CancelToken, isCancel: axios.isCancel };

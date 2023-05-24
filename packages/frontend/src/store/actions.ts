@@ -6,9 +6,9 @@ import { type StoreState, type ModalOptions, ModalType, ChangeKinds } from ".";
 import { DEFAULT_SETTINGS } from "@/common/default-data";
 import { getDateFnsLocale } from "@/lang";
 
-import network, { fetchNowPlayingInfo, voteForStation, fetchVoteNumber } from "@/common/network";
+import { fetchNowPlayingInfo, voteForStation, fetchVoteNumber } from "@/common/network";
 
-let source = network.CancelToken.source();
+let nowPlayingAbortController: AbortController | undefined;
 let updateTimer: number;
 let sleepTimer: number;
 let relaxTimer: number;
@@ -329,10 +329,7 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
   },
 
   play({ commit, dispatch, state }, station?: Station): void {
-    if (source) {
-      source.cancel();
-      source = network.CancelToken.source();
-    }
+    nowPlayingAbortController?.abort();
 
     if (updateTimer) {
       clearTimeout(updateTimer);
@@ -366,12 +363,12 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
   },
 
   async requestInfo({ dispatch, state }, url: string): Promise<void> {
-    let cancelled = false;
+    nowPlayingAbortController = new AbortController();
 
     try {
       const nowPlayingInfo = await fetchNowPlayingInfo({
         url,
-        cancelToken: source.token,
+        controller: nowPlayingAbortController,
       });
 
       let info = nowPlayingInfo.title;
@@ -400,16 +397,12 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
       if (info && state.currentInfo !== info) {
         dispatch("updateInfo", info);
       }
-    } catch (error) {
-      if (network.isCancel(error)) {
-        cancelled = true;
-      }
-    } finally {
-      if (!cancelled) {
-        updateTimer = window.setTimeout(() => {
-          dispatch("requestInfo", url);
-        }, 10000);
-      }
+
+      updateTimer = window.setTimeout(() => {
+        dispatch("requestInfo", url);
+      }, 10000);
+    } catch {
+      // Ignore errors
     }
   },
 
@@ -582,7 +575,7 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
   },
 
   async showMessage({ commit }, options: ModalOptions): Promise<number> {
-    const buttonId = await new Promise((resolve: (id: number) => void) => {
+    const buttonId = await new Promise<number>((resolve) => {
       const defaultOptions = {
         type: ModalType.NONE,
         buttons: ["OK"],

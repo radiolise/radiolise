@@ -41,11 +41,11 @@ import Screenfull from "screenfull";
 import FasPlay from "~icons/fa-solid/play";
 
 import { type ModalOptions, ModalType } from "@/store";
-import network, { fetchPlayableUrl } from "@/common/network";
+import { fetchPlayableUrl } from "@/common/network";
 import type { TranslateResult } from "vue-i18n";
 import { downloadList } from "@/common/list-converter";
 
-let source = network.CancelToken.source();
+let newestAbortController: AbortController | undefined;
 let hls: Hls | undefined;
 
 @Component
@@ -101,10 +101,9 @@ export default class RadMedia extends Vue {
 
   @Watch("station")
   async onStationChanged(station?: Station): Promise<void> {
-    if (source) {
-      source.cancel();
-      source = network.CancelToken.source();
-    }
+    newestAbortController?.abort();
+    const controller = new AbortController();
+    newestAbortController = controller;
 
     this.detachStream();
     this.triedUrls = [];
@@ -121,12 +120,12 @@ export default class RadMedia extends Vue {
     try {
       const playableUrl = await fetchPlayableUrl({
         stationId: station.id,
-        cancelToken: source.token,
+        signal: controller.signal,
       });
 
       this.play(playableUrl.ok ? playableUrl.url : station.url);
-    } catch (error) {
-      if (!network.isCancel(error)) {
+    } catch {
+      if (!controller.signal.aborted) {
         this.play(station.url);
       }
     }

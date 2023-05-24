@@ -119,9 +119,9 @@ import FasFileAudio from "~icons/fa-solid/file-audio";
 import FasPlay from "~icons/fa-solid/play";
 import FasThumbsUp from "~icons/fa-solid/thumbs-up";
 
-import network, { findStations } from "@/common/network";
+import { findStations } from "@/common/network";
 
-let source = network.CancelToken.source();
+let newestAbortController: AbortController | undefined;
 
 @Component
 export default class RadSearch extends Vue {
@@ -239,12 +239,10 @@ export default class RadSearch extends Vue {
   }
 
   async loadEntries(): Promise<void> {
-    if (source) {
-      source.cancel();
-      source = network.CancelToken.source();
-    }
+    newestAbortController?.abort();
+    const controller = new AbortController();
+    newestAbortController = controller;
 
-    let cancelled = false;
     this.loading = true;
 
     try {
@@ -267,7 +265,7 @@ export default class RadSearch extends Vue {
           reverse: this.descendingOrder,
           hidebroken: !this.options.includeBroken,
         },
-        cancelToken: source.token,
+        signal: controller.signal,
       });
 
       if (this.offset === 0) {
@@ -285,14 +283,12 @@ export default class RadSearch extends Vue {
       this.moreAvailable = this.results.length % 20 === 0 && searchResults.length > 0;
 
       this.empty = !this.moreAvailable && this.results.length === 0;
-    } catch (error) {
-      if (network.isCancel(error)) {
-        cancelled = true;
-      } else {
+    } catch {
+      if (!controller.signal.aborted) {
         this.failed = true;
       }
     } finally {
-      if (!cancelled) {
+      if (!controller.signal.aborted) {
         this.loading = false;
         this.scrollOnceLoaded = false;
         this.showSpinner = false;
