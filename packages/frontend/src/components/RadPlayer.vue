@@ -133,11 +133,13 @@
             </div>
             <div v-if="hasVideo">
               &nbsp;<a
-                class="p-1.25 text-lg"
+                class="p-1.25 text-lg icons:w-fixed"
                 :title="String($t('player.toggleFullscreen'))"
                 @click="toggleFullscreen()"
-                ><component :is="fullscreen ? 'FasCompress' : 'FasExpand'" class="w-fixed"
-              /></a>
+              >
+                <FasCompress v-if="fullscreen" />
+                <FasExpand v-else />
+              </a>
             </div>
           </div>
           <div v-show-slide="!fullscreen && detailsShown" class="ml-1.25">
