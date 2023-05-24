@@ -35,7 +35,8 @@
 import { Component, Ref, Watch, Vue } from "vue-property-decorator";
 import { Getter, Action } from "vuex-class";
 
-import Hls, { type ErrorData } from "hls.js";
+import type Hls from "hls.js";
+import type { ErrorData } from "hls.js";
 import Screenfull from "screenfull";
 
 import FasPlay from "~icons/fa-solid/play";
@@ -44,6 +45,8 @@ import { type ModalOptions, ModalType } from "@/store";
 import { fetchPlayableUrl } from "@/common/network";
 import type { TranslateResult } from "vue-i18n";
 import { downloadList } from "@/common/list-converter";
+
+type HlsStatic = typeof Hls;
 
 let newestAbortController: AbortController | undefined;
 let hls: Hls | undefined;
@@ -172,12 +175,14 @@ export default class RadMedia extends Vue {
     this.playHls(url);
   }
 
-  playHls(url: string): void {
+  async playHls(url: string): Promise<void> {
+    const { default: Hls } = await import("hls.js");
+
     if (Hls.isSupported()) {
       hls = new Hls();
 
       hls.on(Hls.Events.ERROR, (_, data) => {
-        this.handleHlsError(data);
+        this.handleHlsError(data, Hls);
       });
 
       hls.loadSource(window.location.protocol === "https:" ? url.replace("http:", "https:") : url);
@@ -306,7 +311,7 @@ export default class RadMedia extends Vue {
     });
   }
 
-  handleHlsError(data: ErrorData): void {
+  handleHlsError(data: ErrorData, Hls: HlsStatic): void {
     if (!navigator.onLine) {
       this.handleError();
       return;
