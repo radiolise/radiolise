@@ -91,40 +91,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from "vue-property-decorator";
-import { State, Getter, Action } from "vuex-class";
+import { Component, Watch, Mixins } from "vue-property-decorator";
+import { State, Getter } from "vuex-class";
+import MediaSessionHelper from "@/mixins/MediaSessionHelper";
 
 @Component
-export default class RadPage extends Vue {
+export default class RadPage extends Mixins(MediaSessionHelper) {
   appTitle = __APP_TITLE__;
-  provideMediaSession = false;
 
   @State readonly currentDialog!: DialogState | null;
   @State readonly navbarShown!: boolean;
   @State readonly relaxed!: boolean;
 
-  @Getter readonly currentStation: Station | undefined;
-  @Getter readonly currentList!: Station[];
   @Getter readonly fullscreen!: boolean;
   @Getter readonly hasVideo!: boolean;
   @Getter readonly stickyPlayer!: boolean;
-
-  @Action playClosestStation!: (forward: boolean) => Promise<void>;
-
-  @Watch("currentList")
-  handleListChanged(): void {
-    this.setSwitchButtons();
-  }
-
-  @Watch("currentStation", { immediate: true })
-  handleStationChanged(station?: Station, oldStation?: Station): void {
-    const titlePrefix = station !== undefined ? `${station.name} - ` : "";
-    document.title = titlePrefix + this.appTitle;
-
-    if (station === undefined || oldStation === undefined) {
-      this.setSwitchButtons();
-    }
-  }
 
   get dialog() {
     return this.currentDialog !== null;
@@ -134,35 +115,10 @@ export default class RadPage extends Vue {
     return this.currentList.length === 0;
   }
 
-  setSwitchButtons(): void {
-    const { mediaSession } = navigator;
-
-    if (mediaSession === undefined) {
-      return;
-    }
-
-    const { currentStation } = this;
-
-    const provideHandlers =
-      currentStation !== undefined &&
-      this.currentList.length >= 2 &&
-      this.currentList.some((station) => station.id === currentStation.id);
-
-    if (this.provideMediaSession === provideHandlers) {
-      return;
-    }
-
-    this.provideMediaSession = provideHandlers;
-
-    mediaSession.setActionHandler(
-      "previoustrack",
-      provideHandlers ? () => this.playClosestStation(false) : null
-    );
-
-    mediaSession.setActionHandler(
-      "nexttrack",
-      provideHandlers ? () => this.playClosestStation(true) : null
-    );
+  @Watch("currentStation", { immediate: true })
+  handleStationChanged(station?: Station): void {
+    const titlePrefix = station !== undefined ? `${station.name} - ` : "";
+    document.title = titlePrefix + this.appTitle;
   }
 }
 </script>

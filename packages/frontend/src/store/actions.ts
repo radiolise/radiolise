@@ -286,17 +286,6 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
 
   updateInfo({ commit, dispatch, state }, info?: string): void {
     commit("SET_CURRENT_INFO", info);
-    const { mediaSession } = navigator;
-
-    if (mediaSession !== undefined) {
-      const currentStation = state.memory.lastStation as Station;
-
-      mediaSession.metadata = new MediaMetadata({
-        title: info ?? currentStation.name,
-        artist: info ? currentStation.name : undefined,
-        album: __APP_TITLE__,
-      });
-    }
 
     if (info !== undefined) {
       dispatch("addHistoryItem", info);
