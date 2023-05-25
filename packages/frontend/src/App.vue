@@ -19,7 +19,7 @@
       <RadPage />
       <RadDialogLayer />
       <RadRelaxCaption v-if="relaxed" />
-      <RadVisualization v-if="visualizationActive" />
+      <RadVisualization v-if="!visualizationDisabled" />
     </template>
     <RadStartup v-else />
   </div>
@@ -41,6 +41,7 @@ const HelperMixins = Mixins(ColorChanger, Hotkeys, LikeHelper);
 
 @Component
 export default class App extends HelperMixins {
+  visualizationDisabled = true;
   inputEventTypes: Array<keyof GlobalEventHandlersEventMap> = [
     "mousemove",
     "mousedown",
@@ -61,7 +62,7 @@ export default class App extends HelperMixins {
   @Getter readonly language!: string;
   @Getter readonly lists!: StationList[];
   @Getter readonly ready!: boolean;
-  @Getter readonly visualizationActive!: boolean;
+  @Getter readonly visualizationAllowed!: boolean;
 
   @Action confirmSleepTimer!: () => Promise<void>;
   @Action createList!: (list: StationList) => Promise<void>;
@@ -88,8 +89,12 @@ export default class App extends HelperMixins {
   }
 
   async created(): Promise<void> {
-    await this.$nextTick();
+    const unwatch = this.$watch("visualizationAllowed", () => {
+      this.visualizationDisabled = false;
+      unwatch();
+    });
 
+    await this.$nextTick();
     if (this.lists.length === 0) {
       this.createList({
         name: this.$t("general.defaultListName") as string,

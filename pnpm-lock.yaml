@@ -57,6 +57,9 @@ importers:
 
   packages/frontend:
     dependencies:
+      audiomotion-analyzer:
+        specifier: ^4.0.0
+        version: 4.0.0
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -1209,6 +1212,10 @@ packages:
     resolution: {integrity: sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==}
     engines: {node: '>=8'}
     dev: true
+
+  /audiomotion-analyzer@4.0.0:
+    resolution: {integrity: sha512-TTMt+XYFhbm//z2G4gNw5g+eP58GW8E+ON8cv+NmpupOh1kbREgxsat8RLbh5bmQj7sSSB96AyFC9FLe5xrJFA==}
+    dev: false
 
   /autoprefixer@10.4.14(postcss@8.4.23):
     resolution: {integrity: sha512-FQzyfOsTlwVzjHxKEqRIAdJx9niO6VCBCoEwax/VLSoQF29ggECcPuBqUMZ+u8jCZOPSy8b8/8KnuFbp0SaFZQ==}

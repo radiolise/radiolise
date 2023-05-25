@@ -11,8 +11,10 @@
   >
     <video
       ref="mediaElement"
+      id="media"
       class="pointer-events-none h-full w-full"
       playsinline
+      crossorigin="anonymous"
       @loadedmetadata="onLoadedMetadata()"
       @loadeddata="confirmPlaying(lastTriedUrl)"
       @timeupdate="hasVideo = mediaElement.videoHeight > 0"

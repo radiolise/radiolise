@@ -66,6 +66,10 @@ const GETTERS: GetterTree<StoreState, StoreState> = {
     return state.memory.lists;
   },
 
+  visualizationAllowed(state): boolean {
+    return state.active && (state.memory.settings.visualization || state.memory.settings.relax);
+  },
+
   visualizationActive(state): boolean {
     return (
       (state.memory.settings.visualization && state.playing && !state.hasVideo) || state.relaxed

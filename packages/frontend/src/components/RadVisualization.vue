@@ -1,38 +1,47 @@
 <template>
-  <div class="fixed bottom-0 flex h-1/2 w-full items-end space-x-[1%] px-[1%]">
+  <div
+    :class="[
+      'fixed bottom-0 flex h-1/2 w-full items-end space-x-[1%] px-[1%] duration-200',
+      { 'invisible opacity-0': !visualizationActive },
+    ]"
+  >
     <div
-      v-for="(height, i) in heights"
+      v-for="(value, i) in barValues"
       :key="i"
-      :class="['w-full duration-100', colorful ? 'bg-white/10' : 'bg-black/10 dark:bg-white/10']"
-      :style="{ height }"
+      :class="['w-full', colorful ? 'bg-white/10' : 'bg-black/10 dark:bg-white/10']"
+      :style="{ height: `${value}%` }"
     ></div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, InjectReactive, Vue } from "vue-property-decorator";
+import { Component, InjectReactive, Vue, Watch } from "vue-property-decorator";
+import { Getter } from "vuex-class";
+
+import { generateBarValues, useAnalyzer } from "@/common/visualization";
 
 @Component
 export default class RadVisualization extends Vue {
-  heights = Array.from<string>({ length: 10 }).fill("0%");
-  interval?: number;
+  barValues = Array.from<number>({ length: 10 }).fill(0);
 
   @InjectReactive() readonly colorful!: boolean;
+  @Getter readonly visualizationActive!: boolean;
 
-  updateHeights(next: () => string) {
-    for (const index of this.heights.keys()) {
-      this.$set(this.heights, index, next());
-    }
+  async mounted() {
+    useAnalyzer((analyzer) => {
+      analyzer.onCanvasDraw = () => {
+        this.barValues = [...generateBarValues(analyzer)];
+      };
+    });
   }
 
-  mounted() {
-    this.interval = window.setInterval(() => {
-      this.updateHeights(() => `${Math.floor(Math.random() * 30) + 70}%`);
-    }, 100);
+  @Watch("visualizationActive")
+  async toggleAnalyzer(active: boolean) {
+    useAnalyzer((analyzer) => analyzer.toggleAnalyzer(active));
   }
 
   beforeDestroy() {
-    clearInterval(this.interval);
+    this.toggleAnalyzer(false);
   }
 }
 </script>

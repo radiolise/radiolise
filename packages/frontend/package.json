@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "audiomotion-analyzer": "^4.0.0",
     "date-fns": "^2.30.0",
     "file-saver": "^2.0.5",
     "hls.js": "^1.4.3",
