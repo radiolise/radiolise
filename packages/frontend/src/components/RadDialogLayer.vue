@@ -13,7 +13,7 @@
       <div class="h-full overflow-hidden" @click="navigate">
         <div
           :class="[
-            'drawer z-20 h-full w-full max-w-sidebar overflow-y-auto overflow-x-hidden overscroll-contain scroll-smooth bg-surface text-on-surface shadow-theme backdrop-blur transition-all',
+            'drawer z-20 h-full w-full max-w-sidebar overflow-y-auto overflow-x-hidden overscroll-contain bg-surface text-on-surface shadow-theme backdrop-blur transition-all',
             currentDialog
               ? { 'pointer-events-auto': !relaxed }
               : 'invisible -translate-x-[200px] opacity-0',

@@ -330,6 +330,13 @@
     "timePassed": "{n} is over | {n} are over",
     "streamStopped": "{timePassed}. The stream has been stopped."
   },
+  "sortHelper": {
+    "touchFriendlyMode": {
+      "releaseToEnter": "Release to enter move mode...",
+      "explanation": "Drag to move; press and hold to exit.",
+      "exit": "Move mode has been exited."
+    }
+  },
   "station": {
     "options": "Options for “{0}”",
     "edit": "Edit",

@@ -7,7 +7,7 @@ async function request<T = any>(url: URL, config?: RequestInit) {
   if (!response.ok) {
     throw new Error(response.statusText);
   }
-  return response.json() as T;
+  return response.json() as Promise<T>;
 }
 
 function fetchFromService<T = any>(path: string, config: RequestInit) {

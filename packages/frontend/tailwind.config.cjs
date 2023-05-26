@@ -67,8 +67,10 @@ module.exports = {
         25: "6.25rem",
       },
       animation: {
-        progress: "progress 10s linear",
-        spin: "spin 2s linear infinite",
+        "progress": "progress 10s linear",
+        "spin": "spin 2s linear infinite",
+        "shake": "shake 0.3s linear infinite",
+        "shake-reverse": "shake 0.3s linear reverse infinite",
       },
       backdropBlur: {
         DEFAULT: "var(--rad-backdrop-blur, 0)",
@@ -100,6 +102,10 @@ module.exports = {
       keyframes: {
         progress: {
           from: { transform: "scaleX(0)" },
+        },
+        shake: {
+          "25%": { translate: "0 -1px" },
+          "75%": { translate: "0 1px" },
         },
       },
       maxWidth: {

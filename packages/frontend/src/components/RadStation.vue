@@ -2,13 +2,20 @@
   <div
     ref="stationRow"
     :class="[
-      'station group flex cursor-pointer duration-200 hover:bg-black/10',
+      'station group flex cursor-pointer duration-200',
       transition ? 'transition-transform' : 'transition-[background-color]',
-      { 'relative z-50 bg-mute opacity-80': dragged },
+      {
+        'hover:bg-black/10': !touchFriendlyMoveModeEnabled,
+        'relative z-50 bg-mute opacity-80': dragged,
+        'odd:animate-shake even:animate-shake-reverse': touchFriendlyMoveModeEnabled && !dragged,
+      },
     ]"
-    :style="{ transform: dragged ? `translateY(${currentTranslation}px)` : '' }"
+    :style="{ top: dragged ? `${currentTranslation}px` : '' }"
     @click="handleClick()"
     @mousedown.left="handleMouseDown"
+    @touchstart.passive="handleTouchStart"
+    @touchend.passive="handleTouchEnd"
+    @touchcancel.passive="handleTouchEnd"
   >
     <div class="p-station">
       <RadIcon :station="station" :playing="playing" />
@@ -46,11 +53,11 @@
 import { Component, Prop, Mixins } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
-import DragHelper from "@/mixins/DragHelper";
+import SortHelper from "@/mixins/SortHelper";
 import { navigate } from "@/common/routing";
 
 @Component
-export default class RadStation extends Mixins(DragHelper) {
+export default class RadStation extends Mixins(SortHelper) {
   @Prop({ type: Object, required: true }) readonly station!: Station;
 
   @State readonly editing?: Station;

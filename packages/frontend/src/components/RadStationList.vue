@@ -2,6 +2,7 @@
   <div :class="{ 'compact-mode': settings.compactMode, 'pointer-events-none': dragging }">
     <RadStation
       v-for="(station, index) in currentList"
+      :touchDraggingEnabled.sync="touchFriendlyMoveModeEnabled"
       :key="station.id"
       :index="index"
       :station="station"
@@ -15,6 +16,8 @@ import { Getter } from "vuex-class";
 
 @Component
 export default class RadStationList extends Vue {
+  touchFriendlyMoveModeEnabled = false;
+
   @Getter readonly currentList!: Station[];
   @Getter readonly dragging!: boolean;
   @Getter readonly settings!: Settings;

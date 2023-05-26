@@ -330,6 +330,13 @@
     "timePassed": "{n} ist vergangen | {n} sind vergangen",
     "streamStopped": "{timePassed}. Der Stream wurde angehalten."
   },
+  "sortHelper": {
+    "touchFriendlyMode": {
+      "releaseToEnter": "Loslassen, um Verschiebemodus zu aktivieren...",
+      "explanation": "Zum Verschieben ziehen; zum Beenden gedrückt halten.",
+      "exit": "Verschiebemodus wurde beendet."
+    }
+  },
   "station": {
     "options": "Optionen für „{0}“",
     "edit": "Bearbeiten",
