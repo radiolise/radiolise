@@ -102,7 +102,7 @@ export default class SortHelper extends Vue {
   handleTouchStart(event: TouchEvent) {
     this.saveOrigin(event.touches[0].pageY);
     clearTimeout(touchTimeout);
-    touchTimeout = setTimeout(() => {
+    touchTimeout = window.setTimeout(() => {
       if (this.touchFriendlyMoveModeEnabled) {
         return this.exitTouchFriendlyMode();
       }
