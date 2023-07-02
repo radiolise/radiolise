@@ -42,6 +42,11 @@
         "peerDependencies": {
           "vue": "2"
         }
+      },
+      "vue-scrollto": {
+        "peerDependencies": {
+          "vue": "2"
+        }
       }
     }
   }
