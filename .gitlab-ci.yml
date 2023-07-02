@@ -7,8 +7,8 @@ pages:
     - pnpm config set store-dir .pnpm-store
   script:
     - pnpm install
-    - pnpm -F frontend build-only
-    - mv packages/frontend/dist public
+    - pnpm -F radiolise build-only
+    - mv packages/radiolise/dist public
     - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec
       gzip -f -k {} \;
   artifacts:

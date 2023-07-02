@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 packageExtensionsChecksum: 2878958c12e067508e233e67db3a902c
 
@@ -55,7 +59,7 @@ importers:
         specifier: ~5.0.4
         version: 5.0.4
 
-  packages/frontend:
+  packages/radiolise:
     dependencies:
       audiomotion-analyzer:
         specifier: ^4.0.0

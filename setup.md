@@ -23,11 +23,11 @@ pnpm install
 ### Compile and Hot-Reload for Development
 
 ```sh
-pnpm -F frontend dev
+pnpm -F radiolise dev
 ```
 
 ### Compile and Minify for Production
 
 ```sh
-pnpm -F frontend build
+pnpm -F radiolise build
 ```
