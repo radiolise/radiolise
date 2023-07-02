@@ -4,7 +4,7 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-packageExtensionsChecksum: 2878958c12e067508e233e67db3a902c
+packageExtensionsChecksum: ff2297fadea4cbaf619fd39155b348d3
 
 importers:
 
@@ -13,6 +13,9 @@ importers:
       '@changesets/cli':
         specifier: ^2.26.2
         version: 2.26.2
+      '@radiolise/tsconfig':
+        specifier: workspace:*
+        version: link:packages/tsconfig
       '@types/node':
         specifier: ^18.16.0
         version: 18.16.0
@@ -99,7 +102,7 @@ importers:
         version: 9.1.2(vue-class-component@7.2.6)(vue@2.7.14)
       vue-scrollto:
         specifier: ^2.20.0
-        version: 2.20.0
+        version: 2.20.0(vue@2.7.14)
       vuex:
         specifier: ^3.6.2
         version: 3.6.2(vue@2.7.14)
@@ -185,6 +188,8 @@ importers:
       vue-tsc:
         specifier: ^0.38.8
         version: 0.38.8(typescript@4.7.4)
+
+  packages/tsconfig: {}
 
 packages:
 
@@ -4733,10 +4738,13 @@ packages:
       vue-class-component: 7.2.6(vue@2.7.14)
     dev: false
 
-  /vue-scrollto@2.20.0:
+  /vue-scrollto@2.20.0(vue@2.7.14):
     resolution: {integrity: sha512-7i+AGKJTThZnMEkhIPgrZjyAX+fXV7/rGdg+CV283uZZwCxwiMXaBLTmIc5RTA4uwGnT+E6eJle3mXQfM2OD3A==}
+    peerDependencies:
+      vue: '2'
     dependencies:
       bezier-easing: 2.1.0
+      vue: 2.7.14
     dev: false
 
   /vue-template-compiler@2.7.14(vue@2.7.14):

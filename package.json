@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
+    "@radiolise/tsconfig": "workspace:*",
     "@types/node": "^18.16.0",
     "@types/prettier": "^2.7.2",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
