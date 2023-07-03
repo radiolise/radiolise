@@ -1,0 +1,18 @@
+{
+  "name": "@radiolise/api-demo-svelte",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@radiolise/metadata-client": "^1.0.0",
+    "svelte": "^3.59.0"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^2.2.0",
+    "vite": "^4.3.4"
+  }
+}

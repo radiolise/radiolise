@@ -11,6 +11,13 @@ Powered by the Radiolise API, based on WebSockets.
 
 ## Usage
 
+### Example projects
+
+If you want to use this library with a JS framework, check out the official
+example setups. Visit
+<https://gitlab.com/radiolise/radiolise.gitlab.io/-/blob/master/examples> to see
+more.
+
 ### From npm
 
 ```sh

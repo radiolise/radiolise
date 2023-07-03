@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radiolise API Demo</title>
+    <link rel="stylesheet" href="//unpkg.com/@picocss/pico/css/pico.min.css" />
+    <script src="/node_modules/@radiolise/metadata-client/dist/cdn.min.js"></script>
+    <!-- <script src="//unpkg.com/@radiolise/metadata-client"></script> -->
+  </head>
+  <body>
+    <main class="container" id="main">
+      <h1>Radiolise API Demo</h1>
+      <form id="subscription-form">
+        <label>
+          Stream URL:
+          <input
+            type="text"
+            name="streamUrl"
+            placeholder="Stream URL"
+            required
+            value="https://liveradio.swr.de/sw282p3/swr3/play.mp3"
+          />
+        </label>
+        <button type="submit">Track stream</button>
+      </form>
+      <p>
+        <small>The server will push title updates via WebSockets.</small>
+      </p>
+      <p>Current title: <span id="title"></span></p>
+    </main>
+    <script>
+      const nowPlaying = RadioliseMetadata.createMetadataClient({
+        url: 'wss://backend.radiolise.com/api/data-service',
+      })
+
+      const subscriptionForm = document.querySelector('#subscription-form')
+      const titleElement = document.querySelector('#title')
+
+      subscriptionForm.addEventListener('submit', (event) => {
+        event.preventDefault()
+        nowPlaying.trackStream(event.target.streamUrl.value)
+      })
+
+      function renderTitle(value) {
+        titleElement.textContent = value
+      }
+
+      nowPlaying.subscribe((info) => {
+        if (info.error) {
+          window.alert(`Error captured with reason: ${info.error}`)
+        }
+        renderTitle(info.title)
+      })
+    </script>
+  </body>
+</html>
