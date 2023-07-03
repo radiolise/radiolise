@@ -1,3 +1,9 @@
+# Changes in 5.8.0 (2023-07-04)
+
+Please refer to CHANGELOG.md files inside `packages/*` and
+<https://gitlab.com/radiolise/radiolise.gitlab.io/-/compare/v5.7.0...v5.8.0> for
+details.
+
 # Changes in [5.7.0](https://gitlab.com/radiolise/radiolise.gitlab.io/-/releases/v5.7.0) (2023-05-27)
 
 - Fix inconsistencies with conflicting classes
