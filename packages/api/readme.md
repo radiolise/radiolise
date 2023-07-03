@@ -6,6 +6,12 @@
 Express API server that powers Radiolise and its metadata retrieval.  
 Provides clients with title information from ICY radio streams.
 
+## Setup
+
+Before setting up your own instance, check out
+<https://gitlab.com/radiolise/radiolise.gitlab.io/-/blob/master/setup.md>. The
+preferred method is to use Docker with Compose.
+
 ## Usage
 
 ### Official client library
