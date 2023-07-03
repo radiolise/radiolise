@@ -123,6 +123,9 @@ importers:
 
   packages/radiolise:
     dependencies:
+      '@radiolise/metadata-client':
+        specifier: workspace:*
+        version: link:../metadata-client
       audiomotion-analyzer:
         specifier: ^4.0.0
         version: 4.0.0

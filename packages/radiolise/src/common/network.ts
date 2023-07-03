@@ -75,21 +75,6 @@ export function findStations(options: { searchEntries: Record<string, any>; sign
   });
 }
 
-export async function fetchNowPlayingInfo(options: { url: string; controller: AbortController }) {
-  const { url, controller } = options;
-  const timeout = window.setTimeout(() => {
-    controller.abort();
-  }, 50000);
-  const nowPlayingInfo = await fetchFromService<Record<string, string>>("/", {
-    method: "POST",
-    headers: { "content-type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ url }),
-    signal: controller.signal,
-  });
-  clearTimeout(timeout);
-  return nowPlayingInfo;
-}
-
 export function voteForStation(stationId: string) {
   return fetchFromRadioBrowser<Record<string, any>>(`/json/vote/${stationId}`);
 }

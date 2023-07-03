@@ -3,6 +3,7 @@ declare const __APP_VERSION__: string;
 declare const __APP_COPYRIGHT__: string;
 declare const __APP_REPO__: string;
 declare const __APP_ISSUES__: string;
+declare const __METADATA_SOCKET__: string;
 
 interface Station {
   name: string;

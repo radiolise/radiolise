@@ -6,9 +6,9 @@ import { type StoreState, type ModalOptions, ModalType, ChangeKinds } from ".";
 import { DEFAULT_SETTINGS } from "@/common/default-data";
 import { getDateFnsLocale } from "@/lang";
 
-import { fetchNowPlayingInfo, voteForStation, fetchVoteNumber } from "@/common/network";
+import { voteForStation, fetchVoteNumber } from "@/common/network";
+import { trackStream } from "@/common/metadata";
 
-let nowPlayingAbortController: AbortController | undefined;
 let updateTimer: number;
 let sleepTimer: number;
 let relaxTimer: number;
@@ -329,13 +329,15 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
   },
 
   play({ commit, dispatch, state }, station?: Station): void {
-    nowPlayingAbortController?.abort();
-
     if (updateTimer) {
       clearTimeout(updateTimer);
     }
 
     dispatch("setPlaying", false);
+    if (state.active) {
+      trackStream(undefined);
+    }
+
     const active = station !== undefined;
 
     if (active) {
@@ -359,51 +361,7 @@ const ACTIONS: ActionTree<StoreState, StoreState> = {
 
   confirmPlaying({ dispatch }, url: string): void {
     dispatch("setPlaying", true);
-    dispatch("requestInfo", url);
-  },
-
-  async requestInfo({ dispatch, state }, url: string): Promise<void> {
-    nowPlayingAbortController = new AbortController();
-
-    try {
-      const nowPlayingInfo = await fetchNowPlayingInfo({
-        url,
-        controller: nowPlayingAbortController,
-      });
-
-      let info = nowPlayingInfo.title;
-
-      if (info) {
-        if (info === "-") {
-          info = "";
-        }
-
-        const delimiter = " - ";
-        const cutStrings = info.split(delimiter);
-
-        if (cutStrings.length >= 2) {
-          info = [cutStrings.slice(0, 2).reverse().join(" / "), ...cutStrings.slice(2)].join(
-            delimiter
-          );
-        }
-      } else if (!state.currentInfo) {
-        const description = nowPlayingInfo.description;
-
-        if (description !== "Unspecified description") {
-          info = description;
-        }
-      }
-
-      if (info && state.currentInfo !== info) {
-        dispatch("updateInfo", info);
-      }
-
-      updateTimer = window.setTimeout(() => {
-        dispatch("requestInfo", url);
-      }, 10000);
-    } catch {
-      // Ignore errors
-    }
+    trackStream(url);
   },
 
   setSleepTimer({ commit, dispatch, state }): void {

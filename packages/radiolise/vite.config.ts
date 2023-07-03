@@ -17,6 +17,10 @@ export default defineConfig({
     __APP_COPYRIGHT__: `"© 2017-${new Date().getUTCFullYear()} ${author}"`,
     __APP_REPO__: `"${homepage}"`,
     __APP_ISSUES__: `"${bugs}"`,
+    __METADATA_SOCKET__: `\`${
+      process.env.RADIOLISE_METADATA_SOCKET ||
+      '${location.protocol.replace("http", "ws")}//${location.host}/api/data-service'
+    }\``,
   },
   plugins: [
     vue2(),

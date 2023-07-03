@@ -32,6 +32,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@radiolise/metadata-client": "workspace:*",
     "audiomotion-analyzer": "^4.0.0",
     "date-fns": "^2.30.0",
     "file-saver": "^2.0.5",
