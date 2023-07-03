@@ -54,7 +54,7 @@ packages:deploy:
     - corepack enable
     - corepack prepare pnpm@latest-8 --activate
     - pnpm config set store-dir .pnpm-store
-    - pnpm config set -- //registry.npmjs.org/:_authToken=$NPM_TOKEN
+    - pnpm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
   script:
     - pnpm changeset publish
   rules:
