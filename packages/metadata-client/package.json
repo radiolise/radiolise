@@ -1,0 +1,38 @@
+{
+  "name": "@radiolise/metadata-client",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Library for subscribing to metadata of ICY radio streams; powered by the Radiolise API, based on WebSockets",
+  "keywords": [
+    "radio",
+    "icecast",
+    "metadata",
+    "song",
+    "title",
+    "real-time",
+    "websockets"
+  ],
+  "author": "Marco Bauer",
+  "homepage": "https://gitlab.com/radiolise/radiolise.gitlab.io/-/blob/master/packages/metadata-client/readme.md",
+  "bugs": "https://gitlab.com/radiolise/radiolise.gitlab.io/-/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/radiolise/radiolise.gitlab.io.git",
+    "directory": "packages/metadata-client"
+  },
+  "type": "module",
+  "unpkg": "dist/cdn.min.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "rollup -c"
+  }
+}

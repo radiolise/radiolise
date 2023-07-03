@@ -8,7 +8,16 @@ Provides clients with title information from ICY radio streams.
 
 ## Usage
 
-### WebSocket interaction
+### Official client library
+
+It's recommended to use the official JavaScript wrapper if your code has access
+to browser APIs. See
+[@radiolise/metadata-client](https://www.npmjs.com/package/@radiolise/metadata-client).
+
+### Manual WebSocket interaction
+
+If your code doesn't belong to a web app, you may want to establish a WebSocket
+connection manually. The steps described below are language-agnostic.
 
 In your app, connect to the official backend or
 [provide your own instance URL](https://gitlab.com/radiolise/radiolise.gitlab.io/-/blob/master/setup.md):
