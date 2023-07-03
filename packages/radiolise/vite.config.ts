@@ -16,7 +16,7 @@ export default defineConfig({
     __APP_VERSION__: `"${version}"`,
     __APP_COPYRIGHT__: `"© 2017-${new Date().getUTCFullYear()} ${author}"`,
     __APP_REPO__: `"${homepage}"`,
-    __APP_ISSUES__: `"${bugs.url}"`,
+    __APP_ISSUES__: `"${bugs}"`,
   },
   plugins: [
     vue2(),
@@ -48,6 +48,14 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        ws: true,
+      },
     },
   },
 });
