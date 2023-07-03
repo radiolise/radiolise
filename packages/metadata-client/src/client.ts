@@ -1,11 +1,12 @@
-import { NO_OPERATION, PROJECT_NAME } from './constants.js'
 import type {
   ClientPayload,
   ErrorTypes,
   ServerPayload,
   SubscribePayload,
   UnsubscribePayload,
-} from './shared.js'
+} from '@radiolise/common'
+
+import { NO_OPERATION, PROJECT_NAME } from './constants.js'
 
 declare global {
   interface SymbolConstructor {

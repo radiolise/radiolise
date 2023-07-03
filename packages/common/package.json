@@ -1,0 +1,8 @@
+{
+  "name": "@radiolise/common",
+  "private": true,
+  "type": "module",
+  "module": "index.ts",
+  "types": "index.ts",
+  "exports": "./index.ts"
+}

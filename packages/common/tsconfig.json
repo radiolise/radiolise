@@ -1,0 +1,4 @@
+{
+  "extends": "@radiolise/tsconfig",
+  "include": ["**/*"]
+}

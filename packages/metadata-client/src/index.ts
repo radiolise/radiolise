@@ -1,4 +1,5 @@
-export { ErrorTypes } from './shared.js'
+export { ErrorTypes } from '@radiolise/common'
+
 export {
   createMetadataClient,
   type MetadataClient,
