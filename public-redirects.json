@@ -1,0 +1,45 @@
+[
+  {
+    "match": [{ "host": ["service.radiolise.com"] }],
+    "handle": [
+      {
+        "handler": "static_response",
+        "headers": {
+          "Location": [
+            "https://backend.radiolise.com/api/v1/metadata{http.request.uri}"
+          ]
+        },
+        "status_code": 301
+      }
+    ],
+    "terminal": true
+  },
+  {
+    "match": [{ "host": ["demos.radiolise.com"] }],
+    "handle": [
+      {
+        "handler": "static_response",
+        "headers": {
+          "Location": [
+            "https://gitlab.com/radiolise/resources/-/blob/main/demos{http.request.uri}"
+          ]
+        },
+        "status_code": 301
+      }
+    ],
+    "terminal": true
+  },
+  {
+    "match": [{ "host": ["www.radiolise.com"] }],
+    "handle": [
+      {
+        "handler": "static_response",
+        "headers": {
+          "Location": ["https://radiolise.com{http.request.uri}"]
+        },
+        "status_code": 302
+      }
+    ],
+    "terminal": true
+  }
+]

@@ -1,0 +1,24 @@
+{
+	admin :2019 
+	{$RADIOLISE_SERVER_OPTIONS}
+}
+
+{$RADIOLISE_SITE_ADDRESS}
+
+@frontend_matcher {
+	{$RADIOLISE_FRONTEND_RULES}
+}
+
+@backend_matcher {
+	{$RADIOLISE_BACKEND_RULES}
+}
+
+handle @frontend_matcher {
+	root * /srv
+	encode gzip
+	file_server {
+		pass_thru
+	}
+}
+
+reverse_proxy @backend_matcher http://express:3000
