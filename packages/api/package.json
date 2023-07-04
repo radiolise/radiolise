@@ -1,6 +1,6 @@
 {
   "name": "@radiolise/api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "description": "Express API server that powers Radiolise and its metadata retrieval",
   "author": "Marco Bauer",
