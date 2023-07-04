@@ -11,11 +11,16 @@ export function enableRestEndpoints(app: Express) {
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
   app.use(CURRENT_API_ROOT, router)
+
   app.get('/', (_request, response) => {
     response.redirect('/api')
   })
+
   app.get('/api', (request, response) => {
-    const origin = `${request.protocol}://${request.get('Host')}`
+    const protocol = request.get('X-Forwarded-Proto') ?? request.protocol
+    const host = request.get('X-Forwarded-Host') ?? request.get('Host')
+    const origin = `${protocol}://${host}`
+
     response.set('Content-Type', 'application/json')
     response.end(
       JSON.stringify(
