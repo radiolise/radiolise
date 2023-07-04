@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Radiolise API Demo</title>
     <link rel="stylesheet" href="//unpkg.com/@picocss/pico/css/pico.min.css" />
-    <script src="/node_modules/@radiolise/metadata-client/dist/cdn.min.js"></script>
-    <!-- <script src="//unpkg.com/@radiolise/metadata-client"></script> -->
+    <script src="//unpkg.com/@radiolise/metadata-client@latest"></script>
+    <script src="index.js" defer></script>
   </head>
   <body>
     <main class="container" id="main">
@@ -15,7 +15,7 @@
         <label>
           Stream URL:
           <input
-            type="text"
+            type="url"
             name="streamUrl"
             placeholder="Stream URL"
             required
@@ -29,29 +29,5 @@
       </p>
       <p>Current title: <span id="title"></span></p>
     </main>
-    <script>
-      const nowPlaying = RadioliseMetadata.createMetadataClient({
-        url: 'wss://backend.radiolise.com/api/data-service',
-      })
-
-      const subscriptionForm = document.querySelector('#subscription-form')
-      const titleElement = document.querySelector('#title')
-
-      subscriptionForm.addEventListener('submit', (event) => {
-        event.preventDefault()
-        nowPlaying.trackStream(event.target.streamUrl.value)
-      })
-
-      function renderTitle(value) {
-        titleElement.textContent = value
-      }
-
-      nowPlaying.subscribe((info) => {
-        if (info.error) {
-          window.alert(`Error captured with reason: ${info.error}`)
-        }
-        renderTitle(info.title)
-      })
-    </script>
   </body>
 </html>

@@ -27,7 +27,7 @@ export function App() {
         <label>
           Stream URL:
           <input
-            type="text"
+            type="url"
             name="streamUrl"
             placeholder="Stream URL"
             required
