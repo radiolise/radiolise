@@ -46,6 +46,22 @@ pages:
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
 
+packages:deploy:
+  stage: deploy
+  needs:
+    - packages:build
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@latest-8 --activate
+    - pnpm config set store-dir .pnpm-store
+    - pnpm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+  script:
+    - pnpm changeset publish
+  rules:
+    - if:
+        $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PROJECT_ID ==
+        $TRUSTED_PROJECT_ID
+
 server:deploy:
   stage: deploy
   image: docker:git
