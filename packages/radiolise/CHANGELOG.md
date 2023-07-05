@@ -1,5 +1,12 @@
 # radiolise
 
+## 5.8.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @radiolise/api@1.0.1
+
 ## 5.8.0
 
 ### Minor Changes

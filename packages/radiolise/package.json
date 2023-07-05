@@ -1,6 +1,6 @@
 {
   "name": "radiolise",
-  "version": "5.8.0",
+  "version": "5.8.1",
   "license": "AGPL-3.0-or-later",
   "description": "Radiolise is a web app that lets you enjoy your favorite TV and radio stations.",
   "keywords": [
@@ -27,7 +27,8 @@
   },
   "files": [
     "bin",
-    "dist"
+    "dist",
+    "src/assets/img/logo.svg"
   ],
   "scripts": {
     "dev": "run-p dev:api dev:frontend",
@@ -39,7 +40,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@radiolise/api": "workspace:*",
+    "@radiolise/api": "workspace:^",
     "gradient-string": "^2.0.2",
     "open": "^9.1.0",
     "picocolors": "^1.0.0",

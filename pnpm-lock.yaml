@@ -200,7 +200,7 @@ importers:
   packages/radiolise:
     dependencies:
       '@radiolise/api':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../api
       gradient-string:
         specifier: ^2.0.2
