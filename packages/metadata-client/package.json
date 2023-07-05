@@ -1,6 +1,6 @@
 {
   "name": "@radiolise/metadata-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "description": "Library for subscribing to metadata of ICY radio streams; powered by the Radiolise API, based on WebSockets",
   "keywords": [

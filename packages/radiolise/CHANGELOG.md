@@ -1,5 +1,11 @@
 # radiolise
 
+## 5.8.2
+
+### Patch Changes
+
+- Set the build target to `es2017` to support older browser engines
+
 ## 5.8.1
 
 ### Patch Changes
@@ -19,5 +25,6 @@
 
 ---
 
-Please refer to [../../CHANGELOG.md](../../CHANGELOG.md#changes-in-570-2023-05-27) for older
+Please refer to
+[../../CHANGELOG.md](../../CHANGELOG.md#changes-in-570-2023-05-27) for older
 versions.
