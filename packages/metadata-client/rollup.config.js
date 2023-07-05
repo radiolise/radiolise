@@ -7,6 +7,7 @@ import esbuild from 'rollup-plugin-esbuild'
  * @type {import('rollup').InputPluginOption}
  */
 const resolvePlugins = [json(), nodeResolve()]
+const esbuildBrowserPlugin = esbuild({ target: 'es2017', minify: true })
 
 /**
  * @type {import('rollup').RollupOptions[]}
@@ -23,11 +24,19 @@ export default [
   {
     input: 'src/index.ts',
     output: {
-      file: 'dist/cdn.min.js',
+      file: 'dist/browser.global.js',
       format: 'iife',
       name: 'RadioliseMetadata',
     },
-    plugins: [...resolvePlugins, esbuild({ target: 'esnext', minify: true })],
+    plugins: [...resolvePlugins, esbuildBrowserPlugin],
+  },
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/browser.esm.js',
+      format: 'es',
+    },
+    plugins: [...resolvePlugins, esbuildBrowserPlugin],
   },
   {
     input: 'src/index.ts',

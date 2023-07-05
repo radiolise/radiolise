@@ -21,15 +21,19 @@
     "directory": "packages/metadata-client"
   },
   "type": "module",
-  "unpkg": "dist/cdn.min.js",
-  "module": "dist/index.js",
+  "unpkg": "dist/browser.global.js",
+  "jsdelivr": "dist/browser.global.js",
+  "module": "dist/browser.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "exports": {
-    "types": "./dist/index.d.ts",
-    "import": "./dist/index.js"
+    "import": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
+      "default": "./dist/browser.esm.js"
+    }
   },
   "scripts": {
     "prebuild": "rimraf dist",

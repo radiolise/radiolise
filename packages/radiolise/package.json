@@ -15,11 +15,12 @@
     "player"
   ],
   "author": "Marco Bauer",
-  "homepage": "https://gitlab.com/radiolise/radiolise.gitlab.io",
+  "homepage": "https://gitlab.com/radiolise/radiolise.gitlab.io/-/blob/master/packages/radiolise/readme.md",
   "bugs": "https://gitlab.com/radiolise/radiolise.gitlab.io/-/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/radiolise/radiolise.gitlab.io.git"
+    "url": "https://gitlab.com/radiolise/radiolise.gitlab.io.git",
+    "directory": "packages/radiolise"
   },
   "type": "module",
   "bin": {
@@ -27,8 +28,7 @@
   },
   "files": [
     "bin",
-    "dist",
-    "src/assets/img/logo.svg"
+    "dist"
   ],
   "scripts": {
     "dev": "run-p dev:api dev:frontend",

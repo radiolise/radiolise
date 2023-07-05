@@ -1,7 +1,7 @@
 # @radiolise/metadata-client
 
 [![version](https://img.shields.io/npm/v/@radiolise/metadata-client?style=for-the-badge)](https://www.npmjs.com/package/@radiolise/metadata-client)
-[![license](https://img.shields.io/npm/l/@radiolise/metadata-client?style=for-the-badge)](LICENSE)
+[![license](https://img.shields.io/npm/l/@radiolise/metadata-client?style=for-the-badge)](https://gitlab.com/radiolise/radiolise.gitlab.io/-/raw/HEAD/packages/metadata-client/LICENSE)
 
 Library for subscribing to metadata of ICY radio streams.  
 Powered by the Radiolise API, based on WebSockets.

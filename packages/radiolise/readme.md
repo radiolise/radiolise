@@ -1,10 +1,14 @@
 <div align="center">
-  <img src="src/assets/img/logo.svg" alt="Radiolise logo" height="128">
+  <img
+    src="https://gitlab.com/radiolise/radiolise.gitlab.io/-/raw/HEAD/packages/radiolise/src/assets/img/logo.svg"
+    alt="Radiolise logo"
+    height="128"
+  />
   <h1>Radiolise</h1>
   <a aria-label="Version" href="https://www.npmjs.com/package/radiolise">
     <img src="https://img.shields.io/npm/v/radiolise?style=for-the-badge" alt="version" />
   </a>
-  <a aria-label="License" href="LICENSE">
+  <a aria-label="License" href="https://gitlab.com/radiolise/radiolise.gitlab.io/-/raw/HEAD/packages/radiolise/LICENSE">
     <img src="https://img.shields.io/npm/l/radiolise?style=for-the-badge" alt="license" />
   </a>
 </div>
@@ -17,7 +21,7 @@ search.
 
 ## Screenshot
 
-![Radiolise screenshot](screenshot.png)
+![Radiolise screenshot](https://gitlab.com/radiolise/radiolise.gitlab.io/-/raw/HEAD/screenshot.png)
 
 ## Hosted instances
 

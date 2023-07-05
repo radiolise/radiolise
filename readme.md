@@ -15,7 +15,7 @@ search.
 
 ## Screenshot
 
-![Radiolise screenshot](packages/radiolise/screenshot.png)
+![Radiolise screenshot](screenshot.png)
 
 ## Hosted instances
 
