@@ -10,7 +10,7 @@
             "https://backend.radiolise.com/api/v1/metadata{http.request.uri}"
           ]
         },
-        "status_code": 301
+        "status_code": 308
       }
     ],
     "terminal": true
