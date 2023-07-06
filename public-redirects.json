@@ -5,6 +5,7 @@
       {
         "handler": "static_response",
         "headers": {
+          "Access-Control-Allow-Origin": ["*"],
           "Location": [
             "https://backend.radiolise.com/api/v1/metadata{http.request.uri}"
           ]
