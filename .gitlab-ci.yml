@@ -1,12 +1,15 @@
 default:
   image: node:lts
 
+workflow:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+
 variables:
   TRUSTED_PROJECT_ID: '2921423'
   RADIOLISE_METADATA_SOCKET: wss://backend.radiolise.com/api/data-service
   RADIOLISE_SITE_ADDRESS: backend.radiolise.com
   RADIOLISE_BUILD_TARGET: backend
-  RADIOLISE_FRONTEND_RULES: expression false
 
 packages:build:
   stage: build
@@ -17,19 +20,17 @@ packages:build:
   script:
     - pnpm -F './packages/*' install
     - pnpm -F './packages/*' build
-  artifacts:
-    paths:
-      - node_modules
-      - packages
-    expire_in: 1 week
   cache:
-    key:
-      files:
-        - pnpm-lock.yaml
-    paths:
-      - .pnpm-store
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - key:
+        files:
+          - pnpm-lock.yaml
+      paths:
+        - .pnpm-store
+    - key: radiolise-build-cache
+      paths:
+        - node_modules
+        - packages/**/dist
+      policy: push
 
 pages:
   stage: deploy
@@ -40,11 +41,14 @@ pages:
     - mv packages/radiolise/dist public
     - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec
       gzip -f -k {} \;
+  cache:
+    key: radiolise-build-cache
+    paths:
+      - packages/radiolise/dist
+    policy: pull
   artifacts:
     paths:
       - public
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
 
 packages:deploy:
   stage: deploy
@@ -53,14 +57,19 @@ packages:deploy:
   before_script:
     - corepack enable
     - corepack prepare pnpm@latest-8 --activate
-    - pnpm config set store-dir .pnpm-store
-    - pnpm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+    - pnpm config set -- //registry.npmjs.org/:_authToken=$NPM_TOKEN
   script:
     - pnpm changeset publish
+  cache:
+    key: radiolise-build-cache
+    paths:
+      - node_modules
+      - packages/**/dist
+    policy: pull
   rules:
-    - if:
-        $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PROJECT_ID ==
-        $TRUSTED_PROJECT_ID
+    - if: $CI_PROJECT_ID == $TRUSTED_PROJECT_ID
+      changes:
+        - packages/*/package.json
 
 server:deploy:
   stage: deploy
@@ -69,17 +78,8 @@ server:deploy:
   tags:
     - deployment
   script:
-    - docker compose -f docker-compose.yml build
-    - docker compose -f docker-compose.yml up -d
-    - |- # Add redirect routes for *.radiolise.com once ready
-      until wget -qO- \
-        --header="Content-Type: application/json" \
-        --post-file=public-redirects.json \
-        http://127.0.0.1:2019/config/apps/http/servers/srv0/routes/...
-      do sleep 1
-      done
-    - echo success posting redirect routes
+    - ln -f sites/radiolise.com/Caddyfile Caddyfile
+    - docker compose build
+    - docker compose up -d
   rules:
-    - if:
-        $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PROJECT_ID ==
-        $TRUSTED_PROJECT_ID
+    - if: $CI_PROJECT_ID == $TRUSTED_PROJECT_ID
