@@ -299,8 +299,8 @@
       "description": "Automatically pick an accent and background color depending on which stream is currently running."
     },
     "visualization": {
-      "name": "Visualization",
-      "description": "Display an audio visualization based on frequency values during an ongoing audio stream.",
+      "name": "Pseudo-visualization",
+      "description": "Display an audio visualization based on random values during an ongoing audio stream.",
       "screenWidthIssue": "Screen or window not wide enough"
     },
     "relaxMode": {

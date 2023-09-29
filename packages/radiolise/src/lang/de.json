@@ -299,8 +299,8 @@
       "description": "Automatisch eine Akzent- und Hintergrundfarbe abhängig vom gerade laufenden Stream auswählen."
     },
     "visualization": {
-      "name": "Visualisierung",
-      "description": "Eine Audiovisualisierung basierend auf Frequenzwerten während eines laufenden Audiostreams anzeigen.",
+      "name": "Pseudovisualisierung",
+      "description": "Eine Audiovisualisierung basierend auf zufälligen Werten während eines laufenden Audiostreams anzeigen.",
       "screenWidthIssue": "Bildschirm oder Fenster nicht breit genug"
     },
     "relaxMode": {

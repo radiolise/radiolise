@@ -1,10 +1,10 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-packageExtensionsChecksum: ff2297fadea4cbaf619fd39155b348d3
+packageExtensionsChecksum: ebabb7aeacec9d14f41ab78e301660c5
 
 importers:
 
