@@ -62,17 +62,11 @@ cd radiolise
 ```
 
 If you're setting up a production instance (e.g. served publicly), please read
-the comments in [env.sh](env.sh) and set the environment variables accordingly,
+the comments in [.env.example](.env.example). Duplicate and rename the file to .env, then set the environment variables accordingly,
 e.g.:
 
 ```sh
-nano env.sh
-```
-
-To apply it, run:
-
-```sh
-source env.sh
+nano .env
 ```
 
 Otherwise, the config can be left as-is.
@@ -83,7 +77,7 @@ You may now start the fully automated build process:
 docker compose build
 ```
 
-Make sure TCP ports `80`, `443` and `2019` are not used by other services.
+Make sure TCP ports `80` and `443` are not used by other services.
 
 To start the instance:
 
@@ -102,7 +96,7 @@ docker compose down
 **Software requirements**:
 
 - [Node.js](https://nodejs.org/) (current LTS recommended)
-- The amazing package management solution [`pnpm`](https://pnpm.io/)
+- [pnpm](https://pnpm.io/) (an amazing package management solution)
 
 ### Clone the repository
 
@@ -123,10 +117,11 @@ for a list of editor extensions used in development.
 See [packages/radiolise/vite.config.ts](packages/radiolise/vite.config.ts) and
 <https://vitejs.dev/config/>.
 
-### Install dependencies
+### Initial setup
 
 ```sh
-pnpm install
+pnpm -F './packages/*' install
+pnpm -F './packages/*' build
 ```
 
 ### Compile and hot-reload for development

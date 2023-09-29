@@ -3,22 +3,17 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: build.Dockerfile
-      target: build-${RADIOLISE_BUILD_TARGET:-fullstack}
+      args:
+        - RADIOLISE_BUILD_TARGET
     init: true
-    environment:
-      - NODE_ENV=production
-    expose:
-      - 3000
-    command: node packages/api/dist/server
     volumes:
-      - site:/app/packages/radiolise/dist
+      - site:/app/static
 
   caddy:
     restart: unless-stopped
     image: caddy:2
     environment:
-      - RADIOLISE_SITE_ADDRESS=${RADIOLISE_SITE_ADDRESS:-http://localhost}
+      - RADIOLISE_SITE_ADDRESS
       - RADIOLISE_SERVER_OPTIONS
       - RADIOLISE_BACKEND_RULES
       - RADIOLISE_FRONTEND_RULES
@@ -26,7 +21,6 @@ services:
       - ${RADIOLISE_HTTP_PORT:-80}:80
       - ${RADIOLISE_HTTPS_PORT:-443}:443
       - ${RADIOLISE_HTTPS_PORT:-443}:443/udp
-      - 127.0.0.1:${RADIOLISE_SERVER_ADMIN_PORT:-2019}:2019
     depends_on:
       - express
     volumes:

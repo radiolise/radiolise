@@ -1,0 +1,16 @@
+backend.radiolise.com {
+	reverse_proxy http://express:3000
+}
+
+service.radiolise.com {
+	header Access-Control-Allow-Origin "*"
+	redir https://backend.radiolise.com/api/v1/metadata{uri} 308
+}
+
+demos.radiolise.com {
+	redir https://gitlab.com/radiolise/resources/-/blob/main/demos{uri} permanent
+}
+
+www.radiolise.com {
+	redir https://radiolise.com{uri}
+}

@@ -1,9 +1,8 @@
 {
-	admin :2019 
 	{$RADIOLISE_SERVER_OPTIONS}
 }
 
-{$RADIOLISE_SITE_ADDRESS}
+{$RADIOLISE_SITE_ADDRESS:http://localhost}
 
 @frontend_matcher {
 	{$RADIOLISE_FRONTEND_RULES}
