@@ -58,6 +58,7 @@ packages:deploy:
     - corepack enable
     - corepack prepare pnpm@latest-8 --activate
     - pnpm config set -- //registry.npmjs.org/:_authToken=$NPM_TOKEN
+    - pnpm -F './packages/*' install
   script:
     - pnpm changeset publish
   cache:
@@ -68,8 +69,6 @@ packages:deploy:
     policy: pull
   rules:
     - if: $CI_PROJECT_ID == $TRUSTED_PROJECT_ID
-      changes:
-        - packages/*/package.json
 
 server:deploy:
   stage: deploy
