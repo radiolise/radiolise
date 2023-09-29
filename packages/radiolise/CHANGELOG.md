@@ -1,5 +1,11 @@
 # radiolise
 
+## 5.8.3
+
+### Patch Changes
+
+- avoid issues with CORS by using pseudo values again for the visualization (#44)
+
 ## 5.8.2
 
 ### Patch Changes
