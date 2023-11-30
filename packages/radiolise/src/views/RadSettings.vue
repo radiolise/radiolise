@@ -221,6 +221,7 @@ export default class RadSettings extends Vue {
       { id: "en", name: "English" },
       { id: "de", name: "Deutsch" },
       { id: "fr", name: "Français" },
+	  { id: "nl", name: "Nederlands" },
     ];
   }
 
