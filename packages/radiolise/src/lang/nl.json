@@ -1,0 +1,358 @@
+{
+  "general": {
+    "menu": "Hoofdmenu",
+    "findStations": "Zenders vinden",
+    "manageLists": "Zenderlijsten beheren",
+    "manageTitles": "Titels beheren",
+    "importBackup": "Backup importeren",
+    "hotkeys": "Sneltoetsen",
+    "settings": "Instellingen",
+    "more": "Meer",
+    "learnMore": "Meer leren",
+    "apply": "Toepassen",
+    "undo": "Ongedaan maken",
+    "note": "Noteren",
+    "ok": "Oké",
+    "done": "Klaar",
+    "cancel": "Annuleren",
+    "yes": "Ja",
+    "no": "Nee",
+    "tryAgainLater": "Probeer later weer opnieuw",
+    "tags": "Labels",
+    "noTags": "(geen labels)",
+    "country": "Land | Landen",
+    "state": "Provincie | Provincies",
+    "language": "Taal | Talen",
+    "stationLists": "Zenderlijsten",
+    "list": "Lijst",
+    "defaultListName": "Favorieten",
+    "manage": "Beheren…",
+    "loading": "Laden…",
+    "externalPlayback": "Externe weergave",
+    "downloadPlaylist": "Als afspeellijst downloaden",
+    "downloadAs": "Lijst downloaden als",
+    "yamlFile": "{0} bestand (voor overdracht)",
+    "listEmpty": [
+      "Deze zenderlijst is leeg.",
+      "Druk de bodem-rechtse knop om meer zenders toe te voegen."
+    ],
+    "like": {
+      "submit": "Leuk",
+      "submitted": "Leuk gevonden",
+      "count": "{0}+ mensen houden van dit zender.",
+      "alreadyVoted": "Je hebt toch gestemd.",
+      "submitMessage": "Uw like was ingediend naar de Gemeenschap Radio Browser.",
+      "unableToVote": {
+        "title": "Stemming mislukt",
+        "description": "Onmogelijk voor de zender te stemmen. Error-melding gekregen: “{0}”"
+      }
+    },
+    "visitHomepage": "Homepagina bezoeken",
+    "error": {
+      "generic": "Onze excuses, een error is opgetreden.",
+      "genericTryLater": "@:general.error.generic @:general.tryAgainLater",
+      "goOnline": "Zorg ervoor dat jij online bent a.u.b.",
+      "fileNotSupported": {
+        "title": "Bestand niet ondersteund",
+        "description": "De geselecteerde bestand was niet gecreëerd met deze versie van {0} of het corrupt is."
+      },
+      "networkIssue": {
+        "title": "Netwerkfout",
+        "description": "Sorry, er lijkt momenteel een netwerkprobleem te zijn.\n{0}"
+      },
+      "hlsNotSupported": {
+        "title": "HLS niet ondersteund",
+        "description": "Sorry, het HLS-protocol is vereist om {0} af te spelen, maar uw browser lijkt dit niet te ondersteunen."
+      },
+      "decode": {
+        "title": "Decodeerfout",
+        "description": "Sorry, de stream kon niet worden gedecodeerd en wordt blijkbaar niet ondersteund."
+      },
+      "noSupportedSource": {
+        "title": "Geen ondersteunde bron",
+        "description": "Sorry, de stream wordt niet ondersteund, is momenteel niet beschikbaar of is geblokkeerd."
+      },
+      "timeout": {
+        "title": "Time-out",
+        "description": "Sorry, je netwerkverbinding lijkt momenteel te traag. @:general.tryAgainLater"
+      },
+      "hlsGeneric": {
+        "title": "Kan niet spelen",
+        "description": "Sorry, {0} kan niet gespeeld worden vanwege {1}.",
+        "network": "netwerkfout",
+        "media": "mediafout",
+        "other": "HLS-fout"
+      }
+    },
+    "undoableEvent": {
+      "station": "“{0}” is verwijderd uit {1}.",
+      "list": "Een lijst met de naam “{0}” is verwijderd.",
+      "bookmark": "“{0}” is verwijderd uit bladwijzers."
+    },
+    "newName": "Nieuwe naam"
+  },
+  "about": {
+    "freeSoftware": "gratis software",
+    "licenseInfo": "{0} is {1}: je mag het herverdelen en/of wijzigen onder de voorwaarden van de GNU Affero General Public License zoals gepubliceerd door de Free Software Foundation, ofwel versie 3 van de Licentie, of (naar keuze) een latere versie.",
+    "noWarranty": "{0} wordt verspreid in de hoop dat het nuttig zal zijn, maar ZONDER ENIGE GARANTIE; zelfs zonder de impliciete garantie van VERKOOPBAARHEID of GESCHIKTHEID VOOR EEN BEPAALD DOEL. Zie de GNU Affero General Public License voor meer details.",
+    "licenseCopy": "Je zou een kopie van de GNU Affero General Public License moeten hebben ontvangen samen met {0}. Zo niet, zie {1} voor meer informatie.",
+    "code": "Code",
+    "issues": "Problemen",
+    "donate": "Doneren"
+  },
+  "dropZone": {
+    "fileAdded": "Bestand toegevoegd",
+    "usage": "Gebruik slepen en neerzetten om een bestand toe te voegen of klik hier om het handmatig toe te voegen…",
+    "multipleFilesError": {
+      "title": "Meerdere bestanden geselecteerd",
+      "description": "Selecteer slechts één bestand per proces."
+    }
+  },
+  "editor": {
+    "title": "Zender editor",
+    "newStation": "Nieuwe zender",
+    "field": {
+      "name": "Naam",
+      "url": "Stream URL",
+      "homepage": "Startpagina URL",
+      "icon": "Pictogram URL",
+      "required": "Verplicht veld",
+      "marked": "Dit is een @:(editor.field.required)."
+    },
+    "notExisting": "Het te bewerken zender bestaat niet."
+  },
+  "hotkeys": {
+    "title": "Sneltoetsreferentie",
+    "space": "Spatie",
+    "bindings": {
+      "H": {
+        "name": "@:general.hotkeys",
+        "description": "Toon of verberg dit sneltoetsenoverzicht."
+      },
+      "M": {
+        "name": "@:general.menu",
+        "description": "Open een dialoog direct vanuit het hoofdmenu."
+      },
+      "–": {
+        "name": "Volume omlaag",
+        "description": "Verlaag het volume met 10 %."
+      },
+      "+": {
+        "name": "Volume omhoog",
+        "description": "Verhoog het volume met 10 %."
+      },
+      " ": {
+        "name": "@:player.playStop",
+        "description": "Start of stop het afspelen van de laatst geselecteerde zender."
+      },
+      "C": {
+        "name": "@:settings.compactMode.name",
+        "description": "@:settings.compactMode.description"
+      },
+      "F": {
+        "name": "@:player.toggleFullscreen",
+        "description": "De modus Volledig scherm in- of uitschakelen tijdens videostreams."
+      },
+      "Esc": {
+        "name": "Huidige weergave sluiten",
+        "description": "Sluit het huidige dialoogvenster. Daarnaast sluit Escape meestal de modus Volledig scherm af."
+      },
+      "P": {
+        "name": "@:player.prevStation",
+        "description": "Naar de vorige zender in de huidige lijst gaan."
+      },
+      "N": {
+        "name": "@:player.nextStation",
+        "description": "Overschakelen naar de volgende zender in de huidige lijst."
+      },
+      "0-9": {
+        "name": "Zenderselectie",
+        "description": "Naar een andere zender overschakelen afhankelijk van de positie in de huidige lijst."
+      }
+    },
+    "onScreenToasts": {
+      "volume": "Volume: {0}%",
+      "noVideoStream": "Geen videostream",
+      "playingPrevious": "Vorige afspelen: {0}",
+      "playingNext": "Volgende afspelen: {0}",
+      "playingIndex": "Spelen #{0}: {1}",
+      "notExisting": "Zender {0} bestaat niet."
+    }
+  },
+  "importWizard": {
+    "stationLists": "zenderlijsten",
+    "settings": "instellingen",
+    "description": "Hier kun je back-ups van je {0} importeren.",
+    "step": "Stap {0}: {1}",
+    "chooseFile": "Kies bestand",
+    "setName": "Naam instellen",
+    "selectStations": "Zenders selecteren",
+    "emptyName": {
+      "title": "Lege naam",
+      "description": "Voer een naam in voor de lijst onder “Stap 2”."
+    },
+    "nameTaken": {
+      "title": "Naam al bezet",
+      "description": "Er bestaat al een lijst met deze naam. Wilt u deze overschrijven?"
+    }
+  },
+  "listManager": {
+    "description": "Gebruik deze tool om je zenderlijsten te beheren.",
+    "specifyName": "Geef een naam op a.u.b.",
+    "invalidName": "Ongeldige naam",
+    "newList": "Nieuwe lijst",
+    "nameTaken": "Er bestaat al een lijst met de naam “{0}”.",
+    "nameEmpty": "De naam moet uit minstens één teken bestaan."
+  },
+  "menu": {
+    "close": "Sluiten"
+  },
+  "player": {
+    "ready": "Klaar",
+    "alreadyVoted": "Al gestemd",
+    "addBookmark": "Huidige titel toegevoegd aan bladwijzers",
+    "bookmarked": "Toegevoegd aan bladwijzers",
+    "prevStation": "Vorige zender",
+    "nextStation": "Volgende zender",
+    "playStop": "Afspelen/stoppen",
+    "advancedView": "Gevorderde weergave",
+    "toggleFullscreen": "Volledig scherm schakelen",
+    "noHomepage": "Geen startpagina geregistreerd"
+  },
+  "rangeInput": {
+    "minimumShort": "min",
+    "to": "tot",
+    "maximumShort": "max"
+  },
+  "search": {
+    "credit": {
+      "free": "gratis",
+      "radioBrowser": "De zoekfunctie wordt aangedreven door de {0} {1}."
+    },
+    "error": "@:general.error.generic @:general.error.goOnline",
+    "optionsUnavailable": "Oh nee! Sommige opties zijn momenteel niet beschikbaar vanwege connectiviteitsproblemen.",
+    "tryAgain": "Probeer het opnieuw",
+    "byName": "Zenders op naam",
+    "showOptions": "Opties tonen",
+    "hideOptions": "Opties verbergen",
+    "filters": {
+      "label": "Filters",
+      "allCountries": "Alle landen",
+      "allStates": "Alle deelstaten",
+      "allLanguages": "Alle talen",
+      "noCountrySelected": "Selecteer eerst een land a.u.b."
+    },
+    "bitrate": {
+      "label": "Bitsnelheid",
+      "description": "Neem alleen zenders met een bepaalde bitsnelheid (kbit/s) op in de resultaten."
+    },
+    "stationBroken": "Defect",
+    "reverse": "Toon resultaten in omgekeerde volgorde",
+    "includeBroken": "Inclusief zenders gemarkeerd als defect",
+    "loading": "Resultaten worden geladen…",
+    "noMatches": "Geen overeenkomende zenders gevonden.",
+    "loadMore": "Meer resultaten laden",
+    "comparison": {
+      "station": "zender | zenders",
+      "added": "toegevoegd",
+      "removed": "verwijderd",
+      "oneChange": "{name} is {modified}.",
+      "stationsAdded": "{plus} zenders toegevoegd.",
+      "stationsRemoved": "{minus} zenders verwijderd.",
+      "diff": "{plus} {station} {added}, {minus} {removed}.",
+      "orderChanged": "Oorspronkelijke volgorde gewijzigd."
+    },
+    "order": {
+      "sortBy": "Sorteren op",
+      "votes": "Stemmen",
+      "clicks": "Klikken",
+      "names": "Namen",
+      "countries": "Landen",
+      "states": "Deelstaten",
+      "languages": "Talen",
+      "codecs": "Codecs"
+    }
+  },
+  "settings": {
+    "description": "Hier kun je {0} aanpassen aan je behoeften.",
+    "theme": "Thema | Thema's",
+    "themes": {
+      "candy": "Een eenvoudig maar elegant thema.",
+      "pure": "Een eenvoudig en minimalistisch thema."
+    },
+    "colorScheme": {
+      "name": "Kleurenschema | Kleurenschema's",
+      "auto": "Auto",
+      "light": "Licht",
+      "dark": "Donker"
+    },
+    "externalPlayback": {
+      "name": "@:general.externalPlayback",
+      "description": "Download bij het wisselen van zender een afspeellijst die je in een andere app kunt openen."
+    },
+    "compactMode": {
+      "name": "Compactmodus",
+      "description": "Verminder de weergavegrootte van zendervermeldingen."
+    },
+    "colorChange": {
+      "name": "Kleurverandering",
+      "description": "Kies automatisch een accent- en achtergrondkleur afhankelijk van welke stream op dat moment actief is."
+    },
+    "visualization": {
+      "name": "Pseudovisualisatie",
+      "description": "Een audiovisualisatie weergeven op basis van willekeurige waarden tijdens een lopende audiostream.",
+      "screenWidthIssue": "Scherm of raam niet breed genoeg"
+    },
+    "relaxMode": {
+      "name": "Ontspanningsmodus",
+      "description": "Toont voor audiostreams alleen zenderinfo en visualisatie op een gekleurde achtergrond. Wordt geactiveerd tijdens inactiviteit van de gebruiker.",
+      "timer": "Ontspanningsmodus activeren na"
+    },
+    "loadIcons": {
+      "name": "Pictogrammen laden"
+    },
+    "sleep": {
+      "name": "@:sleepTimer.name",
+      "description": "Stopt de huidige stream automatisch na een bepaald aantal minuten.",
+      "timer": "Stop de stream na"
+    },
+    "volume": "Standaardvolume",
+    "playlistFormats": "Afspeellijstformaten",
+    "defaultPlaylistFormat": "Standaardindeling afspeellijst",
+    "detect": "Opsporen",
+    "discard": "Weggooien",
+    "reset": "Terugzetten naar standaardwaarden",
+    "import": "Importeren uit bestand",
+    "export": "Exporteren naar bestand"
+  },
+  "sleepTimer": {
+    "name": "Slaaptimer",
+    "timePassed": "{n} is over | {n} zijn over",
+    "streamStopped": "{timePassed}. De stream is gestopt."
+  },
+  "sortHelper": {
+    "touchFriendlyMode": {
+      "releaseToEnter": "Loslaten om naar de beweegmodus te gaan...",
+      "explanation": "Sleep om te verplaatsen; houd ingedrukt om af te sluiten.",
+      "exit": "Beweegmodus is afgesloten."
+    }
+  },
+  "station": {
+    "options": "Opties voor “{0}”",
+    "edit": "Bewerken",
+    "moveUp": "Omhoog",
+    "moveDown": "Omlaag",
+    "delete": "Wis"
+  },
+  "tagInput": {
+    "label": "@:general.tags (separate with commas)",
+    "preview": "Voorvertoning"
+  },
+  "titleManager": {
+    "title": "Titelbeheerder",
+    "recentTitles": "Recente titels",
+    "bookmark": "Bladwijzer | Bladwijzers",
+    "listEmpty": "Deze lijst is momenteel leeg.",
+    "remove": "Verwijderen"
+  }
+}
