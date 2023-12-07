@@ -10,7 +10,7 @@ import { RadioliseSocket } from './socket.js'
 export async function createServer(
   port: number,
   host = '',
-  middlewareHandler?: (app: Express) => any
+  middlewareHandler?: (app: Express) => any,
 ) {
   const app: Express = express()
   app.disable('x-powered-by')
@@ -24,7 +24,7 @@ export async function createServer(
     enableRestEndpoints(app)
   }
 
-  const wss = new WebSocketServer<RadioliseSocket>({
+  const wss = new WebSocketServer({
     noServer: true,
     path: '/api/data-service',
     WebSocket: RadioliseSocket,
