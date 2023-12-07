@@ -1,5 +1,13 @@
 # radiolise
 
+## 5.9.0
+
+### Minor Changes
+
+- accept merge request !12 (Added the Dutch language)
+- bump dependency versions
+- minor changes
+
 ## 5.8.3
 
 ### Patch Changes

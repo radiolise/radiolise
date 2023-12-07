@@ -21,7 +21,7 @@ export async function getDateFnsLocale(locale: string) {
       return import("date-fns/locale/de/index.js");
     case "fr":
       return import("date-fns/locale/fr/index.js");
-	  case "nl":
+    case "nl":
       return import("date-fns/locale/nl/index.js");
     default:
       throw new Error("unknown locale");

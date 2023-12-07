@@ -92,7 +92,7 @@
     "newName": "Nieuwe naam"
   },
   "about": {
-    "freeSoftware": "gratis software",
+    "freeSoftware": "vrije software",
     "licenseInfo": "{0} is {1}: je mag het herverdelen en/of wijzigen onder de voorwaarden van de GNU Affero General Public License zoals gepubliceerd door de Free Software Foundation, ofwel versie 3 van de Licentie, of (naar keuze) een latere versie.",
     "noWarranty": "{0} wordt verspreid in de hoop dat het nuttig zal zijn, maar ZONDER ENIGE GARANTIE; zelfs zonder de impliciete garantie van VERKOOPBAARHEID of GESCHIKTHEID VOOR EEN BEPAALD DOEL. Zie de GNU Affero General Public License voor meer details.",
     "licenseCopy": "Je zou een kopie van de GNU Affero General Public License moeten hebben ontvangen samen met {0}. Zo niet, zie {1} voor meer informatie.",
@@ -226,7 +226,7 @@
   },
   "search": {
     "credit": {
-      "free": "gratis",
+      "free": "vrije",
       "radioBrowser": "De zoekfunctie wordt aangedreven door de {0} {1}."
     },
     "error": "@:general.error.generic @:general.error.goOnline",
