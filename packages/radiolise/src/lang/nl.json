@@ -345,7 +345,7 @@
     "delete": "Wis"
   },
   "tagInput": {
-    "label": "@:general.tags (separate with commas)",
+    "label": "@:general.tags (scheiden met komma's)",
     "preview": "Voorvertoning"
   },
   "titleManager": {
