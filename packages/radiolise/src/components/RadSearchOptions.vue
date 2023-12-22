@@ -1,11 +1,14 @@
 <template>
   <div>
     <div class="pb-2.5 text-left">
-      <a @click="showOptions = !showOptions"
-        ><FasChevronDown :class="['w-fixed', { '-rotate-180': showOptions }]" />{{
-          $t(`search.${showOptions ? "hideOptions" : "showOptions"}`)
-        }}</a
+      <button
+        class="ring-inset ring-accent focus-visible:ring-2"
+        @click="showOptions = !showOptions"
       >
+        <FasChevronDown :class="['w-fixed', { '-rotate-180': showOptions }]" />{{
+          $t(`search.${showOptions ? "hideOptions" : "showOptions"}`)
+        }}
+      </button>
     </div>
     <div v-show-slide="showOptions">
       <div class="pb-2.5">
@@ -25,9 +28,12 @@
                 </div>
                 <div>
                   {{ $t("search.optionsUnavailable") }}
-                  <a @click="loadFilters()"
-                    ><FasRedo class="w-fixed" />{{ $t("search.tryAgain") }}</a
+                  <button
+                    class="ring-inset ring-accent focus-visible:ring-2"
+                    @click="loadFilters()"
                   >
+                    <FasRedo class="w-fixed" />{{ $t("search.tryAgain") }}
+                  </button>
                 </div>
               </div>
               <br />
@@ -131,20 +137,23 @@ export default class RadSearchOptions extends Vue {
   @Action showMessage!: (options: ModalOptions) => Promise<number>;
 
   get filterOptions(): Record<string, DropdownOption[]> {
-    return Object.keys(this.filters).reduce((filterOptions, filterKind) => {
-      const currentItems = this.filters[filterKind];
+    return Object.keys(this.filters).reduce(
+      (filterOptions, filterKind) => {
+        const currentItems = this.filters[filterKind];
 
-      if (currentItems !== null) {
-        filterOptions[filterKind] = [
-          { id: "", name: this.noFilterLabels[filterKind] },
-          ...currentItems.map((item) => ({ id: item.name, name: item.name })),
-        ];
-      } else {
-        filterOptions[filterKind] = [];
-      }
+        if (currentItems !== null) {
+          filterOptions[filterKind] = [
+            { id: "", name: this.noFilterLabels[filterKind] },
+            ...currentItems.map((item) => ({ id: item.name, name: item.name })),
+          ];
+        } else {
+          filterOptions[filterKind] = [];
+        }
 
-      return filterOptions;
-    }, {} as Record<string, DropdownOption[]>);
+        return filterOptions;
+      },
+      {} as Record<string, DropdownOption[]>
+    );
   }
 
   get noFilterLabels(): Record<string, string> {

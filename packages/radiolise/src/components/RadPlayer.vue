@@ -29,34 +29,42 @@
           { 'invisible opacity-0 transition-all': controlsHidden },
         ]"
       >
-        <div :class="{ hidden: fullscreen }">
-          <a class="p-1.25 text-lg" :title="String($t('player.advancedView'))" @click="expand()"
-            ><FasChevronDown :class="{ '-rotate-180': detailsShown }" /></a
-          >&nbsp;
-        </div>
+        <button
+          :class="[
+            'p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2',
+            { hidden: fullscreen },
+          ]"
+          :title="String($t('player.advancedView'))"
+          @click="expand()"
+        >
+          <FasChevronDown :class="{ '-rotate-180': detailsShown }" /></button
+        >&nbsp;
         <div class="grid grow">
           <div class="flex items-center overflow-hidden">
             <div :class="['icons:w-fixed', { hidden: detailsShown }]">
-              <a
-                class="hidden p-1.25 text-lg xs:inline"
+              <button
+                class="hidden p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2 xs:inline"
                 :title="String($t('player.prevStation'))"
                 @click="playClosestStation(false)"
-                ><FasStepBackward /></a
-              >&nbsp;<a
-                class="p-1.25 text-lg"
+              >
+                <FasStepBackward /></button
+              >&nbsp;<button
+                class="p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2"
                 :title="String($t('player.playStop'))"
                 @click="toggleStation()"
-                ><FasStop v-if="station" class="w-fixed" /><FasPlay v-else class="w-fixed" /></a
-              >&nbsp;<a
-                class="hidden p-1.25 text-lg xs:inline"
+              >
+                <FasStop v-if="station" class="w-fixed" /><FasPlay v-else class="w-fixed" /></button
+              >&nbsp;<button
+                class="hidden p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2 xs:inline"
                 :title="String($t('player.nextStation'))"
                 @click="playClosestStation(true)"
-                ><FasStepForward
-              /></a>
+              >
+                <FasStepForward />
+              </button>
             </div>
-            <div
+            <button
               :class="[
-                'flex min-h-[41px] flex-1 items-center overflow-hidden px-2.5',
+                'mx-1.5 flex min-h-[41px] flex-1 cursor-auto items-center overflow-hidden px-1 text-left ring-inset ring-accent focus-visible:ring-2',
                 fullscreen ? 'text-[27px]' : 'text-lg',
                 { 'whitespace-nowrap': !detailsShown },
               ]"
@@ -96,50 +104,62 @@
                   </transition>
                 </div>
               </div>
-            </div>
+            </button>
             <div :class="['hidden', { 'md:block': !detailsShown }]">
-              <a
+              <button
                 v-if="station"
-                :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': liked }]"
+                :class="[
+                  'p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2',
+                  { 'text-accent icons:opacity-100': liked },
+                ]"
                 :title="likeInfo"
                 @click="like()"
-                ><FasThumbsUp class="w-fixed" /></a
+              >
+                <FasThumbsUp class="w-fixed" /></button
               >&nbsp;<a
                 v-if="station !== undefined"
-                class="p-1.25 text-lg"
+                class="p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2"
                 target="blank"
                 :title="homepageInfo ?? ''"
                 :href="station.homepage"
-                ><FasHome class="w-fixed"
-              /></a>
+              >
+                <FasHome class="w-fixed" />
+              </a>
               {{ " " }}
               <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
-                <a
-                  :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': active }]"
+                <button
+                  :class="[
+                    'p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2',
+                    { 'text-accent icons:opacity-100': active },
+                  ]"
                   :title="String($t('general.manageTitles'))"
                   @click="navigate"
                 >
                   <FasHistory class="w-fixed" />
-                </a>
+                </button>
               </RadLink>
               {{ " " }}
-              <a
+              <button
                 v-if="info"
                 :title="String($t('player.addBookmark'))"
-                :class="['p-1.25 text-lg', { 'text-accent icons:opacity-100': bookmarked }]"
+                :class="[
+                  'p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2',
+                  { 'text-accent icons:opacity-100': bookmarked },
+                ]"
                 @click="station && toggleBookmark({ station: station.name ?? '', info })"
-                ><FasMusic /><FasPlus class="relative -top-2 w-fixed text-icon-xs"
-              /></a>
+              >
+                <FasMusic /><FasPlus class="relative -top-2 w-fixed text-icon-xs" />
+              </button>
             </div>
             <div v-if="hasVideo">
-              &nbsp;<a
-                class="p-1.25 text-lg icons:w-fixed"
+              &nbsp;<button
+                class="p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2 icons:w-fixed"
                 :title="String($t('player.toggleFullscreen'))"
                 @click="toggleFullscreen()"
               >
                 <FasCompress v-if="fullscreen" />
                 <FasExpand v-else />
-              </a>
+              </button>
             </div>
           </div>
           <div v-show-slide="!fullscreen && detailsShown" class="ml-1.25">
@@ -164,23 +184,26 @@
                 </template>
               </div>
             </div>
-            <div class="whitespace-nowrap py-2.5">
-              <a
-                class="p-1.25 text-lg"
+            <div class="my-1.25 whitespace-nowrap">
+              <button
+                class="p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2"
                 :title="String($t('player.prevStation'))"
                 @click="playClosestStation(false)"
-                ><FasStepBackward class="w-fixed" /></a
-              >&nbsp;<a
-                class="p-1.25 text-lg"
+              >
+                <FasStepBackward class="w-fixed" /></button
+              >&nbsp;<button
+                class="p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2"
                 :title="String($t('player.playStop'))"
                 @click="toggleStation()"
-                ><FasStop v-if="station" class="w-fixed" /><FasPlay v-else class="w-fixed" /></a
-              >&nbsp;<a
-                class="p-1.25 text-lg"
+              >
+                <FasStop v-if="station" class="w-fixed" /><FasPlay v-else class="w-fixed" /></button
+              >&nbsp;<button
+                class="p-1.25 text-lg ring-inset ring-accent focus-visible:ring-2"
                 :title="String($t('player.nextStation'))"
                 @click="playClosestStation(true)"
-                ><FasStepForward class="w-fixed"
-              /></a>
+              >
+                <FasStepForward class="w-fixed" />
+              </button>
               {{ " " }}
               <RadSlider v-model="volume">
                 <template #minusIcon>
@@ -192,12 +215,12 @@
               </RadSlider>
             </div>
             <div class="pb-1.25">
-              <div v-show-slide="station !== undefined">
+              <template v-if="station">
                 <div class="pt-2.5">
-                  <a
+                  <button
                     v-if="station"
                     :class="[
-                      'block w-full overflow-x-hidden text-ellipsis',
+                      'overflow-x-hidden text-ellipsis ring-inset ring-accent focus-visible:ring-2',
                       { 'font-bold text-accent icons:opacity-100': liked },
                     ]"
                     :title="likeInfo"
@@ -207,13 +230,11 @@
                     <template v-if="likeCount !== undefined">{{ formattedlikeCount }} | </template>
                     <template v-if="liked">{{ $t("player.alreadyVoted") }}</template>
                     <template v-else>{{ $t("general.like.submit") }}</template>
-                  </a>
+                  </button>
                 </div>
-              </div>
-              <div v-show-slide="!!station">
                 <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
                   <a
-                    v-if="station"
+                    class="ring-inset ring-accent focus-visible:ring-2"
                     target="blank"
                     :title="homepageInfo ?? ''"
                     :href="station.homepage"
@@ -223,31 +244,32 @@
                     }}&nbsp;<FasExternalLinkAlt class="w-fixed" />
                   </a>
                 </div>
-              </div>
-              <div>
-                <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
-                  <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
-                    <a
-                      :class="{ 'font-bold text-accent icons:opacity-100': active }"
-                      @click="navigate"
-                    >
-                      <FasHistory class="w-7.75" />{{ $t("general.manageTitles") }}
-                    </a>
-                  </RadLink>
-                </div>
-              </div>
-              <div v-show-slide="!!info">
-                <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
-                  <a
-                    v-if="info"
-                    :class="{ 'font-bold text-accent icons:opacity-100': bookmarked }"
-                    @click="station && toggleBookmark({ station: station.name, info })"
+              </template>
+              <div class="w-full overflow-x-hidden text-ellipsis pt-2.5">
+                <RadLink v-slot="{ active, navigate }" to="title-manager" toggle>
+                  <button
+                    :class="[
+                      'ring-inset ring-accent focus-visible:ring-2',
+                      { 'font-bold text-accent icons:opacity-100': active },
+                    ]"
+                    @click="navigate"
                   >
-                    <FasMusic /><FasPlus class="relative -top-1.5 w-fixed text-icon-xs" />{{
-                      $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`)
-                    }}
-                  </a>
-                </div>
+                    <FasHistory class="w-7.75" />{{ $t("general.manageTitles") }}
+                  </button>
+                </RadLink>
+              </div>
+              <div v-if="info" class="w-full overflow-x-hidden text-ellipsis pt-2.5">
+                <button
+                  :class="[
+                    'ring-inset ring-accent focus-visible:ring-2',
+                    { 'font-bold text-accent icons:opacity-100': bookmarked },
+                  ]"
+                  @click="station && toggleBookmark({ station: station.name, info })"
+                >
+                  <FasMusic /><FasPlus class="relative -top-1.5 w-fixed text-icon-xs" />{{
+                    $t(`player.${bookmarked ? "bookmarked" : "addBookmark"}`)
+                  }}
+                </button>
               </div>
             </div>
           </div>

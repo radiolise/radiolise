@@ -1,5 +1,6 @@
 {
   "general": {
+    "skipNavigation": "Ga naar de zenderlijst",
     "menu": "Hoofdmenu",
     "findStations": "Zenders vinden",
     "manageLists": "Zenderlijsten beheren",

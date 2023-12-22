@@ -173,11 +173,11 @@ export default class RadImportWizard extends Vue {
           type: ModalType.QUESTION,
           title: this.$t("importWizard.nameTaken.title") as string,
           message: this.$t("importWizard.nameTaken.description") as string,
-          buttons: [this.$t("general.yes") as string, this.$t("general.no") as string],
+          buttons: [this.$t("general.no") as string, this.$t("general.yes") as string],
           closeable: false,
         });
 
-        if (buttonId === 0) {
+        if (buttonId === 1) {
           navigate(null);
           this.updateList({ name, content });
         }

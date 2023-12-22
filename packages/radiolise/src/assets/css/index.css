@@ -1,9 +1,9 @@
-@import "./fonts.css";
-@import "./reset.css";
+@import "./fonts.css" layer(base);
+@import "./reset.css" layer(base);
 
-@import "./themes/base.css";
-@import "./themes/candy.css";
-@import "./themes/pure.css";
+@import "./themes/base.css" layer(base);
+@import "./themes/candy.css" layer(base);
+@import "./themes/pure.css" layer(base);
 
 @tailwind base;
 @tailwind components;
@@ -23,7 +23,11 @@
     --rad-station-padding-base: 0.9375rem;
     --rad-station-padding-small: 0.625rem;
     --rad-station-padding-inner: 0.3125rem;
-    --rad-station-tags-height: auto;
+    --rad-station-tags-height: ;
+  }
+
+  :focus-visible {
+    outline: none;
   }
 
   @media screen(lg) {
@@ -45,14 +49,18 @@
   .icon {
     display: inline-block;
     vertical-align: -0.125em;
-    transition: opacity 200ms, transform 400ms;
+    transition:
+      opacity 200ms,
+      transform 400ms;
   }
 
-  a .icon {
+  a > .icon,
+  button > .icon {
     opacity: 0.7;
   }
 
-  a:hover .icon {
+  a:hover > .icon,
+  button:hover > .icon {
     opacity: 1;
   }
 

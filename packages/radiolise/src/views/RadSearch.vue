@@ -5,11 +5,21 @@
       {{ $t("general.findStations") }}
     </h3>
     <i18n path="search.credit.radioBrowser" tag="p" class="my-4 py-2.5 leading-6">
-      <a href="https://fsfe.org/freesoftware/" target="_blank" rel="noopener"
-        >{{ $t("search.credit.free") }} <FasExternalLinkAlt class="w-fixed" /></a
-      ><a href="http://www.radio-browser.info" target="_blank" rel="noopener"
-        >Community Radio Browser <FasExternalLinkAlt class="w-fixed"
-      /></a>
+      <a
+        class="ring-inset ring-accent focus-visible:ring-2"
+        href="https://fsfe.org/freesoftware/"
+        target="_blank"
+        rel="noopener"
+      >
+        {{ $t("search.credit.free") }} <FasExternalLinkAlt class="w-fixed" /></a
+      ><a
+        class="ring-inset ring-accent focus-visible:ring-2"
+        href="http://www.radio-browser.info"
+        target="_blank"
+        rel="noopener"
+      >
+        Community Radio Browser <FasExternalLinkAlt class="w-fixed" />
+      </a>
     </i18n>
     <div
       class="mb-5 flex border-b-2 border-b-mute-contrast/50 focus-within:border-b-accent focus-within:bg-black/10"
@@ -31,12 +41,13 @@
           scrollDownIfLoaded();
         "
       />
-      <a
+      <button
         class="my-auto w-10 shrink-0 border-none bg-transparent text-xl"
+        tabindex="-1"
         @click="scrollDownIfLoaded()"
       >
         <FasSearch />
-      </a>
+      </button>
     </div>
     <RadSearchOptions :options.sync="options" />
     <div>
@@ -47,6 +58,7 @@
         >
           <RadResult
             v-for="result in results"
+            ref="resultList"
             :key="result.stationuuid"
             :selected="ids.includes(result.stationuuid)"
             @change="toggleResult(result)"
@@ -102,7 +114,9 @@
       <p v-if="failed" class="my-4 py-2.5 text-lg">
         <FasExclamationTriangle class="w-fixed" />
         {{ $t("search.error") }}
-        <a @click="reset"><FasRedo class="w-fixed" />{{ $t("search.tryAgain") }}</a>
+        <button class="ring-inset ring-accent focus-visible:ring-2" @click="reset">
+          <FasRedo class="w-fixed" />{{ $t("search.tryAgain") }}
+        </button>
       </p>
     </div>
   </RadDrawer>
@@ -120,6 +134,7 @@ import FasPlay from "~icons/fa-solid/play";
 import FasThumbsUp from "~icons/fa-solid/thumbs-up";
 
 import { findStations } from "@/common/network";
+import type RadResult from "@/components/RadResult.vue";
 
 let newestAbortController: AbortController | undefined;
 
@@ -148,6 +163,7 @@ export default class RadSearch extends Vue {
     includeBroken: false,
   };
 
+  @Ref() readonly resultList!: RadResult[];
   @Ref() readonly searchField!: HTMLInputElement;
 
   @Getter readonly currentList!: Station[];
@@ -155,9 +171,7 @@ export default class RadSearch extends Vue {
   @Getter readonly selectedList!: number;
 
   @Action resetSearchStats!: () => Promise<void>;
-
   @Action setStationBackup!: (stationBackup: Station[] | undefined) => Promise<void>;
-
   @Action updateList!: (payload: { name?: string; content: Station[] }) => Promise<void>;
 
   get ids(): string[] {
@@ -283,6 +297,12 @@ export default class RadSearch extends Vue {
       this.moreAvailable = this.results.length % 20 === 0 && searchResults.length > 0;
 
       this.empty = !this.moreAvailable && this.results.length === 0;
+
+      if (this.offset > 0 && searchResults.length) {
+        await this.$nextTick();
+        const firstNewResult = this.resultList[this.results.length - searchResults.length];
+        firstNewResult.focus();
+      }
     } catch {
       if (!controller.signal.aborted) {
         this.failed = true;

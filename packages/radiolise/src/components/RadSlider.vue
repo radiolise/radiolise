@@ -1,6 +1,8 @@
 <template>
   <div class="inline-block px-1.25 text-lg" @wheel.prevent="handleScroll">
-    <a @click="setValue(value - 0.1)"><slot name="minusIcon"></slot></a>
+    <button class="ring-inset ring-accent focus-visible:ring-2" @click="setValue(value - 0.1)">
+      <slot name="minusIcon"></slot>
+    </button>
     {{ " " }}
     <div
       ref="slider"
@@ -12,7 +14,9 @@
       <div class="grow bg-mute"></div>
     </div>
     {{ " " }}
-    <a @click="setValue(value + 0.1)"><slot name="plusIcon"></slot></a>
+    <button class="ring-inset ring-accent focus-visible:ring-2" @click="setValue(value + 0.1)">
+      <slot name="plusIcon"></slot>
+    </button>
   </div>
 </template>
 

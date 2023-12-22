@@ -80,7 +80,7 @@
         <div class="text-left text-strong">&lowast; {{ $t("editor.field.required") }}</div>
       </div>
       <div class="py-2.5 text-right">
-        <RadButton @click="finish()">
+        <RadButton @click="finish()" type="button">
           <FasCheck class="w-fixed" />
           {{ $t("general.done") }}
         </RadButton>

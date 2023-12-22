@@ -5,7 +5,7 @@
   border-width: 0;
   border-style: solid;
   border-color: theme("borderColor.DEFAULT");
-  outline: 2px solid transparent;
+  outline-offset: -1px;
 }
 
 ::before,
@@ -37,8 +37,10 @@ button,
 input,
 select {
   border-radius: 0;
+  font-size: 100%;
   font-family: inherit;
   margin: 0;
+  padding: 0;
 }
 
 button,
@@ -49,6 +51,15 @@ input {
 
 p {
   margin: 0;
+}
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+:disabled {
+  cursor: default;
 }
 
 img,

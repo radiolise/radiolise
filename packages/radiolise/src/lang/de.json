@@ -1,5 +1,6 @@
 {
   "general": {
+    "skipNavigation": "Zur Senderliste springen",
     "menu": "Hauptmenü",
     "findStations": "Sender finden",
     "manageLists": "Senderlisten verwalten",

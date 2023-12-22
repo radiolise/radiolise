@@ -17,13 +17,19 @@
       ]"
     >
       <div class="max-w-230 flex-1 px-15 mobile:px-2.5">
+        <RadMenuButton
+          @click="focusStationList()"
+          class="peer pointer-events-none absolute -top-full z-10 bg-surface opacity-0 focus-visible:pointer-events-auto focus-visible:top-0 focus-visible:opacity-100"
+        >
+          <FasArrowDown /> {{ $t("general.skipNavigation") }}
+        </RadMenuButton>
         <RadLink v-slot="{ navigate }" to="menu" toggle>
-          <div
-            class="group absolute cursor-pointer whitespace-nowrap px-1 py-2.5 text-[22px]"
+          <button
+            class="group absolute whitespace-nowrap px-1 py-2.5 text-[22px] ring-inset ring-accent focus-visible:ring-2 peer-focus-visible:opacity-0"
             @click="navigate"
           >
             <RadLogo /><span class="align-middle">{{ appTitle }}</span>
-          </div>
+          </button>
         </RadLink>
         <div class="float-right whitespace-nowrap">
           <RadLink v-slot="{ active, navigate }" to="search" toggle>
@@ -74,8 +80,10 @@
         <div :class="['px-5 pb-5 transition-[padding] sm:px-15', { 'mt-[100vh]': fullscreen }]">
           <div :class="['text-left', { 'pt-10': fullscreen }]">
             <RadListMenu />
+          </div>
+          <div ref="listContainer">
             <RadEmptyList v-if="listEmpty" />
-            <RadStationList v-else />
+            <RadStationList v-else ref="stationList" />
           </div>
           <p v-if="!listEmpty" class="my-4 py-5 text-right">
             <RadLink v-slot="{ active, navigate }" to="search" toggle>
@@ -91,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch, Mixins } from "vue-property-decorator";
+import { Component, Watch, Mixins, Ref } from "vue-property-decorator";
 import { State, Getter } from "vuex-class";
 import MediaSessionHelper from "@/mixins/MediaSessionHelper";
 
@@ -107,12 +115,18 @@ export default class RadPage extends Mixins(MediaSessionHelper) {
   @Getter readonly hasVideo!: boolean;
   @Getter readonly stickyPlayer!: boolean;
 
+  @Ref() readonly listContainer!: HTMLElement;
+
   get dialog() {
     return this.currentDialog !== null;
   }
 
   get listEmpty(): boolean {
     return this.currentList.length === 0;
+  }
+
+  focusStationList() {
+    this.listContainer.querySelector<HTMLElement>(".station")?.focus();
   }
 
   @Watch("currentStation", { immediate: true })

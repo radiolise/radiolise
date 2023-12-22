@@ -1,5 +1,13 @@
 <template>
-  <div class="cursor-pointer p-2.5 transition-[background-color] duration-200 hover:bg-black/10">
+  <div
+    ref="titleRow"
+    class="p-2.5 text-left ring-inset ring-accent transition-[background-color] duration-200 hover:bg-black/10 focus-visible:bg-black/10 focus-visible:ring-2"
+    tabindex="0"
+    role="button"
+    @keydown.space="$event.preventDefault()"
+    @keydown.enter="titleRow.click()"
+    @keyup.space="titleRow.click()"
+  >
     <div class="mb-1.25 text-[17px] font-bold">
       {{ title.info }}
     </div>
@@ -8,7 +16,7 @@
       ><span class="float-right ml-3.75">{{ timeStamp }}</span>
     </div>
     <div v-show-slide="active">
-      <div class="cursor-default pt-2.5" @click.stop>
+      <div class="pt-2.5" @click.stop>
         <RadButton
           v-if="!isBookmark"
           class="px-3 py-1.5"
@@ -44,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Mixins } from "vue-property-decorator";
+import { Component, Prop, Ref, Mixins } from "vue-property-decorator";
 import { formatDistanceToNow } from "date-fns";
 import { Getter, Action } from "vuex-class";
 
@@ -55,7 +63,11 @@ export default class RadTitleRow extends Mixins(BookmarkHelper) {
   updateInterval: number | null = null;
   timeStamp: string | null = null;
 
-  @Prop({ required: true }) readonly title!: Title;
+  @Ref() readonly titleRow!: HTMLElement;
+
+  @Prop({ required: true })
+  readonly title!: Title;
+
   @Prop({ default: false }) readonly active!: boolean;
   @Prop({ type: Boolean, default: false }) readonly isBookmark!: boolean;
 

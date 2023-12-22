@@ -66,6 +66,7 @@
     "date-fns": "^2.30.0",
     "eslint-plugin-vue": "^9.13.0",
     "file-saver": "^2.0.5",
+    "focus-trap": "^7.5.4",
     "hls.js": "^1.4.4",
     "lodash.xorwith": "^4.5.0",
     "postcss": "^8.4.32",

@@ -14,22 +14,29 @@
       />
     </div>
     <div class="shrink-0 icons:w-fixed">
-      <a :class="{ hidden: !active }">
-        <FasCheck />
-      </a>
-      <a :class="{ hidden: active }" @click="input.focus()">
+      <button
+        :class="['ring-inset ring-accent focus-visible:ring-2', { 'sr-only': active }]"
+        :aria-hidden="active"
+        @click="input.focus()"
+      >
         <FasEdit />
-      </a>
+      </button>
+      <button :class="{ hidden: !active }">
+        <FasCheck />
+      </button>
       <template v-if="!isNewList">
-        <a @click="exportList()">
+        <button class="ring-inset ring-accent focus-visible:ring-2" @click="exportList()">
           <FasDownload />
-        </a>
-        <a @click="change()">
+        </button>
+        <button class="ring-inset ring-accent focus-visible:ring-2" @click="change()">
           <FasSearch />
-        </a>
-        <a :class="{ hidden: !removable }" @click="remove()">
+        </button>
+        <button
+          :class="['ring-inset ring-accent focus-visible:ring-2', { hidden: !removable }]"
+          @click="remove()"
+        >
           <FasTrash />
-        </a>
+        </button>
       </template>
     </div>
   </div>
@@ -56,10 +63,7 @@ export default class RadListInput extends Mixins(ListHelper) {
   @Ref() readonly input!: HTMLInputElement;
 
   @Action createList!: (list: StationList) => Promise<void>;
-  @Action allowEnterKey!: (allow: boolean) => Promise<void>;
-
   @Action renameList!: (payload: { index: number; name: string }) => Promise<void>;
-
   @Action removeList!: (index: number) => Promise<void>;
 
   get isNewList(): boolean {
@@ -97,7 +101,6 @@ export default class RadListInput extends Mixins(ListHelper) {
 
   handleEnterPress(): void {
     this.input.blur();
-    this.allowEnterKey(false);
   }
 
   rename(): void {

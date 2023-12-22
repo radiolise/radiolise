@@ -12,9 +12,9 @@
       <div v-if="history.length === 0" class="py-3.75 text-center">
         {{ $t("titleManager.listEmpty") }}
       </div>
-      <div v-else class="flex flex-col-reverse">
+      <div v-else class="flex flex-col">
         <RadTitleRow
-          v-for="title in history"
+          v-for="title in [...history].reverse()"
           :key="title.time"
           :title="title"
           :active="activeTitle === title.time"
@@ -28,7 +28,9 @@
         {{ $tc("titleManager.bookmark", 0) }}
       </RadMenuButton>
       <div v-if="!bookmarksEmpty" class="ml-2.5 text-xl">
-        <a @click="exportBookmarks()"><FasDownload class="w-fixed" /></a>
+        <button class="ring-inset ring-accent focus-visible:ring-2" @click="exportBookmarks()">
+          <FasDownload class="w-fixed" />
+        </button>
       </div>
     </div>
     <div v-show-slide="showBookmarks" class="text-left">
@@ -42,9 +44,9 @@
           >
             {{ month }}
           </div>
-          <div class="flex flex-col-reverse">
+          <div class="flex flex-col">
             <RadTitleRow
-              v-for="title in titles"
+              v-for="title in [...titles].reverse()"
               :key="title.time"
               :title="title"
               :active="activeBookmark === title.time"
@@ -95,17 +97,20 @@ export default class RadTitleManager extends Vue {
   }
 
   generateBookmarks(): Record<string, Title[]> {
-    return this.memory.titles.favorites.reduce((bookmarks, item) => {
-      const currentMonth = this.formatMonth(item.time * 60);
+    return this.memory.titles.favorites.reduce(
+      (bookmarks, item) => {
+        const currentMonth = this.formatMonth(item.time * 60);
 
-      if (bookmarks[currentMonth] !== undefined) {
-        bookmarks[currentMonth].push(item);
-      } else {
-        bookmarks[currentMonth] = [item];
-      }
+        if (bookmarks[currentMonth] !== undefined) {
+          bookmarks[currentMonth].push(item);
+        } else {
+          bookmarks[currentMonth] = [item];
+        }
 
-      return bookmarks;
-    }, {} as Record<string, Title[]>);
+        return bookmarks;
+      },
+      {} as Record<string, Title[]>
+    );
   }
 
   exportBookmarks(): void {

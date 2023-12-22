@@ -68,50 +68,7 @@
       enter-active-class="ease-out"
       leave-active-class="duration-200"
     >
-      <div
-        v-if="modalOptions"
-        :key="animationTrigger"
-        class="pointer-events-auto absolute flex h-full w-full items-center justify-center bg-black/50 transition"
-        @click="closeModal()"
-      >
-        <div
-          class="m-2.5 w-[640px] rounded-br rounded-tl bg-surface text-on-surface shadow-[0_25px_50px_-12px] shadow-white/20 dark:shadow-black/20"
-          @click.stop
-        >
-          <div class="relative">
-            <div class="px-8 pt-8">
-              <div :class="['absolute right-6.5 top-6.5', { hidden: !modalOptions.closeable }]">
-                <a @click="closeModal()"><FasTimes class="w-fixed text-icon-lg" /></a>
-              </div>
-              <div class="mb-5 text-xl font-bold">
-                {{ modalTitle }}
-              </div>
-              <div class="flex leading-normal">
-                <div v-if="modalIcon" class="pr-1.25">
-                  <component :is="modalIcon" class="opacity-70" />
-                </div>
-                <div>
-                  <template v-for="(line, index) in modalOptions.message.split('\n')">
-                    {{ line }}<br :key="index" />
-                  </template>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-row-reverse px-5 py-7">
-              <RadButton
-                v-for="(button, i) in modalOptions.buttons"
-                :key="button"
-                @click="modalOptions?.handleButtonClicked(i)"
-              >
-                <FasBan v-if="isNegativeButton(button)" /><FasCheck
-                  v-if="isPositiveButton(button)"
-                />
-                {{ button }}
-              </RadButton>
-            </div>
-          </div>
-        </div>
-      </div>
+      <RadModal v-if="modalOptions" :key="animationTrigger" :options="modalOptions" />
     </transition>
   </div>
 </template>
@@ -121,12 +78,7 @@ import type { Component as IComponent } from "vue";
 import { Component, Watch, Vue } from "vue-property-decorator";
 import { State, Getter, Action } from "vuex-class";
 
-import FasExclamationCircle from "~icons/fa-solid/exclamation-circle";
-import FasQuestionCircle from "~icons/fa-solid/question-circle";
-import FasExclamationTriangle from "~icons/fa-solid/exclamation-triangle";
-import FasInfoCircle from "~icons/fa-solid/info-circle";
-
-import { type ModalOptions, ModalType } from "@/store";
+import type { ModalOptions } from "@/store";
 
 import RadAbout from "@/views/RadAbout.vue";
 import RadEditor from "@/views/RadEditor.vue";
@@ -179,27 +131,8 @@ export default class RadDialogLayer extends Vue {
     return this.currentDialog?.props;
   }
 
-  get modalTitle(): string {
-    return this.modalOptions?.title || (this.$t("general.note") as string);
-  }
-
-  get modalIcon(): any {
-    switch (this.modalOptions?.type) {
-      case ModalType.ERROR:
-        return FasExclamationCircle;
-      case ModalType.QUESTION:
-        return FasQuestionCircle;
-      case ModalType.WARNING:
-        return FasExclamationTriangle;
-      case ModalType.INFO:
-        return FasInfoCircle;
-      default:
-        return false;
-    }
-  }
-
   @Watch("modalOptions.message")
-  onModalOptionsChanged(): void {
+  async onModalOptionsChanged() {
     this.animationTrigger = 1 - this.animationTrigger;
   }
 
@@ -213,20 +146,6 @@ export default class RadDialogLayer extends Vue {
 
   syncHistoryStack() {
     this.updateDialog(window.history.state);
-  }
-
-  isPositiveButton(button: string): boolean {
-    return [this.$t("general.ok"), this.$t("general.yes")].includes(button);
-  }
-
-  isNegativeButton(button: string): boolean {
-    return [this.$t("general.cancel"), this.$t("general.no")].includes(button);
-  }
-
-  closeModal(): void {
-    if (this.modalOptions !== undefined && this.modalOptions.closeable) {
-      this.modalOptions.handleButtonClicked(0);
-    }
   }
 }
 </script>

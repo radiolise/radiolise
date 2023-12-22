@@ -11,10 +11,14 @@
             Unfortunately, storage data could not be loaded.<br />
             Reset {{ appTitle }} to be able to continue using it.
           </p>
-          <button @click="download()">Save data for troubleshooting</button>
+          <button class="ring-inset ring-accent focus-visible:ring-2" @click="download()">
+            Save data for troubleshooting
+          </button>
           <br />
           <br />
-          <button @click="reset()">Reset {{ appTitle }}</button>
+          <button class="ring-inset ring-accent focus-visible:ring-2" @click="reset()">
+            Reset {{ appTitle }}
+          </button>
         </div>
       </div>
     </div>

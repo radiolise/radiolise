@@ -2,15 +2,23 @@
   <div class="p-5 text-center transition-all">
     <div class="float-right icons:w-fixed icons:text-icon-lg">
       <RadLink v-if="!isMenu" v-slot="{ navigate }" to="menu">
-        <a @click="navigate">
+        <button
+          class="ring-inset ring-accent focus-visible:ring-2"
+          @click="navigate"
+          ref="menuButton"
+        >
           <FasBars />
-        </a>
+        </button>
       </RadLink>
       {{ " " }}
       <RadLink v-slot="{ navigate }" :to="null">
-        <a @click="navigate">
+        <button
+          class="ring-inset ring-accent focus-visible:ring-2"
+          @click="navigate"
+          ref="closeButton"
+        >
           <FasTimesCircle />
-        </a>
+        </button>
       </RadLink>
     </div>
     <slot></slot>
@@ -18,10 +26,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 
 @Component
 export default class RadDrawer extends Vue {
   @Prop({ type: Boolean, default: false }) readonly isMenu!: boolean;
+  @Ref() readonly menuButton!: HTMLElement;
+  @Ref() readonly closeButton!: HTMLElement;
+
+  mounted() {
+    (document.activeElement as HTMLElement).blur();
+    setTimeout(() => {
+      if (this.isMenu) {
+        this.closeButton.focus();
+        return;
+      }
+      this.menuButton.focus();
+    }, 300);
+  }
 }
 </script>

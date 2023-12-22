@@ -152,12 +152,12 @@
       </div>
       <div class="py-2.5 text-right">
         <RadLink v-slot="{ navigate }" :to="null">
-          <RadButton @click="navigate">
+          <RadButton @click="navigate" type="button">
             <FasBan />
             {{ $t("settings.discard") }}
           </RadButton>
         </RadLink>
-        <RadButton @click="submitButton.click()">
+        <RadButton @click="submitButton.click()" type="button">
           <FasCheck />
           {{ $t("general.apply") }}
         </RadButton>
@@ -166,17 +166,20 @@
     </form>
     <div class="my-2.5 flow-root">
       <div class="float-left mx-2.5 my-1.25">
-        <a @click="reset()"><FasUndo class="w-fixed" />{{ $t("settings.reset") }}</a
+        <button class="ring-inset ring-accent focus-visible:ring-2" @click="reset()">
+          <FasUndo class="w-fixed" />{{ $t("settings.reset") }}</button
         ><br />
       </div>
       <div class="float-right mx-2.5 my-1.25">
         <RadLink v-slot="{ navigate }" to="import-wizard" :props="{ type: 'settings' }">
-          <a @click="navigate"><FasUpload class="w-fixed" />{{ $t("settings.import") }}</a>
+          <button class="ring-inset ring-accent focus-visible:ring-2" @click="navigate">
+            <FasUpload class="w-fixed" />{{ $t("settings.import") }}
+          </button>
         </RadLink>
         <br />
-        <a @click="exportSettings()">
+        <button class="ring-inset ring-accent focus-visible:ring-2" @click="exportSettings()">
           <FasDownload class="w-fixed" />{{ $t("settings.export") }}
-        </a>
+        </button>
       </div>
     </div>
   </RadDrawer>

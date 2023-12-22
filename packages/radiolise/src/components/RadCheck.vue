@@ -1,5 +1,13 @@
 <template>
-  <div class="flex cursor-pointer" @click="toggleChecked()">
+  <div
+    class="flex ring-inset ring-accent focus-visible:ring-2"
+    @click="toggleChecked()"
+    @keydown.space="$event.preventDefault()"
+    @keyup.space="toggleChecked()"
+    role="checkbox"
+    :aria-checked="checked"
+    tabindex="0"
+  >
     <div class="w-6.25 text-xl">
       <transition
         mode="out-in"

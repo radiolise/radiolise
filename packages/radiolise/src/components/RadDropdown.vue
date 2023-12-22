@@ -4,30 +4,17 @@
       :class="[
         'relative inline-block w-full overflow-hidden align-text-top',
         isMenu ? 'h-full' : 'h-6.25',
-        enabled ? 'cursor-pointer' : 'cursor-not-allowed',
+        { 'cursor-not-allowed': !enabled },
       ]"
     >
-      <div
-        v-if="!isMenu"
-        class="pointer-events-none absolute h-full w-full select-none truncate border-0 border-b-2 border-b-mute-contrast/50"
-      >
-        <template v-if="loaded">
-          {{ currentOption?.name }}
-          <span v-if="currentOption?.description !== undefined" class="opacity-50"
-            >({{ currentOption.description }})</span
-          >
-        </template>
-        <template v-else>
-          {{ $t("general.loading") }}
-        </template>
-      </div>
       <select
         ref="select"
+        :aria-label="label"
         :value="value"
         :disabled="!enabled"
         :class="[
-          'peer h-full w-full cursor-pointer appearance-none text-lg opacity-0',
-          { 'absolute': isMenu, 'pointer-events-none': !enabled },
+          'peer absolute h-full w-full appearance-none text-lg opacity-0',
+          { 'cursor-pointer': isMenu, 'pointer-events-none': !enabled },
         ]"
         @change="handleChange()"
       >
@@ -44,9 +31,25 @@
       </select>
       <div
         v-if="isMenu"
-        class="pointer-events-none h-full w-full select-none truncate icons:opacity-70 icons:transition-opacity icons:duration-200 icons:peer-hover:opacity-100"
+        class="pointer-events-none h-full w-full select-none truncate ring-inset ring-accent peer-focus-visible:ring-2 icons:opacity-70 icons:transition-opacity icons:duration-200 icons:peer-hover:opacity-100"
       >
         <slot></slot>
+      </div>
+      <div
+        v-else
+        :class="[
+          'pointer-events-none h-full w-full select-none truncate border-0 border-b-2 border-b-mute-contrast/50 px-1 ring-inset ring-accent peer-focus-visible:ring-2',
+        ]"
+      >
+        <template v-if="loaded">
+          {{ currentOption?.name }}
+          <span v-if="currentOption?.description !== undefined" class="opacity-50"
+            >({{ currentOption.description }})</span
+          >
+        </template>
+        <template v-else>
+          {{ $t("general.loading") }}
+        </template>
       </div>
     </div>
   </div>

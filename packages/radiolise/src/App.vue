@@ -16,8 +16,8 @@
     @scroll="handleFullscreenScroll()"
   >
     <template v-if="ready">
-      <RadPage />
       <RadDialogLayer />
+      <RadPage />
       <RadRelaxCaption v-if="relaxed" />
       <RadVisualization v-if="!visualizationDisabled" />
     </template>

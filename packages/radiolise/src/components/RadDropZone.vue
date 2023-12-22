@@ -1,24 +1,28 @@
 <template>
-  <label
-    class="flex h-[142px] cursor-pointer border-[1px] border-dotted border-[#888] bg-soft p-2.5 text-center"
-    @drop.prevent="handleDrop"
-    @dragover.prevent
-  >
-    <div class="my-auto">
-      <div v-show-slide="imported">
-        <div class="text-[1.2em] text-emphasis"><FasCheck /> {{ $t("dropZone.fileAdded") }}</div>
-        <br />
-      </div>
-      {{ $t("dropZone.usage") }}
-    </div>
+  <div class="contents">
     <input
       ref="fileInput"
-      hidden
+      id="backup-file"
+      class="peer sr-only"
       type="file"
       accept="text/plain, application/x-yaml, .txt"
       @change="handleFileChanged"
     />
-  </label>
+    <label
+      for="backup-file"
+      class="flex h-[142px] cursor-pointer border-[1px] border-dotted border-[#888] bg-soft p-2.5 text-center ring-inset ring-accent peer-focus-visible:ring-2"
+      @drop.prevent="handleDrop"
+      @dragover.prevent
+    >
+      <div class="my-auto">
+        <div v-show-slide="imported">
+          <div class="text-[1.2em] text-emphasis"><FasCheck /> {{ $t("dropZone.fileAdded") }}</div>
+          <br />
+        </div>
+        {{ $t("dropZone.usage") }}
+      </div>
+    </label>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,5 @@
 import { Component, Vue } from "vue-property-decorator";
-import { Getter, Action, State } from "vuex-class";
+import { Getter, Action } from "vuex-class";
 
 import FasExclamationTriangle from "~icons/fa-solid/exclamation-triangle";
 
@@ -11,11 +11,27 @@ interface NumberInput {
   timeout?: number;
 }
 
+function isFocusedInput(element: Element | null) {
+  if (element?.tagName !== "INPUT") {
+    return false;
+  }
+  return element.matches(":focus");
+}
+
+function matchesFocusVisible(element: Element | null) {
+  if (!element) {
+    return false;
+  }
+  try {
+    return element.matches(":focus-visible");
+  } catch {
+    return element.matches(":focus");
+  }
+}
+
 @Component
 export default class Hotkeys extends Vue {
   numberInput: NumberInput = { input: "", timeout: undefined };
-
-  @State readonly enterKeyAllowed!: boolean;
 
   @Getter readonly currentList!: Station[];
   @Getter readonly currentStation?: Station;
@@ -26,19 +42,13 @@ export default class Hotkeys extends Vue {
 
   @Action adjustVolume!: (step: number) => Promise<void>;
   @Action applySettings!: (settings: Settings) => Promise<void>;
-  @Action allowEnterKey!: (allow: boolean) => Promise<void>;
   @Action playClosestStation!: (forward: boolean) => Promise<void>;
   @Action showToast!: (toast: Toast) => Promise<void>;
   @Action toggleFullscreen!: () => Promise<void>;
   @Action toggleStation!: (station?: Station) => Promise<void>;
 
   created(): void {
-    document.addEventListener("keydown", (event) => {
-      this.triggerHotkeyAction(event);
-      if (!this.enterKeyAllowed) {
-        this.allowEnterKey(true);
-      }
-    });
+    document.addEventListener("keydown", this.triggerHotkeyAction);
   }
 
   finishNumberInput(index: number): void {
@@ -93,9 +103,12 @@ export default class Hotkeys extends Vue {
     if (event.key === "Escape") {
       return true;
     }
+    if (event.key === " " && matchesFocusVisible(document.activeElement)) {
+      return false;
+    }
     return (
       document.hasFocus() &&
-      document.activeElement?.tagName !== "INPUT" &&
+      !isFocusedInput(document.activeElement) &&
       this.modalOptions === undefined &&
       !event.ctrlKey &&
       !event.altKey &&
@@ -108,51 +121,24 @@ export default class Hotkeys extends Vue {
     if (this.modalOptions === undefined) {
       return false;
     }
-
     if (this.modalOptions.closeable) {
       this.modalOptions.handleButtonClicked(0);
     }
-
     return true;
   }
 
   triggerHotkeyAction(event: KeyboardEvent): void {
-    switch (event.key) {
-      case " ": {
-        if (document.activeElement?.tagName === "INPUT") {
-          return;
-        }
-
-        event.preventDefault();
-
-        if (this.modalOptions === undefined) {
-          KEY_BINDINGS[" "].trigger(this);
-        }
-        return;
-      }
-      case "Enter": {
-        if (this.enterKeyAllowed) {
-          this.closeModal();
-        }
-        return;
-      }
-      default: {
-        if (!this.isHotkeyAllowed(event)) {
-          return;
-        }
-
-        if (event.key in KEY_BINDINGS) {
-          event.preventDefault();
-          KEY_BINDINGS[event.key].trigger(this);
-          return;
-        }
-
-        const enteredDigit = Number(event.key);
-
-        if (!Number.isNaN(enteredDigit)) {
-          KEY_BINDINGS.number.trigger(this, enteredDigit);
-        }
-      }
+    if (!this.isHotkeyAllowed(event)) {
+      return;
+    }
+    if (event.key in KEY_BINDINGS) {
+      event.preventDefault();
+      KEY_BINDINGS[event.key].trigger(this);
+      return;
+    }
+    const enteredDigit = Number(event.key);
+    if (!Number.isNaN(enteredDigit)) {
+      KEY_BINDINGS.number.trigger(this, enteredDigit);
     }
   }
 }

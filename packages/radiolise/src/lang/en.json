@@ -1,5 +1,6 @@
 {
   "general": {
+    "skipNavigation": "Jump to station list",
     "menu": "Main menu",
     "findStations": "Find stations",
     "manageLists": "Manage station lists",

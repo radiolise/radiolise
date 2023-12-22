@@ -2,16 +2,21 @@
   <div
     ref="stationRow"
     :class="[
-      'station group flex cursor-pointer duration-200',
+      'station group flex w-full text-left ring-inset ring-accent duration-200 focus-visible:ring-2',
       transition ? 'transition-transform' : 'transition-[background-color]',
       {
-        'hover:bg-black/10': !touchFriendlyMoveModeEnabled,
+        'hover:bg-black/10 focus-visible:bg-black/10': !touchFriendlyMoveModeEnabled,
         'relative z-50 bg-mute opacity-80': dragged,
         'odd:animate-shake even:animate-shake-reverse': touchFriendlyMoveModeEnabled && !dragged,
       },
     ]"
+    tabindex="0"
+    role="button"
     :style="{ top: dragged ? `${currentTranslation}px` : '' }"
     @click="handleClick()"
+    @keydown.space="$event.preventDefault()"
+    @keydown.enter="handleClick()"
+    @keyup.space="handleClick()"
     @mousedown.left="handleMouseDown"
     @touchstart.passive="handleTouchStart"
     @touchend.passive="handleTouchEnd"
@@ -27,14 +32,16 @@
         </h4>
       </div>
       <div class="h-tags max-w-full">
-        <div class="scrollbar-avoid overflow-y-hidden overflow-x-scroll">
+        <div
+          class="scrollbar-avoid overflow-y-hidden overflow-x-scroll ring-inset ring-accent focus-visible:ring-2"
+        >
           <div class="h-tags max-w-0 whitespace-nowrap">
             <RadTags :labels="labels" :compact="settings.compactMode" />
           </div>
         </div>
       </div>
     </div>
-    <div class="flex cursor-auto items-center pr-station-sm" @click.stop @mousedown.stop>
+    <div class="self-center pr-station-sm" @click.stop @mousedown.stop>
       <RadDropdown
         :actions="[$t('general.cancel')]"
         :label="$t('station.options', [station.name])"

@@ -2,8 +2,8 @@
   <div>
     <div
       :class="[
-        'absolute z-10 flex h-8.75 w-8.75 items-center justify-center overflow-hidden rounded-full bg-black/50 text-center text-white',
-        { 'opacity-0 group-hover:opacity-100': !playing },
+        'absolute z-10 flex h-8.75 w-8.75 items-center justify-center overflow-hidden rounded-full bg-black/50 text-center text-white icons:opacity-100',
+        { 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100': !playing },
       ]"
     >
       <div>
@@ -15,7 +15,7 @@
         v-if="settings.loadpolicy"
         :class="[
           'flex h-full items-center bg-white',
-          playing ? 'blur' : 'group-hover:blur',
+          playing ? 'blur' : 'group-hover:blur group-focus-visible:blur',
           { hidden: !loaded },
         ]"
       >
@@ -25,7 +25,7 @@
         v-if="!loaded"
         :class="[
           'flex h-full w-full items-center text-center text-xl text-white',
-          playing ? 'blur' : 'group-hover:blur',
+          playing ? 'blur' : 'group-hover:blur group-focus-visible:blur',
         ]"
         :style="{ backgroundColor: `hsl(${station.hue} 50% 50%)` }"
       >

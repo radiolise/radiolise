@@ -16,13 +16,16 @@
     </RadLink>
     {{ " " }}
     <RadLink v-slot="{ active, navigate }" to="import-wizard" :props="{ type: 'list' }" toggle>
-      <a
-        :class="{ 'text-accent icons:opacity-100': active }"
+      <button
+        :class="[
+          'ring-inset ring-accent focus-visible:ring-2',
+          { 'text-accent icons:opacity-100': active },
+        ]"
         :title="String($t('general.importBackup'))"
         @click="navigate"
       >
         <FasUpload class="w-fixed" />
-      </a>
+      </button>
     </RadLink>
     {{ " " }}
     <RadDropdown
@@ -36,13 +39,16 @@
     </RadDropdown>
     {{ " " }}
     <RadLink v-slot="{ active, navigate }" to="list-manager" toggle>
-      <a
-        :class="{ 'text-accent icons:opacity-100': active }"
+      <button
+        :class="[
+          'ring-inset ring-accent focus-visible:ring-2',
+          { 'text-accent icons:opacity-100': active },
+        ]"
         :title="String($t('general.manageLists'))"
         @click="navigate"
       >
         <FasWrench class="w-fixed" />
-      </a>
+      </button>
     </RadLink>
   </div>
 </template>
