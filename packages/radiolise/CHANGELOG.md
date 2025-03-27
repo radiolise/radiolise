@@ -1,5 +1,11 @@
 # radiolise
 
+## 5.9.1
+
+### Patch Changes
+
+- change host for API server lookup to all.api.radio-browser.info
+
 ## 5.9.0
 
 ### Minor Changes
@@ -39,6 +45,5 @@
 
 ---
 
-Please refer to
-[../../CHANGELOG.md](../../CHANGELOG.md#changes-in-570-2023-05-27) for older
+Please refer to [../../CHANGELOG.md](../../CHANGELOG.md#changes-in-570-2023-05-27) for older
 versions.
