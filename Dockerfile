@@ -6,7 +6,7 @@ WORKDIR /app
 
 RUN set -ex; \
   corepack enable; \
-  corepack prepare pnpm@latest-8 --activate; \
+  corepack prepare pnpm@latest-10 --activate; \
   pnpm -F './packages/*' install --frozen-lockfile --ignore-scripts
 
 ARG RADIOLISE_BUILD_TARGET
