@@ -340,8 +340,8 @@ export default class RadMedia extends Vue {
                   data.type === Hls.ErrorTypes.NETWORK_ERROR
                     ? "network"
                     : data.type === Hls.ErrorTypes.MEDIA_ERROR
-                    ? "media"
-                    : "other"
+                      ? "media"
+                      : "other"
                 }`
               ),
             ]),

@@ -8,7 +8,7 @@ import type { RadioliseSocket } from './socket.js'
 
 function dispatch<T extends ServerPayload>(
   sockets: Iterable<RadioliseSocket>,
-  payload: T
+  payload: T,
 ) {
   for (const socket of sockets) {
     socket.send(JSON.stringify(payload))
@@ -17,7 +17,7 @@ function dispatch<T extends ServerPayload>(
 
 export function publishError(
   sockets: Iterable<RadioliseSocket>,
-  data: ErrorData
+  data: ErrorData,
 ) {
   dispatch<ErrorPayload>(sockets, {
     action: 'reportError',
@@ -27,7 +27,7 @@ export function publishError(
 
 export function publishTitle(
   sockets: Iterable<RadioliseSocket>,
-  title?: string
+  title?: string,
 ) {
   if (!title) {
     return

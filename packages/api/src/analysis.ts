@@ -26,7 +26,7 @@ enum Actions {
 function safeRead(
   stream: Readable,
   bytes: number,
-  proceedHandler: (chunk: Buffer) => void
+  proceedHandler: (chunk: Buffer) => void,
 ) {
   if (stream.readableLength >= bytes) {
     proceedHandler(stream.read(bytes))

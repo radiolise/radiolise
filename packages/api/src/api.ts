@@ -38,8 +38,8 @@ export function enableRestEndpoints(app: Express) {
           ],
         },
         undefined,
-        2
-      )
+        2,
+      ),
     )
   })
 }
