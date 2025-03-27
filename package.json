@@ -65,6 +65,9 @@
           "vue": "2"
         }
       }
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
