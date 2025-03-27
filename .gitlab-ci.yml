@@ -15,7 +15,7 @@ packages:build:
   stage: build
   before_script:
     - corepack enable
-    - corepack prepare pnpm@latest-8 --activate
+    - corepack prepare pnpm@latest-10 --activate
     - pnpm config set store-dir .pnpm-store
   script:
     - pnpm -F './packages/*' install
@@ -56,7 +56,7 @@ packages:deploy:
     - packages:build
   before_script:
     - corepack enable
-    - corepack prepare pnpm@latest-8 --activate
+    - corepack prepare pnpm@latest-10 --activate
     - pnpm config set -- //registry.npmjs.org/:_authToken=$NPM_TOKEN
     - pnpm -F './packages/*' install
   script:
