@@ -1,5 +1,5 @@
 const SERVICE_URL = "https://service.radiolise.com";
-const RADIO_BROWSER_FALLBACK_URL = "https://de1.api.radio-browser.info";
+const RADIO_BROWSER_FALLBACK_URL = "https://all.api.radio-browser.info";
 let eventualRadioBrowserUrl: Promise<string> | undefined;
 
 async function request<T = any>(url: URL, config?: RequestInit) {
